@@ -464,3 +464,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationVelocity: 18
+  distanceVelocity: 19.09
