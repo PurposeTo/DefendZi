@@ -4,6 +4,8 @@ public class Zi : MonoBehaviour
 {
     public float Radius { get; private set; }
 
+    private readonly float gravityForce = 9;
+
     private void Awake()
     {
         Radius = transform.localScale.x / 2;
@@ -11,6 +13,12 @@ public class Zi : MonoBehaviour
 
 
     #region методы взаимодействия с игровым объектом "Zi"
+
+    public Vector2 GetZiGravity(Vector2 position)
+    {
+        return GetToZiDirection(position) * gravityForce;
+    }
+
     public Vector2 GetToZiVector(Vector2 position)
     {
         return (Vector2)gameObject.transform.position - position;
