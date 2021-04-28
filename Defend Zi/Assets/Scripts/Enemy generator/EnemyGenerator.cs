@@ -7,13 +7,13 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField]
     private GameObject enemy;
 
-    private float ZiRadius => GameObjectsHolder.Instance.Zi.Radius;
+    private float ZiRadius => GameObjectsHolder.Instance.ZiPresenter.GetZi().Radius;
 
     private float MinSpawnArea => ZiRadius + 30f;
     private float MaxSpawnArea => ZiRadius + 40f;
 
     [SerializeField]
-    private float cooldown;
+    private float cooldown = 5;
 
     private IEnumerator Start()
     {

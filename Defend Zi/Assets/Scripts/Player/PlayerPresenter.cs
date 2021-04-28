@@ -2,19 +2,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerActivity))]
-[RequireComponent(typeof(PlayerAttack))]
 public class PlayerPresenter : MonoBehaviour
 {
     private PlayerMovement playerMovement;
     private PlayerActivity playerActivity;
     private PlayerAttack playerAttack;
+    private PlayerAura playerAura;
 
 
     private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        playerActivity = GetComponent<PlayerActivity>();
-        playerAttack = GetComponent<PlayerAttack>();
+        playerMovement = GetPlayerMovement();
+        playerActivity = GetPlayerActivity();
+        playerAttack = GetPlayerAttack();
+        playerAura = GetPlayerAura();
     }
 
     public PlayerMovement GetPlayerMovement()
@@ -25,14 +26,19 @@ public class PlayerPresenter : MonoBehaviour
 
     public PlayerActivity GetPlayerActivity()
     {
-        if (playerMovement == null) playerActivity = GetComponent<PlayerActivity>();
+        if (playerActivity == null) playerActivity = GetComponent<PlayerActivity>();
         return playerActivity;
     }
 
-
     public PlayerAttack GetPlayerAttack()
     {
-        if (playerAttack == null) playerAttack = GetComponent<PlayerAttack>();
+        if (playerAttack == null) playerAttack = GetComponentInChildren<PlayerAttack>();
         return playerAttack;
+    }
+
+    public PlayerAura GetPlayerAura()
+    {
+        if (playerAura == null) playerAura = GetComponentInChildren<PlayerAura>();
+        return playerAura;
     }
 }

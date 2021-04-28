@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool isUnderControl;
 
-    private Zi Zi => GameObjectsHolder.Instance.Zi;
+    private Zi Zi => GameObjectsHolder.Instance.ZiPresenter.GetZi();
     private float MaxRadius => Zi.Radius + 20f;
     private float MinRadius => Zi.Radius + 1f;
 
@@ -58,6 +58,6 @@ public class PlayerMovement : MonoBehaviour
         float angularSpeed = rotationSpeed / currentRadius * deltaTime;
         angle += angularSpeed;
         var rotationOffset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * currentRadius;
-        return (Vector2)GameObjectsHolder.Instance.Zi.transform.position + rotationOffset;
+        return (Vector2)Zi.transform.position + rotationOffset;
     }
 }

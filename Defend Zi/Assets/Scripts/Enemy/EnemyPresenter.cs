@@ -11,9 +11,9 @@ public class EnemyPresenter : MonoBehaviour
 
     private void Awake()
     {
-        enemyMovement = GetComponent<EnemyMovement>();
-        enemyHealth = GetComponent<EnemyHealth>();
-        enemyAttack = GetComponent<EnemyAttack>();
+        enemyMovement = GetEnemyMovement();
+        enemyHealth = GetEnemyHealth();
+        enemyAttack = GetEnemyAttack();
     }
 
     public EnemyMovement GetEnemyMovement()

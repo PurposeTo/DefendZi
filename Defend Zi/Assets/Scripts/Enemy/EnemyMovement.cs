@@ -3,11 +3,11 @@
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyMovement : MonoBehaviour
 {
-    private Zi Zi => GameObjectsHolder.Instance.Zi;
+    private Zi Zi => GameObjectsHolder.Instance.ZiPresenter.GetZi();
     private bool IsPlayerActive => GameObjectsHolder.Instance.PlayerPresenter.GetPlayerActivity().IsActive;
 
     [SerializeField]
-    private float speed = 2f;
+    private float speed = 4f;
 
     private Rigidbody2D rb2d;
 
@@ -20,9 +20,12 @@ public class EnemyMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 direction = Zi.GetToZiDirection(transform.position);
-        Vector2 velocity = IsPlayerActive
-            ? direction * speed
-            : Vector2.zero;
+        float _speed = IsPlayerActive
+            ? speed
+            : 0;
+
+        Vector2 velocity = direction * Mathf.MoveTowards(rb2d.velocity.magnitude, _speed, Time.fixedDeltaTime);
+        Debug.Log(velocity.magnitude);
 
         rb2d.velocity = velocity;
     }
