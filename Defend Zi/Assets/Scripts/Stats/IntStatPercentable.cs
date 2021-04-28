@@ -24,4 +24,7 @@ public class IntStatPercentable
         return (Value - minValue) / (float)maxValue - minValue;
     }
 
+    public bool IsMin() => Value == minValue;
+
+    public bool IsMax() => Value == maxValue;
 }

@@ -38,12 +38,12 @@ public class ZiAura : MonoBehaviour
     private void EnableCharge(PlayerAura playerAura)
     {
         this.playerAura = playerAura;
-        DisableCharge(playerAura);
+        playerAura.EnableCharging();
     }
 
     private void DisableCharge(PlayerAura playerAura)
     {
         playerAura.DisableCharging();
-        playerAura = null;
+        this.playerAura = null;
     }
 }
