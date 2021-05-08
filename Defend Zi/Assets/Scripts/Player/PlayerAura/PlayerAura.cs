@@ -11,8 +11,8 @@ public class PlayerAura : SuperMonoBehaviour
 
     private readonly AtomicRef<PlayerAuraState> state = new AtomicRef<PlayerAuraState>();
 
-    private protected PercentStat charge = new PercentStat(1);
-    private protected FloatStatPercentable auraSize;
+    private PercentStat charge = new PercentStat(1);
+    private FloatStatPercentable auraSize;
 
     protected override void AwakeWrapped()
     {

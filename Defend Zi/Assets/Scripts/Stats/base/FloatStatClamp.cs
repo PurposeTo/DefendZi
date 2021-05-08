@@ -20,6 +20,7 @@ public class FloatStatClamp : IStat<float>
     public virtual void Set(float value)
     {
         this.Value = Mathf.Clamp(value, minValue, maxValue);
+        OnStatChange?.Invoke();
     }
 
     public float SetAndGet(float value)

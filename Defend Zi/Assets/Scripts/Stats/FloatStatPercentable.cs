@@ -4,7 +4,10 @@ public class FloatStatPercentable : FloatStatClamp, IStat<float>, IPercentStat
 {
     private readonly PercentStat percentStat = new PercentStat();
 
-    public FloatStatPercentable(float value, float minValue, float maxValue) : base(value, minValue, maxValue) { }
+    public FloatStatPercentable(float value, float minValue, float maxValue) : base(value, minValue, maxValue) 
+    {
+        OnStatChange += UpdatePercentValue;
+    }
 
     public float GetPercent()
     {
@@ -14,7 +17,6 @@ public class FloatStatPercentable : FloatStatClamp, IStat<float>, IPercentStat
     public override void Set(float value)
     {
         base.Set(value);
-        UpdatePercentValue();
     }
 
     public void SetByPercent(float percent)

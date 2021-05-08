@@ -5,18 +5,18 @@ using Desdiene.AtomicReference;
 public class ZiPresenter : MonoBehaviour
 {
     public Zi Zi => ziRef.Get(InitZi);
-    public ZiHealth ZiHealth => ziHealthRef.Get(InitZiHealth);
-    public ZiAura ZiAura => ziAuraRef.Get(InitZiAura);
+    public ZiHealth Health => healthRef.Get(InitZiHealth);
+    public ZiAura Aura => auraRef.Get(InitZiAura);
 
     private readonly AtomicRefRuntimeInit<Zi> ziRef = new AtomicRefRuntimeInit<Zi>();
-    private readonly AtomicRefRuntimeInit<ZiHealth> ziHealthRef = new AtomicRefRuntimeInit<ZiHealth>();
-    private readonly AtomicRefRuntimeInit<ZiAura> ziAuraRef = new AtomicRefRuntimeInit<ZiAura>();
+    private readonly AtomicRefRuntimeInit<ZiHealth> healthRef = new AtomicRefRuntimeInit<ZiHealth>();
+    private readonly AtomicRefRuntimeInit<ZiAura> auraRef = new AtomicRefRuntimeInit<ZiAura>();
 
     private void Awake()
     {
         ziRef.Initialize(InitZi);
-        ziHealthRef.Initialize(InitZiHealth);
-        ziAuraRef.Initialize(InitZiAura);
+        healthRef.Initialize(InitZiHealth);
+        auraRef.Initialize(InitZiAura);
     }
 
     private Zi InitZi()
@@ -31,6 +31,6 @@ public class ZiPresenter : MonoBehaviour
 
     private ZiAura InitZiAura()
     {
-        return GetComponentInChildren<ZiAura>().Constructor(ZiHealth.GetHealthPercent());
+        return GetComponentInChildren<ZiAura>().Constructor(Health.GetHealthPercent());
     }
 }

@@ -9,11 +9,13 @@ public class PlayerPresenter : MonoBehaviour
     public PlayerActivity Activity => playerActivityRef.Get(InitPlayerActivity);
     public PlayerAttack Attack => playerAttackRef.Get(InitPlayerAttack);
     public PlayerAura Aura => playerAuraRef.Get(InitPlayerAura);
+    public PlayerScore Score => playerScoreRef.Get(InitPlayerScore);
 
     private readonly AtomicRefRuntimeInit<PlayerMovement> playerMovementRef = new AtomicRefRuntimeInit<PlayerMovement>();
     private readonly AtomicRefRuntimeInit<PlayerActivity> playerActivityRef = new AtomicRefRuntimeInit<PlayerActivity>();
     private readonly AtomicRefRuntimeInit<PlayerAttack> playerAttackRef = new AtomicRefRuntimeInit<PlayerAttack>();
     private readonly AtomicRefRuntimeInit<PlayerAura> playerAuraRef = new AtomicRefRuntimeInit<PlayerAura>();
+    private readonly AtomicRefRuntimeInit<PlayerScore> playerScoreRef = new AtomicRefRuntimeInit<PlayerScore>();
 
     private void Awake()
     {
@@ -23,23 +25,28 @@ public class PlayerPresenter : MonoBehaviour
         playerAuraRef.Initialize(InitPlayerAura);
     }
 
-    public PlayerMovement InitPlayerMovement()
+    private PlayerMovement InitPlayerMovement()
     {
         return GetComponent<PlayerMovement>();
     }
 
-    public PlayerActivity InitPlayerActivity()
+    private PlayerActivity InitPlayerActivity()
     {
         return GetComponent<PlayerActivity>().Constructor(Movement, Aura);
     }
 
-    public PlayerAttack InitPlayerAttack()
+    private PlayerAttack InitPlayerAttack()
     {
-        return GetComponentInChildren<PlayerAttack>();
+        return GetComponentInChildren<PlayerAttack>().Constructor(Score);
     }
 
-    public PlayerAura InitPlayerAura()
+    private PlayerAura InitPlayerAura()
     {
         return GetComponentInChildren<PlayerAura>();
+    }
+
+    private PlayerScore InitPlayerScore()
+    {
+        return GetComponentInChildren<PlayerScore>();
     }
 }

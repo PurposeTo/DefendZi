@@ -4,17 +4,14 @@ public class IntStatPercentable : IntStatClamp, IStat<int>, IPercentStat
 {
     private readonly PercentStat percentStat = new PercentStat();
 
-    public IntStatPercentable(int value, int minValue, int maxValue) : base(value, minValue, maxValue) { }
+    public IntStatPercentable(int value, int minValue, int maxValue) : base(value, minValue, maxValue) 
+    {
+        OnStatChange += UpdatePercentValue;
+    }
 
     public float GetPercent()
     {
         return percentStat.Value;
-    }
-
-    public override void Set(int value)
-    {
-        base.Set(value);
-        UpdatePercentValue();
     }
 
     public static IntStatPercentable operator -(IntStatPercentable stat, int delta)
