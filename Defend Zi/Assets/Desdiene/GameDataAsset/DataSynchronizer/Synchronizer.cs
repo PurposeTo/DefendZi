@@ -32,9 +32,6 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
         {
             readerWriter.Read(loadedData =>
             {
-                if (loadedData == null) return;
-                else
-                {
                     if (cashData == null)
                     {
                         cashData = loadedData;
@@ -51,8 +48,6 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
                             return;
                         }
                     }
-
-                }
             });
         }
 

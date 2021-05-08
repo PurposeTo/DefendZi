@@ -1,8 +1,6 @@
-﻿using Desdiene.GameDataAsset.Data;
-
-namespace Desdiene.GameDataAsset.Data
+﻿namespace Desdiene.GameDataAsset.Data
 {
-    public class GameData : IDataGetter, IDataSetter
+    public abstract class GameData : IDataGetter, IDataSetter
     {
 
     }

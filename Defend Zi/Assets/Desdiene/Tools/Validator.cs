@@ -7,6 +7,12 @@ namespace Desdiene.Tools
 {
     public class Validator
     {
+        /// <summary>
+        /// Проверяет json на наличие null полей. 
+        /// Выводит логи лог при нахождении null значения.
+        /// </summary>
+        /// <param name="stringAsJson">json</param>
+        /// <returns>Есть ли в json-е null значения?</returns>
         public bool HasJsonNullValues(string stringAsJson)
         {
             try

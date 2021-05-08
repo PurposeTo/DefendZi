@@ -61,9 +61,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         }
 
         /// <summary>
-        /// Возвращает коллбеком данные:
-        /// 1. null, если данных нет в хранилище
-        /// 2. объект данных, если они есть в хранилище.
+        /// Возвращает коллбеком данные из хранилища.
         /// Не вызовется, если произошли проблемы при чтении.
         /// </summary>
         /// <param name="dataCallback"></param>
@@ -71,7 +69,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         {
             Read(jsonData =>
             {
-                if (string.IsNullOrEmpty(jsonData)) dataCallback?.Invoke(null);
+                if (string.IsNullOrEmpty(jsonData)) dataCallback?.Invoke(new T());
                 else
                 {
                     T data = DeserializeData(jsonData);
@@ -96,14 +94,13 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         protected abstract void Write(string jsonData);
 
         /// <summary>
-        /// Установить значения полям == null.
+        /// Установить значения полям, которые is null.
         /// Данная реализация создает экземпляр класса T.
         /// </summary>
         /// <param name="data">Объект, содержащий null поля</param>
         /// <returns>Объект, НЕ содержащий null поля</returns>
         protected virtual T RepairNullFields(T data)
         {
-            //todo установить в null поля значения по умолчанию...
             return new T();
         }
 
@@ -156,7 +153,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
             catch (Exception exception)
             {
                 Debug.LogError(exception.Message);
-                return null;
+                return new T();
             }
         }
     }
