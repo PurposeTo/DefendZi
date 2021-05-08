@@ -1,3 +1,4 @@
+using Desdiene.AtomicReference;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
@@ -5,32 +6,33 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAttack))]
 public class EnemyPresenter : MonoBehaviour
 {
-    private EnemyMovement enemyMovement;
-    private EnemyHealth enemyHealth;
-    private EnemyAttack enemyAttack;
+    public EnemyMovement EnemyMovement => enemyMovementRef.Get(InitEnemyMovement);
+    public EnemyHealth EnemyHealth => enemyHealthRef.Get(InitEnemyHealth);
+    public EnemyAttack EnemyAttack => enemyAttackRef.Get(InitEnemyAttack);
+
+    private readonly AtomicRefRuntimeInit<EnemyMovement> enemyMovementRef = new AtomicRefRuntimeInit<EnemyMovement>();
+    private readonly AtomicRefRuntimeInit<EnemyHealth> enemyHealthRef = new AtomicRefRuntimeInit<EnemyHealth>();
+    private readonly AtomicRefRuntimeInit<EnemyAttack> enemyAttackRef = new AtomicRefRuntimeInit<EnemyAttack>();
 
     private void Awake()
     {
-        enemyMovement = GetEnemyMovement();
-        enemyHealth = GetEnemyHealth();
-        enemyAttack = GetEnemyAttack();
+        enemyMovementRef.Initialize(InitEnemyMovement);
+        enemyHealthRef.Initialize(InitEnemyHealth);
+        enemyAttackRef.Initialize(InitEnemyAttack);
     }
 
-    public EnemyMovement GetEnemyMovement()
+    private EnemyMovement InitEnemyMovement()
     {
-        if (enemyMovement == null) enemyMovement = GetComponent<EnemyMovement>();
-        return enemyMovement;
+        return GetComponent<EnemyMovement>();
     }
 
-    public EnemyHealth GetEnemyHealth()
+    private EnemyHealth InitEnemyHealth()
     {
-        if (enemyHealth == null) enemyHealth = GetComponent<EnemyHealth>();
-        return enemyHealth;
+        return GetComponent<EnemyHealth>();
     }
 
-    public EnemyAttack GetEnemyAttack()
+    private EnemyAttack InitEnemyAttack()
     {
-        if (enemyAttack == null) enemyAttack = GetComponent<EnemyAttack>();
-        return enemyAttack;
+        return GetComponent<EnemyAttack>();
     }
 }

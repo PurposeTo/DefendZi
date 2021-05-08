@@ -1,30 +1,36 @@
 using UnityEngine;
 
-public class IntStatPercentable
+public class IntStatPercentable : IntStatClamp, IStat<int>, IPercentStat
 {
-    private readonly int minValue;
-    private readonly int maxValue;
+    private readonly PercentStat percentStat = new PercentStat();
 
-    public IntStatPercentable(int value, int minValue, int maxValue)
-    {
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.Value = Mathf.Clamp(value, minValue, maxValue);
-    }
-
-    public int Value { get; private set; }
-
-    public void Set(int value)
-    {
-        this.Value = Mathf.Clamp(value, minValue, maxValue);
-    }
+    public IntStatPercentable(int value, int minValue, int maxValue) : base(value, minValue, maxValue) { }
 
     public float GetPercent()
     {
-        return (Value - minValue) / (float)maxValue - minValue;
+        return percentStat.Value;
     }
 
-    public bool IsMin() => Value == minValue;
+    public override void Set(int value)
+    {
+        base.Set(value);
+        UpdatePercentValue();
+    }
 
-    public bool IsMax() => Value == maxValue;
+    public static IntStatPercentable operator -(IntStatPercentable stat, int delta)
+    {
+        stat.Set(stat.Value - delta);
+        return stat;
+    }
+
+    public static IntStatPercentable operator +(IntStatPercentable stat, int delta)
+    {
+        stat.Set(stat.Value + delta);
+        return stat;
+    }
+
+    private void UpdatePercentValue()
+    {
+        percentStat.Set(Mathf.InverseLerp(minValue, maxValue, Value));
+    }
 }

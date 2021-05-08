@@ -7,7 +7,7 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField]
     private GameObject enemy;
 
-    private float ZiRadius => GameObjectsHolder.Instance.ZiPresenter.GetZi().Radius;
+    private float ZiRadius => GameObjectsHolder.Instance.ZiPresenter.Zi.Radius;
 
     private float MinSpawnArea => ZiRadius + 30f;
     private float MaxSpawnArea => ZiRadius + 40f;

@@ -1,44 +1,45 @@
+using Desdiene.AtomicReference;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerActivity))]
 public class PlayerPresenter : MonoBehaviour
 {
-    private PlayerMovement playerMovement;
-    private PlayerActivity playerActivity;
-    private PlayerAttack playerAttack;
-    private PlayerAura playerAura;
+    public PlayerMovement Movement => playerMovementRef.Get(InitPlayerMovement);
+    public PlayerActivity Activity => playerActivityRef.Get(InitPlayerActivity);
+    public PlayerAttack Attack => playerAttackRef.Get(InitPlayerAttack);
+    public PlayerAura Aura => playerAuraRef.Get(InitPlayerAura);
 
+    private readonly AtomicRefRuntimeInit<PlayerMovement> playerMovementRef = new AtomicRefRuntimeInit<PlayerMovement>();
+    private readonly AtomicRefRuntimeInit<PlayerActivity> playerActivityRef = new AtomicRefRuntimeInit<PlayerActivity>();
+    private readonly AtomicRefRuntimeInit<PlayerAttack> playerAttackRef = new AtomicRefRuntimeInit<PlayerAttack>();
+    private readonly AtomicRefRuntimeInit<PlayerAura> playerAuraRef = new AtomicRefRuntimeInit<PlayerAura>();
 
     private void Awake()
     {
-        playerMovement = GetPlayerMovement();
-        playerActivity = GetPlayerActivity();
-        playerAttack = GetPlayerAttack();
-        playerAura = GetPlayerAura();
+        playerMovementRef.Initialize(InitPlayerMovement);
+        playerActivityRef.Initialize(InitPlayerActivity);
+        playerAttackRef.Initialize(InitPlayerAttack);
+        playerAuraRef.Initialize(InitPlayerAura);
     }
 
-    public PlayerMovement GetPlayerMovement()
+    public PlayerMovement InitPlayerMovement()
     {
-        if(playerMovement == null) playerMovement = GetComponent<PlayerMovement>();
-        return playerMovement;
+        return GetComponent<PlayerMovement>();
     }
 
-    public PlayerActivity GetPlayerActivity()
+    public PlayerActivity InitPlayerActivity()
     {
-        if (playerActivity == null) playerActivity = GetComponent<PlayerActivity>();
-        return playerActivity;
+        return GetComponent<PlayerActivity>().Constructor(Movement, Aura);
     }
 
-    public PlayerAttack GetPlayerAttack()
+    public PlayerAttack InitPlayerAttack()
     {
-        if (playerAttack == null) playerAttack = GetComponentInChildren<PlayerAttack>();
-        return playerAttack;
+        return GetComponentInChildren<PlayerAttack>();
     }
 
-    public PlayerAura GetPlayerAura()
+    public PlayerAura InitPlayerAura()
     {
-        if (playerAura == null) playerAura = GetComponentInChildren<PlayerAura>();
-        return playerAura;
+        return GetComponentInChildren<PlayerAura>();
     }
 }

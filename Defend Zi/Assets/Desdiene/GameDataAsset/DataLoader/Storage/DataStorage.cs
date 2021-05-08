@@ -13,7 +13,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
 
         protected string FileName { get; }
         protected string FileExtension { get; }
-        protected string FileNameWithExtension => FileName + FileExtension;
+        protected string FileNameWithExtension => FileName + "." + FileExtension;
 
         private readonly Validator validator = new Validator();
         private readonly IJsonConvertor<T> jsonConvertor;
@@ -38,7 +38,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
 
             if (string.IsNullOrEmpty(storageName))
             {
-                throw new ArgumentException($"{nameof(storageName)} не может быть пустым или иметь значение null", 
+                throw new ArgumentException($"{nameof(storageName)} не может быть пустым или иметь значение null",
                     nameof(storageName));
             }
 

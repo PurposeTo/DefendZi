@@ -5,25 +5,42 @@ public class PlayerActivity : MonoBehaviour
 {
     public event Action OnActivityChanged;
     public bool IsActive { get; private set; } 
-    private PlayerPresenter PlayerPresenter => GameObjectsHolder.Instance.PlayerPresenter;
+    
+    private PlayerMovement playerMovement;
+    private PlayerAura playerAura;
 
 
-    private void Awake()
+    public PlayerActivity Constructor(PlayerMovement playerMovement, PlayerAura playerAura)
     {
-        PlayerPresenter.GetPlayerMovement().OnIsUnderControlChange += SetIsActive;
-        PlayerPresenter.GetPlayerAura().OnIsChargingChange += SetIsActive;
+        this.playerMovement = playerMovement;
+        this.playerAura = playerAura;
+        SubscribeEvents();
+        return this;
     }
+
 
     private void OnDestroy()
     {
-        PlayerPresenter.GetPlayerMovement().OnIsUnderControlChange -= SetIsActive;
-        PlayerPresenter.GetPlayerAura().OnIsChargingChange -= SetIsActive;
+        UnsubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        playerMovement.OnIsUnderControlChange += SetIsActive;
+        playerAura.OnIsChargingChange += SetIsActive;
+    }
+
+
+    private void UnsubscribeEvents()
+    {
+        playerMovement.OnIsUnderControlChange -= SetIsActive;
+        playerAura.OnIsChargingChange -= SetIsActive;
     }
 
     private void SetIsActive()
     {
-        bool isUnderControl = PlayerPresenter.GetPlayerMovement().IsUnderControl;
-        bool isPlayerAuraCharging = PlayerPresenter.GetPlayerAura().IsCharging;
+        bool isUnderControl = playerMovement.IsUnderControl;
+        bool isPlayerAuraCharging = playerAura.IsCharging;
 
         IsActive = isUnderControl || isPlayerAuraCharging;
         OnActivityChanged?.Invoke();

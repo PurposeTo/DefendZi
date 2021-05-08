@@ -1,7 +1,7 @@
 ﻿using System;
+using Desdiene.AtomicReference;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Storage;
-using Desdiene.Tools;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.ReaderWriterStates.Base
 {
@@ -17,7 +17,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.ReaderWriterStates.Base
             this.dataStorage = dataStorage;
         }
 
-        public abstract void Read(AtomicReference<ReaderWriterState<T>> state, Action<T> dataCallback);
-        public abstract void Write(AtomicReference<ReaderWriterState<T>> state, T data);
+        public abstract void Read(AtomicRef<ReaderWriterState<T>> state, Action<T> dataCallback);
+        public abstract void Write(AtomicRef<ReaderWriterState<T>> state, T data);
     }
 }

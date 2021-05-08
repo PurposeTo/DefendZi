@@ -3,8 +3,8 @@
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyMovement : MonoBehaviour
 {
-    private Zi Zi => GameObjectsHolder.Instance.ZiPresenter.GetZi();
-    private bool IsPlayerActive => GameObjectsHolder.Instance.PlayerPresenter.GetPlayerActivity().IsActive;
+    private Zi Zi => GameObjectsHolder.Instance.ZiPresenter.Zi;
+    private bool IsPlayerActive => GameObjectsHolder.Instance.PlayerPresenter.Activity.IsActive;
 
     [SerializeField]
     private float speed = 4f;
@@ -25,8 +25,6 @@ public class EnemyMovement : MonoBehaviour
             : 0;
 
         Vector2 velocity = direction * Mathf.MoveTowards(rb2d.velocity.magnitude, _speed, Time.fixedDeltaTime);
-        Debug.Log(velocity.magnitude);
-
         rb2d.velocity = velocity;
     }
 }

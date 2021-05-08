@@ -1,34 +1,36 @@
 using UnityEngine;
+using Desdiene.AtomicReference;
 
 [RequireComponent(typeof(Zi))]
 public class ZiPresenter : MonoBehaviour
 {
-    private Zi zi;
-    private ZiHealth ziHealth;
-    private ZiAura ziAura;
+    public Zi Zi => ziRef.Get(InitZi);
+    public ZiHealth ZiHealth => ziHealthRef.Get(InitZiHealth);
+    public ZiAura ZiAura => ziAuraRef.Get(InitZiAura);
+
+    private readonly AtomicRefRuntimeInit<Zi> ziRef = new AtomicRefRuntimeInit<Zi>();
+    private readonly AtomicRefRuntimeInit<ZiHealth> ziHealthRef = new AtomicRefRuntimeInit<ZiHealth>();
+    private readonly AtomicRefRuntimeInit<ZiAura> ziAuraRef = new AtomicRefRuntimeInit<ZiAura>();
 
     private void Awake()
     {
-        zi = GetZi();
-        ziHealth = GetZiHealth();
-        ziAura = GetZiAura();
+        ziRef.Initialize(InitZi);
+        ziHealthRef.Initialize(InitZiHealth);
+        ziAuraRef.Initialize(InitZiAura);
     }
 
-    public Zi GetZi()
+    private Zi InitZi()
     {
-        if (zi == null) zi = GetComponent<Zi>();
-        return zi;
+        return GetComponent<Zi>();
     }
 
-    public ZiHealth GetZiHealth()
+    private ZiHealth InitZiHealth()
     {
-        if (ziHealth == null) ziHealth = GetComponentInChildren<ZiHealth>();
-        return ziHealth;
+        return GetComponentInChildren<ZiHealth>();
     }
 
-    public ZiAura GetZiAura()
+    private ZiAura InitZiAura()
     {
-        if (ziAura == null) ziAura = GetComponentInChildren<ZiAura>();
-        return ziAura;
+        return GetComponentInChildren<ZiAura>().Constructor(ZiHealth.GetHealthPercent());
     }
 }
