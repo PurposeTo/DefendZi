@@ -54,9 +54,7 @@ namespace Desdiene.TimeControl.Pause
 
         private bool CalculateTotalPause()
         {
-            return pausables.Count == 0
-                ? false
-                : pausables.Any(item => item.IsPause);
+            return pausables.Any(item => item.IsPause);
         }
     }
 }
