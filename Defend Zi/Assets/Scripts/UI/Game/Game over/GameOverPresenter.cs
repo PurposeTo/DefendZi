@@ -19,22 +19,21 @@ public class GameOverPresenter : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        GameObjectsHolder.InitializedInstance += (instance) =>
+        GameManager.InitializedInstance += (instance) =>
         {
-            instance.ZiPresenter.Health.OnZiDie += EnableGameOverScreen;
+            instance.OnGameOver += EnableGameOverScreen;
         };
     }
 
     private void UnsubscribeEvents()
     {
-        GameObjectsHolder.Instance.ZiPresenter.Health.OnZiDie -= EnableGameOverScreen;
+        GameManager.Instance.OnGameOver -= EnableGameOverScreen;
     }
 
     private void DisableGameOverScreen()
     {
         gameOverView.DisableScreen();
     }
-
 
     private void EnableGameOverScreen()
     {
