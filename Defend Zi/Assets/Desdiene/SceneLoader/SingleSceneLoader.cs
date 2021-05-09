@@ -1,5 +1,5 @@
-﻿using Assets.Desdiene.SceneLoader;
-using Assets.Desdiene.TimeControl.Pause;
+﻿using Desdiene.SceneLoader;
+using Desdiene.TimeControl.Pause;
 using Desdiene.TimeControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;

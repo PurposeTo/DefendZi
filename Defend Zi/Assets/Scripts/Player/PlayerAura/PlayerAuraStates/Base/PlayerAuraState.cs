@@ -1,8 +1,8 @@
 ﻿using Desdiene.AtomicReference;
 using Desdiene.Container;
 using Desdiene.Coroutine.CoroutineExecutor;
+using Desdiene.Extensions.UnityEngine;
 using Desdiene.SuperMonoBehaviourAsset;
-using Desdiene.UnityEngineExtension;
 
 public abstract class PlayerAuraState : SuperMonoBehaviourContainer
 {

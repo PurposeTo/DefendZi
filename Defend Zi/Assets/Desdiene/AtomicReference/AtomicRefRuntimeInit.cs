@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Desdiene.AtomicReference
 {
@@ -27,6 +28,7 @@ namespace Desdiene.AtomicReference
             if (IsNull())
             {
                 value.Set(this.initization.Invoke());
+                if (IsNull()) Debug.LogError("Value wasn't initialize by initializer!");
             }
         }
 

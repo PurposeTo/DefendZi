@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Desdiene.UnityEngineExtension;
+using Desdiene.Extensions.UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {

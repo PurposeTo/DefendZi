@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace Desdiene.UnityEngineExtension
+namespace Desdiene.Extensions.UnityEngine
 {
     /// <summary>
     /// Данный класс позволяет делать цепочки методов с классом Transform, изменяя тому поля
     /// </summary>
-    public static class TransformExtension
+    public static class TransformExt
     {
         /// <summary>
         /// Устанавливает позицию объекта с:

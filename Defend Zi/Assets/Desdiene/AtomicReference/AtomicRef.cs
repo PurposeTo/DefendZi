@@ -17,7 +17,7 @@ namespace Desdiene.AtomicReference
 
         public void Set(T value)
         {
-            if(Equals(this.value, value))
+            if(!Equals(this.value, value))
             {
                 this.value = value;
                 OnValueChanged?.Invoke();

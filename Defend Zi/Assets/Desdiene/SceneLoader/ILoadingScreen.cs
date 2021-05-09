@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Desdiene.SceneLoader
+namespace Desdiene.SceneLoader
 {
     public interface ILoadingScreen
     {
