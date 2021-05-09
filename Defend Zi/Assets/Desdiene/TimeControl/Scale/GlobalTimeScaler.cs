@@ -1,7 +1,7 @@
-﻿using Desdiene.Time_scaler.Base;
+﻿using Desdiene.TimeControl.Scale.Base;
 using UnityEngine;
 
-namespace Desdiene.TimeControl
+namespace Desdiene.TimeControl.Scale
 {
     public sealed class GlobalTimeScaler : TimeScaler
     {

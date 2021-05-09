@@ -1,8 +1,11 @@
-﻿namespace Desdiene.AtomicReference
+﻿using System;
+
+namespace Desdiene.AtomicReference
 {
     public class AtomicRef<T>
     {
-        private protected T value;
+        public T value;
+        public event Action OnValueChanged;
 
         public AtomicRef() { }
         public AtomicRef(T value)
@@ -10,8 +13,16 @@
             Set(value);
         }
 
-        public void Set(T value) => this.value = value;
+        public void Set(T value)
+        {
+            if(Equals(this.value, value))
+            {
+                this.value = value;
+                OnValueChanged?.Invoke();
+            }
+        }
 
+        //Используется именно метод вместо свойства потому, что он virtual. С методом проще работать.
         public virtual T Get() => value;
 
         public bool IsNull()

@@ -1,7 +1,5 @@
-﻿using Desdiene.Time_scaler.Base;
-using UnityEngine;
-
-namespace Desdiene.TimeControl
+﻿using Desdiene.TimeControl.Scale.Base;
+namespace Desdiene.TimeControl.Scale
 {
     public class LocalTimeScaler : TimeScaler
     {

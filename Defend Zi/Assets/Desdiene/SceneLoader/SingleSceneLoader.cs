@@ -1,4 +1,5 @@
 ﻿using Assets.Desdiene.SceneLoader;
+using Assets.Desdiene.TimeControl.Pause;
 using Desdiene.TimeControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ namespace Desdiene.SceneLoader
     public class SingleSceneLoader
     {
         private readonly ILoadingScreen loadingScreen;
+        private readonly PausableGlobalTime isSceneLoading = new PausableGlobalTime("Загрузка сцены");
 
         public SingleSceneLoader(ILoadingScreen loadingScreen)
         {
@@ -24,7 +26,7 @@ namespace Desdiene.SceneLoader
         public void LoadScene(string sceneName)
         {
             loadingSceneName = sceneName;
-            GlobalPause.Instance.SetSceneLoading(true);
+            isSceneLoading.SetPause(true);
             loadingScreen.Close();
         }
 
@@ -42,7 +44,7 @@ namespace Desdiene.SceneLoader
 
         private void AtOpeningEnd()
         {
-            GlobalPause.Instance.SetSceneLoading(false);
+            isSceneLoading.SetPause(false);
         }
 
         private void AtClosingEnd()
