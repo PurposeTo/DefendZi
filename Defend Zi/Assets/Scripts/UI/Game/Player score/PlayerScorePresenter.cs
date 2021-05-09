@@ -26,6 +26,6 @@ public class PlayerScorePresenter : MonoBehaviour
 
     private void UpdateValueView()
     {
-        scoreView.SetScore(playerScore.Value);
+        scoreView.ShowScore(playerScore.Value);
     }
 }

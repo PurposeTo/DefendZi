@@ -26,6 +26,6 @@ public class ZiHealthPresenter : MonoBehaviour
 
     private void UpdateValueView()
     {
-        healthView.SetHealth(health.Value);
+        healthView.ShowHealth(health.Value);
     }
 }

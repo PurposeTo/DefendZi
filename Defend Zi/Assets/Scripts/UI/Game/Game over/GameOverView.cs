@@ -15,7 +15,6 @@ public class GameOverView : MonoBehaviour
         gameOverScreen.SetActive(false);
     }
 
-
     public void PrintGameOver()
     {
         Debug.Log("Game over!");

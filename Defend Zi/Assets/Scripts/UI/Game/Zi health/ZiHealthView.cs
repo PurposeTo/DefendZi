@@ -6,7 +6,7 @@ public class ZiHealthView : MonoBehaviour
     [SerializeField]
     private TMP_Text health;
 
-    public void SetHealth(int value)
+    public void ShowHealth(int value)
     {
         health.text = $"health: {value}";
     }
