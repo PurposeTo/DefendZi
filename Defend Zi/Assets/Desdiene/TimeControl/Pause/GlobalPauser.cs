@@ -50,9 +50,9 @@ namespace Desdiene.TimeControl.Pause
 
         public bool IsPause => timeScaler.IsPause;
 
-        private void UpdateTotalPause() => timeScaler.SetPause(GetTotalPause());
+        private void UpdateTotalPause() => timeScaler.SetPause(CalculateTotalPause());
 
-        private bool GetTotalPause()
+        private bool CalculateTotalPause()
         {
             return pausables.Count == 0
                 ? false
