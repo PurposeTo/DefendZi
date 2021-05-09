@@ -15,6 +15,7 @@ namespace Desdiene.AtomicReference
         public AtomicRefInit(Func<T> initization)
         {
             this.initization = initization ?? throw new ArgumentNullException(nameof(initization));
+            OnValueGetting += Initialize;
         }
 
         /// <summary>
@@ -23,16 +24,6 @@ namespace Desdiene.AtomicReference
         public void Initialize()
         {
             if(IsNull()) Set(initization.Invoke());
-        }
-
-        /// <summary>
-        /// Получить проинициализированное поле.
-        /// </summary>
-        /// <returns>Поле.</returns>
-        public override T Get()
-        {
-            Initialize();
-            return value;
         }
     }
 }

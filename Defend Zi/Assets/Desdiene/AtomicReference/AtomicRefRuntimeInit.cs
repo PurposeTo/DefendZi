@@ -42,7 +42,6 @@ namespace Desdiene.AtomicReference
             return value.Get();
         }
 
-
         public bool IsNull() => value.IsNull();
     }
 }

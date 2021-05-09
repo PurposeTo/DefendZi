@@ -6,6 +6,8 @@ namespace Desdiene.AtomicReference
     {
         public T value;
         public event Action OnValueChanged;
+        //Перед получением значения можно выполнить дополнительные вычисления в дочернем классе (Шаблонный метод через событие).
+        protected event Action OnValueGetting; 
 
         public AtomicRef() { }
         public AtomicRef(T value)
@@ -22,8 +24,11 @@ namespace Desdiene.AtomicReference
             }
         }
 
-        //Используется именно метод вместо свойства потому, что он virtual. С методом проще работать.
-        public virtual T Get() => value;
+        public T Get()
+        {
+            OnValueGetting?.Invoke();
+            return value;
+        }
 
         public bool IsNull()
         {
