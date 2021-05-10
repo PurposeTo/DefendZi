@@ -21,37 +21,32 @@ namespace Desdiene.TimeControl.Pause.Base
         public void Add(PausableTime pausable)
         {
             if (pausable == null) throw new ArgumentNullException(nameof(pausable));
-
             if (pausables.Contains(pausable))
             {
                 Debug.LogWarning($"{this.GetType().Name} is already contains {pausable} with name {pausable.Name} in pausable list!");
             }
-            else
+            if (pausables.Any(item => item.Name == pausable.Name))
             {
-                if (pausables.Any(item => item.Name == pausable.Name))
-                {
-                    Debug.LogError($"GlobalPause pausable list is already contains item with name {pausable.Name}, but it is not the same item!");
-                }
-                else
-                {
-                    pausable.OnPauseChanged += UpdateTotalPause;
-                    pausables.Add(pausable);
-                    UpdateTotalPause();
-                }
+                Debug.LogError($"GlobalPause pausable list is already contains item with name {pausable.Name}, " +
+                    "but it is not the same item!");
             }
+
+            pausable.OnPauseChanged += UpdateTotalPause;
+            pausables.Add(pausable);
+            UpdateTotalPause();
         }
 
         public void Remove(PausableTime pausable)
         {
             if (pausable == null) throw new ArgumentNullException(nameof(pausable));
-
-            if (pausables.Contains(pausable))
+            if (!pausables.Contains(pausable))
             {
-                pausable.OnPauseChanged -= UpdateTotalPause;
-                pausables.Remove(pausable);
-                UpdateTotalPause();
+                Debug.LogWarning($"{this.GetType().Name} is NOT contains {pausable} with name {pausable.Name} in pausable list!");
             }
-            else Debug.LogWarning($"{this.GetType().Name} is NOT contains {pausable} with name {pausable.Name} in pausable list!");
+
+            pausable.OnPauseChanged -= UpdateTotalPause;
+            pausables.Remove(pausable);
+            UpdateTotalPause();
         }
 
         private void UpdateTotalPause() => timeScaler.SetPause(CalculateTotalPause());
