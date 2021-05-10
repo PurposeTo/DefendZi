@@ -22,22 +22,22 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #region Awake realization
 
-        public event Action AwakeInititialized
+        public event Action OnAwaked
         {
             add
             {
-                OnAwakeInititialize += value;
+                OnAwakedAction += value;
 
-                if (IsAwakeInitialized) ExecuteCommandsAndClear(ref OnAwakeInititialize);
+                if (IsAwaked) ExecuteCommandsAndClear(ref OnAwakedAction);
             }
             remove
             {
-                OnAwakeInititialize -= value;
+                OnAwakedAction -= value;
             }
         }
 
-        private Action OnAwakeInititialize;
-        private bool IsAwakeInitialized = false;
+        private Action OnAwakedAction;
+        private bool IsAwaked = false;
 
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         private void EndAwakeExecution()
         {
-            IsAwakeInitialized = true;
-            ExecuteCommandsAndClear(ref OnAwakeInititialize);
+            IsAwaked = true;
+            ExecuteCommandsAndClear(ref OnAwakedAction);
         }
 
         private void AwakeSuper()
@@ -68,7 +68,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #region OnEnable realization
 
-        public event Action OnEnabling;
+        public event Action OnEnabed;
 
         /// <summary>
         /// Необходимо использовать данный метод взамен OnEnable()
@@ -80,7 +80,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
             //UpdateManager.AddUpdate(UpdateSuper);
             //UpdateManager.AddFixedUpdate(FixedUpdateSuper);
             //UpdateManager.AddLateUpdate(LateUpdateSuper);
-            OnEnabling?.Invoke();
+            OnEnabed?.Invoke();
         }
 
         private void OnEnableSuper()
@@ -99,22 +99,22 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #region Start realization
 
-        public event Action StartInititialized
+        public event Action OnStarted
         {
             add
             {
-                OnStartInititialize += value;
+                OnStartedAction += value;
 
-                if (IsStartInitialized) ExecuteCommandsAndClear(ref OnStartInititialize);
+                if (IsStarted) ExecuteCommandsAndClear(ref OnStartedAction);
             }
             remove
             {
-                OnStartInititialize -= value;
+                OnStartedAction -= value;
             }
         }
 
-        private Action OnStartInititialize;
-        private bool IsStartInitialized = false;
+        private Action OnStartedAction;
+        private bool IsStarted = false;
 
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         private void EndStartExecution()
         {
-            IsStartInitialized = true;
-            ExecuteCommandsAndClear(ref OnStartInititialize);
+            IsStarted = true;
+            ExecuteCommandsAndClear(ref OnStartedAction);
         }
 
         private void StartSuper()
@@ -144,7 +144,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #region OnDisable realization
 
-        public event Action OnDisabling;
+        public event Action OnDisabled;
 
         /// <summary>
         /// Необходимо использовать данный метод взамен OnEnable()
@@ -156,7 +156,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
             //UpdateManager.RemoveUpdate(UpdateSuper);
             //UpdateManager.RemoveFixedUpdate(FixedUpdateSuper);
             //UpdateManager.RemoveLateUpdate(LateUpdateSuper);
-            OnDisabling?.Invoke();
+            OnDisabled?.Invoke();
         }
 
         private void OnDisableSuper()
@@ -175,7 +175,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #region OnDestroy realization
 
-        public event Action OnDestroying;
+        public event Action OnDestroyed;
 
         /// <summary>
         /// Необходимо использовать данный метод взамен OnDestroy()
@@ -191,7 +191,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         private void EndOnDestroyExecution()
         {
-            OnDestroying?.Invoke();
+            OnDestroyed?.Invoke();
         }
 
 
