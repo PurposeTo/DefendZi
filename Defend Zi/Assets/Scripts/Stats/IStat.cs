@@ -2,8 +2,7 @@
 
 public interface IStat<T>
 {
-    event Action OnStatChange;
+    event Action OnValueChanged;
     T Value { get; }
-
 }
 

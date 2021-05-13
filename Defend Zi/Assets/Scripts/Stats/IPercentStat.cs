@@ -2,7 +2,7 @@
 
 public interface IPercentStat
 {
-    event Action OnStatChange;
+    event Action OnValueChanged;
     float GetPercent();
 }
 

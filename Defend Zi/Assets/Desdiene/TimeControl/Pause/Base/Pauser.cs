@@ -9,7 +9,7 @@ namespace Desdiene.TimeControl.Pause.Base
     public class Pauser : IPauser
     {
         private readonly TimeScaler timeScaler;
-        private readonly List<PausableTime> pausables = new List<PausableTime>();
+        private readonly List<IPausableTime> pausables = new List<IPausableTime>();
 
         public Pauser(TimeScaler timeScaler)
         {
@@ -18,7 +18,14 @@ namespace Desdiene.TimeControl.Pause.Base
 
         public bool IsPause => timeScaler.IsPause;
 
-        public void Add(PausableTime pausable)
+        public void LogAllPausables()
+        {
+            string logMessage = "Pausable time list have next items:";
+            pausables.ForEach(pausable => logMessage += $"\n{pausable.Name}. isPause: {pausable.IsPause}");
+            Debug.Log(logMessage);
+        }
+
+        public void Add(IPausableTime pausable)
         {
             if (pausable == null) throw new ArgumentNullException(nameof(pausable));
             if (pausables.Contains(pausable))
@@ -36,7 +43,7 @@ namespace Desdiene.TimeControl.Pause.Base
             UpdateTotalPause();
         }
 
-        public void Remove(PausableTime pausable)
+        public void Remove(IPausableTime pausable)
         {
             if (pausable == null) throw new ArgumentNullException(nameof(pausable));
             if (!pausables.Contains(pausable))

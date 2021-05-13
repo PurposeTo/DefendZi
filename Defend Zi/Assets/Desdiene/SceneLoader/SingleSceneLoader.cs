@@ -3,16 +3,19 @@ using Desdiene.TimeControl.Pause;
 using Desdiene.TimeControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Desdiene.Container;
 
 namespace Desdiene.SceneLoader
 {
-    public class SingleSceneLoader
+    public class SingleSceneLoader : MonoBehaviourContainer
     {
         private readonly ILoadingScreen loadingScreen;
-        private readonly PausableGlobalTime isSceneLoading = new PausableGlobalTime("Загрузка сцены");
+        private readonly PausableGlobalTime isSceneLoading;
 
-        public SingleSceneLoader(ILoadingScreen loadingScreen)
+        public SingleSceneLoader(MonoBehaviour monoBehaviour, ILoadingScreen loadingScreen) : base(monoBehaviour)
         {
+            isSceneLoading = new PausableGlobalTime(monoBehaviour, "Загрузка сцены");
+
             this.loadingScreen = loadingScreen;
 
             //todo дабы избежать утечек памяти, необходимо либо отписаться, либо быть синглтоном

@@ -7,11 +7,11 @@ public class PlayerScore : MonoBehaviour, IStat<int>
 
     public int Value => score;
 
-    public event Action OnStatChange;
+    public event Action OnValueChanged;
 
     public void AddScore(int amount)
     {
         score += amount;
-        OnStatChange?.Invoke();
+        OnValueChanged?.Invoke();
     }
 }

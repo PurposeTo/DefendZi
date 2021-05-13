@@ -13,14 +13,14 @@ public class ZiHealthPresenter : MonoBehaviour
         {
             health = GameObjectsHolder.Instance.ZiPresenter.Health.GetHealth();
             UpdateValueView();
-            health.OnStatChange += UpdateValueView;
+            health.OnValueChanged += UpdateValueView;
         };
     }
 
 
     private void OnDestroy()
     {
-        health.OnStatChange -= UpdateValueView;
+        health.OnValueChanged -= UpdateValueView;
     }
 
 

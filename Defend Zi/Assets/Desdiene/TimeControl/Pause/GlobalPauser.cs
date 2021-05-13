@@ -4,19 +4,22 @@ using Desdiene.TimeControl.Scale;
 
 namespace Desdiene.TimeControl.Pause
 {
-    public class GlobalPauser : LazySingleton<GlobalPauser>, IPauser
+    public class GlobalPauser : SingletonSuperMonoBehaviour<GlobalPauser>, IPauser
     {
-        private readonly Pauser pauser;
+        //todo используется композиция, а не наследование потому, что GlobalPauser необходимо унаследовать от Singltone.
+        private Pauser pauser;
 
-        public GlobalPauser()
+        protected override void AwakeSingleton()
         {
-            pauser = new Pauser(new GlobalTimeScaler());
+            pauser = new Pauser(new GlobalTimeScaler(this));
         }
 
         public bool IsPause => pauser.IsPause;
 
-        public void Add(PausableTime pausable) => pauser.Add(pausable);
+        public void LogAllPausables() => pauser.LogAllPausables();
 
-        public void Remove(PausableTime pausable) => pauser.Remove(pausable);
+        public void Add(IPausableTime pausable) => pauser.Add(pausable);
+
+        public void Remove(IPausableTime pausable) => pauser.Remove(pausable);
     }
 }

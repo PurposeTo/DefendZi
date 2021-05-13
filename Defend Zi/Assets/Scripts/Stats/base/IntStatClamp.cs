@@ -6,7 +6,7 @@ public class IntStatClamp: IStat<int>
     private protected readonly int minValue;
     private protected readonly int maxValue;
 
-    public event Action OnStatChange;
+    public event Action OnValueChanged;
 
     public IntStatClamp(int value, int minValue, int maxValue)
     {
@@ -20,7 +20,7 @@ public class IntStatClamp: IStat<int>
     public virtual void Set(int value)
     {
         this.Value = Mathf.Clamp(value, minValue, maxValue);
-        OnStatChange?.Invoke();
+        OnValueChanged?.Invoke();
     }
 
     public int SetAndGet(int value)

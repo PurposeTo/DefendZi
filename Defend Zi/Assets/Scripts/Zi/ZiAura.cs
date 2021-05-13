@@ -43,13 +43,13 @@ public class ZiAura : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        ziHealth.OnStatChange += EnableCharge;
+        ziHealth.OnValueChanged += EnableCharge;
     }
 
 
     private void UnsubscribeEvents()
     {
-        ziHealth.OnStatChange -= EnableCharge;
+        ziHealth.OnValueChanged -= EnableCharge;
     }
 
 

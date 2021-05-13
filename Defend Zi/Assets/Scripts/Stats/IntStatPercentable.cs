@@ -6,7 +6,7 @@ public class IntStatPercentable : IntStatClamp, IStat<int>, IPercentStat
 
     public IntStatPercentable(int value, int minValue, int maxValue) : base(value, minValue, maxValue) 
     {
-        OnStatChange += UpdatePercentValue;
+        OnValueChanged += UpdatePercentValue;
     }
 
     public float GetPercent()

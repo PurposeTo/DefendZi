@@ -6,7 +6,7 @@ public class FloatStatPercentable : FloatStatClamp, IStat<float>, IPercentStat
 
     public FloatStatPercentable(float value, float minValue, float maxValue) : base(value, minValue, maxValue) 
     {
-        OnStatChange += UpdatePercentValue;
+        OnValueChanged += UpdatePercentValue;
     }
 
     public float GetPercent()

@@ -3,7 +3,7 @@ using Desdiene.AtomicReference;
 
 namespace Desdiene.TimeControl.Pause.Base
 {
-    public abstract class PausableTime
+    public class PausableTime : IPausableTime
     {
         public string Name { get; }
         private readonly AtomicRef<bool> isPauseRef;

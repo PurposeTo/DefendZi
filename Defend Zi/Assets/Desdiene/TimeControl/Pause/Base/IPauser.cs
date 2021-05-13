@@ -3,7 +3,7 @@
     public interface IPauser
     {
         bool IsPause { get; }
-        void Add(PausableTime pausable);
-        void Remove(PausableTime pausable);
+        void Add(IPausableTime pausable);
+        void Remove(IPausableTime pausable);
     }
 }

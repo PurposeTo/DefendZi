@@ -1,5 +1,6 @@
 ﻿using System;
 using Desdiene.Singleton;
+using Desdiene.TimeControl.Pause;
 using UnityEngine;
 
 
@@ -9,9 +10,11 @@ using UnityEngine;
 public class GameManager : SingletonSuperMonoBehaviour<GameManager>
 {
     public event Action OnGameOver;
+    private PausableGlobalTime IsGameOver;
 
     protected override void AwakeSingleton()
     {
+        IsGameOver = new PausableGlobalTime(this, "Игра окончена");
         SubscribeEvents();
     }
 
@@ -39,7 +42,7 @@ public class GameManager : SingletonSuperMonoBehaviour<GameManager>
     public void EndGame()
     {
         OnGameOver?.Invoke();
-        //todo: включить паузу
+        IsGameOver.SetPause(true);
     }
 
     /// <summary>
@@ -47,7 +50,7 @@ public class GameManager : SingletonSuperMonoBehaviour<GameManager>
     /// </summary>
     public void ResumeEndedGame()
     {
-        //todo: выключить паузу.
+        IsGameOver.SetPause(false);
     }
 
     public void ReloadLvl()
