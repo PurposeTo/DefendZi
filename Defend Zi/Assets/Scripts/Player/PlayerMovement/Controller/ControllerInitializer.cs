@@ -9,7 +9,7 @@ public static class ControllerInitializer
 
     public static Controller Initialize(RuntimePlatform currentRuntimePlatform)
     {
-        Debug.Log($"InitializeController with {currentRuntimePlatform}!");
+        Debug.Log($"Initialize controller with {currentRuntimePlatform}!");
 
         switch (currentRuntimePlatform)
         {

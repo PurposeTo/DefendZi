@@ -1,20 +1,19 @@
-﻿using Desdiene.SceneLoader;
-using Desdiene.TimeControl.Pause;
-using Desdiene.TimeControl;
+﻿using Desdiene.TimeControl.Pause;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Desdiene.Container;
+using Desdiene.SuperMonoBehaviourAsset;
 
 namespace Desdiene.SceneLoader
 {
-    public class SingleSceneLoader : MonoBehaviourContainer
+    public class SingleSceneLoader : SuperMonoBehaviourContainer
     {
         private readonly ILoadingScreen loadingScreen;
         private readonly PausableGlobalTime isSceneLoading;
 
-        public SingleSceneLoader(MonoBehaviour monoBehaviour, ILoadingScreen loadingScreen) : base(monoBehaviour)
+        public SingleSceneLoader(SuperMonoBehaviour superMono, ILoadingScreen loadingScreen) : base(superMono)
         {
-            isSceneLoading = new PausableGlobalTime(monoBehaviour, "Загрузка сцены");
+            isSceneLoading = new PausableGlobalTime(superMono, "Загрузка сцены");
 
             this.loadingScreen = loadingScreen;
 

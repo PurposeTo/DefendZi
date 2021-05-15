@@ -6,6 +6,10 @@ public class ZiHealthView : MonoBehaviour
     [SerializeField]
     private TMP_Text health;
 
+    public void EnableHealthView() => health.gameObject.SetActive(true);
+
+    public void DisableHealthView() => health.gameObject.SetActive(false);
+
     public void ShowHealth(int value)
     {
         health.text = $"health: {value}";

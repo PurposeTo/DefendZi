@@ -2,7 +2,7 @@
 using Desdiene.Singleton;
 using Desdiene.TimeControl.Pause;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Класс отвечает за события, происходящие на игровой сцене.
@@ -55,6 +55,6 @@ public class GameManager : SingletonSuperMonoBehaviour<GameManager>
 
     public void ReloadLvl()
     {
-        //обратиться к контроллеру сцен, перезапустить уровень.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

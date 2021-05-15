@@ -1,3 +1,4 @@
+using Desdiene.TimeControl.Pause;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -8,7 +9,10 @@ public class CameraFollow : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"Расстояние игрока до Зи в процентах: {PlayerMovement.ZiPlayerDistance.GetPercent()}");
+        if (!GlobalPauser.Instance.IsPause)
+        {
+            //Debug.Log($"Расстояние игрока до Зи в процентах: {PlayerMovement.ZiPlayerDistance.GetPercent()}");
+        }
         transform.position = GetNewPosition();
     }
 

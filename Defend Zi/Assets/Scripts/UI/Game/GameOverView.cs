@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class GameOverView : MonoBehaviour
 {
     [SerializeField]
     private GameObject gameOverScreen;
+
+    public event Action OnReloadLvlClicked;
 
     public void EnableScreen()
     {
@@ -15,8 +18,8 @@ public class GameOverView : MonoBehaviour
         gameOverScreen.SetActive(false);
     }
 
-    public void PrintGameOver()
+    public void ReloadLvlButton()
     {
-        Debug.Log("Game over!");
+        OnReloadLvlClicked?.Invoke();
     }
 }
