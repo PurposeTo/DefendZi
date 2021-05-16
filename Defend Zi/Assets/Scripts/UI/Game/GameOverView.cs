@@ -8,12 +8,12 @@ public class GameOverView : MonoBehaviour
 
     public event Action OnReloadLvlClicked;
 
-    public void EnableScreen()
+    public void Enable()
     {
         gameOverScreen.SetActive(true);
     }
 
-    public void DisableScreen()
+    public void Disable()
     {
         gameOverScreen.SetActive(false);
     }

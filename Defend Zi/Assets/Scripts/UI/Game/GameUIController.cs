@@ -15,13 +15,12 @@ public class GameUIController : MonoBehaviour
 
     private void Awake()
     {
-        GameObjectsHolder.InitializedInstance += (instance) =>
+        GameObjectsHolder.InitializedInstance += (_) =>
         {
-            score = instance.PlayerPresenter.Score;
-            health = instance.ZiPresenter.Health.GetHealth();
+            InitDataModels();
             InitViews();
 
-            GameManager.InitializedInstance += (_) =>
+            GameManager.InitializedInstance += (_2) =>
             {
                 SubscribeEvents();
             };
@@ -35,36 +34,41 @@ public class GameUIController : MonoBehaviour
 
     private void SubscribeEvents()
     {
+        GameManager instance = GameManager.Instance;
         score.OnValueChanged += UpdateScoreView;
         health.OnValueChanged += UpdateHealthView;
-        GameManager.Instance.OnGameOver += gameOverView.EnableScreen;
-        GameManager.Instance.OnGameOver += healthView.DisableHealthView;
-        gameOverView.OnReloadLvlClicked += ReloadLvl;
+        instance.OnGameOver += gameOverView.Enable;
+        instance.OnGameOver += healthView.Disable;
+        gameOverView.OnReloadLvlClicked += instance.ReloadLvl;
     }
 
     private void UnsubscribeEvents()
     {
+        GameManager instance = GameManager.Instance;
         score.OnValueChanged -= UpdateScoreView;
         health.OnValueChanged -= UpdateHealthView;
-        GameManager.Instance.OnGameOver -= gameOverView.EnableScreen;
-        GameManager.Instance.OnGameOver -= healthView.DisableHealthView;
-        gameOverView.OnReloadLvlClicked -= ReloadLvl;
+        instance.OnGameOver -= gameOverView.Enable;
+        instance.OnGameOver -= healthView.Disable;
+        gameOverView.OnReloadLvlClicked -= instance.ReloadLvl;
     }
 
+    private void InitDataModels()
+    {
+        GameObjectsHolder instance = GameObjectsHolder.Instance;
+        score = instance.PlayerPresenter.Score;
+        health = instance.ZiPresenter.Health.GetHealth();
+    }
 
     private void InitViews()
     {
-        healthView.EnableHealthView();
+        healthView.Enable();
         UpdateHealthView();
-        scoreView.EnableScoreView();
+        scoreView.Enable();
         UpdateScoreView();
-        gameOverView.DisableScreen();
+        gameOverView.Disable();
     }
-
 
     private void UpdateHealthView() => healthView.ShowHealth(health.Value);
 
     private void UpdateScoreView() => scoreView.ShowScore(score.Value);
-
-    private void ReloadLvl() => GameManager.Instance.ReloadLvl();
 }
