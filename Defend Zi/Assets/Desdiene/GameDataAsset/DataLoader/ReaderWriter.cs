@@ -13,8 +13,7 @@ namespace Desdiene.GameDataAsset.DataLoader
     {
         protected ReaderWriter(SuperMonoBehaviour superMonoBehaviour) : base(superMonoBehaviour) { }
 
-
-        public abstract void Read(Action<T> dataCallback);
-        public abstract void Write(T data);
+        public abstract void Load(Action<T> dataCallback);
+        public abstract void Save(T data);
     }
 }

@@ -28,9 +28,9 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
         private T cashData = null;
 
 
-        void ISynchronizer.ReadDataFromStorage()
+        public void LoadData()
         {
-            readerWriter.Read(loadedData =>
+            readerWriter.Load(loadedData =>
             {
                     if (cashData == null)
                     {
@@ -51,9 +51,9 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
             });
         }
 
-        void ISynchronizer.WriteDataToStorage()
+        public void SaveData()
         {
-            readerWriter.Write(model.GetData());
+            readerWriter.Save(model.GetData());
         }
 
         private void ChooseData(T loadedData, Action<T> choosedData)

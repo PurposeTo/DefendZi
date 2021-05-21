@@ -17,7 +17,7 @@ namespace Desdiene.GameDataAsset
         public readonly Model.DataModel<TData, TGetter, TSetter, TChangingNotifier> dataModel;
         public readonly Synchronizer<TData> synchronizer;
 
-        public DataAssetInitializer(SuperMonoBehaviour superMonoBehaviour, params DataStorage<TData>[] storages)
+        public DataAssetInitializer(SuperMonoBehaviour superMonoBehaviour, params JsonDataLoader<TData>[] storages)
         {
             dataModel = new Model.DataModel<TData, TGetter, TSetter, TChangingNotifier>();
 

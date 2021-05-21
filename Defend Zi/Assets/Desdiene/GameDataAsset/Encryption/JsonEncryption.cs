@@ -70,9 +70,9 @@ namespace Desdiene.GameDataAsset.Encryption
             return stringBuilder.ToString();
         }
 
-        public bool IsDataWasNotEdited(string dataAsJSON)
+        public bool IsDataWasNotEdited(string data)
         {
-            return StringHash(dataAsJSON) == File.ReadAllText(hashDataFilePath);
+            return StringHash(data) == File.ReadAllText(hashDataFilePath);
         }
 
         private string AddSalt(string data)

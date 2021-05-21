@@ -9,7 +9,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.ReaderWriterStates
 {
     internal class DataWasReceivedState<T> : ReaderWriterState<T> where T : GameData, new()
     {
-        public DataWasReceivedState(DataStorage<T> dataStorage) : base(dataStorage) { }
+        public DataWasReceivedState(JsonDataLoader<T> dataStorage) : base(dataStorage) { }
 
 
         public override void Read(AtomicRef<ReaderWriterState<T>> state, Action<T> dataCallback)
@@ -19,7 +19,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.ReaderWriterStates
 
         public override void Write(AtomicRef<ReaderWriterState<T>> state, T data)
         {
-            dataStorage.Write(data);
+            dataStorage.Save(data);
         }
     }
 }

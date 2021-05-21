@@ -7,10 +7,10 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.ReaderWriterStates.Base
 {
     public abstract class ReaderWriterState<T> where T : GameData, new()
     {
-        private protected readonly DataStorage<T> dataStorage;
+        private protected readonly JsonDataLoader<T> dataStorage;
 
 
-        private protected ReaderWriterState(DataStorage<T> dataStorage)
+        private protected ReaderWriterState(JsonDataLoader<T> dataStorage)
         {
             if (dataStorage is null) throw new ArgumentNullException(nameof(dataStorage));
 

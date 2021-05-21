@@ -9,11 +9,11 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.ReaderWriterStates
 {
     internal class InitialState<T> : ReaderWriterState<T> where T : GameData, new()
     {
-        public InitialState(DataStorage<T> dataStorage) : base(dataStorage) { }
+        public InitialState(JsonDataLoader<T> dataStorage) : base(dataStorage) { }
 
         public override void Read(AtomicRef<ReaderWriterState<T>> state, Action<T> dataCallback)
         {
-            dataStorage.Read(data =>
+            dataStorage.Load(data =>
             {
                 dataCallback?.Invoke(data);
                 state.Set(new DataWasReceivedState<T>(dataStorage));

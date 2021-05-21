@@ -7,23 +7,20 @@ using Desdiene.SuperMonoBehaviourAsset;
 using Desdiene.Tools;
 using UnityEngine;
 
-namespace Desdiene.GameDataAsset.ConcreteStorages
+namespace Desdiene.GameDataAsset.ConcreteLoaders
 {
-    public class LocalStorage<T> : DataStorage<T>
+    public class JsonLocalStorage<T> : JsonDataLoader<T>
          where T : GameData, new()
     {
-
         protected readonly string filePath;
         protected readonly DeviceDataLoader deviceDataLoader;
 
-        public LocalStorage(SuperMonoBehaviour superMonoBehaviour, 
+        public JsonLocalStorage(SuperMonoBehaviour superMonoBehaviour, 
             string fileName, 
-            string fileExtension,
             IJsonConvertor<T> jsonConvertor)
             : base(superMonoBehaviour, 
                   "Локальное хранилище", 
                   fileName,
-                  fileExtension,
                   jsonConvertor)
         {
             filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
@@ -31,16 +28,16 @@ namespace Desdiene.GameDataAsset.ConcreteStorages
             deviceDataLoader = new DeviceDataLoader(superMonoBehaviour, filePath);
         }
 
-        protected override void Read(Action<string> jsonDataCallback)
+        protected override void ReadFromStorage(Action<string> jsonDataCallback)
         {
-            deviceDataLoader.LoadDataFromDevice(jsonDataCallback.Invoke);
+            deviceDataLoader.ReadDataFromDevice(jsonDataCallback.Invoke);
         }
 
-        protected override void Write(string jsonData)
+        protected override void WriteToStorage(string jsonData)
         {
             if (string.IsNullOrEmpty(jsonData))
             {
-                throw new ArgumentException($"{nameof(jsonData)} не может быть пустым или иметь значение null", nameof(jsonData));
+                throw new ArgumentException($"{nameof(jsonData)} не может быть пустым или иметь значение null");
             }
 
             // TODO: А если у пользователя недостаточно памяти, чтобы создать файл?

@@ -18,14 +18,14 @@ namespace Desdiene.GameDataAsset.DataLoader
             this.storages = storages;
         }
 
-        public override void Read(Action<T> data)
+        public override void Load(Action<T> data)
         {
-            Array.ForEach(storages, storage => storage.Read(data));
+            Array.ForEach(storages, storage => storage.Load(data));
         }
 
-        public override void Write(T data)
+        public override void Save(T data)
         {
-            Array.ForEach(storages, storage => storage.Write(data));
+            Array.ForEach(storages, storage => storage.Save(data));
         }
     }
 }

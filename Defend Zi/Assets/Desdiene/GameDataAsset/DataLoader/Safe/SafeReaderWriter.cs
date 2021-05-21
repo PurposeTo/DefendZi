@@ -13,19 +13,19 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe
     {
         private readonly AtomicRef<ReaderWriterState<T>> readerWriterState;
 
-        public SafeReaderWriter(SuperMonoBehaviour superMonoBehaviour, DataStorage<T> dataStorage) : base(superMonoBehaviour)
+        public SafeReaderWriter(SuperMonoBehaviour superMonoBehaviour, JsonDataLoader<T> dataStorage) : base(superMonoBehaviour)
         {
             if (dataStorage is null) throw new ArgumentNullException(nameof(dataStorage));
 
             readerWriterState = new AtomicRef<ReaderWriterState<T>>(new InitialState<T>(dataStorage));
         }
 
-        public override void Read(Action<T> dataCallback)
+        public override void Load(Action<T> dataCallback)
         {
             readerWriterState.Get().Read(readerWriterState, dataCallback);
         }
 
-        public override void Write(T data)
+        public override void Save(T data)
         {
             readerWriterState.Get().Write(readerWriterState, data);
         }

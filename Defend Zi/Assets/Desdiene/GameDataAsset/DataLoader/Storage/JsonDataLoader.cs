@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Storage
 {
-    public abstract class DataStorage<T> : ReaderWriter<T> where T : GameData, new()
+    public abstract class JsonDataLoader<T> : ReaderWriter<T> where T : GameData, new()
     {
         public string Name { get; } // Имя конкретного хранилища
 
         protected string FileName { get; }
-        protected string FileExtension { get; }
+        protected string FileExtension => "json";
         protected string FileNameWithExtension => FileName + "." + FileExtension;
 
         private readonly Validator validator = new Validator();
@@ -26,11 +26,10 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         /// <param name="storageName">Имя хранилища</param>
         /// <param name="fileName">Имя сохраняемого файла</param>
         /// <param name="fileName">расширение сохраняемого файла</param>
-        /// <param name="serializerSettings">Настройки (де)сериализации данных</param>
-        public DataStorage(SuperMonoBehaviour superMonoBehaviour,
+        /// <param name="jsonConvertor">json (де)сериализатор</param>
+        public JsonDataLoader(SuperMonoBehaviour superMonoBehaviour,
             string storageName,
             string fileName,
-            string fileExtension,
             IJsonConvertor<T> jsonConvertor)
             : base(superMonoBehaviour)
         {
@@ -38,25 +37,16 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
 
             if (string.IsNullOrEmpty(storageName))
             {
-                throw new ArgumentException($"{nameof(storageName)} не может быть пустым или иметь значение null",
-                    nameof(storageName));
+                throw new ArgumentException($"{nameof(storageName)} не может быть пустым или иметь значение null");
             }
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentException($"{nameof(fileName)} не может быть пустым или иметь значение null",
-                    nameof(fileName));
-            }
-
-            if (string.IsNullOrEmpty(fileExtension))
-            {
-                throw new ArgumentException($"{nameof(fileExtension)} не может быть пустым или иметь значение null",
-                    nameof(fileExtension));
+                throw new ArgumentException($"{nameof(fileName)} не может быть пустым или иметь значение null");
             }
 
             Name = storageName;
             FileName = FileName;
-            FileExtension = fileExtension;
             this.jsonConvertor = jsonConvertor ?? throw new ArgumentNullException(nameof(jsonConvertor));
         }
 
@@ -65,9 +55,9 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         /// Не вызовется, если произошли проблемы при чтении.
         /// </summary>
         /// <param name="dataCallback"></param>
-        public override void Read(Action<T> dataCallback)
+        public override void Load(Action<T> dataCallback)
         {
-            Read(jsonData =>
+            ReadFromStorage(jsonData =>
             {
                 if (string.IsNullOrEmpty(jsonData)) dataCallback?.Invoke(new T());
                 else
@@ -79,19 +69,19 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
             });
         }
 
-        public override void Write(T data)
+        public override void Save(T data)
         {
             string jsonData = SerializeData(data);
             if (validator.HasJsonNullValues(jsonData)) return;
             else
             {
-                Write(jsonData);
+                WriteToStorage(jsonData);
             }
         }
 
-        protected abstract void Read(Action<string> jsonDataCallback);
+        protected abstract void ReadFromStorage(Action<string> jsonDataCallback);
 
-        protected abstract void Write(string jsonData);
+        protected abstract void WriteToStorage(string jsonData);
 
         /// <summary>
         /// Установить значения полям, которые is null.

@@ -2,8 +2,8 @@
 {
     public interface ISynchronizer
     {
-        void ReadDataFromStorage();
+        void LoadData();
 
-        void WriteDataToStorage();
+        void SaveData();
     }
 }

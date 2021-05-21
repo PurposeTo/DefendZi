@@ -27,7 +27,7 @@ namespace Desdiene.Tools
         /// </summary>
         /// <param name="jsonAction">Полученные данные. Может быть null, если данные не были найдены.</param>
         /// <returns></returns>
-        public void LoadDataFromDevice(Action<string> jsonDataCallback)
+        public void ReadDataFromDevice(Action<string> jsonDataCallback)
         {
             superMonoBehaviour.ExecuteCoroutineContinuously(loadDataInfo, LoadDataEnumerator(json => jsonDataCallback?.Invoke(json)));
         }
