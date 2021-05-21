@@ -6,7 +6,7 @@ public class ZiHealth : MonoBehaviour
 {
     public event Action OnZiDie;
 
-    public IPercentStat GetHealthPercent() => health;
+    public IStat<float> GetHealthPercent() => health.GetPercent();
     public IStat<int> GetHealth() => health;
     private IntStatPercentable health = new IntStatPercentable(3, 0, 3);
 

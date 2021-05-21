@@ -19,8 +19,11 @@ public class FloatStatClamp : IStat<float>
 
     public virtual void Set(float value)
     {
-        this.Value = Mathf.Clamp(value, minValue, maxValue);
-        OnValueChanged?.Invoke();
+        if (!Mathf.Approximately(this.Value, value))
+        {
+            this.Value = Mathf.Clamp(value, minValue, maxValue);
+            OnValueChanged?.Invoke();
+        }
     }
 
     public float SetAndGet(float value)

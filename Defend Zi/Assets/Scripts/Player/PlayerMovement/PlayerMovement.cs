@@ -1,8 +1,9 @@
 using System;
+using Desdiene.SuperMonoBehaviourAsset;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : SuperMonoBehaviour
 {
     [SerializeField]
     private float rotationSpeed = 18;
@@ -20,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public IPercentStat ZiPlayerDistance => rotationRadius;
+    public FloatStatClamp ZiPlayerDistance => rotationRadius.GetPercent();
 
     private FloatStatPercentable rotationRadius;
     private bool isUnderControl;
@@ -31,11 +32,17 @@ public class PlayerMovement : MonoBehaviour
 
     private float angle;
 
-    private void Awake()
+    protected override void AwakeWrapped()
     {
         controller = ControllerInitializer.Initialize();
         rb2d = GetComponent<Rigidbody2D>();
-        rotationRadius = new FloatStatPercentable(transform.position.magnitude, Zi.Radius + 1f, Zi.Radius + 20f);
+        GameObjectsHolder.InitializedInstance += (_) =>
+        {
+            Zi.OnAwaked += () =>
+            {
+                rotationRadius = new FloatStatPercentable(transform.position.magnitude, Zi.Radius + 1f, Zi.Radius + 30f);
+            };
+        };
     }
 
     private void Update()

@@ -21,8 +21,11 @@ public class CameraFollow : MonoBehaviour
         Vector3 position = Vector3.Lerp(
             Zi.transform.position,
             PlayerMovement.transform.position,
-            PlayerMovement.ZiPlayerDistance.GetPercent())
-            / 2f;
-        return new Vector3(position.x, position.y, transform.position.z);
+            PlayerMovement.ZiPlayerDistance.Value)
+            * (2 / 3f);
+        position = new Vector3(position.x, position.y, transform.position.z);
+
+        float deltaLerp = 0.25f;
+        return Vector3.Lerp(transform.position, position, deltaLerp);
     }
 }

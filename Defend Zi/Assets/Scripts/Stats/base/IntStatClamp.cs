@@ -19,8 +19,11 @@ public class IntStatClamp: IStat<int>
 
     public virtual void Set(int value)
     {
-        this.Value = Mathf.Clamp(value, minValue, maxValue);
-        OnValueChanged?.Invoke();
+        if (this.Value != value)
+        {
+            this.Value = Mathf.Clamp(value, minValue, maxValue);
+            OnValueChanged?.Invoke();
+        }
     }
 
     public int SetAndGet(int value)

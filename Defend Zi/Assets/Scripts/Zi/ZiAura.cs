@@ -2,67 +2,61 @@ using UnityEngine;
 
 public class ZiAura : MonoBehaviour
 {
-    private IPercentStat ziHealth;
+    private IStat<float> ziHealthPercent;
 
-    private PlayerAura playerAura;
+    private PlayerPresenter PlayerPresenter => GameObjectsHolder.Instance.PlayerPresenter;
+    private readonly BoolStat isPlayerInAura = new BoolStat();
 
     private readonly float minDeltaCharge = 0.1f;
     private readonly float maxDeltaCharge = 0.25f;
+    private float DeltaCharge => Mathf.Lerp(maxDeltaCharge, minDeltaCharge, ziHealthPercent.Value);
 
-    public ZiAura Constructor(IPercentStat ziHealth)
+    public ZiAura Constructor(IStat<float> ziHealthPercent)
     {
-        this.ziHealth = ziHealth;
+        this.ziHealthPercent = ziHealthPercent;
         SubscribeEvents();
         return this;
     }
-
 
     private void OnDestroy()
     {
         UnsubscribeEvents();
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out PlayerAura playerAura))
-        {
-            this.playerAura = playerAura;
-            EnableCharge();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out PlayerAura playerAura))
-        {
-            DisableCharge();
-            this.playerAura = null;
-        }
-    }
-
     private void SubscribeEvents()
     {
-        ziHealth.OnValueChanged += EnableCharge;
-    }
+        isPlayerInAura.OnValueChanged += ToggleCharge;
+        ziHealthPercent.OnValueChanged += CheckIfPlayerIsInAura;
+        GameObjectsHolder.InitializedInstance += (_) =>
+        {
+            PlayerMovement playerMovement = PlayerPresenter.Movement;
+            playerMovement.OnAwaked += () =>
+            {
+                CheckIfPlayerIsInAura();
+                playerMovement
+                .ZiPlayerDistance
+                .OnValueChanged += CheckIfPlayerIsInAura;
+            };
+        };
 
+    }
 
     private void UnsubscribeEvents()
     {
-        ziHealth.OnValueChanged -= EnableCharge;
+        isPlayerInAura.OnValueChanged -= ToggleCharge;
+        ziHealthPercent.OnValueChanged -= CheckIfPlayerIsInAura;
+        PlayerPresenter.Movement.ZiPlayerDistance.OnValueChanged -= CheckIfPlayerIsInAura;
     }
 
-
-    private void EnableCharge()
+    private void CheckIfPlayerIsInAura()
     {
-        if (playerAura != null)
-        {
-            playerAura.EnableCharging(Mathf.Lerp(maxDeltaCharge, minDeltaCharge, ziHealth.GetPercent()));
-        }
+        isPlayerInAura.Set(PlayerPresenter.Movement.ZiPlayerDistance.Value > 0.6);
     }
 
-    private void DisableCharge()
+    private void ToggleCharge()
     {
-        playerAura.DisableCharging();
+        PlayerAura playerAura = PlayerPresenter.Aura;
+        if (isPlayerInAura) playerAura.EnableCharging(DeltaCharge);
+        else playerAura.DisableCharging();
     }
 }

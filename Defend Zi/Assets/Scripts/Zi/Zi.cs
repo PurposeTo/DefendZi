@@ -1,16 +1,16 @@
+using Desdiene.SuperMonoBehaviourAsset;
 using UnityEngine;
 
-public class Zi : MonoBehaviour
+public class Zi : SuperMonoBehaviour
 {
     public float Radius { get; private set; }
 
     private readonly float gravityForce = 9;
 
-    private void Awake()
+    protected override void AwakeWrapped()
     {
         Radius = transform.localScale.x / 2;
     }
-
 
     #region методы взаимодействия с игровым объектом "Zi"
 

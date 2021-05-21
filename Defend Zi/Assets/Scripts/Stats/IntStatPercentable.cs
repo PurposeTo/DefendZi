@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IntStatPercentable : IntStatClamp, IStat<int>, IPercentStat
+public class IntStatPercentable : IntStatClamp, IStat<int>
 {
     private readonly PercentStat percentStat = new PercentStat();
 
@@ -9,9 +9,9 @@ public class IntStatPercentable : IntStatClamp, IStat<int>, IPercentStat
         OnValueChanged += UpdatePercentValue;
     }
 
-    public float GetPercent()
+    public IStat<float> GetPercent()
     {
-        return percentStat.Value;
+        return percentStat;
     }
 
     public static IntStatPercentable operator -(IntStatPercentable stat, int delta)

@@ -20,9 +20,12 @@ public class EnemyMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 direction = Zi.GetToZiDirection(transform.position);
-        float _speed = IsPlayerActive
-            ? speed
-            : 0;
+
+        //todo скорость врагов должна варьироваться от действий игрока?
+        //float _speed = IsPlayerActive
+        //    ? speed
+        //    : 0;
+        float _speed = speed;
 
         Vector2 velocity = direction * Mathf.MoveTowards(rb2d.velocity.magnitude, _speed, Time.fixedDeltaTime);
         rb2d.velocity = velocity;

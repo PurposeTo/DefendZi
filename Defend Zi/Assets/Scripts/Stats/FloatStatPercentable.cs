@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FloatStatPercentable : FloatStatClamp, IStat<float>, IPercentStat
+public class FloatStatPercentable : FloatStatClamp, IStat<float>
 {
     private readonly PercentStat percentStat = new PercentStat();
 
@@ -9,9 +9,9 @@ public class FloatStatPercentable : FloatStatClamp, IStat<float>, IPercentStat
         OnValueChanged += UpdatePercentValue;
     }
 
-    public float GetPercent()
+    public FloatStatClamp GetPercent()
     {
-        return percentStat.Value;
+        return percentStat;
     }
 
     public override void Set(float value)

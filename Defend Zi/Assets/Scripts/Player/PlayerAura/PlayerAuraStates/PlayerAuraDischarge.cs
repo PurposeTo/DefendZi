@@ -11,7 +11,7 @@ public class PlayerAuraDischarge : PlayerAuraState
         SetAuraSizeViaCharging();
     }
 
-    private readonly float deltaDischarge = 0.045f;
+    private readonly float deltaDischarge = 0.05f;
 
     public override void DisableCharging(AtomicRef<PlayerAuraState> state)
     {

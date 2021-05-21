@@ -31,6 +31,6 @@ public class ZiPresenter : MonoBehaviour
 
     private ZiAura InitZiAura()
     {
-        return GetComponentInChildren<ZiAura>().Constructor(Health.GetHealthPercent());
+        return GetComponent<ZiAura>().Constructor(Health.GetHealthPercent());
     }
 }

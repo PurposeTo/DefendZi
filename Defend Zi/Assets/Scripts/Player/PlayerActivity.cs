@@ -26,23 +26,18 @@ public class PlayerActivity : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        playerMovement.OnIsUnderControlChange += SetIsActive;
-        playerAura.OnIsChargingChange += SetIsActive;
+        playerMovement.ZiPlayerDistance.OnValueChanged += SetIsActive;
     }
 
 
     private void UnsubscribeEvents()
     {
-        playerMovement.OnIsUnderControlChange -= SetIsActive;
-        playerAura.OnIsChargingChange -= SetIsActive;
+        playerMovement.ZiPlayerDistance.OnValueChanged -= SetIsActive;
     }
 
     private void SetIsActive()
     {
-        bool isUnderControl = playerMovement.IsUnderControl;
-        bool isPlayerAuraCharging = playerAura.IsCharging;
-
-        IsActive = isUnderControl || isPlayerAuraCharging;
+        IsActive = playerMovement.ZiPlayerDistance.IsMin() || playerMovement.ZiPlayerDistance.IsMax();
         OnActivityChanged?.Invoke();
     }
 }
