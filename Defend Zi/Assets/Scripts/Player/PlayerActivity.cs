@@ -37,7 +37,7 @@ public class PlayerActivity : MonoBehaviour
 
     private void SetIsActive()
     {
-        IsActive = playerMovement.ZiPlayerDistance.IsMin() || playerMovement.ZiPlayerDistance.IsMax();
+        //IsActive = playerMovement.ZiPlayerDistance.IsMin() || playerMovement.ZiPlayerDistance.IsMax();
         OnActivityChanged?.Invoke();
     }
 }

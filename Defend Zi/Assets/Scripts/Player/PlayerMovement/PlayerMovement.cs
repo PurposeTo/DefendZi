@@ -1,5 +1,7 @@
 using System;
 using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.Types.RangeType;
+using Desdiene.Types.ValuesInRange;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -21,9 +23,9 @@ public class PlayerMovement : SuperMonoBehaviour
             }
         }
     }
-    public FloatStatClamp ZiPlayerDistance => rotationRadius.GetPercent();
+    public IReadPercentable ZiPlayerDistance => rotationRadius;
 
-    private FloatStatPercentable rotationRadius;
+    private FloatPercentable rotationRadius;
     private bool isUnderControl;
 
     private Zi Zi => GameObjectsHolder.Instance.ZiPresenter.Zi;
@@ -40,7 +42,8 @@ public class PlayerMovement : SuperMonoBehaviour
         {
             Zi.OnAwaked += () =>
             {
-                rotationRadius = new FloatStatPercentable(transform.position.magnitude, Zi.Radius + 1f, Zi.Radius + 30f);
+                Range<float> range = new Range<float>(Zi.Radius + 1f, Zi.Radius + 30f);
+                rotationRadius = new FloatPercentable(transform.position.magnitude, range);
             };
         };
     }
@@ -58,14 +61,14 @@ public class PlayerMovement : SuperMonoBehaviour
         float direction = IsUnderControl
             ? -1f
             : 1;
-        return rotationRadius.Value + (ZiGravity * direction);
+        return rotationRadius.Get() + (ZiGravity * direction);
     }
 
     private Vector3 GetNewPosition(float deltaTime)
     {
-        float angularSpeed = rotationSpeed / rotationRadius.Value * deltaTime;
+        float angularSpeed = rotationSpeed / rotationRadius.Get() * deltaTime;
         angle += angularSpeed;
-        var rotationOffset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * rotationRadius.Value;
+        var rotationOffset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * rotationRadius.Get();
         return (Vector2)Zi.transform.position + rotationOffset;
     }
 }

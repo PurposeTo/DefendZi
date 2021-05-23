@@ -1,17 +1,19 @@
+using Desdiene.Types.AtomicReference;
+using Desdiene.Types.ValuesInRange;
 using UnityEngine;
 
 public class ZiAura : MonoBehaviour
 {
-    private IStat<float> ziHealthPercent;
+    private IReadPercentable ziHealthPercent;
 
     private PlayerPresenter PlayerPresenter => GameObjectsHolder.Instance.PlayerPresenter;
-    private readonly BoolStat isPlayerInAura = new BoolStat();
+    private readonly Ref<bool> isPlayerInAura = new Ref<bool>();
 
     private readonly float minDeltaCharge = 0.1f;
     private readonly float maxDeltaCharge = 0.25f;
-    private float DeltaCharge => Mathf.Lerp(maxDeltaCharge, minDeltaCharge, ziHealthPercent.Value);
+    private float DeltaCharge => Mathf.Lerp(maxDeltaCharge, minDeltaCharge, ziHealthPercent.GetPercent());
 
-    public ZiAura Constructor(IStat<float> ziHealthPercent)
+    public ZiAura Constructor(IReadPercentable ziHealthPercent)
     {
         this.ziHealthPercent = ziHealthPercent;
         SubscribeEvents();
@@ -50,13 +52,13 @@ public class ZiAura : MonoBehaviour
 
     private void CheckIfPlayerIsInAura()
     {
-        isPlayerInAura.Set(PlayerPresenter.Movement.ZiPlayerDistance.Value > 0.6);
+        isPlayerInAura.Set(PlayerPresenter.Movement.ZiPlayerDistance.GetPercent() > 0.6);
     }
 
     private void ToggleCharge()
     {
         PlayerAura playerAura = PlayerPresenter.Aura;
-        if (isPlayerInAura) playerAura.EnableCharging(DeltaCharge);
+        if (isPlayerInAura.Get()) playerAura.EnableCharging(DeltaCharge);
         else playerAura.DisableCharging();
     }
 }

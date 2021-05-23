@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Desdiene.AtomicReference;
 using Desdiene.Coroutine.CoroutineExecutor;
 using UnityEngine;
+using Desdiene.Types.AtomicReference.RefRuntimeInit;
 
 namespace Desdiene.SuperMonoBehaviourAsset
 {
@@ -10,7 +10,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
     {
         #region SuperMonoBehaviour tools
 
-        private readonly AtomicRefRuntimeInit<CoroutineExecutor> coroutineExecutorRef = new AtomicRefRuntimeInit<CoroutineExecutor>();
+        private readonly RefRuntimeInit<CoroutineExecutor> coroutineExecutorRef = new RefRuntimeInit<CoroutineExecutor>();
 
         private void InitSuperMonoBehaviour()
         {

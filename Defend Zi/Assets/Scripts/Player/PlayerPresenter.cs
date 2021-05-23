@@ -1,4 +1,4 @@
-using Desdiene.AtomicReference;
+using Desdiene.Types.AtomicReference.RefRuntimeInit;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
@@ -11,11 +11,11 @@ public class PlayerPresenter : MonoBehaviour
     public PlayerAura Aura => playerAuraRef.Get(InitPlayerAura);
     public PlayerScore Score => playerScoreRef.Get(InitPlayerScore);
 
-    private readonly AtomicRefRuntimeInit<PlayerMovement> playerMovementRef = new AtomicRefRuntimeInit<PlayerMovement>();
-    private readonly AtomicRefRuntimeInit<PlayerActivity> playerActivityRef = new AtomicRefRuntimeInit<PlayerActivity>();
-    private readonly AtomicRefRuntimeInit<PlayerAttack> playerAttackRef = new AtomicRefRuntimeInit<PlayerAttack>();
-    private readonly AtomicRefRuntimeInit<PlayerAura> playerAuraRef = new AtomicRefRuntimeInit<PlayerAura>();
-    private readonly AtomicRefRuntimeInit<PlayerScore> playerScoreRef = new AtomicRefRuntimeInit<PlayerScore>();
+    private readonly RefRuntimeInit<PlayerMovement> playerMovementRef = new RefRuntimeInit<PlayerMovement>();
+    private readonly RefRuntimeInit<PlayerActivity> playerActivityRef = new RefRuntimeInit<PlayerActivity>();
+    private readonly RefRuntimeInit<PlayerAttack> playerAttackRef = new RefRuntimeInit<PlayerAttack>();
+    private readonly RefRuntimeInit<PlayerAura> playerAuraRef = new RefRuntimeInit<PlayerAura>();
+    private readonly RefRuntimeInit<PlayerScore> playerScoreRef = new RefRuntimeInit<PlayerScore>();
 
     private void Awake()
     {

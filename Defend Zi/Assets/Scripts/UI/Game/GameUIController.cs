@@ -1,14 +1,15 @@
+using Desdiene.Types.AtomicReference;
 using UnityEngine;
 
 public class GameUIController : MonoBehaviour
 {
     [SerializeField]
     private ZiHealthView healthView;
-    private IStat<int> health;
+    private IReadRef<int> health;
 
     [SerializeField]
     private PlayerScoreView scoreView;
-    private IStat<int> score;
+    private IReadRef<int> score;
 
     [SerializeField]
     private GameOverView gameOverView;
@@ -68,7 +69,7 @@ public class GameUIController : MonoBehaviour
         gameOverView.Disable();
     }
 
-    private void UpdateHealthView() => healthView.ShowHealth(health.Value);
+    private void UpdateHealthView() => healthView.ShowHealth(health.Get());
 
-    private void UpdateScoreView() => scoreView.ShowScore(score.Value);
+    private void UpdateScoreView() => scoreView.ShowScore(score.Get());
 }

@@ -1,4 +1,7 @@
 using System;
+using Desdiene.Types.AtomicReference;
+using Desdiene.Types.RangeType;
+using Desdiene.Types.ValuesInRange;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -6,9 +9,9 @@ public class ZiHealth : MonoBehaviour
 {
     public event Action OnZiDie;
 
-    public IStat<float> GetHealthPercent() => health.GetPercent();
-    public IStat<int> GetHealth() => health;
-    private IntStatPercentable health = new IntStatPercentable(3, 0, 3);
+    public IReadPercentable GetHealthPercent() => health;
+    public IReadRef<int> GetHealth() => health;
+    private IntPercentable health = new IntPercentable(3, new Range<int>(0, 3));
 
     public void TakeDamage()
     {

@@ -1,7 +1,9 @@
 using System;
-using Desdiene.AtomicReference;
+using Desdiene.Types.AtomicReference;
 using Desdiene.SuperMonoBehaviourAsset;
 using UnityEngine;
+using Desdiene.Types.ValuesInRange;
+using Desdiene.Types.RangeType;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class PlayerAura : SuperMonoBehaviour
@@ -9,14 +11,15 @@ public class PlayerAura : SuperMonoBehaviour
     public event Action OnIsChargingChange;
     public bool IsCharging => state.Get() is PlayerAuraCharge;
 
-    private readonly AtomicRef<PlayerAuraState> state = new AtomicRef<PlayerAuraState>();
+    private readonly Ref<PlayerAuraState> state = new Ref<PlayerAuraState>();
 
-    private readonly PercentStat charge = new PercentStat(1);
-    private FloatStatPercentable auraSize;
+    private readonly Percent charge = new Percent(1);
+    private FloatPercentable auraSize;
 
     protected override void AwakeWrapped()
     {
-        auraSize = new FloatStatPercentable(transform.localScale.x, 1f, transform.localScale.x);
+        Range<float> auraSizeRange = new Range<float>(1f, transform.localScale.x);
+        auraSize = new FloatPercentable(transform.localScale.x, auraSizeRange);
         state.Set(new PlayerAuraDischarge(this, charge, auraSize));
         DisableCharging();
     }

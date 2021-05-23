@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using Desdiene.SuperMonoBehaviourAsset;
 using UnityEngine;
-using Desdiene.AtomicReference;
+using Desdiene.Types.AtomicReference;
+using Desdiene.Types.ValuesInRange;
 
 public class PlayerAuraDischarge : PlayerAuraState
 {
-    public PlayerAuraDischarge(SuperMonoBehaviour superMonoBehaviour, PercentStat charge, FloatStatPercentable auraSize)
+    public PlayerAuraDischarge(SuperMonoBehaviour superMonoBehaviour, Percent charge, FloatPercentable auraSize)
         : base(superMonoBehaviour, charge, auraSize) 
     {
         SetAuraSizeViaCharging();
@@ -13,13 +14,13 @@ public class PlayerAuraDischarge : PlayerAuraState
 
     private readonly float deltaDischarge = 0.05f;
 
-    public override void DisableCharging(AtomicRef<PlayerAuraState> state)
+    public override void DisableCharging(Ref<PlayerAuraState> state)
     {
         superMonoBehaviour.ExecuteCoroutineContinuously(stateUpdate, DischargeAura(deltaDischarge));
         return;
     }
 
-    public override void EnableCharging(AtomicRef<PlayerAuraState> state, float deltaCharge)
+    public override void EnableCharging(Ref<PlayerAuraState> state, float deltaCharge)
     {
         superMonoBehaviour.BreakCoroutine(stateUpdate);
         state.Set(new PlayerAuraCharge(superMonoBehaviour, charge, auraSize));

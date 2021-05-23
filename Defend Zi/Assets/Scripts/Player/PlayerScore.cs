@@ -1,11 +1,10 @@
 using System;
+using Desdiene.Types.AtomicReference;
 using UnityEngine;
 
-public class PlayerScore : MonoBehaviour, IStat<int>
+public class PlayerScore : MonoBehaviour, IReadRef<int>
 {
     private int score;
-
-    public int Value => score;
 
     public event Action OnValueChanged;
 
@@ -14,4 +13,6 @@ public class PlayerScore : MonoBehaviour, IStat<int>
         score += amount;
         OnValueChanged?.Invoke();
     }
+
+    public int Get() => score;
 }

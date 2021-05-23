@@ -1,4 +1,4 @@
-using Desdiene.AtomicReference;
+using Desdiene.Types.AtomicReference.RefRuntimeInit;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
@@ -10,9 +10,9 @@ public class EnemyPresenter : MonoBehaviour
     public EnemyHealth EnemyHealth => enemyHealthRef.Get(InitEnemyHealth);
     public EnemyAttack EnemyAttack => enemyAttackRef.Get(InitEnemyAttack);
 
-    private readonly AtomicRefRuntimeInit<EnemyMovement> enemyMovementRef = new AtomicRefRuntimeInit<EnemyMovement>();
-    private readonly AtomicRefRuntimeInit<EnemyHealth> enemyHealthRef = new AtomicRefRuntimeInit<EnemyHealth>();
-    private readonly AtomicRefRuntimeInit<EnemyAttack> enemyAttackRef = new AtomicRefRuntimeInit<EnemyAttack>();
+    private readonly RefRuntimeInit<EnemyMovement> enemyMovementRef = new RefRuntimeInit<EnemyMovement>();
+    private readonly RefRuntimeInit<EnemyHealth> enemyHealthRef = new RefRuntimeInit<EnemyHealth>();
+    private readonly RefRuntimeInit<EnemyAttack> enemyAttackRef = new RefRuntimeInit<EnemyAttack>();
 
     private void Awake()
     {

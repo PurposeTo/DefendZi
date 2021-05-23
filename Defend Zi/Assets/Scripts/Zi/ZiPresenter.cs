@@ -1,5 +1,5 @@
 using UnityEngine;
-using Desdiene.AtomicReference;
+using Desdiene.Types.AtomicReference.RefRuntimeInit;
 
 [RequireComponent(typeof(Zi))]
 public class ZiPresenter : MonoBehaviour
@@ -8,9 +8,9 @@ public class ZiPresenter : MonoBehaviour
     public ZiHealth Health => healthRef.Get(InitZiHealth);
     public ZiAura Aura => auraRef.Get(InitZiAura);
 
-    private readonly AtomicRefRuntimeInit<Zi> ziRef = new AtomicRefRuntimeInit<Zi>();
-    private readonly AtomicRefRuntimeInit<ZiHealth> healthRef = new AtomicRefRuntimeInit<ZiHealth>();
-    private readonly AtomicRefRuntimeInit<ZiAura> auraRef = new AtomicRefRuntimeInit<ZiAura>();
+    private readonly RefRuntimeInit<Zi> ziRef = new RefRuntimeInit<Zi>();
+    private readonly RefRuntimeInit<ZiHealth> healthRef = new RefRuntimeInit<ZiHealth>();
+    private readonly RefRuntimeInit<ZiAura> auraRef = new RefRuntimeInit<ZiAura>();
 
     private void Awake()
     {

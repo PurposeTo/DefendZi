@@ -1,12 +1,12 @@
 ﻿using System;
-using Desdiene.AtomicReference;
+using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.TimeControl.Pause.Base
 {
     public class PausableTime : IPausableTime
     {
         public string Name { get; }
-        private readonly AtomicRef<bool> isPauseRef;
+        private readonly Ref<bool> isPauseRef;
 
         private readonly IPauser pauser;
 
@@ -14,7 +14,7 @@ namespace Desdiene.TimeControl.Pause.Base
 
         public PausableTime(IPauser pauser, bool isPause, string name)
         {
-            isPauseRef = new AtomicRef<bool>(isPause);
+            isPauseRef = new Ref<bool>(isPause);
             this.Name = name;
             this.pauser = pauser;
             pauser.Add(this);
@@ -25,7 +25,7 @@ namespace Desdiene.TimeControl.Pause.Base
             add { isPauseRef.OnValueChanged += value; }
             remove { isPauseRef.OnValueChanged -= value; }
         }
-        public bool IsPause => isPauseRef.value;
+        public bool IsPause => isPauseRef.Get();
 
         public void SetPause(bool isPause) => isPauseRef.Set(isPause);
 
