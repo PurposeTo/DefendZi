@@ -16,48 +16,45 @@ public class GameUIController : MonoBehaviour
 
     private void Awake()
     {
-        GameObjectsHolder.OnInited += (_) =>
+        GameObjectsHolder.OnInited += (gameObjectsHolder) =>
         {
-            InitDataModels();
+            InitDataModels(gameObjectsHolder);
             InitViews();
 
-            GameManager.OnInited += (_2) =>
+            GameManager.OnInited += (gameManager) =>
             {
-                SubscribeEvents();
+                SubscribeEvents(gameManager);
             };
         };
     }
 
     private void OnDestroy()
     {
-        UnsubscribeEvents();
+        UnsubscribeEvents(GameManager.Instance);
     }
 
-    private void SubscribeEvents()
+    private void SubscribeEvents(GameManager gameManager)
     {
-        GameManager instance = GameManager.Instance;
         score.OnValueChanged += UpdateScoreView;
         health.OnValueChanged += UpdateHealthView;
-        instance.OnGameOver += gameOverView.Enable;
-        instance.OnGameOver += healthView.Disable;
-        gameOverView.OnReloadLvlClicked += instance.ReloadLvl;
+        gameManager.OnGameOver += gameOverView.Enable;
+        gameManager.OnGameOver += healthView.Disable;
+        gameOverView.OnReloadLvlClicked += gameManager.ReloadLvl;
     }
 
-    private void UnsubscribeEvents()
+    private void UnsubscribeEvents(GameManager gameManager)
     {
-        GameManager instance = GameManager.Instance;
         score.OnValueChanged -= UpdateScoreView;
         health.OnValueChanged -= UpdateHealthView;
-        instance.OnGameOver -= gameOverView.Enable;
-        instance.OnGameOver -= healthView.Disable;
-        gameOverView.OnReloadLvlClicked -= instance.ReloadLvl;
+        gameManager.OnGameOver -= gameOverView.Enable;
+        gameManager.OnGameOver -= healthView.Disable;
+        gameOverView.OnReloadLvlClicked -= gameManager.ReloadLvl;
     }
 
-    private void InitDataModels()
+    private void InitDataModels(GameObjectsHolder gameObjectsHolder)
     {
-        GameObjectsHolder instance = GameObjectsHolder.Instance;
-        score = instance.PlayerPresenter.Score;
-        health = instance.ZiPresenter.Health.GetHealth();
+        score = gameObjectsHolder.PlayerPresenter.Score;
+        health = gameObjectsHolder.ZiPresenter.Health.GetHealth();
     }
 
     private void InitViews()
