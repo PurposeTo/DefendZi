@@ -4,9 +4,9 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
 {
     internal abstract class InitStateValue<T>
     {
-        protected readonly Ref<InitStateValue<T>> state;
         protected readonly Func<T> initFunc;
         protected readonly Ref<T> valueRef;
+        private readonly Ref<InitStateValue<T>> state;
 
         protected InitStateValue(in Ref<InitStateValue<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
         {
@@ -15,9 +15,13 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
             this.valueRef = valueRef ?? throw new ArgumentNullException(nameof(valueRef));
         }
 
-        public abstract void Initialize();
-        public abstract T Get();
+        public abstract T GetOrInit();
         public abstract void Set(T value);
         public abstract T SetAndGet(T value);
+
+        protected InitStateValue<T> SetState(Func<Ref<InitStateValue<T>>, InitStateValue<T>> newState)
+        {
+            return state.SetAndGet(newState.Invoke(state));
+        }
     }
 }

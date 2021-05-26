@@ -6,9 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAttack))]
 public class EnemyPresenter : MonoBehaviour
 {
-    public EnemyMovement EnemyMovement => enemyMovementRef.Get(InitEnemyMovement);
-    public EnemyHealth EnemyHealth => enemyHealthRef.Get(InitEnemyHealth);
-    public EnemyAttack EnemyAttack => enemyAttackRef.Get(InitEnemyAttack);
+    public EnemyMovement EnemyMovement => enemyMovementRef.GetOrInit(InitEnemyMovement);
+    public EnemyHealth EnemyHealth => enemyHealthRef.GetOrInit(InitEnemyHealth);
+    public EnemyAttack EnemyAttack => enemyAttackRef.GetOrInit(InitEnemyAttack);
 
     private readonly RefRuntimeInit<EnemyMovement> enemyMovementRef = new RefRuntimeInit<EnemyMovement>();
     private readonly RefRuntimeInit<EnemyHealth> enemyHealthRef = new RefRuntimeInit<EnemyHealth>();
@@ -16,9 +16,9 @@ public class EnemyPresenter : MonoBehaviour
 
     private void Awake()
     {
-        enemyMovementRef.Initialize(InitEnemyMovement);
-        enemyHealthRef.Initialize(InitEnemyHealth);
-        enemyAttackRef.Initialize(InitEnemyAttack);
+        enemyMovementRef.GetOrInit(InitEnemyMovement);
+        enemyHealthRef.GetOrInit(InitEnemyHealth);
+        enemyAttackRef.GetOrInit(InitEnemyAttack);
     }
 
     private EnemyMovement InitEnemyMovement()

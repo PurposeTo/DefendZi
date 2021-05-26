@@ -12,6 +12,8 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
     public class RefRuntimeInit<T> : IWriteRef<T>
     {
         private readonly Ref<InitStateValue<T>> initStateRef = new Ref<InitStateValue<T>>();
+        private InitStateValue<T> InitState => initStateRef.Get();
+
         private readonly Ref<T> valueRef = new Ref<T>();
 
         public RefRuntimeInit()
@@ -28,43 +30,24 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
             remove { valueRef.OnValueChanged -= value; }
         }
 
-        public void Initialize(Func<T> initFunc)
+        /// <summary>
+        /// Если поле не было проинициализированно, сделать это. 
+        /// Получить значение поля.
+        /// </summary>
+        /// <param name="initFunc"></param>
+        /// <returns></returns>
+        public T GetOrInit(Func<T> initFunc)
         {
-            if (initStateRef.Get() is NotInitedValue<T>)
+            //установить новое значение initFunc
+            if (InitState is NotInitedValue<T>)
             {
                 initStateRef.Set(new NotInitedValue<T>(initStateRef, initFunc, valueRef));
             }
-            //Не кешировать, так как ссылка могла поменяться
-            initStateRef.Get().Initialize();
+            return InitState.GetOrInit();
         }
 
-        public T Get(Func<T> initFunc)
-        {
-            if (initStateRef.Get() is NotInitedValue<T>)
-            {
-                initStateRef.Set(new NotInitedValue<T>(initStateRef, initFunc, valueRef));
-            }
-            //Не кешировать, так как ссылка могла поменяться
-            //Получаем состояние
-            return initStateRef.Get()
-            //Получаем значение
-                .Get();
-        }
+        public void Set(T value)=> InitState.Set(value);
 
-        public void Set(T value)
-        {
-            //Получаем состояние
-            initStateRef.Get()
-            //Изменяем значение
-                .Set(value);
-        }
-
-        public T SetAndGet(T value)
-        {
-            //Получаем состояние
-            return initStateRef.Get()
-            //Изменяем значение
-                .SetAndGet(value);
-        }
+        public T SetAndGet(T value) => InitState.SetAndGet(value);
     }
 }

@@ -11,34 +11,21 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
             if (initFunc is null) throw new ArgumentNullException(nameof(initFunc));
         }
 
-        public override void Initialize()
+        public override T GetOrInit()
         {
             T value = initFunc.Invoke();
-            Set(value);
-        }
-
-        public override T Get()
-        {
-            Initialize();
-            //Получаем состояние
-            return state.Get()
-            //Получаем значение
-                .Get();
+            return SetAndGet(value);
         }
 
         public override void Set(T value)
         {
-            //Изменяем состояние
-            state.SetAndGet(new InitedValue<T>(state, initFunc, valueRef))
-            //Изменяем значение
+            SetState((currState) => new InitedValue<T>(currState, initFunc, valueRef))
                 .Set(value);
         }
 
         public override T SetAndGet(T value)
         {
-            //Изменяем состояние
-            return state.SetAndGet(new InitedValue<T>(state, initFunc, valueRef))
-            //Изменяем значение
+            return SetState((currState) => new InitedValue<T>(currState, initFunc, valueRef))
                 .SetAndGet(value);
         }
     }

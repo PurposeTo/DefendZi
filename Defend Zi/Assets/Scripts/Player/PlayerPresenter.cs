@@ -5,11 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerActivity))]
 public class PlayerPresenter : MonoBehaviour
 {
-    public PlayerMovement Movement => playerMovementRef.Get(InitPlayerMovement);
-    public PlayerActivity Activity => playerActivityRef.Get(InitPlayerActivity);
-    public PlayerAttack Attack => playerAttackRef.Get(InitPlayerAttack);
-    public PlayerAura Aura => playerAuraRef.Get(InitPlayerAura);
-    public PlayerScore Score => playerScoreRef.Get(InitPlayerScore);
+    public PlayerMovement Movement => playerMovementRef.GetOrInit(InitPlayerMovement);
+    public PlayerActivity Activity => playerActivityRef.GetOrInit(InitPlayerActivity);
+    public PlayerAttack Attack => playerAttackRef.GetOrInit(InitPlayerAttack);
+    public PlayerAura Aura => playerAuraRef.GetOrInit(InitPlayerAura);
+    public PlayerScore Score => playerScoreRef.GetOrInit(InitPlayerScore);
 
     private readonly RefRuntimeInit<PlayerMovement> playerMovementRef = new RefRuntimeInit<PlayerMovement>();
     private readonly RefRuntimeInit<PlayerActivity> playerActivityRef = new RefRuntimeInit<PlayerActivity>();
@@ -19,10 +19,10 @@ public class PlayerPresenter : MonoBehaviour
 
     private void Awake()
     {
-        playerMovementRef.Initialize(InitPlayerMovement);
-        playerActivityRef.Initialize(InitPlayerActivity);
-        playerAttackRef.Initialize(InitPlayerAttack);
-        playerAuraRef.Initialize(InitPlayerAura);
+        playerMovementRef.GetOrInit(InitPlayerMovement);
+        playerActivityRef.GetOrInit(InitPlayerActivity);
+        playerAttackRef.GetOrInit(InitPlayerAttack);
+        playerAuraRef.GetOrInit(InitPlayerAura);
     }
 
     private PlayerMovement InitPlayerMovement()

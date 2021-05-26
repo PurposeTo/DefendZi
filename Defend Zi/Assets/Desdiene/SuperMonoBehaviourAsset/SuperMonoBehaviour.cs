@@ -14,7 +14,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         private void InitSuperMonoBehaviour()
         {
-            coroutineExecutorRef.Initialize(InitCoroutineExecutor);
+            coroutineExecutorRef.GetOrInit(InitCoroutineExecutor);
         }
 
         #endregion
@@ -269,7 +269,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// </summary>
         public void ExecuteCoroutineContinuously(ICoroutineContainer coroutineInfo, IEnumerator enumerator)
         {
-            coroutineExecutorRef.Get(InitCoroutineExecutor).ExecuteCoroutineContinuously(coroutineInfo, enumerator);
+            coroutineExecutorRef.GetOrInit(InitCoroutineExecutor).ExecuteCoroutineContinuously(coroutineInfo, enumerator);
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         private CoroutineExecutor GetCoroutineExecutor()
         {
-            return coroutineExecutorRef.Get(InitCoroutineExecutor);
+            return coroutineExecutorRef.GetOrInit(InitCoroutineExecutor);
         }
 
         private CoroutineExecutor InitCoroutineExecutor()

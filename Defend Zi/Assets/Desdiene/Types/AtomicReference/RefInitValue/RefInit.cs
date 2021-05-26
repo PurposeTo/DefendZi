@@ -11,13 +11,14 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
     /// <typeparam name="T">Тип поля в данном классе.</typeparam>
     public class RefInit<T> : IRef<T>
     {
-        private readonly Ref<InitStateValue<T>> initState = new Ref<InitStateValue<T>>();
+        private readonly Ref<InitStateValue<T>> initStateRef = new Ref<InitStateValue<T>>();
+        private InitStateValue<T> InitState => initStateRef.Get();
         private readonly Ref<T> valueRef = new Ref<T>();
 
         /// <param name="initization">Метод для инициализации поля</param>
         public RefInit(Func<T> initFunc)
         {
-            initState.Set(new NotInitedValue<T>(initState, initFunc, valueRef));
+            initStateRef.Set(new NotInitedValue<T>(initStateRef, initFunc, valueRef));
         }
 
         public event Action OnValueChanged
@@ -26,30 +27,16 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
             remove { valueRef.OnValueChanged -= value; }
         }
 
-        public void Initialize() => initState.Get().Initialize();
+        T IReadRef<T>.Get() => GetOrInit(); // Lazy get
+        public T GetOrInit() => InitState.GetOrInit();
 
-        public T Get()
-        {
-            //Получаем состояние
-            return initState.Get()
-            //Получаем значение
-                .Get();
-        }
+        public void Set(T value) => InitState.Set(value);
 
-        public void Set(T value)
-        {
-            //Получаем состояние
-            initState.Get()
-            //Изменяем значение
-                .Set(value);
-        }
+        public T SetAndGet(T value) => InitState.SetAndGet(value);
 
-        public T SetAndGet(T value)
+        void IWriteRef<T>.Set(T value)
         {
-            //Получаем состояние
-            return initState.Get()
-            //Изменяем значение
-                .SetAndGet(value);
+            throw new NotImplementedException();
         }
     }
 }
