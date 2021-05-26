@@ -9,24 +9,24 @@ using Desdiene.SuperMonoBehaviourAsset;
 namespace Desdiene.GameDataAsset
 {
     public class DataAssetInitializer<TData, TGetter, TSetter, TChangingNotifier>
-        where TGetter : Data.IDataGetter
+        where TGetter : IDataGetter
         where TData : GameData, TGetter, new()
-        where TSetter : DataSetter<TData>, Data.IDataSetter, new()
-        where TChangingNotifier : Data.IDataChangingNotifier
+        where TSetter : DataSetter<TData>, IDataSetter, new()
+        where TChangingNotifier : IDataChangingNotifier
     {
         public readonly Model.DataModel<TData, TGetter, TSetter, TChangingNotifier> dataModel;
         public readonly Synchronizer<TData> synchronizer;
 
-        public DataAssetInitializer(SuperMonoBehaviour superMonoBehaviour, params JsonDataLoader<TData>[] storages)
+        public DataAssetInitializer(SuperMonoBehaviour superMonoBehaviour, params StorageJsonDataLoader<TData>[] storages)
         {
             dataModel = new Model.DataModel<TData, TGetter, TSetter, TChangingNotifier>();
 
-            ReaderWriter<TData>[] safeReaderWriters = storages
-                .Select(storage => new SafeReaderWriter<TData>(superMonoBehaviour, storage))
+            IStorageDataLoader<TData>[] safeReaderWriters = storages
+                .Select(storage => new SafeStorageDataLoader<TData>(storage))
                 .ToArray();
 
-            ReaderWriter<TData> readerWritersContainer = new DataReaderWritersContainer<TData>(superMonoBehaviour, safeReaderWriters);
-            synchronizer = new Synchronizer<TData>(superMonoBehaviour, dataModel, readerWritersContainer);
+            IStorageDataLoader<TData> loadersContainer = new LoadersContainer<TData>(safeReaderWriters);
+            synchronizer = new Synchronizer<TData>(superMonoBehaviour, dataModel, loadersContainer);
         }
     }
 }

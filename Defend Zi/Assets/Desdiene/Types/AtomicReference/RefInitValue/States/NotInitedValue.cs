@@ -2,9 +2,9 @@
 
 namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
 {
-    public class NotInitializedValue<T> : InitStateValue<T>
+    internal class NotInitedValue<T> : InitStateValue<T>
     {
-        public NotInitializedValue(in Ref<InitStateValue<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
+        public NotInitedValue(in Ref<InitStateValue<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
             : base(state, initFunc, valueRef)
         {
             //Проверка на null нужна только если мы собираемся использовать данное значение.
@@ -29,7 +29,7 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
         public override void Set(T value)
         {
             //Изменяем состояние
-            state.SetAndGet(new InitializedValue<T>(state, initFunc, valueRef))
+            state.SetAndGet(new InitedValue<T>(state, initFunc, valueRef))
             //Изменяем значение
                 .Set(value);
         }
@@ -37,7 +37,7 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
         public override T SetAndGet(T value)
         {
             //Изменяем состояние
-            return state.SetAndGet(new InitializedValue<T>(state, initFunc, valueRef))
+            return state.SetAndGet(new InitedValue<T>(state, initFunc, valueRef))
             //Изменяем значение
                 .SetAndGet(value);
         }

@@ -1,4 +1,4 @@
-using Desdiene.Types.AtomicReference;
+using Desdiene.Types.AtomicReference.Api;
 using UnityEngine;
 
 public class GameUIController : MonoBehaviour
@@ -16,12 +16,12 @@ public class GameUIController : MonoBehaviour
 
     private void Awake()
     {
-        GameObjectsHolder.InitializedInstance += (_) =>
+        GameObjectsHolder.OnInited += (_) =>
         {
             InitDataModels();
             InitViews();
 
-            GameManager.InitializedInstance += (_2) =>
+            GameManager.OnInited += (_2) =>
             {
                 SubscribeEvents();
             };

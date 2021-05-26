@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Desdiene.GameDataAsset.Data;
+using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.SuperMonoBehaviourAsset;
@@ -9,24 +10,32 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.ConcreteLoaders
 {
-    public class JsonLocalStorage<T> : JsonDataLoader<T>
-         where T : GameData, new()
+    /// <summary>
+    /// Данный класс занимается загрузкой, сохранением и валидацией json данных с устройства.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DeviceJsonDataLoader<T> :
+        StorageJsonDataLoader<T>,
+        IStorageDataLoader<T>
+        where T : GameData, new()
     {
         protected readonly string filePath;
         protected readonly DeviceDataLoader deviceDataLoader;
 
-        public JsonLocalStorage(SuperMonoBehaviour superMonoBehaviour, 
-            string fileName, 
-            IJsonConvertor<T> jsonConvertor)
-            : base(superMonoBehaviour, 
-                  "Локальное хранилище", 
-                  fileName,
-                  jsonConvertor)
+        public DeviceJsonDataLoader(SuperMonoBehaviour superMono,
+                                    string storageName,
+                                    string fileName,
+                                    IJsonConvertor<T> jsonConvertor)
+            : base(superMono, storageName, fileName, jsonConvertor)
         {
             filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
-            Debug.Log($"{Name}. Путь к файлу данных : {filePath}");
+            Debug.Log($"{StorageName}. Путь к файлу данных : {filePath}");
             deviceDataLoader = new DeviceDataLoader(superMonoBehaviour, filePath);
         }
+
+        public DeviceJsonDataLoader(SuperMonoBehaviour superMono, string fileName, IJsonConvertor<T> jsonConvertor)
+            : this(superMono, "Локальное хранилище", fileName, jsonConvertor)
+        { }
 
         protected override void ReadFromStorage(Action<string> jsonDataCallback)
         {

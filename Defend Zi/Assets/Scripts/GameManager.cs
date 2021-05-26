@@ -25,7 +25,7 @@ public class GameManager : SingletonSuperMonoBehaviour<GameManager>
 
     private void SubscribeEvents()
     {
-        GameObjectsHolder.InitializedInstance += (instance) =>
+        GameObjectsHolder.OnInited += (instance) =>
         {
             instance.ZiPresenter.Health.OnZiDie += EndGame;
         };

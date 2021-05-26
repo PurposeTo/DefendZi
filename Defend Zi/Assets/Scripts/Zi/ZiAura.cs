@@ -1,5 +1,5 @@
 using Desdiene.Types.AtomicReference;
-using Desdiene.Types.ValuesInRange;
+using Desdiene.Types.ValuesInRange.Api;
 using UnityEngine;
 
 public class ZiAura : MonoBehaviour
@@ -29,7 +29,7 @@ public class ZiAura : MonoBehaviour
     {
         isPlayerInAura.OnValueChanged += ToggleCharge;
         ziHealthPercent.OnValueChanged += CheckIfPlayerIsInAura;
-        GameObjectsHolder.InitializedInstance += (_) =>
+        GameObjectsHolder.OnInited += (_) =>
         {
             PlayerMovement playerMovement = PlayerPresenter.Movement;
             playerMovement.OnAwaked += () =>

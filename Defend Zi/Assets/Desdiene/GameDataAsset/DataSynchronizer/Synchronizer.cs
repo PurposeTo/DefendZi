@@ -12,15 +12,17 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
     public class Synchronizer<T> : SuperMonoBehaviourContainer, ISynchronizer where T : GameData
     {
         private readonly IModelInteraction<T> model;
-        private readonly ReaderWriter<T> readerWriter;
+        private readonly IStorageDataLoader<T> storageDataLoader;
 
         private readonly ICoroutineContainer ChooseDataInfo;
 
-        public Synchronizer(SuperMonoBehaviour superMonoBehaviour, IModelInteraction<T> model, ReaderWriter<T> readerWriter)
+        public Synchronizer(SuperMonoBehaviour superMonoBehaviour, 
+            IModelInteraction<T> model, 
+            IStorageDataLoader<T> storageDataLoader)
             : base(superMonoBehaviour)
         {
             this.model = model ?? throw new ArgumentNullException(nameof(model));
-            this.readerWriter = readerWriter ?? throw new ArgumentNullException(nameof(readerWriter));
+            this.storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
 
             ChooseDataInfo = superMonoBehaviour.CreateCoroutineContainer();
         }
@@ -30,7 +32,7 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
 
         public void LoadData()
         {
-            readerWriter.Load(loadedData =>
+            storageDataLoader.Load(loadedData =>
             {
                     if (cashData == null)
                     {
@@ -53,7 +55,7 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
 
         public void SaveData()
         {
-            readerWriter.Save(model.GetData());
+            storageDataLoader.Save(model.GetData());
         }
 
         private void ChooseData(T loadedData, Action<T> choosedData)

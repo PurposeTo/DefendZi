@@ -16,7 +16,7 @@ namespace Desdiene.TimeControl.Pause
 
         public PausableGlobalTime(SuperMonoBehaviour superMono, string name) : base(superMono)
         {
-            GlobalPauser.InitializedInstance += (instance) =>
+            GlobalPauser.OnInited += (instance) =>
             {
                 pausableTime = new PausableTime(instance, name);
                 superMono.OnDestroyed += pausableTime.Destroy;

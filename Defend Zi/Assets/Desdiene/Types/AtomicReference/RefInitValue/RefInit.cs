@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.Types.AtomicReference.Api;
 using Desdiene.Types.AtomicReference.RefRuntimeInit.States;
 
 namespace Desdiene.Types.AtomicReference.RefRuntimeInit
@@ -16,7 +17,7 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
         /// <param name="initization">Метод для инициализации поля</param>
         public RefInit(Func<T> initFunc)
         {
-            initState.Set(new NotInitializedValue<T>(initState, initFunc, valueRef));
+            initState.Set(new NotInitedValue<T>(initState, initFunc, valueRef));
         }
 
         public event Action OnValueChanged

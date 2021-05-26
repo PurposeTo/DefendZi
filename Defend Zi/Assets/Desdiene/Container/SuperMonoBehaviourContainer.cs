@@ -12,7 +12,7 @@ namespace Desdiene.Container
 
         public SuperMonoBehaviourContainer(SuperMonoBehaviour superMonoBehaviour)
         {
-            this.superMonoBehaviour = superMonoBehaviour != null
+            this.superMonoBehaviour = superMonoBehaviour
                 ? superMonoBehaviour
                 : throw new ArgumentNullException(nameof(superMonoBehaviour));
         }

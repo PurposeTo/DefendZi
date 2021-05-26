@@ -1,5 +1,6 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference;
+using Desdiene.Types.AtomicReference.Api;
 using Desdiene.Types.RangeType;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Desdiene.Types.ValuesInRange
 {
     public class IntInRange : IRef<int>
     {
-        private readonly Range<int> range;
+        protected readonly Range<int> range;
         private readonly Ref<int> valueRef;
         public IntInRange(int value, Range<int> range)
         {
@@ -21,9 +22,6 @@ namespace Desdiene.Types.ValuesInRange
             add { valueRef.OnValueChanged += value; }
             remove { valueRef.OnValueChanged -= value; }
         }
-
-        public int Min => range.Min;
-        public int Max => range.Max;
 
         public bool IsMin() => Get() == range.Min;
 

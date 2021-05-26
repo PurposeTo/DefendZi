@@ -1,5 +1,6 @@
-using Desdiene.Types.AtomicReference;
+using Desdiene.Types.AtomicReference.Api;
 using Desdiene.Types.RangeType;
+using Desdiene.Types.ValuesInRange.Api;
 using UnityEngine;
 
 namespace Desdiene.Types.ValuesInRange
@@ -10,7 +11,7 @@ namespace Desdiene.Types.ValuesInRange
 
         public float GetPercent()
         {
-            return Mathf.InverseLerp(Min, Max, Get());
+            return Mathf.InverseLerp(range.Min, range.Max, Get());
         }
 
         /// <summary>
@@ -20,7 +21,7 @@ namespace Desdiene.Types.ValuesInRange
         /// <param name="percent"></param>
         public void SetByPercent(float percent)
         {
-            int value = Mathf.RoundToInt(Mathf.Lerp(Min, Max, percent));
+            int value = Mathf.RoundToInt(Mathf.Lerp(range.Min, range.Max, percent));
             Set(value);
         }
 

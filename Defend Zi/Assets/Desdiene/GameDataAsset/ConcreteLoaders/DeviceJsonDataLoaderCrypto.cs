@@ -1,24 +1,27 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
+using Desdiene.GameDataAsset.DataLoader;
+using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.Encryption;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.SuperMonoBehaviourAsset;
 
 namespace Desdiene.GameDataAsset.ConcreteLoaders
 {
-    public class LocalStorageCrypto<T> : JsonLocalStorage<T>
+    public class DeviceJsonDataLoaderCrypto<T> :
+        DeviceJsonDataLoader<T>,
+        IStorageDataLoader<T>
          where T : GameData, new()
     {
-
         private readonly JsonEncryption jsonEncryption;
 
-
-        public LocalStorageCrypto(SuperMonoBehaviour superMonoBehaviour,
-            string fileName,
-            IJsonConvertor<T> jsonConvertor)
-            : base(superMonoBehaviour,
-                  fileName,
-                  jsonConvertor) 
+        public DeviceJsonDataLoaderCrypto(SuperMonoBehaviour superMono,
+                                          string fileName,
+                                          IJsonConvertor<T> jsonConvertor)
+            : base(superMono,
+                   "Локальное зашифрованное хранилище",
+                   fileName,
+                   jsonConvertor)
         {
             jsonEncryption = new JsonEncryption(FileName, FileExtension);
         }

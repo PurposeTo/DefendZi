@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.Container;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.SuperMonoBehaviourAsset;
@@ -7,10 +8,14 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Storage
 {
-    public abstract class JsonDataLoader<T> : ReaderWriter<T> where T : GameData, new()
+    /// <summary>
+    /// Данный класс занимается загрузкой, сохранением и валидацией json данных с хранилища.
+    /// Логика загрузки и сохранения данных на само хранилище определяется в дочернем классе.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class StorageJsonDataLoader<T> : SuperMonoBehaviourContainer, IStorageDataLoader<T> where T : GameData, new()
     {
-        public string Name { get; } // Имя конкретного хранилища
-
+        public string StorageName { get; }
         protected string FileName { get; }
         protected string FileExtension => "json";
         protected string FileNameWithExtension => FileName + "." + FileExtension;
@@ -18,23 +23,16 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         private readonly Validator validator = new Validator();
         private readonly IJsonConvertor<T> jsonConvertor;
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="superMonoBehaviour"></param>
         /// <param name="storageName">Имя хранилища</param>
         /// <param name="fileName">Имя сохраняемого файла</param>
         /// <param name="fileName">расширение сохраняемого файла</param>
         /// <param name="jsonConvertor">json (де)сериализатор</param>
-        public JsonDataLoader(SuperMonoBehaviour superMonoBehaviour,
+        public StorageJsonDataLoader(SuperMonoBehaviour superMono,
             string storageName,
             string fileName,
             IJsonConvertor<T> jsonConvertor)
-            : base(superMonoBehaviour)
+            : base (superMono)
         {
-            if (superMonoBehaviour is null) throw new ArgumentNullException(nameof(superMonoBehaviour));
-
             if (string.IsNullOrEmpty(storageName))
             {
                 throw new ArgumentException($"{nameof(storageName)} не может быть пустым или иметь значение null");
@@ -45,7 +43,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
                 throw new ArgumentException($"{nameof(fileName)} не может быть пустым или иметь значение null");
             }
 
-            Name = storageName;
+            StorageName = storageName;
             FileName = FileName;
             this.jsonConvertor = jsonConvertor ?? throw new ArgumentNullException(nameof(jsonConvertor));
         }
@@ -55,7 +53,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         /// Не вызовется, если произошли проблемы при чтении.
         /// </summary>
         /// <param name="dataCallback"></param>
-        public override void Load(Action<T> dataCallback)
+        public void Load(Action<T> dataCallback)
         {
             ReadFromStorage(jsonData =>
             {
@@ -69,7 +67,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
             });
         }
 
-        public override void Save(T data)
+        public void Save(T data)
         {
             string jsonData = SerializeData(data);
             if (validator.HasJsonNullValues(jsonData)) return;

@@ -19,21 +19,20 @@ namespace Desdiene.Singleton
         /// Данное событие выполнится тогда, когда Instance будет инициализирован.
         /// Команды выполняются сразу в Awake() после метода AwakeSingleton(), если синглтон не был инициализирован.
         /// </summary>
-        public static event Action<T> InitializedInstance
+        public static event Action<T> OnInited
         {
             add
             {
                 if (Instance != null) value?.Invoke(Instance);
-                else OnInstanceInitialize += value;
+                else OnInitedAction += value;
             }
             remove
             {
-                OnInstanceInitialize -= value;
+                OnInitedAction -= value;
             }
         }
 
-        private static Action<T> OnInstanceInitialize;
-
+        private static Action<T> OnInitedAction;
 
         protected sealed override void AwakeWrapped()
         {
@@ -64,8 +63,8 @@ namespace Desdiene.Singleton
 
         private void ExecuteCommandsAndClear()
         {
-            OnInstanceInitialize?.Invoke(Instance);
-            OnInstanceInitialize = null;
+            OnInitedAction?.Invoke(Instance);
+            OnInitedAction = null;
         }
     }
 

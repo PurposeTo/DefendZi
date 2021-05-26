@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.Types.AtomicReference
+namespace Desdiene.Types.AtomicReference.Api
 {
     /// <summary>
     /// Интерфейс для чтения значения и получении уведомления о его изменении.

@@ -2,9 +2,9 @@
 
 namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
 {
-    public class InitializedValue<T> : InitStateValue<T>
+    internal class InitedValue<T> : InitStateValue<T>
     {
-        public InitializedValue(in Ref<InitStateValue<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
+        public InitedValue(in Ref<InitStateValue<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
             : base(state, initFunc, valueRef) { }
 
         public override void Initialize()
@@ -16,10 +16,12 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
         {
             return valueRef.Get();
         }
+
         public override void Set(T value)
         {
             valueRef.Set(value);
         }
+
         public override T SetAndGet(T value)
         {
             return valueRef.SetAndGet(value);

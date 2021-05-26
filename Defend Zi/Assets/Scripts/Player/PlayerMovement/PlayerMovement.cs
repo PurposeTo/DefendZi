@@ -2,6 +2,7 @@ using System;
 using Desdiene.SuperMonoBehaviourAsset;
 using Desdiene.Types.RangeType;
 using Desdiene.Types.ValuesInRange;
+using Desdiene.Types.ValuesInRange.Api;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -38,7 +39,7 @@ public class PlayerMovement : SuperMonoBehaviour
     {
         controller = ControllerInitializer.Initialize();
         rb2d = GetComponent<Rigidbody2D>();
-        GameObjectsHolder.InitializedInstance += (_) =>
+        GameObjectsHolder.OnInited += (_) =>
         {
             Zi.OnAwaked += () =>
             {

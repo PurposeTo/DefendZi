@@ -1,7 +1,8 @@
 using System;
-using Desdiene.Types.AtomicReference;
+using Desdiene.Types.AtomicReference.Api;
 using Desdiene.Types.RangeType;
 using Desdiene.Types.ValuesInRange;
+using Desdiene.Types.ValuesInRange.Api;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]

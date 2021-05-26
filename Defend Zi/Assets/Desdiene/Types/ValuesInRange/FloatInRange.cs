@@ -1,5 +1,6 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference;
+using Desdiene.Types.AtomicReference.Api;
 using Desdiene.Types.RangeType;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Desdiene.Types.ValuesInRange
 {
     public class FloatInRange : IRef<float>
     {
-        private readonly Range<float> range;
+        protected readonly Range<float> range;
         private readonly Ref<float> valueRef;
         public FloatInRange(float value, Range<float> range)
         {
@@ -22,9 +23,6 @@ namespace Desdiene.Types.ValuesInRange
             remove { valueRef.OnValueChanged -= value; }
         }
 
-        public float Min => range.Min;
-        public float Max => range.Max;
-        
         public bool IsMin() => Mathf.Approximately(Get(), range.Min);
 
         public bool IsMax() => Mathf.Approximately(Get(), range.Max);

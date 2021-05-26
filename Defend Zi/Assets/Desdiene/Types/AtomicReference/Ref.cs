@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.Types.AtomicReference.Api;
 
 namespace Desdiene.Types.AtomicReference
 {

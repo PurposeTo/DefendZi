@@ -27,27 +27,27 @@ namespace Desdiene.Tools
         /// </summary>
         /// <param name="jsonAction">Полученные данные. Может быть null, если данные не были найдены.</param>
         /// <returns></returns>
-        public void ReadDataFromDevice(Action<string> jsonDataCallback)
+        public void ReadDataFromDevice(Action<string> stringDataCallback)
         {
-            superMonoBehaviour.ExecuteCoroutineContinuously(loadDataInfo, LoadDataEnumerator(json => jsonDataCallback?.Invoke(json)));
+            superMonoBehaviour.ExecuteCoroutineContinuously(loadDataInfo, ReadDataEnumerator(stringDataCallback.Invoke));
         }
 
 
-        private IEnumerator LoadDataEnumerator(Action<string> jsonAction)
+        private IEnumerator ReadDataEnumerator(Action<string> stringDataCallback)
         {
             var platform = Application.platform;
 
             switch (platform)
             {
                 case RuntimePlatform.Android:
-                    yield return LoadViaAndroid(jsonAction);
+                    yield return LoadViaAndroid(stringDataCallback);
                     break;
                 case RuntimePlatform.WindowsEditor:
-                    jsonAction?.Invoke(LoadViaEditor());
+                    stringDataCallback?.Invoke(LoadViaEditor());
                     break;
                 default:
                     Debug.LogError($"{platform} is unknown platform!");
-                    yield return LoadViaAndroid(jsonAction);
+                    yield return LoadViaAndroid(stringDataCallback);
                     break;
             }
         }
@@ -59,7 +59,7 @@ namespace Desdiene.Tools
         }
 
 
-        private IEnumerator LoadViaAndroid(Action<string> action)
+        private IEnumerator LoadViaAndroid(Action<string> stringDataCallback)
         {
             string data = null;
 
@@ -79,7 +79,7 @@ namespace Desdiene.Tools
                 }
             }
 
-            action?.Invoke(data);
+            stringDataCallback?.Invoke(data);
         }
     }
 }

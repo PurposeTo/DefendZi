@@ -2,7 +2,7 @@
 
 namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
 {
-    public abstract class InitStateValue<T>
+    internal abstract class InitStateValue<T>
     {
         protected readonly Ref<InitStateValue<T>> state;
         protected readonly Func<T> initFunc;
