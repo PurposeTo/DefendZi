@@ -1,5 +1,5 @@
 ﻿
-namespace Desdiene.Types.AtomicReference.Api
+namespace Desdiene.Types.AtomicReference.Interfaces
 {
     public interface IWriteRef<T>
     {

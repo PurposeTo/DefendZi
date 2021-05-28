@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference;
-using Desdiene.Types.AtomicReference.Api;
+using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.RangeType;
 using UnityEngine;
 

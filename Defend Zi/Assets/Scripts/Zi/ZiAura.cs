@@ -1,5 +1,5 @@
 using Desdiene.Types.AtomicReference;
-using Desdiene.Types.ValuesInRange.Api;
+using Desdiene.Types.ValuesInRange.Interfaces;
 using UnityEngine;
 
 public class ZiAura : MonoBehaviour
@@ -32,7 +32,7 @@ public class ZiAura : MonoBehaviour
         GameObjectsHolder.OnInited += (_) =>
         {
             PlayerMovement playerMovement = PlayerPresenter.Movement;
-            playerMovement.OnAwaked += () =>
+            playerMovement.OnIsAwaked += () =>
             {
                 CheckIfPlayerIsInAura();
                 playerMovement

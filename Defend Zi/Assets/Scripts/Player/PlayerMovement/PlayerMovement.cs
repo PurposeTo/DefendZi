@@ -2,7 +2,7 @@ using System;
 using Desdiene.SuperMonoBehaviourAsset;
 using Desdiene.Types.RangeType;
 using Desdiene.Types.ValuesInRange;
-using Desdiene.Types.ValuesInRange.Api;
+using Desdiene.Types.ValuesInRange.Interfaces;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -41,7 +41,7 @@ public class PlayerMovement : SuperMonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         GameObjectsHolder.OnInited += (_) =>
         {
-            Zi.OnAwaked += () =>
+            Zi.OnIsAwaked += () =>
             {
                 Range<float> range = new Range<float>(Zi.Radius + 1f, Zi.Radius + 30f);
                 rotationRadius = new FloatPercentable(transform.position.magnitude, range);

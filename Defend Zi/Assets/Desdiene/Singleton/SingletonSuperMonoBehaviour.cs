@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.Types.EventContainers;
 
 namespace Desdiene.Singleton
 {
@@ -8,12 +9,15 @@ namespace Desdiene.Singleton
     /// <summary> 
     /// To access the heir by a static field "Instance".
     /// </summary>
-    public abstract class SingletonSuperMonoBehaviour<T> : SuperMonoBehaviour where T : SingletonSuperMonoBehaviour<T>
+    public abstract class SingletonSuperMonoBehaviour<T>
+        : SuperMonoBehaviour
+        where T : SingletonSuperMonoBehaviour<T>
     {
         [SerializeField] private bool dontDestroyOnLoad = false;
+        private static readonly ActionEvent<T> onInitedAction = new ActionEvent<T>();
 
         public static T Instance { get; private set; }
-
+        public static IInitionEvent<T> OnInitedWrap => onInitedAction;
 
         /// <summary>
         /// Данное событие выполнится тогда, когда Instance будет инициализирован.
@@ -24,47 +28,35 @@ namespace Desdiene.Singleton
             add
             {
                 if (Instance != null) value?.Invoke(Instance);
-                else OnInitedAction += value;
+                else onInitedAction.OnInited += value;
             }
             remove
             {
-                OnInitedAction -= value;
+                onInitedAction.OnInited -= value;
             }
         }
-
-        private static Action<T> OnInitedAction;
 
         protected sealed override void AwakeWrapped()
         {
-            if (Instance == null)
-            {
-                Debug.Log($"Initialize SingletonSuperMonoBehaviour {this}");
-                Instance = this as T;
-                if (dontDestroyOnLoad)
-                {
-                    DontDestroyOnLoad(gameObject);
-                }
-                AwakeSingleton();
-
-                ExecuteCommandsAndClear();
-            }
-            else
-            {
-                Destroy(gameObject); //Destroy(gameObject.GetComponent<T>());
-            }
+            if (Instance == null) Init();
+            else  Destroy(gameObject);
         }
-
 
         /// <summary>
         /// Используется после инициализации Singleton. Использовать вместо Awake/AwakeWrapped.
         /// </summary>
         protected virtual void AwakeSingleton() { }
 
-
-        private void ExecuteCommandsAndClear()
+        private void Init()
         {
-            OnInitedAction?.Invoke(Instance);
-            OnInitedAction = null;
+            Debug.Log($"Initialize SingletonSuperMonoBehaviour {this}");
+            Instance = this as T;
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+            AwakeSingleton();
+            onInitedAction.InvokeAndClear(Instance);
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using Desdiene.Coroutine.CoroutineExecutor;
 using UnityEngine;
 using Desdiene.Types.AtomicReference.RefRuntimeInit;
+using Desdiene.Types.EventContainers;
 
 namespace Desdiene.SuperMonoBehaviourAsset
 {
@@ -19,24 +20,44 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #endregion
 
+        protected void AwakeWrapped(
+            IInitionEvent<SuperMonoBehaviour>[] eventWraps,
+            Action AwakeBlock)
+        {
+            //fixme написал херню. Необходимо вкладывать каждое следующее событие в предыдущее. 
+            //А в конце в это все вложить AwakeBlock.
+
+            //Array.ForEach(eventWraps, (eventWrap) =>
+            //{
+            //    firstEventWrap.Event += (inst) =>
+            //    {
+            //        eventWrap.Event += (_) => { };
+            //    };
+            //});
+            //firstEventWrap.Event += (_) => AwakeBlock?.Invoke();
+        }
+
 
         #region Awake realization
 
-        public event Action OnAwaked
+
+        /// <summary>
+        /// Событие вызовется после выполнения метода Awake объекта или сразу же, если Awake уже был вызван.
+        /// </summary>
+        public event Action OnIsAwaked
         {
             add
             {
-                OnAwakedAction += value;
-
-                if (IsAwaked) ExecuteCommandsAndClear(ref OnAwakedAction);
+                if (IsAwaked) value?.Invoke();
+                else OnIsAwakedAction += value;
             }
             remove
             {
-                OnAwakedAction -= value;
+                OnIsAwakedAction -= value;
             }
         }
 
-        private Action OnAwakedAction;
+        private Action OnIsAwakedAction;
         private bool IsAwaked = false;
 
 
@@ -48,7 +69,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         private void EndAwakeExecution()
         {
             IsAwaked = true;
-            ExecuteCommandsAndClear(ref OnAwakedAction);
+            ExecuteCommandsAndClear(ref OnIsAwakedAction);
         }
 
         private void AwakeSuper()
@@ -99,21 +120,23 @@ namespace Desdiene.SuperMonoBehaviourAsset
 
         #region Start realization
 
-        public event Action OnStarted
+        /// <summary>
+        /// Событие вызовется после выполнения метода Start объекта или сразу же, если Start уже был вызван.
+        /// </summary>
+        public event Action OnIsStarted
         {
             add
             {
-                OnStartedAction += value;
-
-                if (IsStarted) ExecuteCommandsAndClear(ref OnStartedAction);
+                if (IsStarted) value?.Invoke();
+                else OnIsStartedAction += value;
             }
             remove
             {
-                OnStartedAction -= value;
+                OnIsStartedAction -= value;
             }
         }
 
-        private Action OnStartedAction;
+        private Action OnIsStartedAction;
         private bool IsStarted = false;
 
 
@@ -125,7 +148,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         private void EndStartExecution()
         {
             IsStarted = true;
-            ExecuteCommandsAndClear(ref OnStartedAction);
+            ExecuteCommandsAndClear(ref OnIsStartedAction);
         }
 
         private void StartSuper()

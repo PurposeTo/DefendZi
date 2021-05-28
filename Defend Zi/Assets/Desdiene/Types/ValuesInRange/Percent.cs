@@ -1,4 +1,4 @@
-using Desdiene.Types.AtomicReference.Api;
+using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.RangeType;
 
 namespace Desdiene.Types.ValuesInRange

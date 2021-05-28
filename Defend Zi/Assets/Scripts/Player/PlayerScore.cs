@@ -1,5 +1,5 @@
 using System;
-using Desdiene.Types.AtomicReference.Api;
+using Desdiene.Types.AtomicReference.Interfaces;
 using UnityEngine;
 
 public class PlayerScore : MonoBehaviour, IReadRef<int>

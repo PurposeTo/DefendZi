@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Types.AtomicReference.Api;
+using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.AtomicReference.RefRuntimeInit.States;
 
 namespace Desdiene.Types.AtomicReference.RefRuntimeInit
