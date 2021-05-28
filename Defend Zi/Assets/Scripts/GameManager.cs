@@ -27,13 +27,13 @@ public class GameManager : SingletonSuperMonoBehaviour<GameManager>
     {
         GameObjectsHolder.OnInited += (instance) =>
         {
-            instance.ZiPresenter.Health.OnZiDie += EndGame;
+
         };
     }
 
     private void UnsubscribeEvents()
     {
-        GameObjectsHolder.Instance.ZiPresenter.Health.OnZiDie -= EndGame;
+
     }
 
     /// <summary>
