@@ -2,7 +2,7 @@
 using Desdiene.Container;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.JsonConvertorWrapper;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 using Desdiene.Tools;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
     /// Логика загрузки и сохранения данных на само хранилище определяется в дочернем классе.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class StorageJsonDataLoader<T> : SuperMonoBehaviourContainer, IStorageDataLoader<T> where T : GameData, new()
+    public abstract class StorageJsonDataLoader<T> : MonoBehaviourExtContainer, IStorageDataLoader<T> where T : GameData, new()
     {
         public string StorageName { get; }
         protected string FileName { get; }
@@ -27,7 +27,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         /// <param name="fileName">Имя сохраняемого файла</param>
         /// <param name="fileName">расширение сохраняемого файла</param>
         /// <param name="jsonConvertor">json (де)сериализатор</param>
-        public StorageJsonDataLoader(SuperMonoBehaviour superMono,
+        public StorageJsonDataLoader(MonoBehaviourExt superMono,
             string storageName,
             string fileName,
             IJsonConvertor<T> jsonConvertor)

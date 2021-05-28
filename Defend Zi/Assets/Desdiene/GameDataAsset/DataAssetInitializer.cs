@@ -4,7 +4,7 @@ using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Safe;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.DataSynchronizer;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 
 namespace Desdiene.GameDataAsset
 {
@@ -17,7 +17,7 @@ namespace Desdiene.GameDataAsset
         public readonly Model.DataModel<TData, TGetter, TSetter, TChangingNotifier> dataModel;
         public readonly Synchronizer<TData> synchronizer;
 
-        public DataAssetInitializer(SuperMonoBehaviour superMonoBehaviour, params StorageJsonDataLoader<TData>[] storages)
+        public DataAssetInitializer(MonoBehaviourExt superMonoBehaviour, params StorageJsonDataLoader<TData>[] storages)
         {
             dataModel = new Model.DataModel<TData, TGetter, TSetter, TChangingNotifier>();
 

@@ -5,18 +5,18 @@ using Desdiene.Coroutine.CoroutineExecutor;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.Model;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 
 namespace Desdiene.GameDataAsset.DataSynchronizer
 {
-    public class Synchronizer<T> : SuperMonoBehaviourContainer, ISynchronizer where T : GameData
+    public class Synchronizer<T> : MonoBehaviourExtContainer, ISynchronizer where T : GameData
     {
         private readonly IModelInteraction<T> model;
         private readonly IStorageDataLoader<T> storageDataLoader;
 
-        private readonly ICoroutineContainer ChooseDataInfo;
+        private readonly ICoroutine ChooseDataInfo;
 
-        public Synchronizer(SuperMonoBehaviour superMonoBehaviour, 
+        public Synchronizer(MonoBehaviourExt superMonoBehaviour, 
             IModelInteraction<T> model, 
             IStorageDataLoader<T> storageDataLoader)
             : base(superMonoBehaviour)
@@ -24,7 +24,7 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
             this.model = model ?? throw new ArgumentNullException(nameof(model));
             this.storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
 
-            ChooseDataInfo = superMonoBehaviour.CreateCoroutineContainer();
+            ChooseDataInfo = superMonoBehaviour.CreateCoroutine();
         }
 
         private T cashData = null;
@@ -62,7 +62,7 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
         {
             T currentData = model.GetData();
 
-            superMonoBehaviour.ExecuteCoroutineContinuously(ChooseDataInfo,
+            monoBehaviourExt.ExecuteCoroutineContinuously(ChooseDataInfo,
                 ChooseDataEnumerator(currentData, loadedData, choosedData));
         }
 

@@ -7,9 +7,10 @@ namespace Desdiene.Types.EventContainers
     /// </summary>
     public class ActionEvent<T> : IInitionEvent<T>
     {
-        public event Action<T> OnInited { 
-            add { container += value; } 
-            remove { container -= value; } 
+        public event Action<T> OnInited
+        {
+            add => container += value;
+            remove => container -= value;
         }
         private Action<T> container;
 

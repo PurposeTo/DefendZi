@@ -5,9 +5,9 @@ using UnityEngine;
 using Desdiene.Types.AtomicReference.RefRuntimeInit;
 using Desdiene.Types.EventContainers;
 
-namespace Desdiene.SuperMonoBehaviourAsset
+namespace Desdiene.MonoBehaviourExtention
 {
-    public class SuperMonoBehaviour : MonoBehaviour
+    public class MonoBehaviourExt : MonoBehaviour
     {
         #region SuperMonoBehaviour tools
 
@@ -21,8 +21,8 @@ namespace Desdiene.SuperMonoBehaviourAsset
         #endregion
 
         protected void AwakeWrapped(
-            IInitionEvent<SuperMonoBehaviour>[] eventWraps,
-            Action AwakeBlock)
+            IInitionEvent<MonoBehaviourExt>[] eventWraps,
+            Action awakeBlock)
         {
             //fixme написал херню. Необходимо вкладывать каждое следующее событие в предыдущее. 
             //А в конце в это все вложить AwakeBlock.
@@ -60,11 +60,10 @@ namespace Desdiene.SuperMonoBehaviourAsset
         private Action OnIsAwakedAction;
         private bool IsAwaked = false;
 
-
         /// <summary>
         /// Необходимо использовать данный метод взамен Awake()
         /// </summary>
-        protected virtual void AwakeWrapped() { }
+        protected virtual void AwakeExt() { }
 
         private void EndAwakeExecution()
         {
@@ -72,16 +71,11 @@ namespace Desdiene.SuperMonoBehaviourAsset
             ExecuteCommandsAndClear(ref OnIsAwakedAction);
         }
 
-        private void AwakeSuper()
-        {
-            InitSuperMonoBehaviour();
-            AwakeWrapped();
-            EndAwakeExecution();
-        }
-
         private void Awake()
         {
-            AwakeSuper();
+            InitSuperMonoBehaviour();
+            AwakeExt();
+            EndAwakeExecution();
         }
 
         #endregion
@@ -94,7 +88,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен OnEnable()
         /// </summary>
-        protected virtual void OnEnableWrapped() { }
+        protected virtual void OnEnableExt() { }
 
         private void EndOnEnableExecution()
         {
@@ -104,15 +98,10 @@ namespace Desdiene.SuperMonoBehaviourAsset
             OnEnabed?.Invoke();
         }
 
-        private void OnEnableSuper()
-        {
-            OnEnableWrapped();
-            EndOnEnableExecution();
-        }
-
         private void OnEnable()
         {
-            OnEnableSuper();
+            OnEnableExt();
+            EndOnEnableExecution();
         }
 
         #endregion
@@ -143,7 +132,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен Start()
         /// </summary>
-        protected virtual void StartWrapped() { }
+        protected virtual void StartExt() { }
 
         private void EndStartExecution()
         {
@@ -151,15 +140,10 @@ namespace Desdiene.SuperMonoBehaviourAsset
             ExecuteCommandsAndClear(ref OnIsStartedAction);
         }
 
-        private void StartSuper()
-        {
-            StartWrapped();
-            EndStartExecution();
-        }
-
         private void Start()
         {
-            StartSuper();
+            StartExt();
+            EndStartExecution();
         }
 
         #endregion
@@ -172,7 +156,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен OnEnable()
         /// </summary>
-        protected virtual void OnDisableWrapped() { }
+        protected virtual void OnDisableExt() { }
 
         private void EndOnDisableExecution()
         {
@@ -182,15 +166,10 @@ namespace Desdiene.SuperMonoBehaviourAsset
             OnDisabled?.Invoke();
         }
 
-        private void OnDisableSuper()
-        {
-            OnDisableWrapped();
-            EndOnDisableExecution();
-        }
-
         private void OnDisable()
         {
-            OnDisableSuper();
+            OnDisableExt();
+            EndOnDisableExecution();
         }
 
         #endregion
@@ -203,24 +182,17 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен OnDestroy()
         /// </summary>
-        protected virtual void OnDestroyWrapped() { }
-
-        private void OnDestroySuper()
-        {
-            OnDestroyWrapped();
-            EndOnDestroyExecution();
-        }
-
+        protected virtual void OnDestroyExt() { }
 
         private void EndOnDestroyExecution()
         {
             OnDestroyed?.Invoke();
         }
 
-
         private void OnDestroy()
         {
-            OnDestroySuper();
+            OnDestroyExt();
+            EndOnDestroyExecution();
         }
 
         #endregion
@@ -231,11 +203,11 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен Update()
         /// </summary>
-        protected virtual void UpdateWrapped() { }
+        protected virtual void UpdateExt() { }
 
         private void UpdateSuper()
         {
-            UpdateWrapped();
+            UpdateExt();
         }
 
         #endregion
@@ -246,11 +218,11 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен FixedUpdate()
         /// </summary>
-        protected virtual void FixedUpdateWrapped() { }
+        protected virtual void FixedUpdateExt() { }
 
         private void FixedUpdateSuper()
         {
-            FixedUpdateWrapped();
+            FixedUpdateExt();
         }
 
         #endregion
@@ -261,11 +233,11 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Необходимо использовать данный метод взамен LateUpdate()
         /// </summary>
-        protected virtual void LateUpdateWrapped() { }
+        protected virtual void LateUpdateExt() { }
 
         private void LateUpdateSuper()
         {
-            LateUpdateWrapped();
+            LateUpdateExt();
         }
 
         #endregion
@@ -282,7 +254,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Создаёт "Container" объект для конкретной корутины
         /// </summary>
-        public ICoroutineContainer CreateCoroutineContainer()
+        public ICoroutine CreateCoroutine()
         {
             return GetCoroutineExecutor().CreateCoroutineContainer();
         }
@@ -290,7 +262,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
         /// </summary>
-        public void ExecuteCoroutineContinuously(ICoroutineContainer coroutineInfo, IEnumerator enumerator)
+        public void ExecuteCoroutineContinuously(ICoroutine coroutineInfo, IEnumerator enumerator)
         {
             coroutineExecutorRef.GetOrInit(InitCoroutineExecutor).ExecuteCoroutineContinuously(coroutineInfo, enumerator);
         }
@@ -298,7 +270,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Перед запуском корутины останавливает её, если она выполнялась на данный момент.
         /// </summary>
-        public void ReStartCoroutineExecution(ICoroutineContainer coroutineInfo, IEnumerator enumerator)
+        public void ReStartCoroutineExecution(ICoroutine coroutineInfo, IEnumerator enumerator)
         {
             GetCoroutineExecutor().ReStartCoroutineExecution(coroutineInfo, enumerator);
         }
@@ -306,7 +278,7 @@ namespace Desdiene.SuperMonoBehaviourAsset
         /// <summary>
         /// Останавливает корутину.
         /// </summary>
-        public void BreakCoroutine(ICoroutineContainer coroutineInfo)
+        public void BreakCoroutine(ICoroutine coroutineInfo)
         {
             GetCoroutineExecutor().BreakCoroutine(coroutineInfo);
         }
