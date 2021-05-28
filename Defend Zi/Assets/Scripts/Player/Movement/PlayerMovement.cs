@@ -3,12 +3,9 @@
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isControlled = false;
-    [SerializeField] private float speed = 0.1f;
-    [SerializeField] private float defaultSinusoidRate = 1f;
-    [SerializeField] private float controlledSinusoidRate = 3f;
-    [SerializeField] private float deltaSinusoidRate = 5f;
-
-    private float currentRate = 1f;
+    [SerializeField] private float speed = 4f;
+    [SerializeField] private float amplitudeOy = 4f;
+    private float counter = 0f;
 
     private Rigidbody2D rb2d;
 
@@ -21,33 +18,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        Move(Time.fixedDeltaTime);
     }
 
 
-    private void Move()
+    private void Move(float deltaTime)
     {
-        float newOxPosition = rb2d.transform.position.x + speed;
-        float newOyPosition;
+        float y = MoveToPingPong(speed * deltaTime);
+        rb2d.MovePosition(new Vector2(0f, y));
+    }
 
-        if (isControlled)
-        {
-            currentRate = Mathf.MoveTowards(currentRate, controlledSinusoidRate, deltaSinusoidRate * Time.fixedDeltaTime);
-        }
-        else
-        {
-            currentRate = Mathf.MoveTowards(currentRate, defaultSinusoidRate, deltaSinusoidRate * Time.fixedDeltaTime);
-        }
-
-        newOyPosition = Mathf.Sin(currentRate * newOxPosition);
-        rb2d.MovePosition(new Vector2(newOxPosition, newOyPosition));
+ 
+    private float MoveToPingPong(float speed)
+    {
+        counter += speed;
+        float targetPosition = PingPongNegativeToPositive(counter, amplitudeOy);
+        return Mathf.MoveTowards(rb2d.position.y, targetPosition, speed);
     }
 
 
-    private void OnIsControlled(bool isControlled)
+    /// <summary>
+    /// PingPong returns a value that will increment and decrement between the value -target and target.
+    /// </summary>
+    private float PingPongNegativeToPositive(float t, float target)
     {
-        this.isControlled = isControlled;
-        if (isControlled) currentRate = defaultSinusoidRate;
-        else currentRate = controlledSinusoidRate;
+        return Mathf.PingPong(t, 2 * target) - target;
     }
 }
