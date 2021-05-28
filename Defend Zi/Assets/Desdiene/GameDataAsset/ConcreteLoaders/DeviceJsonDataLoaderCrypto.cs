@@ -4,7 +4,7 @@ using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.Encryption;
 using Desdiene.JsonConvertorWrapper;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 
 namespace Desdiene.GameDataAsset.ConcreteLoaders
 {
@@ -15,7 +15,7 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
     {
         private readonly JsonEncryption jsonEncryption;
 
-        public DeviceJsonDataLoaderCrypto(SuperMonoBehaviour superMono,
+        public DeviceJsonDataLoaderCrypto(MonoBehaviourExt superMono,
                                           string fileName,
                                           IJsonConvertor<T> jsonConvertor)
             : base(superMono,

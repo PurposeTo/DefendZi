@@ -26,8 +26,8 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
 
         public event Action OnValueChanged
         {
-            add { valueRef.OnValueChanged += value; }
-            remove { valueRef.OnValueChanged -= value; }
+            add => valueRef.OnValueChanged += value;
+            remove => valueRef.OnValueChanged -= value;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
             return InitState.GetOrInit();
         }
 
-        public void Set(T value)=> InitState.Set(value);
+        public void Set(T value) => InitState.Set(value);
 
         public T SetAndGet(T value) => InitState.SetAndGet(value);
     }

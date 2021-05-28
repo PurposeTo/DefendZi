@@ -6,7 +6,7 @@ using Desdiene.ObjectPoolerAsset.Base;
 namespace Desdiene.ObjectPoolerAsset
 {
 
-    public class ObjectPooler : SingletonSuperMonoBehaviour<ObjectPooler>
+    public class ObjectPooler : SingletonMonoBehaviourExt<ObjectPooler>
     {
         public List<PoolData> PoolDatas; // Сетим через инспектор
 

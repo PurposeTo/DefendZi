@@ -3,7 +3,7 @@ using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.Types.RangeType
 {
-    public class Range<T> where T: IComparable<T>
+    public class Range<T> where T : IComparable<T>
     {
         private readonly Ref<T> minRef = new Ref<T>();
         private readonly Ref<T> maxRef = new Ref<T>();
@@ -15,14 +15,14 @@ namespace Desdiene.Types.RangeType
 
         public event Action OnMinChanged
         {
-            add { minRef.OnValueChanged += value; }
-            remove { minRef.OnValueChanged -= value; }
+            add => minRef.OnValueChanged += value;
+            remove => minRef.OnValueChanged -= value;
         }
 
         public event Action OnMaxChanged
         {
-            add { maxRef.OnValueChanged += value; }
-            remove { maxRef.OnValueChanged -= value; }
+            add => maxRef.OnValueChanged += value;
+            remove => maxRef.OnValueChanged -= value;
         }
 
         public T Min => minRef.Get();

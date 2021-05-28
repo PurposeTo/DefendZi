@@ -1,7 +1,7 @@
 using UnityEngine;
 using Desdiene.Singleton;
 
-public class GameObjectsHolder : SingletonSuperMonoBehaviour<GameObjectsHolder>
+public class GameObjectsHolder : SingletonMonoBehaviourExt<GameObjectsHolder>
 {
     [SerializeField] private Player player;
     public Player Player

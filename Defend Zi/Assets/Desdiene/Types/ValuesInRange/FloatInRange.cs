@@ -19,8 +19,8 @@ namespace Desdiene.Types.ValuesInRange
 
         public event Action OnValueChanged
         {
-            add { valueRef.OnValueChanged += value; }
-            remove { valueRef.OnValueChanged -= value; }
+            add => valueRef.OnValueChanged += value;
+            remove => valueRef.OnValueChanged -= value;
         }
 
         public bool IsMin() => Mathf.Approximately(Get(), range.Min);

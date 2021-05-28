@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Класс отвечает за события, происходящие на игровой сцене.
 /// </summary>
-public class GameManager : SingletonSuperMonoBehaviour<GameManager>
+public class GameManager : SingletonMonoBehaviourExt<GameManager>
 {
     public event Action OnGameOver;
     private PausableGlobalTime IsGameOver;
@@ -18,7 +18,7 @@ public class GameManager : SingletonSuperMonoBehaviour<GameManager>
         SubscribeEvents();
     }
 
-    protected override void OnDestroyWrapped()
+    protected override void OnDestroyExt()
     {
         UnsubscribeEvents();
     }

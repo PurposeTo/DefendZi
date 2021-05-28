@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.Container;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 using Desdiene.TimeControl.Pause.Base;
 using UnityEngine;
 
@@ -10,11 +10,11 @@ namespace Desdiene.TimeControl.Pause
     /// Создаваемый объект дает возможность поставить на паузу глобальное время.
     /// </summary>
     //Работать с UnityEngine.Time только внутри ЖЦ monoBehaviour.
-    public class PausableGlobalTime : SuperMonoBehaviourContainer, IPausableTime
+    public class PausableGlobalTime : MonoBehaviourExtContainer, IPausableTime
     {
         private PausableTime pausableTime;
 
-        public PausableGlobalTime(SuperMonoBehaviour superMono, string name) : base(superMono)
+        public PausableGlobalTime(MonoBehaviourExt superMono, string name) : base(superMono)
         {
             GlobalPauser.OnInited += (instance) =>
             {
@@ -29,8 +29,8 @@ namespace Desdiene.TimeControl.Pause
 
         public event Action OnPauseChanged
         {
-            add { pausableTime.OnPauseChanged += value; }
-            remove { pausableTime.OnPauseChanged -= value; }
+            add => pausableTime.OnPauseChanged += value;
+            remove => pausableTime.OnPauseChanged -= value;
         }
 
         public void SetPause(bool isPause) => pausableTime.SetPause(isPause);

@@ -22,8 +22,8 @@ namespace Desdiene.TimeControl.Pause.Base
 
         public event Action OnPauseChanged
         {
-            add { isPauseRef.OnValueChanged += value; }
-            remove { isPauseRef.OnValueChanged -= value; }
+            add => isPauseRef.OnValueChanged += value;
+            remove => isPauseRef.OnValueChanged -= value; 
         }
         public bool IsPause => isPauseRef.Get();
 

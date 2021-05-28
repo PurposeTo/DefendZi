@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Desdiene.Singleton;
 
-namespace Desdiene.SuperMonoBehaviourAsset
+namespace Desdiene.MonoBehaviourExtention
 {
     [Obsolete("Не дает существенный прирост в текущих проектах")]
-    public class UpdateManager : SingletonSuperMonoBehaviour<UpdateManager>
+    public class UpdateManager : SingletonMonoBehaviourExt<UpdateManager>
     {
         private static readonly List<Action> AllUpdates = new List<Action>();
         private static readonly List<Action> AllFixedUpdates = new List<Action>();

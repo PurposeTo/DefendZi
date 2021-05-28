@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.Container;
 using Desdiene.Extensions.UnityEngine;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
 namespace Desdiene.ObjectPoolerAsset.Base
@@ -82,7 +82,7 @@ namespace Desdiene.ObjectPoolerAsset.Base
         /// <param name="gameObject"></param>
         private void RecycleGameObject(GameObject gameObject)
         {
-            var components = gameObject.GetComponentsInChildren<SuperMonoBehaviour>();
+            var components = gameObject.GetComponentsInChildren<MonoBehaviourExt>();
             Array.ForEach(components, component => component.BreakAllCoroutines());
         }
 

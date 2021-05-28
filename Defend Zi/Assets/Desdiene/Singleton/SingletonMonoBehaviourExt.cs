@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 using Desdiene.Types.EventContainers;
 
 namespace Desdiene.Singleton
@@ -9,9 +9,9 @@ namespace Desdiene.Singleton
     /// <summary> 
     /// To access the heir by a static field "Instance".
     /// </summary>
-    public abstract class SingletonSuperMonoBehaviour<T>
-        : SuperMonoBehaviour
-        where T : SingletonSuperMonoBehaviour<T>
+    public abstract class SingletonMonoBehaviourExt<T>
+        : MonoBehaviourExt
+        where T : SingletonMonoBehaviourExt<T>
     {
         [SerializeField] private bool dontDestroyOnLoad = false;
         private static readonly ActionEvent<T> onInitedAction = new ActionEvent<T>();
@@ -36,7 +36,7 @@ namespace Desdiene.Singleton
             }
         }
 
-        protected sealed override void AwakeWrapped()
+        protected sealed override void AwakeExt()
         {
             if (Instance == null) Init();
             else  Destroy(gameObject);

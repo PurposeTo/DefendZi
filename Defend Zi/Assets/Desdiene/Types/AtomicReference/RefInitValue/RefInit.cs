@@ -23,8 +23,8 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
 
         public event Action OnValueChanged
         {
-            add { valueRef.OnValueChanged += value; }
-            remove { valueRef.OnValueChanged -= value; }
+            add => valueRef.OnValueChanged += value; 
+            remove => valueRef.OnValueChanged -= value; 
         }
 
         T IReadRef<T>.Get() => GetOrInit(); // Lazy get

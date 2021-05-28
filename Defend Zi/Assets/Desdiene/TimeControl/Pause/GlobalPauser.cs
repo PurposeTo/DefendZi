@@ -4,7 +4,7 @@ using Desdiene.TimeControl.Scale;
 
 namespace Desdiene.TimeControl.Pause
 {
-    public class GlobalPauser : SingletonSuperMonoBehaviour<GlobalPauser>, IPauser
+    public class GlobalPauser : SingletonMonoBehaviourExt<GlobalPauser>, IPauser
     {
         //todo используется композиция, а не наследование потому, что GlobalPauser необходимо унаследовать от Singltone.
         private Pauser pauser;

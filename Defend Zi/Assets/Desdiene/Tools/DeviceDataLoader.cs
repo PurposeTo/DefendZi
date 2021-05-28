@@ -3,23 +3,23 @@ using System.Collections;
 using System.IO;
 using Desdiene.Container;
 using Desdiene.Coroutine.CoroutineExecutor;
-using Desdiene.SuperMonoBehaviourAsset;
+using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Desdiene.Tools
 {
-    public class DeviceDataLoader : SuperMonoBehaviourContainer
+    public class DeviceDataLoader : MonoBehaviourExtContainer
     {
         private readonly string filePath;
         private readonly int retryCount = 3;
 
-        private readonly ICoroutineContainer loadDataInfo;
+        private readonly ICoroutine loadDataInfo;
 
-        public DeviceDataLoader(SuperMonoBehaviour superMonoBehaviour, string filePath) : base(superMonoBehaviour)
+        public DeviceDataLoader(MonoBehaviourExt superMonoBehaviour, string filePath) : base(superMonoBehaviour)
         {
             this.filePath = filePath;
-            loadDataInfo = superMonoBehaviour.CreateCoroutineContainer();
+            loadDataInfo = superMonoBehaviour.CreateCoroutine();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Desdiene.Tools
         /// <returns></returns>
         public void ReadDataFromDevice(Action<string> stringDataCallback)
         {
-            superMonoBehaviour.ExecuteCoroutineContinuously(loadDataInfo, ReadDataEnumerator(stringDataCallback.Invoke));
+            monoBehaviourExt.ExecuteCoroutineContinuously(loadDataInfo, ReadDataEnumerator(stringDataCallback.Invoke));
         }
 
 
