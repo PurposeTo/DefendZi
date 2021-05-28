@@ -9,19 +9,13 @@ public class UserControllerMonoBehaviour : SingletonMonoBehaviourExt<UserControl
 
     public event Action<bool> OnIsActiveChange
     {
-        add
-        {
-            userController.OnIsActiveChange += value;
-        }
-        remove
-        {
-            userController.OnIsActiveChange -= value;
-        }
+        add => userController.OnIsActiveChange += value;
+        remove => userController.OnIsActiveChange -= value;
     }
 
     protected override void AwakeSingleton()
     {
         //вероятно, придется передать монобех в конструктор
-        userController = new UserControllerCreator().GetOrDefault();
+        userController = new UserControllerCreator(this).GetOrDefault();
     }
 }
