@@ -5,12 +5,12 @@ using Desdiene.Coroutine.CoroutineExecutor;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
-public class MobileController : MonoBehaviourExtContainer, IUserInput
+public class MobileInput : MonoBehaviourExtContainer, IUserInput
 {
     private readonly ICoroutine coroutine;
     private readonly UserInputData userController = new UserInputData();
 
-    public MobileController(MonoBehaviourExt mono) : base(mono)
+    public MobileInput(MonoBehaviourExt mono) : base(mono)
     {
         coroutine = mono.CreateCoroutine();
         mono.ReStartCoroutineExecution(coroutine, Update());

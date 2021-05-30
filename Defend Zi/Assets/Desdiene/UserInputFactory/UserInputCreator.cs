@@ -3,13 +3,13 @@ using System.Linq;
 using Desdiene.Extensions.System;
 using UnityEngine;
 
-namespace Desdiene.ControllerFactory
+namespace Desdiene.UserInputFactory
 {
-    public class UserControllerCreator<T> : IUserControllerCreator<T>
+    public class UserInputCreator<T> : IUserInputCreator<T>
     {
-        private readonly UserControllerViaPlatform<T>[] controllers;
+        private readonly UserInputViaPlatform<T>[] controllers;
 
-        public UserControllerCreator(UserControllerViaPlatform<T>[] controllers)
+        public UserInputCreator(UserInputViaPlatform<T>[] controllers)
         {
             this.controllers = controllers;
         }
@@ -18,7 +18,7 @@ namespace Desdiene.ControllerFactory
 
         public T GetOrDefault(RuntimePlatform platform)
         {
-            UserControllerViaPlatform<T> controllerViaPlatform = controllers
+            UserInputViaPlatform<T> controllerViaPlatform = controllers
                 .Where(controller => controller.Platform == platform)
                 .FirstOrDefault(() =>
                 {
@@ -26,10 +26,11 @@ namespace Desdiene.ControllerFactory
                     return GetDefault();
                 });
             Debug.Log($"Create controller with {controllerViaPlatform.Platform}!");
-            return controllerViaPlatform.CreateController();
+            //TODO: возвращаемая сущность по хорошему должна быть синглтоном.
+            return controllerViaPlatform.CreateUserInput();
         }
 
-        private UserControllerViaPlatform<T> GetDefault()
+        private UserInputViaPlatform<T> GetDefault()
         {
             RuntimePlatform defaultPlatform = RuntimePlatform.WindowsEditor;
             return controllers

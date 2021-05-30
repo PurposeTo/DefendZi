@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Desdiene.ControllerFactory
+namespace Desdiene.UserInputFactory
 {
-    public interface IUserControllerCreator<T>
+    public interface IUserInputCreator<T>
     {
         public T GetOrDefault();
 

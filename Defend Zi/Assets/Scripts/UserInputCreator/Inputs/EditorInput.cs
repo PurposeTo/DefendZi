@@ -5,12 +5,12 @@ using Desdiene.Coroutine.CoroutineExecutor;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
-public class EditorController : MonoBehaviourExtContainer, IUserInput
+public class EditorInput : MonoBehaviourExtContainer, IUserInput
 {
     private readonly ICoroutine coroutine;
     private readonly UserInputData userController = new UserInputData();
 
-    public EditorController(MonoBehaviourExt mono) : base(mono) 
+    public EditorInput(MonoBehaviourExt mono) : base(mono) 
     {
         coroutine = mono.CreateCoroutine();
         mono.ReStartCoroutineExecution(coroutine, Update());
