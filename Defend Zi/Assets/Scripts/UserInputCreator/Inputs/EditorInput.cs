@@ -5,10 +5,13 @@ using Desdiene.Coroutine.CoroutineExecutor;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
+/// <summary>
+/// Описывает модель вводимых пользователем данных через ввод в windows editor-е.
+/// </summary>
 public class EditorInput : MonoBehaviourExtContainer, IUserInput
 {
     private readonly ICoroutine coroutine;
-    private readonly UserInputData userController = new UserInputData();
+    private readonly UserInputData userInputData = new UserInputData();
 
     public EditorInput(MonoBehaviourExt mono) : base(mono) 
     {
@@ -16,20 +19,20 @@ public class EditorInput : MonoBehaviourExtContainer, IUserInput
         mono.ReStartCoroutineExecution(coroutine, Update());
     }
 
-    bool IUserInput.IsActive => userController.IsActive;
+    bool IUserInput.IsActive => userInputData.IsActive;
 
     event Action<bool> IUserInput.OnIsActiveChange
     {
-        add => userController.OnIsActiveChange += value;
+        add => userInputData.OnIsActiveChange += value;
 
-        remove => userController.OnIsActiveChange += value;
+        remove => userInputData.OnIsActiveChange += value;
     }
 
     private IEnumerator Update()
     {
         while (true)
         {
-            userController.SetActive(Input.GetKey(KeyCode.Space));
+            userInputData.SetActive(Input.GetKey(KeyCode.Space));
             yield return null;
         }
     }
