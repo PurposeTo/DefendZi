@@ -2,7 +2,7 @@
 using Desdiene.Types.AtomicReference;
 using Desdiene.Types.AtomicReference.Interfaces;
 
-public class UserController : IUserController
+public class UserInputData : IUserInput
 {
     public bool IsActive => isActiveRef.Get();
 

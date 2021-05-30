@@ -1,6 +1,6 @@
 ﻿using System;
 
-public interface IUserController
+public interface IUserInput
 {
     public bool IsActive { get; }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using Desdiene.Singleton;
 
-public class UserControllerMonoBehaviour : SingletonMonoBehaviourExt<UserControllerMonoBehaviour>, IUserController
+public class UserControllerMonoBehaviour : SingletonMonoBehaviourExt<UserControllerMonoBehaviour>, IUserInput
 {
-    private IUserController userController;
+    private IUserInput userController;
 
     public bool IsActive => userController.IsActive;
 

@@ -5,10 +5,10 @@ using Desdiene.Coroutine.CoroutineExecutor;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
-public class EditorController : MonoBehaviourExtContainer, IUserController
+public class EditorController : MonoBehaviourExtContainer, IUserInput
 {
     private readonly ICoroutine coroutine;
-    private readonly UserController userController = new UserController();
+    private readonly UserInputData userController = new UserInputData();
 
     public EditorController(MonoBehaviourExt mono) : base(mono) 
     {
@@ -16,9 +16,9 @@ public class EditorController : MonoBehaviourExtContainer, IUserController
         mono.ReStartCoroutineExecution(coroutine, Update());
     }
 
-    bool IUserController.IsActive => userController.IsActive;
+    bool IUserInput.IsActive => userController.IsActive;
 
-    event Action<bool> IUserController.OnIsActiveChange
+    event Action<bool> IUserInput.OnIsActiveChange
     {
         add => userController.OnIsActiveChange += value;
 

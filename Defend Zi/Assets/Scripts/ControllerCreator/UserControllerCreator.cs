@@ -2,22 +2,22 @@ using Desdiene.ControllerFactory;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
-public class UserControllerCreator : IUserControllerCreator<IUserController>
+public class UserControllerCreator : IUserControllerCreator<IUserInput>
 {
-    private readonly UserControllerCreator<IUserController> creator;
+    private readonly UserControllerCreator<IUserInput> creator;
 
     public UserControllerCreator(MonoBehaviourExt mono)
     {
-        UserControllerViaPlatform<IUserController>[] controllers =
+        UserControllerViaPlatform<IUserInput>[] controllers =
             {
-            new UserControllerViaPlatform<IUserController>(RuntimePlatform.Android, () => new MobileController(mono)),
-            new UserControllerViaPlatform<IUserController>(RuntimePlatform.WindowsEditor, () => new EditorController(mono))
+            new UserControllerViaPlatform<IUserInput>(RuntimePlatform.Android, () => new MobileController(mono)),
+            new UserControllerViaPlatform<IUserInput>(RuntimePlatform.WindowsEditor, () => new EditorController(mono))
         };
 
-        creator = new UserControllerCreator<IUserController>(controllers);
+        creator = new UserControllerCreator<IUserInput>(controllers);
     }
 
-    public IUserController GetOrDefault() => creator.GetOrDefault();
+    public IUserInput GetOrDefault() => creator.GetOrDefault();
 
-    public IUserController GetOrDefault(RuntimePlatform platform) => creator.GetOrDefault(platform);
+    public IUserInput GetOrDefault(RuntimePlatform platform) => creator.GetOrDefault(platform);
 }
