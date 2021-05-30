@@ -9,10 +9,10 @@ public class UserInputData : IUserInput
 {
     public bool IsActive => isActiveRef.Get();
 
-    public event Action<bool> OnIsActiveChange
+    public event Action<IUserInput> OnInputChange
     {
-        add => isActiveRef.OnValueChanged += () => value(IsActive);
-        remove => isActiveRef.OnValueChanged -= () => value(IsActive);
+        add => isActiveRef.OnValueChanged += () => value(this);
+        remove => isActiveRef.OnValueChanged -= () => value(this);
     }
 
     private readonly IRef<bool> isActiveRef = new Ref<bool>();

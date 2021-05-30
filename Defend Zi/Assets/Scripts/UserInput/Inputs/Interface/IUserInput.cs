@@ -7,5 +7,5 @@ public interface IUserInput
 {
     public bool IsActive { get; }
 
-    public event Action<bool> OnIsActiveChange;
+    public event Action<IUserInput> OnInputChange;
 }

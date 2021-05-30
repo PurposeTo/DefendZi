@@ -6,14 +6,14 @@ using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
 /// <summary>
-/// Описывает модель вводимых пользователем данных через ввод в windows editor-е.
+/// Описывает модель вводимых пользователем данных через мобильный ввод.
 /// </summary>
-public class EditorInput : MonoBehaviourExtContainer, IUserInput
+public class MobileInput : MonoBehaviourExtContainer, IUserInput
 {
     private readonly ICoroutine coroutine;
     private readonly UserInputData userInputData = new UserInputData();
 
-    public EditorInput(MonoBehaviourExt mono) : base(mono) 
+    public MobileInput(MonoBehaviourExt mono) : base(mono)
     {
         coroutine = mono.CreateCoroutine();
         mono.ReStartCoroutineExecution(coroutine, Update());
@@ -21,11 +21,10 @@ public class EditorInput : MonoBehaviourExtContainer, IUserInput
 
     bool IUserInput.IsActive => userInputData.IsActive;
 
-    event Action<bool> IUserInput.OnIsActiveChange
+    event Action<IUserInput> IUserInput.OnInputChange
     {
-        add => userInputData.OnIsActiveChange += value;
-
-        remove => userInputData.OnIsActiveChange += value;
+        add => userInputData.OnInputChange += value;
+        remove => userInputData.OnInputChange += value;
     }
 
     private IEnumerator Update()
