@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Desdiene.UserInputFactory;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
+using System;
 
 public class UserInputCreator : IUserInputCreator<IUserInput>
 {
@@ -8,13 +10,13 @@ public class UserInputCreator : IUserInputCreator<IUserInput>
 
     public UserInputCreator(MonoBehaviourExt mono)
     {
-        UserInputViaPlatform<IUserInput>[] controllers =
-            {
-            new UserInputViaPlatform<IUserInput>(RuntimePlatform.Android, () => new MobileInput(mono)),
-            new UserInputViaPlatform<IUserInput>(RuntimePlatform.WindowsEditor, () => new EditorInput(mono))
+        IDictionary<RuntimePlatform, Func<IUserInput>> userInputs = new Dictionary<RuntimePlatform, Func<IUserInput>>
+        {
+            { RuntimePlatform.Android, () => new MobileInput(mono) },
+            { RuntimePlatform.WindowsEditor, () => new EditorInput(mono) }
         };
 
-        creator = new UserInputCreator<IUserInput>(controllers);
+        creator = new UserInputCreator<IUserInput>(userInputs);
     }
 
     public IUserInput GetOrDefault() => creator.GetOrDefault();

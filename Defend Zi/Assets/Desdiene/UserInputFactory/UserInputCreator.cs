@@ -1,44 +1,43 @@
 ﻿using System;
-using System.Linq;
-using Desdiene.Extensions.System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Desdiene.UserInputFactory
 {
     public class UserInputCreator<T> : IUserInputCreator<T>
     {
-        private readonly UserInputViaPlatform<T>[] controllers;
+        private readonly IDictionary<RuntimePlatform, Func<T>> userInputs;
 
-        public UserInputCreator(UserInputViaPlatform<T>[] controllers)
+        public UserInputCreator(IDictionary<RuntimePlatform, Func<T>> userInputs)
         {
-            this.controllers = controllers;
+            this.userInputs = userInputs;
         }
 
         public T GetOrDefault() => GetOrDefault(Application.platform);
 
         public T GetOrDefault(RuntimePlatform platform)
         {
-            UserInputViaPlatform<T> controllerViaPlatform = controllers
-                .Where(controller => controller.Platform == platform)
-                .FirstOrDefault(() =>
-                {
-                    Debug.LogError($"{platform} is unknown platform!");
-                    return GetDefault();
-                });
-            Debug.Log($"Create controller with {controllerViaPlatform.Platform}!");
-            //TODO: возвращаемая сущность по хорошему должна быть синглтоном.
-            return controllerViaPlatform.CreateUserInput();
+            if (userInputs.TryGetValue(platform, out Func<T> userInputGetter))
+            {
+                Debug.Log($"Creating userInput with {platform}!");
+                return userInputGetter.Invoke();
+            }
+            else
+            {
+                Debug.LogError($"{platform} is unknown platform!");
+                return GetDefault();
+            }
         }
 
-        private UserInputViaPlatform<T> GetDefault()
+        private T GetDefault()
         {
             RuntimePlatform defaultPlatform = RuntimePlatform.WindowsEditor;
-            return controllers
-                .Where(controller => controller.Platform == defaultPlatform)
-                .FirstOrDefault(() =>
-                {
-                    throw new NullReferenceException($"Не установленно значение для платформы по умолчанию: {defaultPlatform}");
-                });
+            if (userInputs.TryGetValue(defaultPlatform, out Func<T> userInputGetter))
+            {
+                Debug.LogError($"Creating userInput with default platfrom: {defaultPlatform}");
+                return userInputGetter.Invoke();
+            }
+            else throw new NullReferenceException($"Не установленно значение для платформы по умолчанию: {defaultPlatform}");
         }
     }
 }
