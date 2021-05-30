@@ -4,18 +4,15 @@ public class CameraMovement : MonoBehaviour
 {
     private Player player;
 
-
     private void Awake()
     {
         GameObjectsHolder.OnInited += (gameObjectsHolder) => player = gameObjectsHolder.Player;
     }
 
-
-    private void Update()
+    private void FixedUpdate()
     {
         Move();
     }
-
 
     private void Move()
     {

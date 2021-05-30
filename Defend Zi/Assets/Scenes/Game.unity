@@ -201,7 +201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isControlled: 0
-  speed: 0.1
+  speed: 4
+  amplitudeOy: 4
 --- !u!50 &274676709
 Rigidbody2D:
   serializedVersion: 4
