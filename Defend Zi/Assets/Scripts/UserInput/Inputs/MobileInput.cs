@@ -31,7 +31,7 @@ public class MobileInput : MonoBehaviourExtContainer, IUserInput
     {
         while (true)
         {
-            userInputData.SetActive(Input.GetKey(KeyCode.Space));
+            userInputData.SetActive(Input.touchCount > 0);
             yield return null;
         }
     }
