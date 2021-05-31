@@ -4,9 +4,9 @@ public class PlayerControl : MonoBehaviour, IUserControllable
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float amplitude = 6f;
-    [SerializeField] private float defaultFrequency = 0.25f;
-    [SerializeField] private float controlledFrequency = 0.6f;
-    [SerializeField] private float frequencyChangeRate = 2f;
+    [SerializeField] private float defaultFrequency = 0.15f;
+    [SerializeField] private float controlledFrequency = 0.5f;
+    [SerializeField] private float frequencyChangeRate = 1.5f;
 
     private bool isControlled = false;
     private float frequency;
