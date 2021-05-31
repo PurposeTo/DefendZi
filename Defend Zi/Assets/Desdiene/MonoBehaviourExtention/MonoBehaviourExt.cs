@@ -3,7 +3,6 @@ using System.Collections;
 using Desdiene.Coroutine.CoroutineExecutor;
 using UnityEngine;
 using Desdiene.Types.AtomicReference.RefRuntimeInit;
-using Desdiene.Types.EventContainers;
 
 namespace Desdiene.MonoBehaviourExtention
 {
@@ -19,23 +18,6 @@ namespace Desdiene.MonoBehaviourExtention
         }
 
         #endregion
-
-        protected void AwakeWrapped(
-            IInitionEvent<MonoBehaviourExt>[] eventWraps,
-            Action awakeBlock)
-        {
-            //fixme написал херню. Необходимо вкладывать каждое следующее событие в предыдущее. 
-            //А в конце в это все вложить AwakeBlock.
-
-            //Array.ForEach(eventWraps, (eventWrap) =>
-            //{
-            //    firstEventWrap.Event += (inst) =>
-            //    {
-            //        eventWrap.Event += (_) => { };
-            //    };
-            //});
-            //firstEventWrap.Event += (_) => AwakeBlock?.Invoke();
-        }
 
 
         #region Awake realization
