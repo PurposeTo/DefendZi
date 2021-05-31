@@ -5,52 +5,64 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isControlled = false;
     [SerializeField] private float speed = 4f;
-    [SerializeField] private float amplitudeOy = 4f;
-    private float counter = 0f;
-    private float positionOx = 0f;
+    [SerializeField] private float amplitude = 1f;
+    [SerializeField] private float defaultFrequency = 0.5f;
+    [SerializeField] private float controlledFrequency = 1f;
+    [SerializeField] private float frequencyChangeRate = 1f;
+
+    private float frequency;
+    private float phase;
 
     private Rigidbody2D rb2d;
 
     private void Awake()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
+        frequency = defaultFrequency;
     }
 
     private void FixedUpdate()
     {
+        frequency = ChangeFrequency(Time.fixedDeltaTime);
         Move(Time.fixedDeltaTime);
     }
 
     private void Move(float deltaTime)
     {
-        float speed = this.speed * deltaTime;
-
-        float y = MoveToPingPong(speed);
-        float x = MoveForward(speed);
+        float x = MoveOx(speed * deltaTime);
+        float y = MoveOy(x);
         rb2d.MovePosition(new Vector2(x, y));
     }
- 
-    private float MoveForward(float speed)
+
+    private float MoveOx(float speed)
     {
-        positionOx += speed;
-        return positionOx;
+        Vector2 position = rb2d.position;
+        position.x += speed;
+        return position.x;
     }
 
-    /// <summary>
-    /// Вычисляет позицию в диапозоне пинг-понга
-    /// </summary>
-    private float MoveToPingPong(float speed)
+    private float MoveOy(float x)
     {
-        counter += speed;
-        float targetPosition = PingPongNegativeToPositive(counter, amplitudeOy);
-        return Mathf.MoveTowards(rb2d.position.y, targetPosition, speed);
+        return amplitude * Mathf.Sin(frequency * x + phase);
     }
 
-    /// <summary>
-    /// PingPong returns a value that will increment and decrement between the value -target and target.
-    /// </summary>
-    private float PingPongNegativeToPositive(float t, float target)
+    private float ChangeFrequency(float deltaTime)
     {
-        return Mathf.PingPong(t, 2 * target) - target;
+        float delta = frequencyChangeRate * deltaTime;
+        float targetFrequency = isControlled
+            ? controlledFrequency
+            : defaultFrequency;
+
+        float current = frequency;
+        float next = Mathf.MoveTowards(current, targetFrequency, delta);
+        phase = ChangePhase(current, next);
+        return next;
+    }
+
+    private float ChangePhase(float currentFrequency, float nextFrequency)
+    {
+        float current = (rb2d.position.x * currentFrequency + phase) % (2f * Mathf.PI);
+        float next = (rb2d.position.x * nextFrequency) % (2f * Mathf.PI);
+        return current - next;
     }
 }
