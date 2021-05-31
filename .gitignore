@@ -11,7 +11,7 @@
 [Uu]ser[Ss]ettings/
 
 # TextMeshPro meta files
-*/[Aa]ssets/TextMesh Pro/**/*.meta
+#*/[Aa]ssets/TextMesh Pro/**/*.meta
 
 # ExternalDependencyManager meta files
 */[Aa]ssets/ExternalDependencyManager/**/*.meta
@@ -446,5 +446,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-Jumping dreamer/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
 Defend Zi/Assets/JsonDotNet/JsonDotNet201Source.zip.meta
