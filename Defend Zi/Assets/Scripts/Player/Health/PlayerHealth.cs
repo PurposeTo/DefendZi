@@ -15,7 +15,7 @@ public class PlayerHealth : MonoBehaviour, IDamageTaker
         health = new IntInRange(defaultHealth, new Range<int>(0, defaultHealth));
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(uint damage)
     {
         health -= damage;
         if (health == 0) Die();

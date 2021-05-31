@@ -48,9 +48,21 @@ namespace Desdiene.Types.ValuesInRange
             return value;
         }
 
+        public static IntInRange operator -(IntInRange value, uint delta)
+        {
+            value.Set((int)(value.Get() - delta));
+            return value;
+        }
+
         public static IntInRange operator +(IntInRange value, int delta)
         {
             value.Set(value.Get() + delta);
+            return value;
+        }
+
+        public static IntInRange operator +(IntInRange value, uint delta)
+        {
+            value.Set((int)(value.Get() + delta));
             return value;
         }
 
