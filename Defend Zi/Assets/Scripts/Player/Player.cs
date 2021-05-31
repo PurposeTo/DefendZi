@@ -1,15 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using Desdiene.MonoBehaviourExtention;
+using UnityEngine;
 
 [RequireComponent(typeof(PlayerPosition))]
 [RequireComponent(typeof(PlayerControl))]
-public class Player : MonoBehaviour, IUserControllable
+public class Player :
+    MonoBehaviourExt,
+    IUserControllable
 {
-    private IUserControllable control;
-
-    private void Awake()
+    public event Action OnDied
     {
-        IPosition position = gameObject.GetComponent<PlayerPosition>();
-        control = gameObject.GetComponent<PlayerControl>().Constructor(position);
+        add => health.OnDied += value;
+        remove => health.OnDied -= value;
+    }
+
+    private IUserControllable control;
+    private PlayerHealth health;
+
+    protected override void AwakeExt()
+    {
+        IPosition position = GetComponent<PlayerPosition>();
+        control = GetComponent<PlayerControl>().Constructor(position);
+        health = GetComponent<PlayerHealth>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IDamageDealer damageDealer))
+        {
+            health.TakeDamage(damageDealer.GetDamage());
+        }
     }
 
     void IUserControllable.Control(IUserInput input) => control.Control(input);

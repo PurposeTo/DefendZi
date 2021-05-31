@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerHealth : MonoBehaviour, IDamageTaker
 {
-    public event Action OnDie;
+    public event Action OnDied;
     private IntInRange health;
 
     private void Awake()
@@ -14,15 +14,6 @@ public class PlayerHealth : MonoBehaviour, IDamageTaker
         int defaultHealth = 1;
         health = new IntInRange(defaultHealth, new Range<int>(0, defaultHealth));
     }
-
-    //todo: перенести в Player
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.TryGetComponent(out IDamageDealer damageDealer))
-    //    {
-    //        TakeDamage(damageDealer.GetDamage());
-    //    }
-    //}
 
     public void TakeDamage(int damage)
     {
@@ -32,6 +23,6 @@ public class PlayerHealth : MonoBehaviour, IDamageTaker
 
     private void Die()
     {
-        OnDie?.Invoke();
+        OnDied?.Invoke();
     }
 }

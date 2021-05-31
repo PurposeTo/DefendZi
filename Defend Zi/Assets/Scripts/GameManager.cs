@@ -25,15 +25,15 @@ public class GameManager : SingletonMonoBehaviourExt<GameManager>
 
     private void SubscribeEvents()
     {
-        GameObjectsHolder.OnInited += (instance) =>
+        GameObjectsHolder.OnInited += (gameObjectsHolder) =>
         {
-
+            gameObjectsHolder.Player.OnDied += EndGame;
         };
     }
 
     private void UnsubscribeEvents()
     {
-
+        GameObjectsHolder.Instance.Player.OnDied -= EndGame;
     }
 
     /// <summary>

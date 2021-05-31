@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Desdiene.Types.ValuesInRange
 {
+    [Serializable]
     public class IntInRange : IRef<int>
     {
         protected readonly Range<int> range;
