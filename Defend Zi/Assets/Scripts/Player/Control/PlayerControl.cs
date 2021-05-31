@@ -13,7 +13,7 @@ public class PlayerControl : MonoBehaviour, IUserControllable
     private float frequency;
     private float phase;
 
-    private PlayerPosition position;
+    private IPosition position;
 
     private void Awake()
     {
@@ -26,12 +26,13 @@ public class PlayerControl : MonoBehaviour, IUserControllable
         Move(Time.fixedDeltaTime);
     }
 
-    public void Constructor(PlayerPosition playerPosition)
+    public PlayerControl Constructor(IPosition position)
     {
-        position = playerPosition;
+        this.position = position;
+        return this;
     }
 
-    public void Control(IUserInput input)
+    void IUserControllable.Control(IUserInput input)
     {
         isControlled = input.IsActive;
     }
