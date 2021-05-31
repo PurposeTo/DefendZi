@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c08e550addd7524984ba63062582277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 12
   amplitude: 6
   defaultFrequency: 0.15
   controlledFrequency: 0.5
