@@ -1,23 +1,22 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IUserControllable
 {
-    [SerializeField] private bool isControlled = false;
     [SerializeField] private float speed = 4f;
     [SerializeField] private float amplitude = 1f;
     [SerializeField] private float defaultFrequency = 0.5f;
     [SerializeField] private float controlledFrequency = 1f;
     [SerializeField] private float frequencyChangeRate = 1f;
 
+    private bool isControlled = false;
     private float frequency;
     private float phase;
 
-    private Rigidbody2D rb2d;
+    private PlayerPosition position;
 
     private void Awake()
     {
-        rb2d = gameObject.GetComponent<Rigidbody2D>();
         frequency = defaultFrequency;
     }
 
@@ -27,16 +26,26 @@ public class PlayerMovement : MonoBehaviour
         Move(Time.fixedDeltaTime);
     }
 
+    public void Constructor(PlayerPosition playerPosition)
+    {
+        position = playerPosition;
+    }
+
+    public void Control(IUserInput input)
+    {
+        isControlled = input.IsActive;
+    }
+
     private void Move(float deltaTime)
     {
         float x = MoveOx(speed * deltaTime);
         float y = MoveOy(x);
-        rb2d.MovePosition(new Vector2(x, y));
+        position.MoveTo(new Vector2(x, y));
     }
 
     private float MoveOx(float speed)
     {
-        Vector2 position = rb2d.position;
+        Vector2 position = this.position.GetPosition();
         position.x += speed;
         return position.x;
     }
@@ -61,8 +70,9 @@ public class PlayerMovement : MonoBehaviour
 
     private float ChangePhase(float currentFrequency, float nextFrequency)
     {
-        float current = (rb2d.position.x * currentFrequency + phase) % (2f * Mathf.PI);
-        float next = (rb2d.position.x * nextFrequency) % (2f * Mathf.PI);
+        Vector2 position = this.position.GetPosition();
+        float current = (position.x * currentFrequency + phase) % (2f * Mathf.PI);
+        float next = (position.x * nextFrequency) % (2f * Mathf.PI);
         return current - next;
     }
 }

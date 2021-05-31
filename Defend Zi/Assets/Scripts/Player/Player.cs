@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
-public class Player : MonoBehaviour
+[RequireComponent(typeof(PlayerPosition))]
+[RequireComponent(typeof(PlayerControl))]
+public class Player : MonoBehaviour, IUserControllable
 {
-    private PlayerMovement movement;
+    private PlayerPosition position;
+    private PlayerControl control;
 
     private void Awake()
     {
-        movement = gameObject.GetComponent<PlayerMovement>();
+        position = gameObject.GetComponent<PlayerPosition>();
+        control = gameObject.GetComponent<PlayerControl>();
+        control.Constructor(position);
     }
+
+    public void Control(IUserInput input) => control.Control(input);
 }
