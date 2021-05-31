@@ -41,6 +41,7 @@ public class UserInteractive : MonoBehaviourExt
 
     private void Control(IUserInput userInpute)
     {
+        Debug.Log($"{GetType()}.Control invoke.");
         userControllable.Control(userInput);
     }
 }
