@@ -176,11 +176,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 274676711}
-  - component: {fileID: 274676710}
   - component: {fileID: 274676709}
-  - component: {fileID: 274676712}
-  - component: {fileID: 274676708}
+  - component: {fileID: 274676710}
   - component: {fileID: 274676713}
+  - component: {fileID: 274676712}
+  - component: {fileID: 274676714}
+  - component: {fileID: 274676708}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -197,13 +198,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 274676707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f667a96d836e104faa217734356a3ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c08e550addd7524984ba63062582277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isControlled: 0
-  speed: 5
-  amplitude: 3
-  defaultFrequency: 0.25
+  speed: 4
+  amplitude: 1
+  defaultFrequency: 0.5
   controlledFrequency: 1
   frequencyChangeRate: 1
 --- !u!50 &274676709
@@ -411,6 +411,18 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &274676714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274676707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d3b85d725de45e47b943b81e31b98a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &510693536
 GameObject:
   m_ObjectHideFlags: 0
