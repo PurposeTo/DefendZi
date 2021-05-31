@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControl : MonoBehaviour, IUserControllable
 {
     [SerializeField] private float speed = 4f;
