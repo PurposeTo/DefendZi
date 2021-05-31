@@ -19,16 +19,19 @@ public class PlayerControl : MonoBehaviour, IUserControllable
         frequency = defaultFrequency;
     }
 
-    private void FixedUpdate()
-    {
-        frequency = ChangeFrequency(Time.fixedDeltaTime);
-        Move(Time.fixedDeltaTime);
-    }
-
     public PlayerControl Constructor(IPosition position)
     {
         this.position = position;
         return this;
+    }
+
+    private void FixedUpdate()
+    {
+        frequency = isControlled
+            ? GetFrequency(controlledFrequency, Time.fixedDeltaTime)
+            : GetFrequency(defaultFrequency, Time.fixedDeltaTime);
+
+        Move(Time.fixedDeltaTime);
     }
 
     void IUserControllable.Control(IUserInput input)
@@ -55,20 +58,16 @@ public class PlayerControl : MonoBehaviour, IUserControllable
         return amplitude * Mathf.Sin(frequency * x + phase);
     }
 
-    private float ChangeFrequency(float deltaTime)
+    private float GetFrequency(float targetFrequency, float deltaTime)
     {
         float delta = frequencyChangeRate * deltaTime;
-        float targetFrequency = isControlled
-            ? controlledFrequency
-            : defaultFrequency;
-
         float current = frequency;
         float next = Mathf.MoveTowards(current, targetFrequency, delta);
-        phase = ChangePhase(current, next);
+        phase = GetPhase(current, next);
         return next;
     }
 
-    private float ChangePhase(float currentFrequency, float nextFrequency)
+    private float GetPhase(float currentFrequency, float nextFrequency)
     {
         Vector2 position = this.position.GetPosition();
         float current = (position.x * currentFrequency + phase) % (2f * Mathf.PI);

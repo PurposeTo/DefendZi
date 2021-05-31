@@ -12,5 +12,5 @@ public class Player : MonoBehaviour, IUserControllable
         control = gameObject.GetComponent<PlayerControl>().Constructor(position);
     }
 
-    public void Control(IUserInput input) => control.Control(input);
+    void IUserControllable.Control(IUserInput input) => control.Control(input);
 }
