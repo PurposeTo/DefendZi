@@ -10,6 +10,7 @@ namespace Desdiene.Types.AtomicReference
     /// Класс запечатан. Для использовании логики использовать композицию.
     /// </summary>
     /// <typeparam name="T">Тип значения.</typeparam>
+    [Serializable]
     public sealed class Ref<T> : IRef<T>
     {
         public Ref() : this(default) { }

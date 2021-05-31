@@ -1,8 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))] //Нанесение урона происходит через триггер коллайдеров
 public class Obstacle : MonoBehaviour, IDamageDealer
 {
-    private readonly int damage = 1;
+    private readonly uint damage = 1;
 
-    public int GetDamage() => damage;
+    public uint GetDamage() => damage;
 }

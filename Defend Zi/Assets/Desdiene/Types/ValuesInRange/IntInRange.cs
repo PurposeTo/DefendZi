@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Desdiene.Types.ValuesInRange
 {
+    [Serializable]
     public class IntInRange : IRef<int>
     {
         protected readonly Range<int> range;
@@ -47,9 +48,21 @@ namespace Desdiene.Types.ValuesInRange
             return value;
         }
 
+        public static IntInRange operator -(IntInRange value, uint delta)
+        {
+            value.Set((int)(value.Get() - delta));
+            return value;
+        }
+
         public static IntInRange operator +(IntInRange value, int delta)
         {
             value.Set(value.Get() + delta);
+            return value;
+        }
+
+        public static IntInRange operator +(IntInRange value, uint delta)
+        {
+            value.Set((int)(value.Get() + delta));
             return value;
         }
 

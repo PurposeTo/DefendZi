@@ -1,9 +1,10 @@
 ﻿using Desdiene.MonoBehaviourExtention;
+using UnityEngine;
 
 public class UserInteractive : MonoBehaviourExt
 {
     private IUserInput userInput;
-    //private IUserControllable userControllable;
+    private IUserControllable userControllable;
 
     protected override void AwakeExt()
     {
@@ -13,7 +14,14 @@ public class UserInteractive : MonoBehaviourExt
     private void Init(GameObjectsHolder gameObjectsHolder)
     {
         userInput = new UserInputCreator(this).GetOrDefault();
-        //userControllable = gameObjectsHolder.PlayerControl;
+        Player player = gameObjectsHolder.Player;
+
+        player.OnIsAwaked += () =>
+        {
+            userControllable = player;
+            Control(userInput);
+            SubscribeEvents();
+        };
     }
 
     protected override void OnDestroyExt()
@@ -33,6 +41,6 @@ public class UserInteractive : MonoBehaviourExt
 
     private void Control(IUserInput userInpute)
     {
-        //userControllable.Control(userInput);
+        userControllable.Control(userInput);
     }
 }
