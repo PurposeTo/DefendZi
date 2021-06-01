@@ -7,16 +7,16 @@ namespace Desdiene.Types.ValuesInRange
 {
     public class FloatPercentable : FloatInRange, IRef<float>, IReadPercentable
     {
-        public FloatPercentable(float value, Range<float> range) : base(value, range) { }
+        public FloatPercentable(float value, FloatRange range) : base(value, range) { }
 
         public float GetPercent()
         {
-            return Mathf.InverseLerp(range.Min, range.Max, Get());
+            return Mathf.InverseLerp(range.From, range.To, Get());
         }
 
         public void SetByPercent(float percent)
         {
-            float value = Mathf.Lerp(range.Min, range.Max, percent);
+            float value = Mathf.Lerp(range.From, range.To, percent);
             Set(value);
         }
 

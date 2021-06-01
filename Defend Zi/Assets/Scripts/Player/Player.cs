@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerControl))]
 public class Player :
     MonoBehaviourExt,
-    IUserControllable
+    IUserControlled
 {
     public event Action OnDied
     {
@@ -14,7 +14,7 @@ public class Player :
         remove => health.OnDied -= value;
     }
 
-    private IUserControllable control;
+    private IUserControlled control;
     private PlayerHealth health;
 
     protected override void AwakeExt()
@@ -32,5 +32,5 @@ public class Player :
         }
     }
 
-    void IUserControllable.Control(IUserInput input) => control.Control(input);
+    void IUserControlled.Control(IUserInput input) => control.Control(input);
 }

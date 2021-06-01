@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageTaker
     private void Awake()
     {
         int defaultHealth = 1;
-        health = new IntInRange(defaultHealth, new Range<int>(0, defaultHealth));
+        health = new IntInRange(defaultHealth, new IntRange(0, defaultHealth));
     }
 
     public void TakeDamage(uint damage)

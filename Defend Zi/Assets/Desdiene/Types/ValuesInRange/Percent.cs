@@ -7,6 +7,6 @@ namespace Desdiene.Types.ValuesInRange
     {
         public Percent() : this(0f) { }
 
-        public Percent(float value) : base(value, new Range<float>(0f, 1f)) { }
+        public Percent(float value) : base(value, new FloatRange(0f, 1f)) { }
     }
 }

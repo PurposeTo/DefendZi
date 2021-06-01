@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Desdiene.Extensions.System
+namespace Desdiene.Extensions.System.Linq
 {
-    public static class Linq
+    public static class LinqExtensions
     {
         public static TSource FirstOrDefault2<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
         {

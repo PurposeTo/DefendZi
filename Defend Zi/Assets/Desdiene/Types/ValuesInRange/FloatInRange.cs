@@ -8,9 +8,9 @@ namespace Desdiene.Types.ValuesInRange
 {
     public class FloatInRange : IRef<float>
     {
-        protected readonly Range<float> range;
+        protected readonly FloatRange range;
         private readonly Ref<float> valueRef;
-        public FloatInRange(float value, Range<float> range)
+        public FloatInRange(float value, FloatRange range)
         {
             this.range = range;
             valueRef = new Ref<float>(value);
@@ -23,9 +23,9 @@ namespace Desdiene.Types.ValuesInRange
             remove => valueRef.OnValueChanged -= value;
         }
 
-        public bool IsMin() => Mathf.Approximately(Get(), range.Min);
+        public bool IsMin() => Mathf.Approximately(Get(), range.From);
 
-        public bool IsMax() => Mathf.Approximately(Get(), range.Max);
+        public bool IsMax() => Mathf.Approximately(Get(), range.To);
 
         public float SetAndGet(float value)
         {
@@ -37,7 +37,7 @@ namespace Desdiene.Types.ValuesInRange
 
         public void Set(float value)
         {
-            value = Mathf.Clamp(value, range.Min, range.Max);
+            value = Mathf.Clamp(value, range.From, range.To);
             valueRef.Set(value);
         }
 

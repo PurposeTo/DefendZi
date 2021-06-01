@@ -1,27 +1,25 @@
-﻿using Desdiene.MonoBehaviourExtention;
+﻿using System.Collections.Generic;
+using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
 public class UserInteractive : MonoBehaviourExt
 {
+    private static readonly List<IUserControlled> userControlleds = new List<IUserControlled>();
     private IUserInput userInput;
-    private IUserControllable userControllable;
 
     protected override void AwakeExt()
     {
         GameObjectsHolder.OnInited += Init;
     }
 
+    public static void AddControlled(IUserControlled controlled) => userControlleds.Add(controlled);
+
+    public static void RemoveControlled(IUserControlled controlled) => userControlleds.Remove(controlled);
+
     private void Init(GameObjectsHolder gameObjectsHolder)
     {
         userInput = new UserInputCreator(this).GetOrDefault();
-        Player player = gameObjectsHolder.Player;
-
-        player.OnIsAwaked += () =>
-        {
-            userControllable = player;
-            Control(userInput);
-            SubscribeEvents();
-        };
+        SubscribeEvents();
     }
 
     protected override void OnDestroyExt()
@@ -41,7 +39,10 @@ public class UserInteractive : MonoBehaviourExt
 
     private void Control(IUserInput userInpute)
     {
-        Debug.Log($"{GetType()}.Control invoke.");
-        userControllable.Control(userInput);
+        for (int i = 0; i < userControlleds.Count; i++)
+        {
+            Debug.Log($"{GetType()}.Control[{i}] invoke.");
+            userControlleds[i].Control(userInpute);
+        }
     }
 }

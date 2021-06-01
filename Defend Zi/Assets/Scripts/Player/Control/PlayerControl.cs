@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerControl : MonoBehaviour, IUserControllable
+public class PlayerControl : UserControlled
 {
     [SerializeField] private float speed = 12f;
     [SerializeField] private float amplitude = 6f;
@@ -14,8 +14,9 @@ public class PlayerControl : MonoBehaviour, IUserControllable
 
     private IPosition position;
 
-    private void Awake()
+    protected override void AwakeExt()
     {
+        base.AwakeExt();
         frequency = defaultFrequency;
     }
 
@@ -34,7 +35,7 @@ public class PlayerControl : MonoBehaviour, IUserControllable
         Move(Time.fixedDeltaTime);
     }
 
-    void IUserControllable.Control(IUserInput input)
+    public override void Control(IUserInput input)
     {
         isControlled = input.IsActive;
     }
@@ -48,9 +49,7 @@ public class PlayerControl : MonoBehaviour, IUserControllable
 
     private float MoveOx(float speed)
     {
-        Vector2 position = this.position.GetPosition();
-        position.x += speed;
-        return position.x;
+        return position.Value.x + speed;
     }
 
     private float MoveOy(float x)
@@ -69,7 +68,7 @@ public class PlayerControl : MonoBehaviour, IUserControllable
 
     private float GetPhase(float currentFrequency, float nextFrequency)
     {
-        Vector2 position = this.position.GetPosition();
+        Vector2 position = this.position.Value;
         float current = (position.x * currentFrequency + phase) % (2f * Mathf.PI);
         float next = (position.x * nextFrequency) % (2f * Mathf.PI);
         return current - next;

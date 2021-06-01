@@ -9,9 +9,9 @@ namespace Desdiene.Types.ValuesInRange
     [Serializable]
     public class IntInRange : IRef<int>
     {
-        protected readonly Range<int> range;
+        protected readonly IntRange range;
         private readonly Ref<int> valueRef;
-        public IntInRange(int value, Range<int> range)
+        public IntInRange(int value, IntRange range)
         {
             this.range = range;
             valueRef = new Ref<int>(value);
@@ -24,9 +24,9 @@ namespace Desdiene.Types.ValuesInRange
             remove => valueRef.OnValueChanged -= value;
         }
 
-        public bool IsMin() => Get() == range.Min;
+        public bool IsMin() => Get() == range.From;
 
-        public bool IsMax() => Get() == range.Max;
+        public bool IsMax() => Get() == range.To;
 
         public int SetAndGet(int value)
         {
@@ -38,7 +38,7 @@ namespace Desdiene.Types.ValuesInRange
 
         public void Set(int value)
         {
-            value = Mathf.Clamp(value, range.Min, range.Max);
+            value = Mathf.Clamp(value, range.From, range.To);
             valueRef.Set(value);
         }
 

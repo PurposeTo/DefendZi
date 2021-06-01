@@ -7,11 +7,11 @@ namespace Desdiene.Types.ValuesInRange
 {
     public class IntPercentable : IntInRange, IRef<int>, IPercentable
     {
-        public IntPercentable(int value, Range<int> range) : base(value, range) { }
+        public IntPercentable(int value, IntRange range) : base(value, range) { }
 
         public float GetPercent()
         {
-            return Mathf.InverseLerp(range.Min, range.Max, Get());
+            return Mathf.InverseLerp(range.From, range.To, Get());
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Desdiene.Types.ValuesInRange
         /// <param name="percent"></param>
         public void SetByPercent(float percent)
         {
-            int value = Mathf.RoundToInt(Mathf.Lerp(range.Min, range.Max, percent));
+            int value = Mathf.RoundToInt(Mathf.Lerp(range.From, range.To, percent));
             Set(value);
         }
 
