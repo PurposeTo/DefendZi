@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Extensions.System.Math;
+using Desdiene.Extensions.System.Numeric;
 using Desdiene.Types.RangeType.Interfaces;
 
 namespace Desdiene.Types.RangeType.Abstract

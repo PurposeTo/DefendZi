@@ -1,44 +1,20 @@
-﻿using System;
-using Desdiene.Types.AtomicReference;
-using Desdiene.Types.AtomicReference.Interfaces;
+﻿using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.RangeType;
+using Desdiene.Types.ValuesInRange.Abstract;
 using UnityEngine;
 
 namespace Desdiene.Types.ValuesInRange
 {
-    public class FloatInRange : IRef<float>
+    public class FloatInRange : ValueInRange<float>, IRef<float>
     {
-        protected readonly FloatRange range;
-        private readonly Ref<float> valueRef;
-        public FloatInRange(float value, FloatRange range)
+        public FloatInRange(float value, FloatRange range) : base(value, range) { }
+
+        protected override float ClampValue(float value, float from, float to)
         {
-            this.range = range;
-            valueRef = new Ref<float>(value);
-            Set(value);
-        }
-
-        public event Action OnValueChanged
-        {
-            add => valueRef.OnValueChanged += value;
-            remove => valueRef.OnValueChanged -= value;
-        }
-
-        public bool IsMin() => Mathf.Approximately(Get(), range.From);
-
-        public bool IsMax() => Mathf.Approximately(Get(), range.To);
-
-        public float SetAndGet(float value)
-        {
-            Set(value);
-            return Get();
-        }
-
-        public float Get() => valueRef.Get();
-
-        public void Set(float value)
-        {
-            value = Mathf.Clamp(value, range.From, range.To);
-            valueRef.Set(value);
+            float min = from;
+            float max = to;
+            Math.Compare(ref min, ref max);
+            return Mathf.Clamp(value, from, max);
         }
 
         public static FloatInRange operator -(FloatInRange value, float delta)

@@ -49,6 +49,12 @@ namespace Desdiene.Extensions.UnityEngine
             return transform;
         }
 
+        public static Transform SetPosition(this Transform transform, Vector2 position)
+        {
+            transform.position = position;
+            return transform;
+        }
+
         public static Transform SetLocalPosition(this Transform transform, Vector3 position)
         {
             transform.localPosition = position;
