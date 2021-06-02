@@ -18,7 +18,7 @@ public class ScoreAdderByTime : MonoBehaviourExt
         {
             gameObjectsHolder.Player.OnIsAwaked += () =>
             {
-                ExecuteCoroutineContinuously(routine, AdderEnumerator());
+                ExecuteCoroutineContinuously(routine, Adder());
             };
         };
     }
@@ -29,7 +29,7 @@ public class ScoreAdderByTime : MonoBehaviourExt
         return this;
     }
 
-    private IEnumerator AdderEnumerator()
+    private IEnumerator Adder()
     {
         yield return new WaitForSeconds(delay);
         var wait = new WaitForSeconds(1f);
