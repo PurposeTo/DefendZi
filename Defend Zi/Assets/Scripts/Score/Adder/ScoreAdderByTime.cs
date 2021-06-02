@@ -1,19 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Desdiene.MonoBehaviourExtention;
+using Desdiene.Coroutine.CoroutineExecutor;
 
-public class ScoreAdderByTime : MonoBehaviour
+public class ScoreAdderByTime : MonoBehaviourExt
 {
     [SerializeField] private float delay = 1.5f;
-    [SerializeField] private int speed = 1;
+    [SerializeField] private int scorePerSec = 1;
 
     private IScoreCollector collector;
 
-    private void Awake()
+    protected override void AwakeExt()
     {
-        /*Ожидание инициализации collector
-         * 
-         */
-        StartCoroutine(AdderEnumerator());
+        ICoroutine routine = CreateCoroutine();
+
+        GameObjectsHolder.OnInited += (gameObjectsHolder) =>
+        {
+            gameObjectsHolder.Player.OnIsAwaked += () =>
+            {
+                ExecuteCoroutineContinuously(routine, AdderEnumerator());
+            };
+        };
     }
 
     public ScoreAdderByTime Constructor(IScoreCollector collector)
@@ -24,13 +31,13 @@ public class ScoreAdderByTime : MonoBehaviour
 
     private IEnumerator AdderEnumerator()
     {
-        yield return new WaitForSecondsRealtime(delay);
+        yield return new WaitForSeconds(delay);
+        var wait = new WaitForSeconds(1f);
 
-        while (Time.timeScale != 0f)
+        while (true)
         {
-            var wait = new WaitForSecondsRealtime(1f);
             yield return wait;
-            collector.Add(speed / (int)wait.waitTime);
+            collector.Add(scorePerSec);
         }
     }
 }

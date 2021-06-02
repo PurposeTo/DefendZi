@@ -17,7 +17,6 @@ public class Player :
     }
 
     private IUserControlled control;
-    private IScoreCollector collector;
     private PlayerHealth health;
 
     protected override void AwakeExt()
@@ -25,26 +24,15 @@ public class Player :
         IPosition position = GetComponent<PlayerPosition>();
         control = GetComponent<PlayerControl>().Constructor(position);
         health = GetComponent<PlayerHealth>();
-        collector = GetComponent<PlayerScore>();
+        IScoreCollector collector = GetComponent<PlayerScore>();
         GetComponent<ScoreAdderByTime>().Constructor(collector);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision is BoxCollider2D)
+        if (collision.TryGetComponent(out IDamageDealer damageDealer))
         {
-            if (collision.TryGetComponent(out IDamageDealer damageDealer))
-            {
-                health.TakeDamage(damageDealer.GetDamage());
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out IScore score))
-        {
-            collector.Add(score.Value);
+            health.TakeDamage(damageDealer.GetDamage());
         }
     }
 
