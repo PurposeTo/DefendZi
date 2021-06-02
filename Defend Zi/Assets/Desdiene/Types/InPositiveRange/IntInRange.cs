@@ -1,23 +1,15 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference.Interfaces;
-using Desdiene.Types.RangeType;
-using Desdiene.Types.ValuesInRange.Abstract;
+using Desdiene.Types.Range.Positive;
 using UnityEngine;
+using Desdiene.Types.InPositiveRange.Abstract;
 
-namespace Desdiene.Types.ValuesInRange
+namespace Desdiene.Types.InPositiveRange.Positive
 {
     [Serializable]
     public class IntInRange : ValueInRange<int>, IRef<int>
     {
         public IntInRange(int value, IntRange range) : base(value, range) { }
-
-        protected override int ClampValue(int value, int from, int to)
-        {
-            int min = from;
-            int max = to;
-            Math.Compare(ref min, ref max);
-            return Mathf.Clamp(value, from, max);
-        }
 
         public static IntInRange operator -(IntInRange value, int delta)
         {

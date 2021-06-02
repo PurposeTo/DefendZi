@@ -1,13 +1,15 @@
 ﻿using System;
 
-namespace Desdiene.Types.RangeType.Interfaces
+namespace Desdiene.Types.Range.Positive.Interfaces
 {
     public interface IRange<T> where T : struct, IComparable<T>
     {
-        T From { get; }
-        T To { get; }
+        T Min { get; }
+        T Max { get; }
         T Length { get; }
 
         bool IsInRange(T value);
+
+        T Clamp(T value);
     }
 }

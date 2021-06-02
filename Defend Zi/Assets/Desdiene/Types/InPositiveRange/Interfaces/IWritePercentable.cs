@@ -1,4 +1,4 @@
-﻿namespace Desdiene.Types.ValuesInRange.Interfaces
+﻿namespace Desdiene.Types.InPositiveRange.Interfaces
 {
     /// <summary>
     /// Сущность, которой можно записать процентное значние.

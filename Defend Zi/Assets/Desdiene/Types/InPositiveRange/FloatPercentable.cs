@@ -1,9 +1,9 @@
 using Desdiene.Types.AtomicReference.Interfaces;
-using Desdiene.Types.RangeType;
-using Desdiene.Types.ValuesInRange.Interfaces;
+using Desdiene.Types.Range.Positive;
 using UnityEngine;
+using Desdiene.Types.InPositiveRange.Interfaces;
 
-namespace Desdiene.Types.ValuesInRange
+namespace Desdiene.Types.InPositiveRange
 {
     public class FloatPercentable : FloatInRange, IRef<float>, IReadPercentable
     {
@@ -11,12 +11,12 @@ namespace Desdiene.Types.ValuesInRange
 
         public float GetPercent()
         {
-            return Mathf.InverseLerp(range.From, range.To, Get());
+            return Mathf.InverseLerp(range.Min, range.Max, Get());
         }
 
         public void SetByPercent(float percent)
         {
-            float value = Mathf.Lerp(range.From, range.To, percent);
+            float value = Mathf.Lerp(range.Min, range.Max, percent);
             Set(value);
         }
 

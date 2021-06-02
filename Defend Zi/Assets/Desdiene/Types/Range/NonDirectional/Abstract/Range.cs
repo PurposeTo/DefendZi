@@ -1,8 +1,8 @@
 ﻿using System;
 using Desdiene.Extensions.System.Numeric;
-using Desdiene.Types.RangeType.Interfaces;
+using Desdiene.Types.Range.NonDirectional.Interfaces;
 
-namespace Desdiene.Types.RangeType.Abstract
+namespace Desdiene.Types.Range.NonDirectional.Abstract
 {
     /// <summary>
     /// Диапазон от "From" до "To".
@@ -27,5 +27,7 @@ namespace Desdiene.Types.RangeType.Abstract
         {
             return value.Between(From, To);
         }
+
+        public abstract T Clamp(T value);
     }
 }

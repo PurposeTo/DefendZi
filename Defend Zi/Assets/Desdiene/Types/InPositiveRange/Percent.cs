@@ -1,7 +1,7 @@
 using Desdiene.Types.AtomicReference.Interfaces;
-using Desdiene.Types.RangeType;
+using Desdiene.Types.Range.Positive;
 
-namespace Desdiene.Types.ValuesInRange
+namespace Desdiene.Types.InPositiveRange
 {
     public class Percent : FloatInRange, IRef<float>
     {
