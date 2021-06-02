@@ -10,7 +10,7 @@ public class ScoreAdderByTime : MonoBehaviourExt
 
     private IScoreCollector collector;
 
-    protected override void AwakeExt()
+    public ScoreAdderByTime Constructor(IScoreCollector collector)
     {
         ICoroutine routine = CreateCoroutine();
 
@@ -21,10 +21,7 @@ public class ScoreAdderByTime : MonoBehaviourExt
                 ExecuteCoroutineContinuously(routine, Adder());
             };
         };
-    }
 
-    public ScoreAdderByTime Constructor(IScoreCollector collector)
-    {
         this.collector = collector;
         return this;
     }

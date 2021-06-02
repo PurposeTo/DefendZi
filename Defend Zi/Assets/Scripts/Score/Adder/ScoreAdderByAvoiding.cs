@@ -16,6 +16,7 @@ public class ScoreAdderByAvoiding : MonoBehaviour
         if (collision.TryGetComponent(out IScoreCollector collector))
         {
             collector.Add(score.Value);
+            Debug.Log($"Добавлено очков: {score.Value}");
         }
     }
 }
