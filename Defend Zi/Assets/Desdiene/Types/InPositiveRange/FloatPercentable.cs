@@ -1,13 +1,13 @@
 using Desdiene.Types.AtomicReference.Interfaces;
-using Desdiene.Types.RangeType;
-using Desdiene.Types.ValuesInRange.Interfaces;
+using Desdiene.Types.Range.Positive;
 using UnityEngine;
+using Desdiene.Types.InPositiveRange.Interfaces;
 
-namespace Desdiene.Types.ValuesInRange
+namespace Desdiene.Types.InPositiveRange
 {
     public class FloatPercentable : FloatInRange, IRef<float>, IReadPercentable
     {
-        public FloatPercentable(float value, Range<float> range) : base(value, range) { }
+        public FloatPercentable(float value, FloatRange range) : base(value, range) { }
 
         public float GetPercent()
         {

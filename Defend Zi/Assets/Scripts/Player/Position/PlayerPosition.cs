@@ -10,7 +10,7 @@ public class PlayerPosition : MonoBehaviour, IPosition
         rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    Vector2 IPosition.GetPosition() => rb2d.position;
+    Vector2 IPosition.Value => rb2d.position;
 
     void IPosition.MoveTo(Vector2 vector)
     {

@@ -1,4 +1,4 @@
-﻿public interface IUserControllable
+﻿public interface IUserControlled
 {
     void Control(IUserInput input);
 }
