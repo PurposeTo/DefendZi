@@ -7,6 +7,5 @@ public class PlayerScore : MonoBehaviour, IScoreCollector
     public void Add(int amount)
     {
         Value += amount;
-        print(Value);
     }
 }
