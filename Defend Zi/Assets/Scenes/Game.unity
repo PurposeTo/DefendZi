@@ -214,7 +214,7 @@ MonoBehaviour:
   distance: 5
   startLevelPoint: 6
   endLevelPoint: 1000
-  randomCount: 3
+  randomCount: 2
 --- !u!1 &274676707
 GameObject:
   m_ObjectHideFlags: 0

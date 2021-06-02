@@ -10,7 +10,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int distance = 5;
     [SerializeField] private int startLevelPoint = 6;
     [SerializeField] private int endLevelPoint = 1000;
-    [SerializeField] private int randomCount = 3;
+    [SerializeField] private int randomCount = 2;
 
     private int minHight = -7;
     private int maxHight = 7;
