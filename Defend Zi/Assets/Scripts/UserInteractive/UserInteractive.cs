@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserInteractive : MonoBehaviourExt
 {
-    private static readonly List<IUserControlled> userControlleds = new List<IUserControlled>();
+    private static readonly List<IUserControlled> userControlled = new List<IUserControlled>();
     private IUserInput userInput;
 
     protected override void AwakeExt()
@@ -12,9 +12,9 @@ public class UserInteractive : MonoBehaviourExt
         GameObjectsHolder.OnInited += Init;
     }
 
-    public static void AddControlled(IUserControlled controlled) => userControlleds.Add(controlled);
+    public static void AddControlled(IUserControlled controlled) => userControlled.Add(controlled);
 
-    public static void RemoveControlled(IUserControlled controlled) => userControlleds.Remove(controlled);
+    public static void RemoveControlled(IUserControlled controlled) => userControlled.Remove(controlled);
 
     private void Init(GameObjectsHolder gameObjectsHolder)
     {
@@ -39,10 +39,10 @@ public class UserInteractive : MonoBehaviourExt
 
     private void Control(IUserInput userInpute)
     {
-        for (int i = 0; i < userControlleds.Count; i++)
+        for (int i = 0; i < userControlled.Count; i++)
         {
             Debug.Log($"{GetType()}.Control[{i}] invoke.");
-            userControlleds[i].Control(userInpute);
+            userControlled[i].Control(userInpute);
         }
     }
 }
