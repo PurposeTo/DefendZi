@@ -4,6 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerPosition))]
 [RequireComponent(typeof(PlayerControl))]
+[RequireComponent(typeof(PlayerScore))]
+[RequireComponent(typeof(ScoreAdderByTime))]
 public class Player :
     MonoBehaviourExt,
     IUserControlled
@@ -22,6 +24,8 @@ public class Player :
         IPosition position = GetComponent<PlayerPosition>();
         control = GetComponent<PlayerControl>().Constructor(position);
         health = GetComponent<PlayerHealth>();
+        IScoreCollector collector = GetComponent<PlayerScore>();
+        GetComponent<ScoreAdderByTime>().Constructor(collector);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
