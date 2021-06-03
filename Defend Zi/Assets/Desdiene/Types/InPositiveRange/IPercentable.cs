@@ -1,4 +1,4 @@
-﻿namespace Desdiene.Types.InPositiveRange.Interfaces
+﻿namespace Desdiene.Types.InPositiveRange
 {
     public interface IPercentable : IReadPercentable, IWritePercentable
     {

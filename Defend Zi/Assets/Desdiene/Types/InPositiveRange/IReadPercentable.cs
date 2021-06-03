@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.Types.InPositiveRange.Interfaces
+namespace Desdiene.Types.InPositiveRange
 {
     /// <summary>
     /// Сущность, у которой можно взять процентное значение.

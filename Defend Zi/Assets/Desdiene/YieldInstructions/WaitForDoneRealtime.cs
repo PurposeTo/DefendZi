@@ -1,8 +1,8 @@
 ﻿using System;
-using Desdiene.Coroutine.YieldInstructions.Base;
+using Desdiene.YieldInstructions.Base;
 using UnityEngine;
 
-namespace Desdiene.Coroutine.YieldInstructions
+namespace Desdiene.YieldInstructions
 {
     public sealed class WaitForDoneRealtime : WaitForDoneBase
     {
