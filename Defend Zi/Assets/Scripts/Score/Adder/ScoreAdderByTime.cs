@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Desdiene.Coroutine.CoroutineExecutor;
+using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
@@ -12,13 +12,13 @@ public class ScoreAdderByTime : MonoBehaviourExt
 
     public ScoreAdderByTime Constructor(IScoreCollector collector)
     {
-        ICoroutine routine = CreateCoroutine();
+        ICoroutine routine = new CoroutineWrap(this);
 
         GameObjectsHolder.OnInited += (gameObjectsHolder) =>
         {
             gameObjectsHolder.Player.OnIsAwaked += () =>
             {
-                ExecuteCoroutineContinuously(routine, Adder());
+                routine.StartContinuously(Adder());
             };
         };
 

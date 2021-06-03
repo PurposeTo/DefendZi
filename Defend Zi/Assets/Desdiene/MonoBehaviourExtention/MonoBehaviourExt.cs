@@ -1,27 +1,13 @@
 ﻿using System;
-using System.Collections;
-using Desdiene.Coroutine.CoroutineExecutor;
-using Desdiene.Types.AtomicReference.RefRuntimeInit;
+using System.Collections.Generic;
+using Desdiene.Coroutine;
 using UnityEngine;
 
 namespace Desdiene.MonoBehaviourExtention
 {
     public class MonoBehaviourExt : MonoBehaviour
     {
-        #region SuperMonoBehaviour tools
-
-        private readonly RefRuntimeInit<CoroutineExecutor> coroutineExecutorRef = new RefRuntimeInit<CoroutineExecutor>();
-
-        private void InitSuperMonoBehaviour()
-        {
-            coroutineExecutorRef.GetOrInit(InitCoroutineExecutor);
-        }
-
-        #endregion
-
-
         #region Awake realization
-
 
         /// <summary>
         /// Событие вызовется после выполнения метода Awake объекта или сразу же, если Awake уже был вызван.
@@ -55,7 +41,6 @@ namespace Desdiene.MonoBehaviourExtention
 
         private void Awake()
         {
-            InitSuperMonoBehaviour();
             AwakeExt();
             EndAwakeExecution();
         }
@@ -233,54 +218,22 @@ namespace Desdiene.MonoBehaviourExtention
 
         #region CoroutineExecutor
 
-        /// <summary>
-        /// Создаёт "Container" объект для конкретной корутины
-        /// </summary>
-        public ICoroutine CreateCoroutine()
-        {
-            return GetCoroutineExecutor().CreateCoroutineContainer();
-        }
+        private readonly List<ICoroutine> allCoroutines = new List<ICoroutine>();
+
+        public void AddCoroutine(ICoroutine coroutine) => allCoroutines.Add(coroutine);
+        public void RemoveCoroutine(ICoroutine coroutine) => allCoroutines.Remove(coroutine); 
 
         /// <summary>
-        /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
-        /// </summary>
-        public void ExecuteCoroutineContinuously(ICoroutine coroutineInfo, IEnumerator enumerator)
-        {
-            coroutineExecutorRef.GetOrInit(InitCoroutineExecutor).ExecuteCoroutineContinuously(coroutineInfo, enumerator);
-        }
-
-        /// <summary>
-        /// Перед запуском корутины останавливает её, если она выполнялась на данный момент.
-        /// </summary>
-        public void ReStartCoroutineExecution(ICoroutine coroutineInfo, IEnumerator enumerator)
-        {
-            GetCoroutineExecutor().ReStartCoroutineExecution(coroutineInfo, enumerator);
-        }
-
-        /// <summary>
-        /// Останавливает корутину.
-        /// </summary>
-        public void BreakCoroutine(ICoroutine coroutineInfo)
-        {
-            GetCoroutineExecutor().BreakCoroutine(coroutineInfo);
-        }
-
-        /// <summary>
-        /// Останавливает все корутины на объекте
+        /// Остановить все корутины на объекте.
+        /// Архитектура и логика поведения взята из UnityEngine 
         /// </summary>
         public void BreakAllCoroutines()
         {
-            GetCoroutineExecutor().BreakAllCoroutines();
-        }
-
-        private CoroutineExecutor GetCoroutineExecutor()
-        {
-            return coroutineExecutorRef.GetOrInit(InitCoroutineExecutor);
-        }
-
-        private CoroutineExecutor InitCoroutineExecutor()
-        {
-            return new CoroutineExecutor(this);
+            for (int i = 0; i < allCoroutines.Count; i++)
+            {
+                ICoroutine coroutine = allCoroutines[i];
+                coroutine.Break();
+            }
         }
 
         #endregion

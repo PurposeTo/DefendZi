@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Desdiene.Coroutine.WaitForDone.Base
+namespace Desdiene.Coroutine.YieldInstructions.Base
 {
     public abstract class WaitForDoneBase : CustomYieldInstruction
     {

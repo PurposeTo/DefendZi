@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.Container;
-using Desdiene.Coroutine.CoroutineExecutor;
+using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
@@ -15,8 +15,8 @@ public class MobileInput : MonoBehaviourExtContainer, IUserInput
 
     public MobileInput(MonoBehaviourExt mono) : base(mono)
     {
-        coroutine = mono.CreateCoroutine();
-        mono.ReStartCoroutineExecution(coroutine, Update());
+        coroutine = new CoroutineWrap(mono);
+        coroutine.StartContinuously(Update());
     }
 
     bool IUserInput.IsActive => userInputData.IsActive;
