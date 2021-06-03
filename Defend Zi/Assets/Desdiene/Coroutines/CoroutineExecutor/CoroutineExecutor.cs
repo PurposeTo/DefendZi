@@ -6,23 +6,16 @@ using UnityEngine;
 
 namespace Desdiene.Coroutine.CoroutineExecutor
 {
-    /*
-     * ICoroutineInfo, в методах, запускающих корутину, всегда идут с ref параметром потому, что
-     * таким образом будет гарантия того, что ТОЧНО будет переназначена ссылка на объект ICoroutineInfo
-     */
     public class CoroutineExecutor : MonoBehaviourContainer
     {
         public CoroutineExecutor(MonoBehaviour monoBehaviour) : base(monoBehaviour) { }
 
-
         private readonly List<ICoroutine> allCoroutineContainers = new List<ICoroutine>();
-
 
         public ICoroutine CreateCoroutineContainer()
         {
-            return new CoroutineWithData();
+            return new CoroutineData();
         }
-
 
         /// <summary>
         /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
@@ -34,16 +27,15 @@ namespace Desdiene.Coroutine.CoroutineExecutor
             if (coroutineInfo == null) throw new ArgumentNullException(nameof(coroutineInfo));
             if (enumerator == null) throw new ArgumentNullException(nameof(enumerator));
 
-            CoroutineWithData coroutineWithData = (CoroutineWithData)coroutineInfo;
-            coroutineWithData.SetEnumerator(enumerator);
+            CoroutineData coroutineData = (CoroutineData)coroutineInfo;
+            coroutineData.SetEnumerator(enumerator);
 
-            if (!coroutineWithData.IsExecuting)
+            if (!coroutineData.IsExecuting)
             {
-                StartNewCoroutine(coroutineWithData);
+                StartNewCoroutine(coroutineData);
             }
-            else coroutineWithData.OnAlreadyStarted?.Invoke();
+            else coroutineData.OnAlreadyStarted?.Invoke();
         }
-
 
         /// <summary>
         /// Перед запуском корутины останавливает её, если она выполнялась на данный момент.
@@ -54,36 +46,32 @@ namespace Desdiene.Coroutine.CoroutineExecutor
         {
             if (enumerator == null) throw new ArgumentNullException(nameof(enumerator));
 
-            CoroutineWithData coroutineWithData = (CoroutineWithData)coroutineInfo;
-            coroutineWithData.SetEnumerator(enumerator);
-
-            if (coroutineInfo.IsExecuting) BreakCoroutine(coroutineInfo);
-
-            StartNewCoroutine(coroutineWithData);
+            CoroutineData coroutineData = (CoroutineData)coroutineInfo;
+            BreakCoroutine(coroutineInfo);
+            coroutineData.SetEnumerator(enumerator);
+            StartNewCoroutine(coroutineData);
         }
 
-
         /// <summary>
-        /// Останавливает корутину.
+        /// Останавливает корутину, если она выполнялась.
         /// </summary>
         /// <param name="coroutineInfo"></param>
         public void BreakCoroutine(ICoroutine coroutineInfo)
         {
             if (coroutineInfo == null) throw new ArgumentNullException(nameof(coroutineInfo));
 
-            CoroutineWithData coroutineWithData = (CoroutineWithData)coroutineInfo;
+            CoroutineData coroutineData = (CoroutineData)coroutineInfo;
 
-            if (coroutineWithData.IsExecuting)
+            if (coroutineData.IsExecuting)
             {
-                monoBehaviour.StopCoroutine(coroutineWithData.Coroutine);
+                monoBehaviour.StopCoroutine(coroutineData.Coroutine);
 
-                SetNullToCoroutineAndRemove(coroutineWithData);
+                SetNullToCoroutineAndRemove(coroutineData);
             }
-            else coroutineWithData.OnIsAlreadyStopped?.Invoke();
+            else coroutineData.OnIsAlreadyStopped?.Invoke();
 
-            coroutineWithData.OnStop?.Invoke();
+            coroutineData.OnStop?.Invoke();
         }
-
 
         /// <summary>
         /// Останавливает все корутины на объекте.
@@ -99,65 +87,22 @@ namespace Desdiene.Coroutine.CoroutineExecutor
             }
         }
 
-
-        private void StartNewCoroutine(CoroutineWithData coroutineWithData)
+        private void StartNewCoroutine(CoroutineData coroutineData)
         {
-            coroutineWithData.SetCoroutine(monoBehaviour.StartCoroutine(WrappedEnumerator(coroutineWithData)));
-            allCoroutineContainers.Add(coroutineWithData);
+            coroutineData.SetCoroutine(monoBehaviour.StartCoroutine(WrappedEnumerator(coroutineData)));
+            allCoroutineContainers.Add(coroutineData);
         }
 
-
-        private IEnumerator WrappedEnumerator(CoroutineWithData coroutineWithData)
+        private IEnumerator WrappedEnumerator(CoroutineData coroutineData)
         {
-            yield return coroutineWithData.Enumerator;
-            SetNullToCoroutineAndRemove(coroutineWithData);
+            yield return coroutineData.Enumerator;
+            SetNullToCoroutineAndRemove(coroutineData);
         }
 
-
-        private void SetNullToCoroutineAndRemove(CoroutineWithData coroutineWithData)
+        private void SetNullToCoroutineAndRemove(CoroutineData coroutineData)
         {
-            coroutineWithData.SetNullToCoroutine();
-            allCoroutineContainers.Remove(coroutineWithData);
-        }
-
-
-        private class CoroutineWithData : ICoroutine
-        {
-            public IEnumerator Enumerator { get; private set; } = null;
-            public UnityEngine.Coroutine Coroutine { get; private set; } = null;
-            public bool IsExecuting => Coroutine != null;
-
-
-            public void SetCoroutine(UnityEngine.Coroutine coroutine)
-            {
-                Coroutine = coroutine ?? throw new ArgumentNullException(nameof(coroutine));
-            }
-
-
-            public void SetEnumerator(IEnumerator enumerator)
-            {
-                Enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
-            }
-
-
-            /// <summary>
-            /// Выполняется во время выполнении метода ExecuteCoroutineContinuously, 
-            /// в случае, если корутина уже была запущена.
-            /// </summary>
-            public Action OnAlreadyStarted { get; set; } = null;
-            /// <summary>
-            /// Выполняется во время выполнении метода BreakCoroutine,
-            /// после остановки корутины.
-            /// </summary>
-            public Action OnStop { get; set; } = null;
-            /// <summary>
-            /// Выполняется во время выполнении метода BreakCoroutine,
-            /// в случае, если корутина УЖЕ была остановлена.
-            /// </summary>
-            public Action OnIsAlreadyStopped { get; set; } = null;
-
-
-            public void SetNullToCoroutine() => Coroutine = null;
+            coroutineData.SetNullToCoroutine();
+            allCoroutineContainers.Remove(coroutineData);
         }
     }
 }

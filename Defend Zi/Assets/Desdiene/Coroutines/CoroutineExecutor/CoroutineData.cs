@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Desdiene.Coroutine.CoroutineExecutor
 {
-    public sealed class CoroutineWithData : ICoroutine
+    public sealed class CoroutineData : ICoroutine
     {
         public IEnumerator Enumerator { get; private set; } = null;
         public UnityEngine.Coroutine Coroutine { get; private set; } = null;
