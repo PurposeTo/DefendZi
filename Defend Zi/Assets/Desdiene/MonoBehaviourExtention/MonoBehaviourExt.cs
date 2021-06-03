@@ -248,5 +248,28 @@ namespace Desdiene.MonoBehaviourExtention
         }
 
         #endregion
+
+
+        #region GetComponent
+
+        public new T GetComponent<T>() where T : Component
+        {
+            T component = base.GetComponent<T>();
+            return component ?? throw new NullReferenceException($"Can't find component! Type: {typeof(T)}.");
+        }
+
+        public new T GetComponentInChildren<T>() where T : Component
+        {
+            T component = base.GetComponentInChildren<T>();
+            return component ?? throw new NullReferenceException($"Can't find component in children! Type: {typeof(T)}.");
+        }
+
+        public new T GetComponentInParent<T>() where T : Component
+        {
+            T component = base.GetComponentInParent<T>();
+            return component ?? throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.");
+        }
+
+        #endregion
     }
 }
