@@ -12,17 +12,9 @@ public class ScoreAdderByTime : MonoBehaviourExt
 
     public ScoreAdderByTime Constructor(IScoreCollector collector)
     {
-        ICoroutine routine = new CoroutineWrap(this);
-
-        GameObjectsHolder.OnInited += (gameObjectsHolder) =>
-        {
-            gameObjectsHolder.Player.OnIsAwaked += () =>
-            {
-                routine.StartContinuously(Adder());
-            };
-        };
-
         this.collector = collector;
+        ICoroutine routine = new CoroutineWrap(this);
+        routine.StartContinuously(Adder());
         return this;
     }
 
