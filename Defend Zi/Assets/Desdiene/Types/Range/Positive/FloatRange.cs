@@ -1,19 +1,31 @@
-﻿using Desdiene.Types.Range.Positive.Abstract;
+﻿using System;
+using Desdiene.Extensions.System.Numeric;
 using UnityEngine;
 
 namespace Desdiene.Types.Range.Positive
 {
     /// <summary>
     /// Диапазон float от Min до Max.
-    /// Не изменяемый класс.
+    /// Не изменяемый.
     /// Гарантируется, что Min всегда будет меньше Max.
     /// </summary>
-    public class FloatRange : Range<float>
+    public struct FloatRange : IRange<float>
     {
-        public FloatRange(float min, float max) : base(min, max) { }
+        public float Min { get; }
+        public float Max { get; }
 
-        public override float Length => Mathf.Abs(Max - Min);
+        public FloatRange(float min, float max)
+        {
+            if (min.CompareTo(max) > 0) throw new FormatException($"Min {min} не может быть больше Max {max}!");
 
-        public override float Clamp(float value) => Mathf.Clamp(value, Min, Max);
+            Min = min;
+            Max = max;
+        }
+
+        public float Length => Mathf.Abs(Max - Min);
+
+        public float Clamp(float value) => Mathf.Clamp(value, Min, Max);
+
+        public bool IsInRange(float value) => value.Between(Min, Max);
     }
 }
