@@ -246,7 +246,7 @@ namespace Desdiene.MonoBehaviourExtention
                 activeCoroutines[i].Break();
             }
         }
-        
+
         #endregion
     }
 }

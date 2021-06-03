@@ -15,7 +15,7 @@ namespace Desdiene.Coroutine
         public event Action OnStopped;
         public bool IsExecuting => coroutine != null;
         private UnityEngine.Coroutine coroutine;
-        
+
         /// <summary>
         /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
         /// </summary>
