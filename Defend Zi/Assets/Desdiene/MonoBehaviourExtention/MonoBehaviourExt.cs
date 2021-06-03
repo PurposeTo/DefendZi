@@ -218,10 +218,22 @@ namespace Desdiene.MonoBehaviourExtention
 
         #region CoroutineExecutor
 
-        private readonly List<ICoroutine> allCoroutines = new List<ICoroutine>();
+        private readonly List<ICoroutine> activeCoroutines = new List<ICoroutine>();
 
-        public void AddCoroutine(ICoroutine coroutine) => allCoroutines.Add(coroutine);
-        public void RemoveCoroutine(ICoroutine coroutine) => allCoroutines.Remove(coroutine); 
+        /// <summary>
+        /// Добавить выполняемую корутину в общий список для отслеживания.
+        /// Данный метод выполняется ТОЛЬКО CoroutineWrap-ом.
+        /// </summary>
+        /// <param name="coroutine"></param>
+        public void AddCoroutine(ICoroutine coroutine)
+        {
+            if (coroutine.IsExecuting)
+            {
+                coroutine.OnStopped += () => activeCoroutines.Remove(coroutine);
+                activeCoroutines.Add(coroutine);
+            }
+            else throw new ArgumentException("Добавить можно только выполняемую корутину!");
+        }
 
         /// <summary>
         /// Остановить все корутины на объекте.
@@ -229,13 +241,12 @@ namespace Desdiene.MonoBehaviourExtention
         /// </summary>
         public void BreakAllCoroutines()
         {
-            for (int i = 0; i < allCoroutines.Count; i++)
+            for (int i = 0; i < activeCoroutines.Count; i++)
             {
-                ICoroutine coroutine = allCoroutines[i];
-                coroutine.Break();
+                activeCoroutines[i].Break();
             }
         }
-
+        
         #endregion
     }
 }

@@ -74,7 +74,6 @@ namespace Desdiene.Coroutine
         private void SetNullAndRemove()
         {
             SetNull();
-            monoBehaviourExt.RemoveCoroutine(this);
             OnStopped?.Invoke();
         }
 
