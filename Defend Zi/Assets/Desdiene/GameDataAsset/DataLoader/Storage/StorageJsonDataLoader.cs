@@ -31,7 +31,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
             string storageName,
             string fileName,
             IJsonConvertor<T> jsonConvertor)
-            : base (superMono)
+            : base(superMono)
         {
             if (string.IsNullOrEmpty(storageName))
             {

@@ -1,4 +1,5 @@
-﻿namespace Desdiene.ObjectPoolerAsset {
+﻿namespace Desdiene.ObjectPoolerAsset
+{
     public interface IPooledObject
     {
         /// <summary>

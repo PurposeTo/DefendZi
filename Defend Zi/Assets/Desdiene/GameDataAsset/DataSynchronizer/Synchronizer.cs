@@ -16,8 +16,8 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
 
         private readonly ICoroutine ChooseDataInfo;
 
-        public Synchronizer(MonoBehaviourExt superMonoBehaviour, 
-            IModelInteraction<T> model, 
+        public Synchronizer(MonoBehaviourExt superMonoBehaviour,
+            IModelInteraction<T> model,
             IStorageDataLoader<T> storageDataLoader)
             : base(superMonoBehaviour)
         {
@@ -34,22 +34,22 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
         {
             storageDataLoader.Load(loadedData =>
             {
-                    if (cashData == null)
-                    {
-                        cashData = loadedData;
-                        T combinedData = CombineData(model.GetData(), loadedData);
-                        model.SetData(combinedData);
-                        return;
-                    }
+                if (cashData == null)
+                {
+                    cashData = loadedData;
+                    T combinedData = CombineData(model.GetData(), loadedData);
+                    model.SetData(combinedData);
+                    return;
+                }
+                else
+                {
+                    if (cashData.Equals(loadedData)) return;
                     else
                     {
-                        if (cashData.Equals(loadedData)) return;
-                        else
-                        {
-                            ChooseData(loadedData, choosedData => model.SetData(choosedData));
-                            return;
-                        }
+                        ChooseData(loadedData, choosedData => model.SetData(choosedData));
+                        return;
                     }
+                }
             });
         }
 

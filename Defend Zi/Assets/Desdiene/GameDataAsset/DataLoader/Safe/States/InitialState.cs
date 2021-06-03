@@ -1,9 +1,9 @@
 ﻿using System;
-using Desdiene.Types.AtomicReference;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
-using UnityEngine;
 using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.Types.AtomicReference;
+using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 {

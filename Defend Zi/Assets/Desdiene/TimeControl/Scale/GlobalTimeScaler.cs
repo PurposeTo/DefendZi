@@ -10,8 +10,8 @@ namespace Desdiene.TimeControl.Scale
 
         public GlobalTimeScaler(MonoBehaviour monoBehaviour)
         {
-            this.monoBehaviour = monoBehaviour != null 
-                ? monoBehaviour 
+            this.monoBehaviour = monoBehaviour != null
+                ? monoBehaviour
                 : throw new System.ArgumentNullException(nameof(monoBehaviour));
         }
 

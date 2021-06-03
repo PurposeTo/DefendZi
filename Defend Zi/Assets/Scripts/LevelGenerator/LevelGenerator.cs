@@ -12,8 +12,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int endLevelPoint = 1000;
     [SerializeField] private int randomCount = 2;
 
-    private int minHight = -7;
-    private int maxHight = 7;
+    private readonly int minHight = -7;
+    private readonly int maxHight = 7;
 
     private void Awake()
     {

@@ -1,5 +1,5 @@
-using UnityEngine;
 using Desdiene.Singleton;
+using UnityEngine;
 
 public class GameObjectsHolder : SingletonMonoBehaviourExt<GameObjectsHolder>
 {

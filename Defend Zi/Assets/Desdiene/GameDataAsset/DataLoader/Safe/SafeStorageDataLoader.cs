@@ -1,9 +1,9 @@
 ﻿using System;
-using Desdiene.Types.AtomicReference;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
 using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe
 {
@@ -28,7 +28,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe
 
         public void Save(T data)
         {
-            readerWriterState.Get().Save( data);
+            readerWriterState.Get().Save(data);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Desdiene.ObjectPoolerAsset.Base
 
 
         public FromPoolSpawner(
-            MonoBehaviour monoBehaviour, 
-            Pools pools, 
+            MonoBehaviour monoBehaviour,
+            Pools pools,
             ObjectToPoolCreator objectCreator)
             : base(monoBehaviour)
         {

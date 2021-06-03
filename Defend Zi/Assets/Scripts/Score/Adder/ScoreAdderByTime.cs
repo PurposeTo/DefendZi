@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using Desdiene.MonoBehaviourExtention;
+﻿using System.Collections;
 using Desdiene.Coroutine.CoroutineExecutor;
+using Desdiene.MonoBehaviourExtention;
+using UnityEngine;
 
 public class ScoreAdderByTime : MonoBehaviourExt
 {

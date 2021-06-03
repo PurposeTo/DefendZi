@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Desdiene.Extensions.UnityEngine;
+﻿using Desdiene.Extensions.UnityEngine;
+using UnityEngine;
 
 namespace Desdiene.TimeControl.Scale.Base
 {

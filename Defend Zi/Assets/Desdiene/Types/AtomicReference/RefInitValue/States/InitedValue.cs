@@ -11,6 +11,6 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit.States
 
         public override void Set(T value) => valueRef.Set(value);
 
-        public override T SetAndGet(T value) =>valueRef.SetAndGet(value);
+        public override T SetAndGet(T value) => valueRef.SetAndGet(value);
     }
 }

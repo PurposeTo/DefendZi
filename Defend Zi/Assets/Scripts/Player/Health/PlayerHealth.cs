@@ -1,6 +1,6 @@
 using System;
-using Desdiene.Types.Range.Positive;
 using Desdiene.Types.InPositiveRange.Positive;
+using Desdiene.Types.Range.Positive;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]

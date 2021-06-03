@@ -4,8 +4,8 @@ namespace Desdiene.GameDataAsset.Encryption
 {
     public struct SafeFloat
     {
-        private int value;
-        private int salt;
+        private readonly int value;
+        private readonly int salt;
 
 
         public SafeFloat(float value)
@@ -18,7 +18,7 @@ namespace Desdiene.GameDataAsset.Encryption
 
         public override bool Equals(object obj)
         {
-            return (float)this == (float)obj;
+            return this == (float)obj;
         }
 
 

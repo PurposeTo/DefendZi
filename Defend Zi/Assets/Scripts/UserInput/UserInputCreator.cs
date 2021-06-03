@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using Desdiene.UserInputFactory;
-using Desdiene.MonoBehaviourExtention;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using Desdiene.MonoBehaviourExtention;
+using Desdiene.UserInputFactory;
+using UnityEngine;
 
 public class UserInputCreator : IUserInputCreator<IUserInput>
 {

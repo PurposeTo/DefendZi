@@ -1,7 +1,7 @@
 ﻿using System;
-using UnityEngine;
 using Desdiene.MonoBehaviourExtention;
 using Desdiene.Types.EventContainers;
+using UnityEngine;
 
 namespace Desdiene.Singleton
 {
@@ -39,7 +39,7 @@ namespace Desdiene.Singleton
         protected sealed override void AwakeExt()
         {
             if (Instance == null) Init();
-            else  Destroy(gameObject);
+            else Destroy(gameObject);
         }
 
         /// <summary>

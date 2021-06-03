@@ -1,8 +1,8 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference.Interfaces;
+using Desdiene.Types.InPositiveRange.Abstract;
 using Desdiene.Types.Range.Positive;
 using UnityEngine;
-using Desdiene.Types.InPositiveRange.Abstract;
 
 namespace Desdiene.Types.InPositiveRange.Positive
 {

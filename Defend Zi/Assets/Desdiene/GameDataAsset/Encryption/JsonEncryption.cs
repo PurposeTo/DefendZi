@@ -1,9 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.IO;
-using UnityEngine;
 using Desdiene.Tools;
+using UnityEngine;
 
 namespace Desdiene.GameDataAsset.Encryption
 {

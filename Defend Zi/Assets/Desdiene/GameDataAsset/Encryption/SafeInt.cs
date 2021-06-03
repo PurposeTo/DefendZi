@@ -4,8 +4,8 @@ namespace Desdiene.GameDataAsset.Encryption
 {
     public struct SafeInt
     {
-        private int value;
-        private int salt;
+        private readonly int value;
+        private readonly int salt;
 
         public SafeInt(int value)
         {
@@ -23,7 +23,7 @@ namespace Desdiene.GameDataAsset.Encryption
 
         public override bool Equals(object obj)
         {
-            return obj is SafeInt safeInt && (int)this == (int)safeInt;
+            return obj is SafeInt safeInt && this == safeInt;
         }
 
 
