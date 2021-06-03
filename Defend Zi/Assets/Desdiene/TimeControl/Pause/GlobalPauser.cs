@@ -1,10 +1,10 @@
-﻿using Desdiene.Singleton;
+﻿using Desdiene.Singleton.Unity;
 using Desdiene.TimeControl.Pause.Base;
 using Desdiene.TimeControl.Scale;
 
 namespace Desdiene.TimeControl.Pause
 {
-    public class GlobalPauser : SingletonMonoBehaviourExt<GlobalPauser>, IPauser
+    public class GlobalPauser : GlobalSingleton<GlobalPauser>, IPauser
     {
         //todo используется композиция, а не наследование потому, что GlobalPauser необходимо унаследовать от Singltone.
         private Pauser pauser;

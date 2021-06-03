@@ -1,13 +1,12 @@
 ﻿using System;
-using Desdiene.Singleton;
+using Desdiene.Singleton.Unity;
 using Desdiene.TimeControl.Pause;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Класс отвечает за события, происходящие на игровой сцене.
 /// </summary>
-public class GameManager : SingletonMonoBehaviourExt<GameManager>
+public class GameManager : GlobalSingleton<GameManager>
 {
     public event Action OnGameOver;
     private PausableGlobalTime IsGameOver;

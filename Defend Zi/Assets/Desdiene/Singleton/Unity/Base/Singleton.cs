@@ -1,19 +1,16 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtention;
 using Desdiene.Types.EventContainers;
-using UnityEngine;
 
-namespace Desdiene.Singleton
+namespace Desdiene.Singleton.Unity
 {
-
     /// <summary> 
     /// To access the heir by a static field "Instance".
     /// </summary>
-    public abstract class SingletonMonoBehaviourExt<T>
+    public abstract class Singleton<T>
         : MonoBehaviourExt
-        where T : SingletonMonoBehaviourExt<T>
+        where T : Singleton<T>
     {
-        [SerializeField] private bool dontDestroyOnLoad = false;
         private static readonly ActionEvent<T> onInitedAction = new ActionEvent<T>();
 
         public static T Instance { get; private set; }
@@ -30,15 +27,17 @@ namespace Desdiene.Singleton
                 if (Instance != null) value?.Invoke(Instance);
                 else onInitedAction.OnInited += value;
             }
-            remove
-            {
-                onInitedAction.OnInited -= value;
-            }
+            remove => onInitedAction.OnInited -= value;
         }
 
         protected sealed override void AwakeExt()
         {
-            if (Instance == null) Init();
+            if (Instance == null)
+            {
+                Instance = Create();
+                AwakeSingleton();
+                onInitedAction.InvokeAndClear(Instance);
+            }
             else Destroy(gameObject);
         }
 
@@ -47,24 +46,6 @@ namespace Desdiene.Singleton
         /// </summary>
         protected virtual void AwakeSingleton() { }
 
-        private void Init()
-        {
-            Debug.Log($"Initialize SingletonSuperMonoBehaviour {this}");
-            Instance = this as T;
-            if (dontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-            AwakeSingleton();
-            onInitedAction.InvokeAndClear(Instance);
-        }
+        private protected abstract T Create();
     }
-
-    /*Пример с GameManager
-     * 
-     *  public class GameManager : Singleton<GameManager>
-    {
-        protected override void AwakeSingleton() { }
-    }
-     */
 }

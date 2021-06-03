@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Desdiene.ObjectPoolerAsset.Base;
-using Desdiene.Singleton;
+using Desdiene.Singleton.Unity;
 using UnityEngine;
 
 namespace Desdiene.ObjectPoolerAsset
 {
-
-    public class ObjectPooler : SingletonMonoBehaviourExt<ObjectPooler>
+    public class ObjectPooler : SceneSingleton<ObjectPooler>
     {
         public List<PoolData> PoolDatas; // Сетим через инспектор
 

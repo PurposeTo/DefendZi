@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Desdiene.Singleton
+namespace Desdiene.Singleton.System
 {
     public class LazySingleton<T> where T : LazySingleton<T>, new()
     {
