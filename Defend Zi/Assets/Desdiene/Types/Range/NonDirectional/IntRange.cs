@@ -1,4 +1,4 @@
-﻿using Desdiene.Extensions.System.Numeric;
+﻿using Desdiene.Extensions.System.Math;
 using Desdiene.Types.Range.NonDirectional.Interfaces;
 using UnityEngine;
 

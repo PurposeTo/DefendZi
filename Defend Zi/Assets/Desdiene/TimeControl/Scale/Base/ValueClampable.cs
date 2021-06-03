@@ -1,5 +1,4 @@
-﻿using Desdiene.Extensions.UnityEngine;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Desdiene.TimeControl.Scale.Base
 {
@@ -24,7 +23,7 @@ namespace Desdiene.TimeControl.Scale.Base
 
         public void SetUnclaimedMax(float value)
         {
-            Value = MathfExt.ClampMin(value, minValue);
+            Value = Math.ClampMin(value, minValue);
         }
     }
 }

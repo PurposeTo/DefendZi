@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Desdiene.Extensions.System.Numeric
+namespace Desdiene.Extensions.System.Math
 {
     public static class MathExt
     {
         public static bool Between<T>(this T value, T inclusiveMin, T inclusiveMax) where T : IComparable<T>
         {
-            return Math.Between(value, inclusiveMin, inclusiveMax);
+            return Desdiene.Math.Between(value, inclusiveMin, inclusiveMax);
         }
     }
 }

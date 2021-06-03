@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Extensions.System.Numeric;
+using Desdiene.Extensions.System.Math;
 using UnityEngine;
 
 namespace Desdiene.Types.Range.Positive

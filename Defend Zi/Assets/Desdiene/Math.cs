@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Desdiene
 {
-    public static class Math
+    public struct Math
     {
         /// <summary>
         /// Сравнить и вернуть минимальное и максимальное значения из двух
@@ -29,6 +29,20 @@ namespace Desdiene
             Compare(ref inclusiveMin, ref inclusiveMax);
             return value.CompareTo(inclusiveMin) >= 0 ||
                 value.CompareTo(inclusiveMax) <= 0;
+        }
+
+        public static T ClampMin<T>(T value, T min) where T : struct, IComparable<T>
+        {
+            return value.CompareTo(min) < 0
+                ? min
+                : value;
+        }
+
+        public static T ClampMax<T>(T value, T max) where T : struct, IComparable<T>
+        {
+            return value.CompareTo(max) > 0
+                ? max
+                : value;
         }
     }
 }
