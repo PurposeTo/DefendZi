@@ -3,13 +3,13 @@
 public class CameraMovement : MonoBehaviour
 {
     private float offsetOx;
-    private Player player;
+    private IPosition playerPosition;
 
     private void Awake()
     {
-        GameObjectsHolder.OnInited += (gameObjectsHolder) => player = gameObjectsHolder.Player;
+        ComponentsProxy.OnInited += (componentsProxy) => playerPosition = componentsProxy.PlayerPosition;
 
-        offsetOx = transform.position.x - player.transform.position.x;
+        offsetOx = transform.position.x - playerPosition.Value.x;
     }
 
     private void FixedUpdate()
@@ -19,7 +19,6 @@ public class CameraMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector3 playerPosition = player.transform.position;
-        transform.position = new Vector3(playerPosition.x + offsetOx, transform.position.y, transform.position.z);
+        transform.position = new Vector3(playerPosition.Value.x + offsetOx, transform.position.y, transform.position.z);
     }
 }

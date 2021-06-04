@@ -9,14 +9,14 @@ public class UserInteractive : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        GameObjectsHolder.OnInited += Init;
+        ComponentsProxy.OnInited += Init;
     }
 
     public static void AddControlled(IUserControlled controlled) => userControlled.Add(controlled);
 
     public static void RemoveControlled(IUserControlled controlled) => userControlled.Remove(controlled);
 
-    private void Init(GameObjectsHolder gameObjectsHolder)
+    private void Init(ComponentsProxy gameObjectsHolder)
     {
         userInput = new UserInputCreator(this).GetOrDefault();
         SubscribeEvents();

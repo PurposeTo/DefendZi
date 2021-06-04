@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class PlayerControl : UserControlled
+[RequireComponent(typeof(IPosition))]
+public class PlayerControl : UserControlled, IUserControlled
 {
     [SerializeField] private float speed = 12f;
     [SerializeField] private float amplitude = 6f;
@@ -16,14 +17,9 @@ public class PlayerControl : UserControlled
 
     protected override void AwakeExt()
     {
-        base.AwakeExt();
+        base.AwakeExt(); //инициализация UserControlled
+        position = GetComponent<IPosition>();
         frequency = defaultFrequency;
-    }
-
-    public PlayerControl Constructor(IPosition position)
-    {
-        this.position = position;
-        return this;
     }
 
     private void FixedUpdate()

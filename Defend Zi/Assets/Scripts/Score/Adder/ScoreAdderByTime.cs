@@ -3,6 +3,7 @@ using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
+[RequireComponent(typeof(IScoreCollector))]
 public class ScoreAdderByTime : MonoBehaviourExt
 {
     [SerializeField] private float delay = 1.5f;
@@ -10,12 +11,11 @@ public class ScoreAdderByTime : MonoBehaviourExt
 
     private IScoreCollector collector;
 
-    public ScoreAdderByTime Constructor(IScoreCollector collector)
+    protected override void AwakeExt()
     {
-        this.collector = collector;
+        collector = GetComponent<IScoreCollector>();
         ICoroutine routine = new CoroutineWrap(this);
         routine.StartContinuously(Adder());
-        return this;
     }
 
     private IEnumerator Adder()

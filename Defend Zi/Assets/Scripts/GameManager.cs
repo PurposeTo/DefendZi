@@ -18,9 +18,9 @@ public class GameManager : SceneSingleton<GameManager>
             IsGameOver = new PausableGlobalTime(this, globalTimePauser, "Окончание игры");
         };
 
-        PlayerHealth.OnInited += (playerHealth) =>
+        ComponentsProxy.OnInited += (componentsProxy) =>
         {
-            SubscribeEvents(playerHealth);
+            SubscribeEvents(componentsProxy);
         };
     }
 
@@ -29,14 +29,14 @@ public class GameManager : SceneSingleton<GameManager>
         UnsubscribeEvents();
     }
 
-    private void SubscribeEvents(PlayerHealth playerHealth)
+    private void SubscribeEvents(ComponentsProxy componentsProxy)
     {
-        playerHealth.OnDied += EndGame;
+        componentsProxy.PlayerDeath.OnDied += EndGame;
     }
 
     private void UnsubscribeEvents()
     {
-        PlayerHealth.Instance.OnDied -= EndGame;
+        ComponentsProxy.Instance.PlayerDeath.OnDied -= EndGame;
     }
 
     /// <summary>
