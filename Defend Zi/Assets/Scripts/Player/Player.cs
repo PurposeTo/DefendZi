@@ -9,25 +9,16 @@ using UnityEngine;
 public class Player : MonoBehaviourExt, IUserControlled
 {
     private IUserControlled control;
-    private PlayerHealth health;
 
     protected override void AwakeExt()
     {
         IPosition position = GetComponent<PlayerPosition>();
         control = GetComponent<PlayerControl>().Constructor(position);
-        health = GetComponent<PlayerHealth>();
         IScoreCollector collector = GetComponent<PlayerScore>();
         GetComponent<ScoreAdderByTime>().Constructor(collector);
     }
 
-    //TODO: вынести в health hit tracker
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out IDamageDealer damageDealer))
-        {
-            health.TakeDamage(damageDealer.Get());
-        }
-    }
+
 
     void IUserControlled.Control(IUserInput input) => control.Control(input);
 }
