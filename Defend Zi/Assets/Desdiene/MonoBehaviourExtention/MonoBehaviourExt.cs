@@ -252,21 +252,27 @@ namespace Desdiene.MonoBehaviourExtention
 
         #region GetComponent
 
-        public new T GetComponent<T>() where T : Component
+        public new T GetComponent<T>()
         {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponent<T>();
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
             return component ?? throw new NullReferenceException($"Can't find component! Type: {typeof(T)}.");
         }
 
-        public new T GetComponentInChildren<T>() where T : Component
+        public new T GetComponentInChildren<T>()
         {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInChildren<T>();
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
             return component ?? throw new NullReferenceException($"Can't find component in children! Type: {typeof(T)}.");
         }
 
-        public new T GetComponentInParent<T>() where T : Component
+        public new T GetComponentInParent<T>()
         {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInParent<T>();
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
             return component ?? throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.");
         }
 
