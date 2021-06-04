@@ -5,5 +5,5 @@ public class ObstacleDamage : MonoBehaviour, IDamageDealer
 {
     private readonly uint damage = 1;
 
-    public uint GetDamage() => damage;
+    public uint Get() => damage;
 }

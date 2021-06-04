@@ -25,7 +25,7 @@ public class Player : MonoBehaviourExt, IUserControlled
     {
         if (collision.TryGetComponent(out IDamageDealer damageDealer))
         {
-            health.TakeDamage(damageDealer.GetDamage());
+            health.TakeDamage(damageDealer.Get());
         }
     }
 
