@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.Singleton.Unity;
-using Desdiene.TimeControl.Pause;
+using Desdiene.TimeControl.Pausable;
+using Desdiene.TimeControl.Pauser;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -9,13 +10,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : SceneSingleton<GameManager>
 {
     public event Action OnGameOver;
-    private PausableGlobalTime IsGameOver;
+    private GlobalTimePauser IsGameOver;
 
     protected override void AwakeSingleton()
     {
-        GlobalTimePauser.OnInited += (globalTimePauser) =>
+        GlobalTimePausable.OnInited += (globalTimePauser) =>
         {
-            IsGameOver = new PausableGlobalTime(this, globalTimePauser, "Окончание игры");
+            IsGameOver = new GlobalTimePauser(this, globalTimePauser, "Окончание игры");
         };
 
         ComponentsProxy.OnInited += (componentsProxy) =>

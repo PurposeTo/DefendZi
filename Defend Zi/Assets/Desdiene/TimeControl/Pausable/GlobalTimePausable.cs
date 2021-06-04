@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using Desdiene.Singleton.Unity;
-using Desdiene.TimeControl.Pause.Base;
+using Desdiene.TimeControl.Pauser;
 using Desdiene.TimeControl.Scale;
 using UnityEngine;
 
-namespace Desdiene.TimeControl.Pause
+namespace Desdiene.TimeControl.Pausable
 {
-    public class GlobalTimePauser : GlobalSingleton<GlobalTimePauser>, IPauser
+    public class GlobalTimePausable : GlobalSingleton<GlobalTimePausable>, ITimePausable
     {
         //todo используется композиция, а не наследование потому, что GlobalPauser необходимо унаследовать от Singltone.
-        private Pauser pauser;
+        private PausableTime pausable;
 
         protected override void AwakeSingleton()
         {
-            GlobalTimeScaler.OnInited += (globalTimeScaler) => pauser = new Pauser(globalTimeScaler);
+            GlobalTimeScaler.OnInited += (globalTimeScaler) => pausable = new PausableTime(globalTimeScaler);
         }
 
         private IEnumerator Start()
@@ -21,29 +21,29 @@ namespace Desdiene.TimeControl.Pause
             var wait = new WaitForSecondsRealtime(10f);
             while (true)
             {
-                LogAllPausables();
+                LogAllPausers();
                 yield return wait;
             }
         }
 
-        public bool IsPause => pauser.IsPause;
+        public bool IsPause => pausable.IsPause;
 
-        public void LogAllPausables()
+        public void LogAllPausers()
         {
             // pauser инициализируется только после инициализации GlobalTimeScaler...
-            GlobalTimeScaler.OnInited += (globalTimeScaler) => pauser.LogAllPausables();
+            GlobalTimeScaler.OnInited += (globalTimeScaler) => pausable.LogAllPausers();
         }
 
-        public void Add(IPausableTime pausable)
+        public void Add(ITimePauser pauser)
         {
             // pauser инициализируется только после инициализации GlobalTimeScaler...
-            GlobalTimeScaler.OnInited += (globalTimeScaler) => pauser.Add(pausable);
+            GlobalTimeScaler.OnInited += (globalTimeScaler) => this.pausable.Add(pauser);
         }
 
-        public void Remove(IPausableTime pausable)
+        public void Remove(ITimePauser pauser)
         {
             // pauser инициализируется только после инициализации GlobalTimeScaler...
-            GlobalTimeScaler.OnInited += (globalTimeScaler) => pauser.Remove(pausable);
+            GlobalTimeScaler.OnInited += (globalTimeScaler) => this.pausable.Remove(pauser);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Desdiene.Container;
 using Desdiene.MonoBehaviourExtention;
-using Desdiene.TimeControl.Pause;
+using Desdiene.TimeControl.Pausable;
+using Desdiene.TimeControl.Pauser;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,15 +10,15 @@ namespace Desdiene.SceneLoader
     public class SingleSceneLoader : MonoBehaviourExtContainer
     {
         private readonly ILoadingScreen loadingScreen;
-        private readonly PausableGlobalTime isSceneLoading;
+        private readonly GlobalTimePauser isSceneLoading;
 
         public SingleSceneLoader(
             MonoBehaviourExt superMono,
-            GlobalTimePauser globalTimePauser,
+            GlobalTimePausable globalTimePauser,
             ILoadingScreen loadingScreen)
             : base(superMono)
         {
-            isSceneLoading = new PausableGlobalTime(superMono, globalTimePauser, "Загрузка сцены");
+            isSceneLoading = new GlobalTimePauser(superMono, globalTimePauser, "Загрузка сцены");
 
             this.loadingScreen = loadingScreen;
 
