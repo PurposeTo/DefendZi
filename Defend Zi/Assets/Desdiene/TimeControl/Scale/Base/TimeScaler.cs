@@ -1,17 +1,22 @@
-﻿namespace Desdiene.TimeControl.Scale.Base
+﻿using System;
+using Desdiene.Types.Percent;
+
+namespace Desdiene.TimeControl.Scale.Base
 {
-    public abstract class TimeScaler
+    public abstract class TimeScaler : ITimeScaler
     {
-        private readonly ValueClampable timeScaleSaved;  // Сохраненное значение скорости времени
+        private readonly IPercent timeScaleSaved;  // Сохраненное значение скорости времени
 
         public TimeScaler()
         {
-            timeScaleSaved = new ValueClampable(TimeScale, 0f, 1f);
+            timeScaleSaved = new Percents(TimeScale);
         }
 
         public abstract float TimeScale { get; protected set; }
 
         public bool IsPause { get; private set; } = false; // По умолчанию паузы нет
+
+        public event Action<float> OnTimeScaleChanged;
 
         public void SetPause(bool pause)
         {
@@ -21,18 +26,14 @@
 
         public void SetTimeScale(float timeScale)
         {
-            timeScaleSaved.SetClamped(timeScale);
-        }
-
-        public void SetTimeScaleUnclaimedMax(float timeScale)
-        {
-            timeScaleSaved.SetUnclaimedMax(timeScale);
+            timeScaleSaved.Set(timeScale);
         }
 
         private void SetTimeScaleViaPause()
         {
             if (IsPause) TimeScale = 0f;
-            else TimeScale = timeScaleSaved.Value;
+            else TimeScale = timeScaleSaved.Get();
+            OnTimeScaleChanged?.Invoke(TimeScale);
         }
     }
 }

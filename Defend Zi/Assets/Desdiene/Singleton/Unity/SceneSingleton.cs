@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Desdiene.Singleton.Unity
 {
@@ -10,10 +11,16 @@ namespace Desdiene.Singleton.Unity
         : Singleton<T>
         where T : Singleton<T>
     {
-        private protected override T Create()
+        private protected override void AwakeInstance()
         {
-            Debug.Log($"Initialize SceneSingleton.Unity {this}");
-            return this as T;
+            if (Instance == null)
+            {
+                Debug.Log($"Initialize SceneSingleton.Unity {this}");
+                Instance = this as T;
+                AwakeSingleton();
+                onInitedAction.InvokeAndClear(Instance);
+            }
+            else throw new OverflowException($"There is several {GetType()} on loaded scene/s! There must be only one.");
         }
     }
 }

@@ -2,9 +2,8 @@
 using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.InPositiveRange.Abstract;
 using Desdiene.Types.Range.Positive;
-using UnityEngine;
 
-namespace Desdiene.Types.InPositiveRange.Positive
+namespace Desdiene.Types.InPositiveRange
 {
     [Serializable]
     public class IntInRange : ValueInRange<int>, IRef<int>

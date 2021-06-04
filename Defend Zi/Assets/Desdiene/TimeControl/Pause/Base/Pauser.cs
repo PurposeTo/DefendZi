@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Desdiene.TimeControl.Scale.Base;
+using Desdiene.TimeControl.Scale;
 using UnityEngine;
 
 namespace Desdiene.TimeControl.Pause.Base
 {
     public class Pauser : IPauser
     {
-        private readonly TimeScaler timeScaler;
+        private readonly ITimeScaler timeScaler;
         private readonly List<IPausableTime> pausables = new List<IPausableTime>();
 
-        public Pauser(TimeScaler timeScaler)
+        public Pauser(ITimeScaler timeScaler)
         {
             this.timeScaler = timeScaler;
         }
@@ -20,8 +20,8 @@ namespace Desdiene.TimeControl.Pause.Base
 
         public void LogAllPausables()
         {
-            string logMessage = "Pausable time list have next items:";
-            pausables.ForEach(pausable => logMessage += $"\n{pausable.Name}. isPause: {pausable.IsPause}");
+            string logMessage = $"Pausable time list have {pausables.Count} items. GlobalPause: {IsPause}";
+            pausables.ForEach(pausable => logMessage += $"\nCause: {pausable.Name}. isPause: {pausable.IsPause}");
             Debug.Log(logMessage);
         }
 

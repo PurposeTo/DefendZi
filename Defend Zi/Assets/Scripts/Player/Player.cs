@@ -6,16 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerControl))]
 [RequireComponent(typeof(PlayerScore))]
 [RequireComponent(typeof(ScoreAdderByTime))]
-public class Player :
-    MonoBehaviourExt,
-    IUserControlled
+public class Player : MonoBehaviourExt, IUserControlled
 {
-    public event Action OnDied
-    {
-        add => health.OnDied += value;
-        remove => health.OnDied -= value;
-    }
-
     private IUserControlled control;
     private PlayerHealth health;
 
@@ -28,6 +20,7 @@ public class Player :
         GetComponent<ScoreAdderByTime>().Constructor(collector);
     }
 
+    //TODO: вынести в health hit tracker
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IDamageDealer damageDealer))

@@ -1,12 +1,13 @@
 using System;
-using Desdiene.Types.AtomicReference.Interfaces;
-using Desdiene.Types.InPositiveRange.Positive;
+using Desdiene.Types.InPositiveRange;
+using Desdiene.Types.Percent;
+using Desdiene.Types.Percentale;
 using Desdiene.Types.Range.Positive;
 using UnityEngine;
 
 namespace Desdiene.Types.Percentable
 {
-    public class IntPercentable : IntInRange, IRef<int>, IPercent
+    public class IntPercentable : IntInRange, IPercentable<int>
     {
         public IntPercentable(int value, IntRange range) : base(value, range) { }
 
@@ -56,9 +57,21 @@ namespace Desdiene.Types.Percentable
             return value;
         }
 
+        public static IntPercentable operator -(IntPercentable value, uint delta)
+        {
+            value.Set((int)(value.Get() - delta));
+            return value;
+        }
+
         public static IntPercentable operator +(IntPercentable value, int delta)
         {
             value.Set(value.Get() + delta);
+            return value;
+        }
+
+        public static IntPercentable operator +(IntPercentable value, uint delta)
+        {
+            value.Set((int)(value.Get() + delta));
             return value;
         }
     }

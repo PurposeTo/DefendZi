@@ -1,4 +1,4 @@
-﻿namespace Desdiene.Types.Percentable
+﻿namespace Desdiene.Types.Percent
 {
     /// <summary>
     /// Сущность, которой можно записать процентное значние.

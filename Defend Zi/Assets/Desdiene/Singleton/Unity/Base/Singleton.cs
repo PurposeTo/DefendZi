@@ -11,9 +11,9 @@ namespace Desdiene.Singleton.Unity
         : MonoBehaviourExt
         where T : Singleton<T>
     {
-        private static readonly ActionEvent<T> onInitedAction = new ActionEvent<T>();
+        private protected static readonly ActionEvent<T> onInitedAction = new ActionEvent<T>();
 
-        public static T Instance { get; private set; }
+        public static T Instance { get; private protected set; }
         public static IInitionEvent<T> OnInitedWrap => onInitedAction;
 
         /// <summary>
@@ -32,13 +32,7 @@ namespace Desdiene.Singleton.Unity
 
         protected sealed override void AwakeExt()
         {
-            if (Instance == null)
-            {
-                Instance = Create();
-                AwakeSingleton();
-                onInitedAction.InvokeAndClear(Instance);
-            }
-            else Destroy(gameObject);
+            AwakeInstance();
         }
 
         /// <summary>
@@ -46,6 +40,6 @@ namespace Desdiene.Singleton.Unity
         /// </summary>
         protected virtual void AwakeSingleton() { }
 
-        private protected abstract T Create();
+        private protected abstract void AwakeInstance();
     }
 }

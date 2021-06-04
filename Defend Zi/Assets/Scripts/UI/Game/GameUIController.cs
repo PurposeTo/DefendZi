@@ -5,13 +5,14 @@ public class GameUIController : MonoBehaviour
     [SerializeField]
     private GameOverView gameOverView;
 
-    private Player player;
+    //TODO: заменить на интерфейс с одним лишь событием!
+    private IHealth<int> playerHealth;
 
     private void Awake()
     {
-        GameObjectsHolder.OnInited += (gameObjectsHolder) =>
+        PlayerHealth.OnInited += (playerHealth) =>
         {
-            InitDataModels(gameObjectsHolder);
+            InitDataModels(playerHealth);
             InitViews();
 
             GameManager.OnInited += (gameManager) =>
@@ -28,19 +29,19 @@ public class GameUIController : MonoBehaviour
 
     private void SubscribeEvents(GameManager gameManager)
     {
-        player.OnDied += gameOverView.Enable;
+        playerHealth.OnDied += gameOverView.Enable;
         gameOverView.OnReloadLvlClicked += gameManager.ReloadLvl;
     }
 
     private void UnsubscribeEvents(GameManager gameManager)
     {
-        player.OnDied -= gameOverView.Enable;
+        playerHealth.OnDied -= gameOverView.Enable;
         gameOverView.OnReloadLvlClicked -= gameManager.ReloadLvl;
     }
 
-    private void InitDataModels(GameObjectsHolder gameObjectsHolder)
+    private void InitDataModels(PlayerHealth playerHealth)
     {
-        player = gameObjectsHolder.Player;
+        this.playerHealth = playerHealth;
     }
 
     private void InitViews()

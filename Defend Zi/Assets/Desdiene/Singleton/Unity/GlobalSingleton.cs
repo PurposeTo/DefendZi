@@ -1,6 +1,4 @@
-﻿using System;
-using Desdiene.Types.EventContainers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Desdiene.Singleton.Unity
 {
@@ -12,11 +10,17 @@ namespace Desdiene.Singleton.Unity
         : Singleton<T>
         where T : Singleton<T>
     {
-        private protected override T Create()
+        private protected override void AwakeInstance()
         {
-            Debug.Log($"Initialize GlobalSingleton.Unity {this}");
-            DontDestroyOnLoad(gameObject);
-            return this as T;
+            if (Instance == null)
+            {
+                Debug.Log($"Initialize GlobalSingleton.Unity {this}");
+                DontDestroyOnLoad(gameObject);
+                Instance = this as T;
+                AwakeSingleton();
+                onInitedAction.InvokeAndClear(Instance);
+            }
+            else Destroy(gameObject);
         }
     }
 }

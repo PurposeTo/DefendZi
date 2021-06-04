@@ -1,11 +1,12 @@
-using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.InPositiveRange;
+using Desdiene.Types.Percent;
+using Desdiene.Types.Percentale;
 using Desdiene.Types.Range.Positive;
 using UnityEngine;
 
 namespace Desdiene.Types.Percentable
 {
-    public class FloatPercentable : FloatInRange, IRef<float>, IPercent
+    public class FloatPercentable : FloatInRange, IPercentable<float>
     {
         public FloatPercentable(float value, FloatRange range) : base(value, range) { }
 

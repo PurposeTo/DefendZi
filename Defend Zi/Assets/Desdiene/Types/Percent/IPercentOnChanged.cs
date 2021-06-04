@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.Types.Percentable
+namespace Desdiene.Types.Percent
 {
     public interface IPercentOnChanged
     {

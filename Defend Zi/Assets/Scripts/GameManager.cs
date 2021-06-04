@@ -4,17 +4,24 @@ using Desdiene.TimeControl.Pause;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Класс отвечает за события, происходящие на игровой сцене.
+/// Класс отвечает за события, происходящие на игровой сцене. (не относится к сценам main menu и тп.)
 /// </summary>
-public class GameManager : GlobalSingleton<GameManager>
+public class GameManager : SceneSingleton<GameManager>
 {
     public event Action OnGameOver;
     private PausableGlobalTime IsGameOver;
 
     protected override void AwakeSingleton()
     {
-        IsGameOver = new PausableGlobalTime(this, "Игра окончена");
-        SubscribeEvents();
+        GlobalTimePauser.OnInited += (globalTimePauser) =>
+        {
+            IsGameOver = new PausableGlobalTime(this, globalTimePauser, "Окончание игры");
+        };
+
+        PlayerHealth.OnInited += (playerHealth) =>
+        {
+            SubscribeEvents(playerHealth);
+        };
     }
 
     protected override void OnDestroyExt()
@@ -22,17 +29,14 @@ public class GameManager : GlobalSingleton<GameManager>
         UnsubscribeEvents();
     }
 
-    private void SubscribeEvents()
+    private void SubscribeEvents(PlayerHealth playerHealth)
     {
-        GameObjectsHolder.OnInited += (gameObjectsHolder) =>
-        {
-            gameObjectsHolder.Player.OnDied += EndGame;
-        };
+        playerHealth.OnDied += EndGame;
     }
 
     private void UnsubscribeEvents()
     {
-        GameObjectsHolder.Instance.Player.OnDied -= EndGame;
+        PlayerHealth.Instance.OnDied -= EndGame;
     }
 
     /// <summary>

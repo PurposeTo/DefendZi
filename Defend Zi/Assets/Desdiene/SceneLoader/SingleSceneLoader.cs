@@ -11,9 +11,13 @@ namespace Desdiene.SceneLoader
         private readonly ILoadingScreen loadingScreen;
         private readonly PausableGlobalTime isSceneLoading;
 
-        public SingleSceneLoader(MonoBehaviourExt superMono, ILoadingScreen loadingScreen) : base(superMono)
+        public SingleSceneLoader(
+            MonoBehaviourExt superMono,
+            GlobalTimePauser globalTimePauser,
+            ILoadingScreen loadingScreen)
+            : base(superMono)
         {
-            isSceneLoading = new PausableGlobalTime(superMono, "Загрузка сцены");
+            isSceneLoading = new PausableGlobalTime(superMono, globalTimePauser, "Загрузка сцены");
 
             this.loadingScreen = loadingScreen;
 

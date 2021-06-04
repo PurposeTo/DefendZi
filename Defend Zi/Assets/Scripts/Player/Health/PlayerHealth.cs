@@ -1,18 +1,22 @@
 using System;
-using Desdiene.Types.InPositiveRange.Positive;
+using Desdiene.Singleton.Unity;
+using Desdiene.Types.Percentable;
+using Desdiene.Types.Percentale;
 using Desdiene.Types.Range.Positive;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class PlayerHealth : MonoBehaviour, IDamageTaker
+public class PlayerHealth : SceneSingleton<PlayerHealth>, IHealth<int>
 {
     public event Action OnDied;
-    private IntInRange health;
+    private IntPercentable health;
 
-    private void Awake()
+    IPercentable<int> IHealth<int>.Health => health;
+
+    protected override void AwakeSingleton()
     {
         int defaultHealth = 1;
-        health = new IntInRange(defaultHealth, new IntRange(0, defaultHealth));
+        health = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
     }
 
     public void TakeDamage(uint damage)
