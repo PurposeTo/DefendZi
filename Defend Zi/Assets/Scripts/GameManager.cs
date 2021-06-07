@@ -3,27 +3,28 @@ using Desdiene.Singleton.Unity;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 /// <summary>
 /// Класс отвечает за события, происходящие на игровой сцене. (не относится к сценам main menu и тп.)
 /// </summary>
 public class GameManager : SceneSingleton<GameManager>
 {
-    public event Action OnGameOver;
     private GlobalTimePauser IsGameOver;
 
-    protected override void AwakeSingleton()
+    [Inject]
+    public void Constructor(GlobalTimePausable globalTimePausable)
     {
-        GlobalTimePausable.OnInited += (globalTimePauser) =>
-        {
-            IsGameOver = new GlobalTimePauser(this, globalTimePauser, "Окончание игры");
-        };
+        IsGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
 
         ComponentsProxy.OnInited += (componentsProxy) =>
         {
             SubscribeEvents(componentsProxy);
         };
     }
+
+    public event Action OnGameOver;
+
 
     protected override void OnDestroyExt()
     {

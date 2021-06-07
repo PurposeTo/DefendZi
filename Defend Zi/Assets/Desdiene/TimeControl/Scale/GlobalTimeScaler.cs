@@ -1,19 +1,19 @@
 ﻿using System;
-using Desdiene.Singleton.Unity;
+using Desdiene.MonoBehaviourExtention;
 using Desdiene.Types.Percent;
 using UnityEngine;
 
 namespace Desdiene.TimeControl.Scale
 {
     //Взаимодействовать с UnityEngine.Time только внутри ЖЦ monoBehaviour
-    public sealed class GlobalTimeScaler : GlobalSingleton<GlobalTimeScaler>, ITimeScaler
+    public sealed class GlobalTimeScaler : MonoBehaviourExt, ITimeScaler
     {
         private IPercent timeScaleSaved;  // Сохраненное значение скорости времени
         private bool pause = false; // По умолчанию паузы нет
 
         public event Action<float> OnTimeScaleChanged;
 
-        protected override void AwakeSingleton()
+        protected override void AwakeExt()
         {
             timeScaleSaved = new Percents(Time.timeScale);
         }
