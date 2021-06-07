@@ -1,15 +1,26 @@
-﻿using UnityEngine;
+﻿using Desdiene.MonoBehaviourExtention;
+using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(IPosition))]
-public class PlayerControl : UserControlled, IUserControlled
+public class PlayerControl : MonoBehaviourExt
 {
+    private IUserInput userInput;
+
+    [Inject]
+    public void Control(IUserInput input)
+    {
+        userInput = input;
+    }
+
+
     [SerializeField] private float speed = 12f;
     [SerializeField] private float amplitude = 6f;
     [SerializeField] private float defaultFrequency = 0.15f;
     [SerializeField] private float controlledFrequency = 0.5f;
     [SerializeField] private float frequencyChangeRate = 1.5f;
 
-    private bool isControlled = false;
+    private bool isControlled => userInput.IsActive;
     private float frequency;
     private float phase;
 
@@ -17,7 +28,6 @@ public class PlayerControl : UserControlled, IUserControlled
 
     protected override void AwakeExt()
     {
-        base.AwakeExt(); //инициализация UserControlled
         position = GetComponent<IPosition>();
         frequency = defaultFrequency;
     }
@@ -29,11 +39,6 @@ public class PlayerControl : UserControlled, IUserControlled
             : GetFrequency(defaultFrequency, Time.fixedDeltaTime);
 
         Move(Time.fixedDeltaTime);
-    }
-
-    public override void Control(IUserInput input)
-    {
-        isControlled = input.IsActive;
     }
 
     private void Move(float deltaTime)
