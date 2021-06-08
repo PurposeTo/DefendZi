@@ -22,8 +22,10 @@ public class Player :
     {
         userInput = input;
         position = new PlayerPosition(GetComponent<Rigidbody2D>());
-        control = new PlayerControl(userInput, position);
+        control = new PlayerControl(userInput, position, movementData);
     }
+
+    [SerializeField] private PlayerMovementData movementData;
 
     Vector2 IPositionGetter.Value => position.Value;
 

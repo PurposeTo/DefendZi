@@ -7,9 +7,9 @@ public class GameSceneInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        BindComponentsProxy();
         BindGameManager();
         BindUserInput();
-        BindComponentsProxy();
     }
 
     private void BindComponentsProxy()

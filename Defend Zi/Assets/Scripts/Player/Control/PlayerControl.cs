@@ -4,20 +4,17 @@ public class PlayerControl
 {
     private readonly IUserInput userInput;
     private readonly IPosition position;
+    private readonly PlayerMovementData controlData;
 
-    public PlayerControl(IUserInput input, IPosition position)
+    public PlayerControl(IUserInput input, IPosition position, PlayerMovementData controlData)
     {
-        userInput = input;
-        this.position = position;
-        frequency = defaultFrequency;
+        userInput = input ?? throw new System.ArgumentNullException(nameof(input));
+        this.position = position ?? throw new System.ArgumentNullException(nameof(position));
+        this.controlData = controlData
+            ? controlData 
+            : throw new System.ArgumentNullException(nameof(controlData));
+        frequency = controlData.defaultFrequency;
     }
-
-    //todo вынести в SO.
-    [SerializeField] private float speed = 12f;
-    [SerializeField] private float amplitude = 6f;
-    [SerializeField] private float defaultFrequency = 0.15f;
-    [SerializeField] private float controlledFrequency = 0.5f;
-    [SerializeField] private float frequencyChangeRate = 1.5f;
 
     private bool IsControlled => userInput.IsActive;
     private float frequency;
@@ -26,15 +23,15 @@ public class PlayerControl
     public void FixedUpdate(float deltaTime)
     {
         float targetFrequency = IsControlled
-            ? controlledFrequency
-            : defaultFrequency;
+            ? controlData.controlledFrequency
+            : controlData.defaultFrequency;
         frequency = GetFrequency(targetFrequency, deltaTime);
         Move(deltaTime);
     }
 
     private void Move(float deltaTime)
     {
-        float x = MoveOx(speed * deltaTime);
+        float x = MoveOx(controlData.speed * deltaTime);
         float y = MoveOy(x);
         position.MoveTo(new Vector2(x, y));
     }
@@ -46,12 +43,12 @@ public class PlayerControl
 
     private float MoveOy(float x)
     {
-        return amplitude * Mathf.Sin(frequency * x + phase);
+        return controlData.amplitude * Mathf.Sin(frequency * x + phase);
     }
 
     private float GetFrequency(float targetFrequency, float deltaTime)
     {
-        float delta = frequencyChangeRate * deltaTime;
+        float delta = controlData.frequencyChangeRate * deltaTime;
         float current = frequency;
         float next = Mathf.MoveTowards(current, targetFrequency, delta);
         phase = GetPhase(current, next);
