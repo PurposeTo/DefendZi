@@ -10,39 +10,13 @@ namespace Desdiene.MonoBehaviourExtention
         #region Awake realization
 
         /// <summary>
-        /// Событие вызовется после выполнения метода Awake объекта или сразу же, если Awake уже был вызван.
-        /// </summary>
-        public event Action OnIsAwaked
-        {
-            add
-            {
-                if (IsAwaked) value?.Invoke();
-                else OnIsAwakedAction += value;
-            }
-            remove
-            {
-                OnIsAwakedAction -= value;
-            }
-        }
-
-        private Action OnIsAwakedAction;
-        private bool IsAwaked = false;
-
-        /// <summary>
         /// Необходимо использовать данный метод взамен Awake()
         /// </summary>
-        protected virtual void AwakeExt() { }
-
-        private void EndAwakeExecution()
-        {
-            IsAwaked = true;
-            ExecuteCommandsAndClear(ref OnIsAwakedAction);
-        }
+        protected virtual void Constructor() { }
 
         private void Awake()
         {
-            AwakeExt();
-            EndAwakeExecution();
+            Constructor();
         }
 
         #endregion
@@ -77,40 +51,13 @@ namespace Desdiene.MonoBehaviourExtention
         #region Start realization
 
         /// <summary>
-        /// Событие вызовется после выполнения метода Start объекта или сразу же, если Start уже был вызван.
-        /// </summary>
-        public event Action OnIsStarted
-        {
-            add
-            {
-                if (IsStarted) value?.Invoke();
-                else OnIsStartedAction += value;
-            }
-            remove
-            {
-                OnIsStartedAction -= value;
-            }
-        }
-
-        private Action OnIsStartedAction;
-        private bool IsStarted = false;
-
-
-        /// <summary>
         /// Необходимо использовать данный метод взамен Start()
         /// </summary>
         protected virtual void StartExt() { }
 
-        private void EndStartExecution()
-        {
-            IsStarted = true;
-            ExecuteCommandsAndClear(ref OnIsStartedAction);
-        }
-
         private void Start()
         {
             StartExt();
-            EndStartExecution();
         }
 
         #endregion
@@ -208,13 +155,6 @@ namespace Desdiene.MonoBehaviourExtention
         }
 
         #endregion
-
-
-        protected void ExecuteCommandsAndClear(ref Action action)
-        {
-            action?.Invoke();
-            action = null;
-        }
 
         #region CoroutineExecutor
 

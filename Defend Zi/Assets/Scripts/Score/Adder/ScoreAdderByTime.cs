@@ -12,7 +12,7 @@ public class ScoreAdderByTime : MonoBehaviourExt
 
     private IScoreCollector collector;
 
-    protected override void AwakeExt()
+    protected override void Constructor()
     {
         collector = GetComponent<IScoreCollector>();
         ICoroutine routine = new CoroutineWrap(this);

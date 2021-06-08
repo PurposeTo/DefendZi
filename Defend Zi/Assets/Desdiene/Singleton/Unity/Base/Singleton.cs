@@ -32,7 +32,7 @@ namespace Desdiene.Singleton.Unity
             remove => onInitedAction.OnInited -= value;
         }
 
-        protected sealed override void AwakeExt()
+        protected sealed override void Constructor()
         {
             AwakeInstance();
         }

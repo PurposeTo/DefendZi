@@ -6,7 +6,7 @@ public class ScoreCollectorTracker : MonoBehaviourExt
 {
     private IScoreCollector scoreCollector;
 
-    protected override void AwakeExt()
+    protected override void Constructor()
     {
         //todo: верное ли использование?
         scoreCollector = GetComponentInParent<IScoreCollector>();

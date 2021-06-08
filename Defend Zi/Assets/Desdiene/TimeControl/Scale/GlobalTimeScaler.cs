@@ -16,7 +16,7 @@ namespace Desdiene.TimeControl.Scale
 
         public event Action<float> OnTimeScaleChanged;
 
-        protected override void AwakeExt()
+        protected override void Constructor()
         {
             timeScaleSaved = new Percents(Time.timeScale);
         }

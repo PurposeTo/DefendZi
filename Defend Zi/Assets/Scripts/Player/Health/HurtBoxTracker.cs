@@ -6,7 +6,7 @@ public class HurtBoxTracker : MonoBehaviourExt
 {
     private IDamageTaker damageTaker;
 
-    protected override void AwakeExt()
+    protected override void Constructor()
     {
         //todo: верное ли использование?
         damageTaker = GetComponentInParent<IDamageTaker>();
