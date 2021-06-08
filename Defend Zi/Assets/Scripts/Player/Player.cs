@@ -1,31 +1,28 @@
 using System;
-using Desdiene.MonoBehaviourExtention;
 using Desdiene.Types.Percentale;
 using UnityEngine;
-using Zenject;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player :
-    MonoBehaviourExt,
     IPositionGetter,
     IHealth,
     IScoreCollector
 {
-    private IUserInput userInput;
-    private PlayerControl control;
+    private readonly IUserInput userInput;
+    private readonly PlayerControl control;
     private readonly IHealth health = new PlayerHealth();
-    private IPosition position;
+    private readonly IPosition position;
     private readonly IScoreCollector scoreCollector = new PlayerScore();
 
-    [Inject]
-    private void Constructor(IUserInput input)
+    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementControlData)
     {
-        userInput = input;
-        position = new PlayerPosition(GetComponent<Rigidbody2D>());
-        control = new PlayerControl(userInput, position, movementData);
-    }
+        if (!rigidbody2D) throw new ArgumentNullException(nameof(rigidbody2D));
+        if (!movementControlData)  throw new ArgumentNullException(nameof(movementControlData));
 
-    [SerializeField] private PlayerMovementData movementData;
+        userInput = input ?? throw new ArgumentNullException(nameof(input));
+        position = new PlayerPosition(rigidbody2D);
+        control = new PlayerControl(userInput, position, movementControlData);
+    }
 
     Vector2 IPositionGetter.Value => position.Value;
 
@@ -39,9 +36,9 @@ public class Player :
         remove => health.OnDied -= value;
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate(float deltaTime)
     {
-        control.FixedUpdate(Time.fixedDeltaTime);
+        control.FixedUpdate(deltaTime);
     }
 
     void IDamageTaker.TakeDamage(uint damage) => health.TakeDamage(damage);

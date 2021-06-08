@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   componentsProxy: {fileID: 668012057}
+  player: {fileID: 274676708}
 --- !u!1 &274676707
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,10 +279,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 274676707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91eb62fbe6aaaee45b9be18ec5ed41a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e1f8b9b12a342e44bf628d1ec884e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementData: {fileID: 11400000, guid: bdff5b81ae86fca42949c34c3990a352, type: 2}
+  movementControlData: {fileID: 11400000, guid: bdff5b81ae86fca42949c34c3990a352, type: 2}
 --- !u!50 &274676709
 Rigidbody2D:
   serializedVersion: 4
