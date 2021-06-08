@@ -9,7 +9,7 @@ public class HurtBoxTracker : MonoBehaviourExt
     protected override void Constructor()
     {
         //todo: верное ли использование?
-        damageTaker = GetComponentInParent<IDamageTaker>();
+        damageTaker = GetComponentOnlyInParent<IDamageTaker>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

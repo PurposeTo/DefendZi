@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ScorePoints : MonoBehaviour, IScore
+public class ScorePoints : IScore
 {
     [SerializeField] private int points = 1;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Desdiene.Coroutine;
 using UnityEngine;
 
@@ -214,6 +215,20 @@ namespace Desdiene.MonoBehaviourExtention
             T component = base.GetComponentInParent<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
             return component ?? throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.");
+        }
+
+        public T GetComponentOnlyInParent<T>()
+        {
+            try
+            {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+                return GetComponentsInParent<T>().Single(it => !it.Equals(this));
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+            }
+            catch (InvalidOperationException exception)
+            {
+                throw new NullReferenceException($"Not found {typeof(T)} on parent gameObject/s!", exception);
+            }
         }
 
         #endregion
