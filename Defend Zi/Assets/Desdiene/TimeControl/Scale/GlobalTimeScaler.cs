@@ -5,7 +5,10 @@ using UnityEngine;
 
 namespace Desdiene.TimeControl.Scale
 {
-    //Взаимодействовать с UnityEngine.Time только внутри ЖЦ monoBehaviour
+    /// Позволяет корректно взаимодействовать с изменением скорости игрового времени.
+    /// Взаимодействовать с UnityEngine.Time можно только внутри ЖЦ monoBehaviour
+    /// Need to be a singleton!
+    /// </summary>
     public sealed class GlobalTimeScaler : MonoBehaviourExt, ITimeScaler
     {
         private IPercent timeScaleSaved;  // Сохраненное значение скорости времени

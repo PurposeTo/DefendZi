@@ -7,6 +7,10 @@ using Zenject;
 
 namespace Desdiene.TimeControl.Pausable
 {
+    /// <summary>
+    /// Позволяет корректно ставить игровое время на паузу.
+    /// Need to be a singleton!
+    /// </summary>
     public class GlobalTimePausable : MonoBehaviourExt, ITimePausable
     {
         private PausableTime pausable;

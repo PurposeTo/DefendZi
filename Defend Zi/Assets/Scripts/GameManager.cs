@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Singleton.Unity;
+using Desdiene.MonoBehaviourExtention;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
 using UnityEngine.SceneManagement;
@@ -7,8 +7,9 @@ using Zenject;
 
 /// <summary>
 /// Класс отвечает за события, происходящие на игровой сцене. (не относится к сценам main menu и тп.)
+/// Need to be a singleton!
 /// </summary>
-public class GameManager : SceneSingleton<GameManager>
+public class GameManager : MonoBehaviourExt
 {
     private GlobalTimePauser IsGameOver;
 

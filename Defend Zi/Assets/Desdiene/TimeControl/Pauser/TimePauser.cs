@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.Types.AtomicReference;
+using UnityEngine;
 
 namespace Desdiene.TimeControl.Pauser
 {
@@ -18,6 +19,7 @@ namespace Desdiene.TimeControl.Pauser
             isPauseRef = new Ref<bool>(isPause);
             Name = name;
             this.timePausable = timePausable;
+            Debug.Log($"Create timePauser with name: {Name}. TimePausable: {timePausable.GetType()}");
             this.timePausable.Add(this);
         }
 

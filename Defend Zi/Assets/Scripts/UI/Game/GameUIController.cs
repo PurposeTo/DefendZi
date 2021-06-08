@@ -1,38 +1,42 @@
 using UnityEngine;
+using Zenject;
 
 public class GameUIController : MonoBehaviour
 {
-    [SerializeField]
-    private GameOverView gameOverView;
+    private GameManager gameManager;
 
-    private IDeath playerDeath;
-
-    private void Awake()
+    [Inject]
+    private void Constructor(GameManager gameManager)
     {
+        this.gameManager = gameManager;
+
         ComponentsProxy.OnInited += (componentsProxy) =>
         {
             InitDataModels(componentsProxy);
             InitViews();
 
-            GameManager.OnInited += (gameManager) =>
-            {
-                SubscribeEvents(gameManager);
-            };
+            SubscribeEvents();
         };
     }
 
+    [SerializeField]
+    private GameOverView gameOverView;
+
+    private IDeath playerDeath;
+
+
     private void OnDestroy()
     {
-        UnsubscribeEvents(GameManager.Instance);
+        UnsubscribeEvents();
     }
 
-    private void SubscribeEvents(GameManager gameManager)
+    private void SubscribeEvents()
     {
         playerDeath.OnDied += gameOverView.Enable;
         gameOverView.OnReloadLvlClicked += gameManager.ReloadLvl;
     }
 
-    private void UnsubscribeEvents(GameManager gameManager)
+    private void UnsubscribeEvents()
     {
         playerDeath.OnDied -= gameOverView.Enable;
         gameOverView.OnReloadLvlClicked -= gameManager.ReloadLvl;
