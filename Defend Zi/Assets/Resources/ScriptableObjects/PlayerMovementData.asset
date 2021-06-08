@@ -10,5 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e564c6355e85c294ca96b724a18f5160, type: 3}
-  m_Name: PlayerMovementData
+  m_Name: 
   m_EditorClassIdentifier: 
+  speed: 12
+  amplitude: 6
+  defaultFrequency: 0.15
+  controlledFrequency: 0.5
+  frequencyChangeRate: 1.5
