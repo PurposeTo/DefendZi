@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
+using Zenject;
 
 public class CameraMovement : MonoBehaviour
 {
     private float offsetOx;
     private IPositionGetter playerPosition;
 
-    private void Awake()
+    [Inject]
+    private void Constructor(ComponentsProxy componentsProxy)
     {
-        ComponentsProxy.OnInited += (componentsProxy) => playerPosition = componentsProxy.PlayerPosition;
-
+        playerPosition = componentsProxy.PlayerPosition;
         offsetOx = transform.position.x - playerPosition.Value.x;
     }
 

@@ -4,25 +4,20 @@ using Zenject;
 public class GameUIController : MonoBehaviour
 {
     private GameManager gameManager;
+    private IDeath playerDeath;
 
     [Inject]
-    private void Constructor(GameManager gameManager)
+    private void Constructor(GameManager gameManager, ComponentsProxy componentsProxy)
     {
         this.gameManager = gameManager;
-
-        ComponentsProxy.OnInited += (componentsProxy) =>
-        {
-            InitDataModels(componentsProxy);
-            InitViews();
-
-            SubscribeEvents();
-        };
+        playerDeath = componentsProxy.PlayerDeath;
+        InitViews();
+        SubscribeEvents();
     }
 
     [SerializeField]
     private GameOverView gameOverView;
 
-    private IDeath playerDeath;
 
 
     private void OnDestroy()
@@ -40,11 +35,6 @@ public class GameUIController : MonoBehaviour
     {
         playerDeath.OnDied -= gameOverView.Enable;
         gameOverView.OnReloadLvlClicked -= gameManager.ReloadLvl;
-    }
-
-    private void InitDataModels(ComponentsProxy componentsProxy)
-    {
-        playerDeath = componentsProxy.PlayerDeath;
     }
 
     private void InitViews()

@@ -12,16 +12,14 @@ using Zenject;
 public class GameManager : MonoBehaviourExt
 {
     private GlobalTimePauser IsGameOver;
+    private ComponentsProxy componentsProxy;
 
     [Inject]
-    public void Constructor(GlobalTimePausable globalTimePausable)
+    private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy)
     {
+        this.componentsProxy = componentsProxy;
         IsGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
-
-        ComponentsProxy.OnInited += (componentsProxy) =>
-        {
-            SubscribeEvents(componentsProxy);
-        };
+        SubscribeEvents();
     }
 
     public event Action OnGameOver;
@@ -32,14 +30,14 @@ public class GameManager : MonoBehaviourExt
         UnsubscribeEvents();
     }
 
-    private void SubscribeEvents(ComponentsProxy componentsProxy)
+    private void SubscribeEvents()
     {
         componentsProxy.PlayerDeath.OnDied += EndGame;
     }
 
     private void UnsubscribeEvents()
     {
-        ComponentsProxy.Instance.PlayerDeath.OnDied -= EndGame;
+        componentsProxy.PlayerDeath.OnDied -= EndGame;
     }
 
     /// <summary>

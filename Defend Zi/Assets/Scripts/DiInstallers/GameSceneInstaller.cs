@@ -1,11 +1,25 @@
+using UnityEngine;
 using Zenject;
 
 public class GameSceneInstaller : MonoInstaller
 {
+    [SerializeField] private ComponentsProxy componentsProxy;
+
     public override void InstallBindings()
     {
         BindGameManager();
         BindUserInput();
+        BindComponentsProxy();
+    }
+
+    private void BindComponentsProxy()
+    {
+        Container
+            .Bind<ComponentsProxy>()
+            .ToSelf()
+            .FromInstance(componentsProxy)
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindGameManager()

@@ -1,7 +1,6 @@
-using Desdiene.Singleton.Unity;
 using UnityEngine;
 
-public class ComponentsProxy : SceneSingleton<ComponentsProxy>
+public class ComponentsProxy : MonoBehaviour
 {
     [SerializeField] private Player player;
     public IDeath PlayerDeath => player;
