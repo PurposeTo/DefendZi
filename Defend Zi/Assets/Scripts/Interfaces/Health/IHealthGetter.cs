@@ -1,5 +1,5 @@
 ﻿using Desdiene.Types.Percentale;
-public interface IReadHealth<T>
+public interface IHealthGetter<T>
 {
     IPercentable<T> Value { get; }
 }

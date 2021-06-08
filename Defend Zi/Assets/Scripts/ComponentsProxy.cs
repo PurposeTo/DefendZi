@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class ComponentsProxy : SceneSingleton<ComponentsProxy>
 {
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private PlayerPosition playerPosition;
-    public IDeath PlayerDeath => playerHealth;
-    public IPosition PlayerPosition => playerPosition;
+    [SerializeField] private Player player;
+    public IDeath PlayerDeath => player;
+    public IPositionGetter PlayerPosition => player;
 }

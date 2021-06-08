@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-
-public class PlayerScore : MonoBehaviour, IScoreCollector
+﻿public class PlayerScore : IScoreCollector
 {
-    public int Value { get; private set; }
+    int IScore.Value => value;
+    private int value;
 
-    public void Add(int amount)
+    void IScoreCollector.Add(int amount)
     {
-        Value += amount;
+        value += amount;
     }
 }

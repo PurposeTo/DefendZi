@@ -3,7 +3,7 @@
 public class CameraMovement : MonoBehaviour
 {
     private float offsetOx;
-    private IPosition playerPosition;
+    private IPositionGetter playerPosition;
 
     private void Awake()
     {

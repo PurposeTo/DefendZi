@@ -1,44 +1,35 @@
-﻿using Desdiene.MonoBehaviourExtention;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(IPosition))]
-public class PlayerControl : MonoBehaviourExt
+public class PlayerControl
 {
-    private IUserInput userInput;
+    private readonly IUserInput userInput;
+    private readonly IPosition position;
 
-    [Inject]
-    public void Control(IUserInput input)
+    public PlayerControl(IUserInput input, IPosition position)
     {
         userInput = input;
+        this.position = position;
+        frequency = defaultFrequency;
     }
 
-
+    //todo вынести в SO.
     [SerializeField] private float speed = 12f;
     [SerializeField] private float amplitude = 6f;
     [SerializeField] private float defaultFrequency = 0.15f;
     [SerializeField] private float controlledFrequency = 0.5f;
     [SerializeField] private float frequencyChangeRate = 1.5f;
 
-    private bool isControlled => userInput.IsActive;
+    private bool IsControlled => userInput.IsActive;
     private float frequency;
     private float phase;
 
-    private IPosition position;
-
-    protected override void AwakeExt()
+    public void FixedUpdate(float deltaTime)
     {
-        position = GetComponent<IPosition>();
-        frequency = defaultFrequency;
-    }
-
-    private void FixedUpdate()
-    {
-        frequency = isControlled
-            ? GetFrequency(controlledFrequency, Time.fixedDeltaTime)
-            : GetFrequency(defaultFrequency, Time.fixedDeltaTime);
-
-        Move(Time.fixedDeltaTime);
+        float targetFrequency = IsControlled
+            ? controlledFrequency
+            : defaultFrequency;
+        frequency = GetFrequency(targetFrequency, deltaTime);
+        Move(deltaTime);
     }
 
     private void Move(float deltaTime)

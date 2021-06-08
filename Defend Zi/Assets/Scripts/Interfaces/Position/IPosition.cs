@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-
-public interface IPosition
+﻿public interface IPosition : IPositionGetter, IMovement
 {
-    Vector2 Value { get; }
-    void MoveTo(Vector2 vector);
+
 }

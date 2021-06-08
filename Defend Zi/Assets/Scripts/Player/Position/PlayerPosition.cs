@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerPosition : MonoBehaviour, IPosition
+public class PlayerPosition : IPosition
 {
-    private Rigidbody2D rb2d;
+    private readonly Rigidbody2D rigidbody2D;
 
-    private void Awake()
+    public PlayerPosition(Rigidbody2D rigidbody2D)
     {
-        rb2d = gameObject.GetComponent<Rigidbody2D>();
+        this.rigidbody2D = rigidbody2D
+            ? rigidbody2D
+            : throw new System.ArgumentNullException(nameof(rigidbody2D));
     }
 
-    Vector2 IPosition.Value => rb2d.position;
+    Vector2 IPositionGetter.Value => rigidbody2D.position;
 
-    void IPosition.MoveTo(Vector2 vector)
+    void IMovement.MoveTo(Vector2 vector)
     {
-        rb2d.MovePosition(vector);
+        rigidbody2D.MovePosition(vector);
     }
 }

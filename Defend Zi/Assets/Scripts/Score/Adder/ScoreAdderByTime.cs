@@ -3,6 +3,7 @@ using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
+//todo: перенести данный класс в SceneContext?
 [RequireComponent(typeof(IScoreCollector))]
 public class ScoreAdderByTime : MonoBehaviourExt
 {
