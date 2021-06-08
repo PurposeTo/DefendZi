@@ -8,12 +8,12 @@ using Zenject;
 public class Player :
     MonoBehaviourExt,
     IPositionGetter,
-    IHealth<int>,
+    IHealth,
     IScoreCollector
 {
     private IUserInput userInput;
     private PlayerControl control;
-    private readonly IHealth<int> health = new PlayerHealth();
+    private readonly IHealth health = new PlayerHealth();
     private IPosition position;
     private readonly IScoreCollector scoreCollector = new PlayerScore();
 
@@ -29,7 +29,7 @@ public class Player :
 
     Vector2 IPositionGetter.Value => position.Value;
 
-    IPercentable<int> IHealthGetter<int>.Value => health.Value;
+    IPercentable<int> IHealthGetter.Value => health.Value;
 
     int IScore.Value => scoreCollector.Value;
 

@@ -1,10 +1,9 @@
 using System;
-using Desdiene.MonoBehaviourExtention;
 using Desdiene.Types.Percentable;
 using Desdiene.Types.Percentale;
 using Desdiene.Types.Range.Positive;
 
-public class PlayerHealth : IHealth<int>
+public class PlayerHealth : IHealth
 {
     private IntPercentable health;
 
@@ -15,7 +14,7 @@ public class PlayerHealth : IHealth<int>
     }
 
     public event Action OnDied;
-    IPercentable<int> IHealthGetter<int>.Value => health;
+    IPercentable<int> IHealthGetter.Value => health;
 
     public void TakeDamage(uint damage)
     {

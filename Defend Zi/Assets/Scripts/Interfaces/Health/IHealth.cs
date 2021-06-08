@@ -1,4 +1,4 @@
-﻿public interface IHealth<T> : IHealthGetter<T>, IDamageTaker, IDeath
+﻿public interface IHealth : IHealthGetter, IDamageTaker, IDeath
 {
 
 }
