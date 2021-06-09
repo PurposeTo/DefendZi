@@ -23,7 +23,7 @@ public class ScoreCollectorTracker : MonoBehaviourExt
 
             scoreCollector.Add(value);
             OnTracked?.Invoke(value);
-            Debug.Log($"Добавлено очков: {value}");
+            Debug.Log($"{GetType()}. Добавлено очков: {value}");
         }
     }
 }
