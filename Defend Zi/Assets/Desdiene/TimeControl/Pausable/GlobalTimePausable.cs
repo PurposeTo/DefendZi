@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControl.Pauser;
 using Desdiene.TimeControl.Scale;
 using UnityEngine;

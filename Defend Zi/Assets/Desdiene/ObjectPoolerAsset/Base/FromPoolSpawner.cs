@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.Container;
 using Desdiene.Extensions.UnityEngine;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 namespace Desdiene.ObjectPoolerAsset.Base

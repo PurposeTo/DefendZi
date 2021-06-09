@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 
 public class UserInputMono : MonoBehaviourExt, IUserInput
 {

@@ -1,6 +1,6 @@
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 
-public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScore
+public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScoreGetter
 {
     private Obstacle obstacle;
 
@@ -9,7 +9,7 @@ public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScore
         obstacle = new Obstacle();
     }
 
-    int IScore.Value => ((IScore)obstacle).Value;
+    int IScoreGetter.Value => ((IScoreGetter)obstacle).Value;
 
     uint IDamageDealer.Get() => ((IDamageDealer)obstacle).Get();
 }

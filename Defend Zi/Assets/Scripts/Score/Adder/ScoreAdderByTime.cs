@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Desdiene.Coroutine;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 //todo: перенести данный класс в SceneContext?

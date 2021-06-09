@@ -4,7 +4,7 @@ using System.Linq;
 using Desdiene.Coroutine;
 using UnityEngine;
 
-namespace Desdiene.MonoBehaviourExtention
+namespace Desdiene.MonoBehaviourExtension
 {
     public class MonoBehaviourExt : MonoBehaviour
     {

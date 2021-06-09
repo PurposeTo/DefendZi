@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.UserInputFactory;
 using UnityEngine;
 

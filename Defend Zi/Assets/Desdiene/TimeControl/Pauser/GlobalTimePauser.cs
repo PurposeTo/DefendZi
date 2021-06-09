@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.Container;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControl.Pausable;
 
 namespace Desdiene.TimeControl.Pauser

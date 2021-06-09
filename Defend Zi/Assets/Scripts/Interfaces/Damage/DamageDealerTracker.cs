@@ -1,4 +1,4 @@
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
