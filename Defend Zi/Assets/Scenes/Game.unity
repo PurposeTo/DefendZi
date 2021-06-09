@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
-  distance: 6
+  distance: 7
   startLevelPoint: 6
   endLevelPoint: 1000
   randomCount: 2

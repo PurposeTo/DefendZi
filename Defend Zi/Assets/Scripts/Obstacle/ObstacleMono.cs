@@ -1,4 +1,5 @@
 using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 
 public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScoreGetter
 {
@@ -6,8 +7,10 @@ public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScoreGetter
 
     protected override void Constructor()
     {
-        obstacle = new Obstacle();
+        obstacle = new Obstacle(scoreByAvoding);
     }
+
+    [SerializeField] private int scoreByAvoding = 5;
 
     int IScoreGetter.Value => ((IScoreGetter)obstacle).Value;
 

@@ -1,8 +1,13 @@
-﻿using UnityEngine;
-
-public class ScorePoints : IScoreGetter
+﻿public class ScorePoints : IScoreGetter
 {
-    [SerializeField] private int points = 1;
+    private readonly int points;
+
+    public ScorePoints() : this(1) { }
+
+    public ScorePoints(int points)
+    {
+        this.points = points;
+    }
 
     int IScoreGetter.Value => points;
 }
