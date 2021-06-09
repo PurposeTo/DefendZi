@@ -4,10 +4,10 @@ using Desdiene.MonoBehaviourExtension;
 
 public class TextView : MonoBehaviourExt
 {
-    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text tmpText;
 
     public void SetText(string text)
     {
-        scoreText.text = text;
+        tmpText.text = text;
     }
 }

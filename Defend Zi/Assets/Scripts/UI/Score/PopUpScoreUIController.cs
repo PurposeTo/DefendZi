@@ -7,6 +7,8 @@ public class PopUpScoreUIController : MonoBehaviourExt
 {
     [SerializeField] private ScoreCollectorTracker collectorTracker;
     [SerializeField] private TextView creatingScoreView;
+
+    private float viewLifeTime = 1f;
     
     protected override void Constructor()
     {
@@ -33,7 +35,7 @@ public class PopUpScoreUIController : MonoBehaviourExt
 
     private IEnumerator DestroyPopUp(GameObject gameObject)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(viewLifeTime);
         Destroy(gameObject);
     }
 
