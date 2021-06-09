@@ -12,8 +12,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int endLevelPoint = 1000;
     [SerializeField] private int randomCount = 2;
 
-    private readonly int minHight = -7;
-    private readonly int maxHight = 7;
+    private readonly float[] hight = { -7, -4.5f, -3.75f, -3, -2, -1, 0, 1, 2, 3, 3.75f, 4.5f, 7 };
 
     private void Awake()
     {
@@ -53,7 +52,7 @@ public class LevelGenerator : MonoBehaviour
     private List<Vector2> GetRandomVectors2(List<int> randomCordinates)
     {
         return randomCordinates
-            .Select(x => new Vector2(x, Random.Range(minHight, maxHight + 1)))
+            .Select(x => new Vector2(x, hight[Random.Range(0, hight.Length)]))
             .ToList();
     }
 }
