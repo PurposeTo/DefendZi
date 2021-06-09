@@ -1,6 +1,6 @@
 ﻿using Desdiene.MonoBehaviourExtension;
-using Zenject;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(TextView))]
 public class ScoreCounterUIController : MonoBehaviourExt

@@ -17,7 +17,7 @@ public class Player :
     public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementControlData)
     {
         if (!rigidbody2D) throw new ArgumentNullException(nameof(rigidbody2D));
-        if (!movementControlData)  throw new ArgumentNullException(nameof(movementControlData));
+        if (!movementControlData) throw new ArgumentNullException(nameof(movementControlData));
 
         userInput = input ?? throw new ArgumentNullException(nameof(input));
         position = new PlayerPosition(rigidbody2D);

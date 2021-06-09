@@ -11,7 +11,7 @@ public class PlayerControl
         userInput = input ?? throw new System.ArgumentNullException(nameof(input));
         this.position = position ?? throw new System.ArgumentNullException(nameof(position));
         this.controlData = controlData
-            ? controlData 
+            ? controlData
             : throw new System.ArgumentNullException(nameof(controlData));
         frequency = controlData.defaultFrequency;
     }

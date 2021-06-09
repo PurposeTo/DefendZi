@@ -1,15 +1,15 @@
 ﻿using System.Collections;
-using UnityEngine;
-using Desdiene.MonoBehaviourExtension;
 using Desdiene.Coroutine;
+using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 
 public class PopUpScoreUIController : MonoBehaviourExt
 {
     [SerializeField] private ScoreCollectorTracker collectorTracker;
     [SerializeField] private TextView creatingScoreView;
 
-    private float viewLifeTime = 1f;
-    
+    private readonly float viewLifeTime = 1f;
+
     protected override void Constructor()
     {
         SubcribeEvents();

@@ -1,6 +1,6 @@
-﻿using TMPro;
+﻿using Desdiene.MonoBehaviourExtension;
+using TMPro;
 using UnityEngine;
-using Desdiene.MonoBehaviourExtension;
 
 public class TextView : MonoBehaviourExt
 {
