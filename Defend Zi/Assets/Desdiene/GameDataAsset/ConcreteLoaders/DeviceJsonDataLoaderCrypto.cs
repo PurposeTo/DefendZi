@@ -4,7 +4,7 @@ using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.Encryption;
 using Desdiene.JsonConvertorWrapper;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.GameDataAsset.ConcreteLoaders
 {

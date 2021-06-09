@@ -1,21 +1,21 @@
-﻿using Desdiene.MonoBehaviourExtention;
+﻿using Desdiene.MonoBehaviourExtension;
 using Zenject;
 using UnityEngine;
 
-[RequireComponent(typeof(ScoreView))]
+[RequireComponent(typeof(TextView))]
 public class ScoreCounterUIController : MonoBehaviourExt
 {
     private IScoreGetter score;
     private IScoreNotification scoreNotification;
-    private ScoreView scoreCounterView;
+    private TextView scoreCounterView;
 
     [Inject]
     private void Constructor(ComponentsProxy components)
     {
         score = components.PlayerScore;
         scoreNotification = components.PlayerScoreNotification;
-        scoreCounterView = GetComponent<ScoreView>();
-        scoreCounterView.SetScore(score.Value);
+        scoreCounterView = GetComponent<TextView>();
+        scoreCounterView.SetText($"{score.Value}");
         SubcribeEvents();
     }
 
@@ -26,7 +26,7 @@ public class ScoreCounterUIController : MonoBehaviourExt
 
     private void UpdateScore()
     {
-        scoreCounterView.SetScore(score.Value);
+        scoreCounterView.SetText($"{score.Value}");
     }
 
     private void SubcribeEvents()
@@ -37,5 +37,5 @@ public class ScoreCounterUIController : MonoBehaviourExt
     private void UnsubcribeEvents()
     {
         scoreNotification.OnScoreChanged -= UpdateScore;
-    } 
+    }
 }

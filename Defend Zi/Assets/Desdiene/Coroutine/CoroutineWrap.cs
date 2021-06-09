@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.Container;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.Coroutine
 {

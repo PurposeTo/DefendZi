@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
 using UnityEngine.SceneManagement;

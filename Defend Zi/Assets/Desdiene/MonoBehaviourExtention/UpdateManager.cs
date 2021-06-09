@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Desdiene.Singleton.Unity;
 
-namespace Desdiene.MonoBehaviourExtention
+namespace Desdiene.MonoBehaviourExtension
 {
     [Obsolete("Не дает существенный прирост в текущих проектах")]
     public class UpdateManager : GlobalSingleton<UpdateManager>

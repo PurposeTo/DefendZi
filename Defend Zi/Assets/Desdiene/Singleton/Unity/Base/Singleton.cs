@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.EventContainers;
 
 namespace Desdiene.Singleton.Unity

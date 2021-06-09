@@ -1,9 +1,11 @@
-using Desdiene.MonoBehaviourExtention;
+using System;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class ScoreCollectorTracker : MonoBehaviourExt
 {
+    public event Action<int> OnTracked;
     private IScoreCollector scoreCollector;
 
     protected override void Constructor()
@@ -17,8 +19,11 @@ public class ScoreCollectorTracker : MonoBehaviourExt
     {
         if (collision.TryGetComponent(out IScoreGetter score))
         {
-            scoreCollector.Add(score.Value);
-            Debug.Log($"Добавлено очков: {score.Value}");
+            int value = score.Value;
+
+            scoreCollector.Add(value);
+            OnTracked?.Invoke(value);
+            Debug.Log($"Добавлено очков: {value}");
         }
     }
 }

@@ -4,7 +4,7 @@ using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Safe;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.DataSynchronizer;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.GameDataAsset
 {

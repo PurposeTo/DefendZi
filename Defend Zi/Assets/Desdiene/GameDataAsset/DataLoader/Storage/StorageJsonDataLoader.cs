@@ -2,7 +2,7 @@
 using Desdiene.Container;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.JsonConvertorWrapper;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.Tools;
 using UnityEngine;
 

@@ -1,4 +1,4 @@
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 
 public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScoreGetter
 {

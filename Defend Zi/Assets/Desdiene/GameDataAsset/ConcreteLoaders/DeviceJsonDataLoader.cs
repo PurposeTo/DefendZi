@@ -4,7 +4,7 @@ using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.JsonConvertorWrapper;
-using Desdiene.MonoBehaviourExtention;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.Tools;
 using UnityEngine;
 
