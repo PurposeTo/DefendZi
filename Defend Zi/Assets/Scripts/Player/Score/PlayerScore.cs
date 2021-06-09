@@ -1,10 +1,15 @@
-﻿public class PlayerScore : IScoreCollector
+﻿using System;
+
+public class PlayerScore : IScore
 {
-    int IScore.Value => value;
+    int IScoreGetter.Value => value;
     private int value;
+
+    public event Action OnScoreChanged;
 
     void IScoreCollector.Add(int amount)
     {
         value += amount;
+        OnScoreChanged?.Invoke();
     }
 }

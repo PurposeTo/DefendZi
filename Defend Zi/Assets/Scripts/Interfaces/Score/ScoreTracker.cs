@@ -2,15 +2,15 @@ using Desdiene.MonoBehaviourExtention;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ScoreTracker : MonoBehaviourExt, IScore
+public class ScoreTracker : MonoBehaviourExt, IScoreGetter
 {
-    private IScore score;
+    private IScoreGetter score;
 
     protected override void Constructor()
     {
         //todo: верное ли использование?
-        score = GetComponentOnlyInParent<IScore>();
+        score = GetComponentOnlyInParent<IScoreGetter>();
     }
 
-    int IScore.Value => score.Value;
+    int IScoreGetter.Value => score.Value;
 }

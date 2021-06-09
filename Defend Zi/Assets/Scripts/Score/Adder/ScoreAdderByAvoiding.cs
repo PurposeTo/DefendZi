@@ -4,7 +4,7 @@
 [RequireComponent(typeof(ScorePoints))]
 public class ScoreAdderByAvoiding : MonoBehaviour
 {
-    private IScore score;
+    private IScoreGetter score;
 
     private void Awake()
     {

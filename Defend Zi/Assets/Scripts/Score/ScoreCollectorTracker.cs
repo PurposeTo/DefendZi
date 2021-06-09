@@ -15,7 +15,7 @@ public class ScoreCollectorTracker : MonoBehaviourExt
     // Начисление очков за близкое огибание препятствий происходит через триггер выхода из коллайдера
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IScore score))
+        if (collision.TryGetComponent(out IScoreGetter score))
         {
             scoreCollector.Add(score.Value);
             Debug.Log($"Добавлено очков: {score.Value}");

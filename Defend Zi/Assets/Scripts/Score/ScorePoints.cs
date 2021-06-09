@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ScorePoints : IScore
+public class ScorePoints : IScoreGetter
 {
     [SerializeField] private int points = 1;
 
-    int IScore.Value => points;
+    int IScoreGetter.Value => points;
 }

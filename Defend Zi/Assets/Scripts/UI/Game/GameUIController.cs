@@ -39,7 +39,7 @@ public class GameUIController : MonoBehaviour
 
     private void InitViews()
     {
-        gameOverView.Enable(); // включить UI для первоначальной отрисовки и кеширования отрендеренных данных
+        gameOverView.Enable(); // Включить UI для первоначальной отрисовки и кеширования отрендеренных данных
         gameOverView.Disable();
     }
 

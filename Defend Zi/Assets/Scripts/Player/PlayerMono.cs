@@ -8,7 +8,7 @@ public class PlayerMono :
     MonoBehaviourExt,
     IPositionGetter,
     IHealth,
-    IScoreCollector
+    IScore
 {
     [SerializeField] private PlayerMovementData movementControlData;
     private Player player;
@@ -25,7 +25,13 @@ public class PlayerMono :
 
     IPercentable<int> IHealthGetter.Value => ((IHealthGetter)player).Value;
 
-    int IScore.Value => ((IScore)player).Value;
+    int IScoreGetter.Value => ((IScoreGetter)player).Value;
+
+    event Action IScoreNotification.OnScoreChanged
+    {
+        add => ((IScoreNotification)player).OnScoreChanged += value;
+        remove => ((IScoreNotification)player).OnScoreChanged -= value;
+    }
 
     event Action IDeath.OnDied
     {

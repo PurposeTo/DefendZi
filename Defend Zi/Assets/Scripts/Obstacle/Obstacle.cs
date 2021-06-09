@@ -1,9 +1,9 @@
-public class Obstacle : IDamageDealer, IScore
+public class Obstacle : IDamageDealer, IScoreGetter
 {
     private readonly IDamageDealer damage = new ObstacleDamage();
-    private readonly IScore scorePoints = new ScorePoints();
+    private readonly IScoreGetter scorePoints = new ScorePoints();
 
-    int IScore.Value => scorePoints.Value;
+    int IScoreGetter.Value => scorePoints.Value;
 
     uint IDamageDealer.Get() => damage.Get();
 }
