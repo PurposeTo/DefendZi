@@ -2,19 +2,19 @@
 using Zenject;
 using UnityEngine;
 
-[RequireComponent(typeof(ScoreCounterView))]
+[RequireComponent(typeof(ScoreView))]
 public class ScoreCounterUIController : MonoBehaviourExt
 {
     private IScoreGetter score;
     private IScoreNotification scoreNotification;
-    private ScoreCounterView scoreCounterView;
+    private ScoreView scoreCounterView;
 
     [Inject]
     private void Constructor(ComponentsProxy components)
     {
         score = components.PlayerScore;
         scoreNotification = components.PlayerScoreNotification;
-        scoreCounterView = GetComponent<ScoreCounterView>();
+        scoreCounterView = GetComponent<ScoreView>();
         scoreCounterView.SetScore(score.Value);
         SubcribeEvents();
     }

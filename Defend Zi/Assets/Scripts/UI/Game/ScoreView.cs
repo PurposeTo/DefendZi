@@ -2,7 +2,7 @@
 using UnityEngine;
 using Desdiene.MonoBehaviourExtention;
 
-public class ScoreCounterView : MonoBehaviourExt
+public class ScoreView : MonoBehaviourExt
 {
     [SerializeField] private TMP_Text scoreText;
 
