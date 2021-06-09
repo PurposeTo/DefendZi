@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
@@ -10,11 +10,11 @@ public class ScoreCollectorTracker : MonoBehaviourExt
 
     protected override void Constructor()
     {
-        //todo: верное ли использование?
+        //todo: РІРµСЂРЅРѕРµ Р»Рё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ?
         scoreCollector = GetComponentInParent<IScoreCollector>();
     }
 
-    // Начисление очков за близкое огибание препятствий происходит через триггер выхода из коллайдера
+    // РќР°С‡РёСЃР»РµРЅРёРµ РѕС‡РєРѕРІ Р·Р° Р±Р»РёР·РєРѕРµ РѕРіРёР±Р°РЅРёРµ РїСЂРµРїСЏС‚СЃС‚РІРёР№ РїСЂРѕРёСЃС…РѕРґРёС‚ С‡РµСЂРµР· С‚СЂРёРіРіРµСЂ РІС‹С…РѕРґР° РёР· РєРѕР»Р»Р°Р№РґРµСЂР°
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IScoreGetter score))
@@ -23,7 +23,7 @@ public class ScoreCollectorTracker : MonoBehaviourExt
 
             scoreCollector.Add(value);
             OnTracked?.Invoke(value);
-            Debug.Log($"{GetType()}. Добавлено очков: {value}");
+            Debug.Log($"{GetType()}. Р”РѕР±Р°РІР»РµРЅРѕ РѕС‡РєРѕРІ: {value}");
         }
     }
 }
