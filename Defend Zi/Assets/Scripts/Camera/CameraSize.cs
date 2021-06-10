@@ -27,12 +27,12 @@ public class CameraSize : MonoBehaviourExt
 
     private void UpdateSize()
     {
+        _depth = _playerTransform.position.z - _camera.transform.position.z;
+
         _leftDownCorner = GetLeftDownCorner();
         _rightDownCorner = GetRightDownCorner();
         _rightTopCorner = GetRightTopCorner();
         _leftTopCorner = GetLeftTopCorner();
-
-        _depth = _playerTransform.position.z - _camera.transform.position.z;
     }
 
     private Vector3 GetLeftDownCorner()
