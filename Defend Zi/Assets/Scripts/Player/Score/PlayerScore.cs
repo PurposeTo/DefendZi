@@ -5,11 +5,11 @@ public class PlayerScore : IScore
     int IScoreGetter.Value => _value;
     private int _value;
 
-    public event Action OnScoreChanged;
+    public event Action OnChanged;
 
     void IScoreCollector.Add(int amount)
     {
         _value += amount;
-        OnScoreChanged?.Invoke();
+        OnChanged?.Invoke();
     }
 }

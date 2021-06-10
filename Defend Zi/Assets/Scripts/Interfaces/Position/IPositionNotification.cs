@@ -1,6 +1,6 @@
 ﻿using System;
 
-public interface IScoreNotification
+public interface IPositionNotification
 {
     event Action OnChanged;
 }

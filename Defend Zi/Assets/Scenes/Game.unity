@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1f8b9b12a342e44bf628d1ec884e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementControlData: {fileID: 11400000, guid: bdff5b81ae86fca42949c34c3990a352, type: 2}
+  _movementData: {fileID: 11400000, guid: bdff5b81ae86fca42949c34c3990a352, type: 2}
 --- !u!50 &274676709
 Rigidbody2D:
   serializedVersion: 4
@@ -870,7 +870,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.07775008, g: 0.13556425, b: 0.2264151, a: 0}
+  m_BackGroundColor: {r: 0.02168031, g: 0.06525737, b: 0.13207549, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

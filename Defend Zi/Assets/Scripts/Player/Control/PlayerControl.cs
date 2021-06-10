@@ -1,26 +1,26 @@
 ﻿using UnityEngine;
 
-public class PlayerControl
+public class PlayerControl : IFixedUpdate
 {
     private readonly IUserInput _userInput;
     private readonly IPosition _position;
     private readonly PlayerMovementData _movementData;
 
-    public PlayerControl(IUserInput input, IPosition position, PlayerMovementData controlData)
+    public PlayerControl(IUserInput input, IPosition position, PlayerMovementData movementData)
     {
         _userInput = input ?? throw new System.ArgumentNullException(nameof(input));
         _position = position ?? throw new System.ArgumentNullException(nameof(position));
-        _movementData = controlData
-            ? controlData
-            : throw new System.ArgumentNullException(nameof(controlData));
-        _frequency = controlData.defaultFrequency;
+        _movementData = movementData
+            ? movementData
+            : throw new System.ArgumentNullException(nameof(movementData));
+        _frequency = movementData.defaultFrequency;
     }
 
     private bool IsControlled => _userInput.IsActive;
     private float _frequency;
     private float _phase;
 
-    public void FixedUpdate(float deltaTime)
+    void IFixedUpdate.FixedUpdate(float deltaTime)
     {
         float targetFrequency = IsControlled
             ? _movementData.controlledFrequency

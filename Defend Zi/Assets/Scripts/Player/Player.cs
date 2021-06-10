@@ -4,12 +4,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player :
+    IFixedUpdate,
     IPositionGetter,
+    IPositionNotification,
     IHealth,
     IScore
 {
-    private readonly IUserInput _userInput;
-    private readonly PlayerControl _control;
+    private readonly IFixedUpdate _controlFixedUpdate;
     private readonly IHealth _health = new PlayerHealth();
     private readonly IPosition _position;
     private readonly IScore _score = new PlayerScore();
@@ -19,9 +20,8 @@ public class Player :
         if (!rigidbody2D) throw new ArgumentNullException(nameof(rigidbody2D));
         if (!movementControlData) throw new ArgumentNullException(nameof(movementControlData));
 
-        _userInput = input ?? throw new ArgumentNullException(nameof(input));
         _position = new PlayerPosition(rigidbody2D);
-        _control = new PlayerControl(_userInput, _position, movementControlData);
+        _controlFixedUpdate = new PlayerControl(input, _position, movementControlData);
     }
 
     Vector2 IPositionGetter.Value => _position.Value;
@@ -30,10 +30,10 @@ public class Player :
 
     int IScoreGetter.Value => _score.Value;
 
-    public event Action OnScoreChanged
+    event Action IScoreNotification.OnChanged
     {
-        add => _score.OnScoreChanged += value;
-        remove => _score.OnScoreChanged -= value;
+        add => _score.OnChanged += value;
+        remove => _score.OnChanged -= value;
     }
 
     event Action IDeath.OnDied
@@ -42,9 +42,15 @@ public class Player :
         remove => _health.OnDied -= value;
     }
 
-    public void FixedUpdate(float deltaTime)
+    event Action IPositionNotification.OnChanged
     {
-        _control.FixedUpdate(deltaTime);
+        add =>  _position.OnChanged += value;
+        remove => _position.OnChanged -= value;
+    }
+
+    void IFixedUpdate.FixedUpdate(float deltaTime)
+    {
+        _controlFixedUpdate.FixedUpdate(deltaTime);
     }
 
     void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);

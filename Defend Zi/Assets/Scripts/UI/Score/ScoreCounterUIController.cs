@@ -31,11 +31,11 @@ public class ScoreCounterUiController : MonoBehaviourExt
 
     private void SubcribeEvents()
     {
-        scoreNotification.OnScoreChanged += UpdateScore;
+        scoreNotification.OnChanged += UpdateScore;
     }
 
     private void UnsubcribeEvents()
     {
-        scoreNotification.OnScoreChanged -= UpdateScore;
+        scoreNotification.OnChanged -= UpdateScore;
     }
 }

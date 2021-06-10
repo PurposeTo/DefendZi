@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour
         offsetOx = transform.position.x - playerPosition.Value.x;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         Move();
     }

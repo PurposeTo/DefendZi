@@ -1,4 +1,4 @@
-﻿public interface IPosition : IPositionGetter, IMovement
+﻿public interface IPosition : IPositionGetter, IMovement, IPositionNotification
 {
 
 }
