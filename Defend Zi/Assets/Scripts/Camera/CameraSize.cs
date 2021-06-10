@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Desdiene.MonoBehaviourExtension;
 
+[ExecuteInEditMode]
 public class CameraSize : MonoBehaviourExt
 {
     [SerializeField] private Camera _camera;
