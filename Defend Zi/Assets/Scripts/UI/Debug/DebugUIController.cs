@@ -39,7 +39,7 @@ public class DebugUIController : MonoBehaviourExt
 
     private IEnumerator UpdateDebug()
     {
-        var wait = new WaitForSecondsRealtime(.1f);
+        var wait = new WaitForSecondsRealtime(0.1f);
         while (true)
         {
             SetDebugText(TimeScale);
