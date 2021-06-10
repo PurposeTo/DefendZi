@@ -10,36 +10,36 @@ public class PlayerMono :
     IHealth,
     IScore
 {
-    [SerializeField] private PlayerMovementData movementControlData;
-    private Player player;
+    [SerializeField] private PlayerMovementData _movementControlData;
+    private Player _player;
 
     [Inject]
     private void Constructor(IUserInput input)
     {
-        player = new Player(input, GetComponent<Rigidbody2D>(), movementControlData);
+        _player = new Player(input, GetComponent<Rigidbody2D>(), _movementControlData);
     }
 
-    private void FixedUpdate() => player.FixedUpdate(Time.fixedDeltaTime);
+    private void FixedUpdate() => _player.FixedUpdate(Time.fixedDeltaTime);
 
-    Vector2 IPositionGetter.Value => ((IPositionGetter)player).Value;
+    Vector2 IPositionGetter.Value => ((IPositionGetter)_player).Value;
 
-    IPercentable<int> IHealthGetter.Value => ((IHealthGetter)player).Value;
+    IPercentable<int> IHealthGetter.Value => ((IHealthGetter)_player).Value;
 
-    int IScoreGetter.Value => ((IScoreGetter)player).Value;
+    int IScoreGetter.Value => ((IScoreGetter)_player).Value;
 
     event Action IScoreNotification.OnScoreChanged
     {
-        add => ((IScoreNotification)player).OnScoreChanged += value;
-        remove => ((IScoreNotification)player).OnScoreChanged -= value;
+        add => ((IScoreNotification)_player).OnScoreChanged += value;
+        remove => ((IScoreNotification)_player).OnScoreChanged -= value;
     }
 
     event Action IDeath.OnDied
     {
-        add => ((IDeath)player).OnDied += value;
-        remove => ((IDeath)player).OnDied -= value;
+        add => ((IDeath)_player).OnDied += value;
+        remove => ((IDeath)_player).OnDied -= value;
     }
 
-    void IScoreCollector.Add(int amount) => ((IScoreCollector)player).Add(amount);
+    void IScoreCollector.Add(int amount) => ((IScoreCollector)_player).Add(amount);
 
-    void IDamageTaker.TakeDamage(uint damage) => ((IDamageTaker)player).TakeDamage(damage);
+    void IDamageTaker.TakeDamage(uint damage) => ((IDamageTaker)_player).TakeDamage(damage);
 }

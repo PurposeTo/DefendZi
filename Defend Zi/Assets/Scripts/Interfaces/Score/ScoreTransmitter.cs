@@ -1,14 +1,14 @@
-using Desdiene.MonoBehaviourExtension;
+п»їusing Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ScoreTracker : MonoBehaviourExt, IScoreGetter
+public class ScoreTransmitter : MonoBehaviourExt, IScoreGetter
 {
     private IScoreGetter score;
 
     protected override void Constructor()
     {
-        //todo: верное ли использование?
+        //todo: РІРµСЂРЅРѕРµ Р»Рё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ?
         score = GetComponentOnlyInParent<IScoreGetter>();
     }
 

@@ -1,14 +1,14 @@
 public class Obstacle : IDamageDealer, IScoreGetter
 {
-    private readonly IDamageDealer damage = new ObstacleDamage();
-    private readonly IScoreGetter scorePoints;
+    private readonly IDamageDealer damage = new Damage();
+    private readonly IScoreGetter score;
 
     public Obstacle(int scoreByAvoding)
     {
-        scorePoints = new ScorePoints(scoreByAvoding);
+        score = new ScoreGetter(scoreByAvoding);
     }
 
-    int IScoreGetter.Value => scorePoints.Value;
+    int IScoreGetter.Value => score.Value;
 
-    uint IDamageDealer.Get() => damage.Get();
+    uint IDamageDealer.Value => damage.Value;
 }

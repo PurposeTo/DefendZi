@@ -3,9 +3,9 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ScoreCollectorTracker : MonoBehaviourExt
+public class ScoreReceiver : MonoBehaviourExt
 {
-    public event Action<int> OnTracked;
+    public event Action<int> OnReceived;
     private IScoreCollector scoreCollector;
 
     protected override void Constructor()
@@ -22,7 +22,7 @@ public class ScoreCollectorTracker : MonoBehaviourExt
             int value = score.Value;
 
             scoreCollector.Add(value);
-            OnTracked?.Invoke(value);
+            OnReceived?.Invoke(value);
             Debug.Log($"{GetType()}. Добавлено очков: {value}");
         }
     }

@@ -1,4 +1,4 @@
 public interface IDamageDealer
 {
-    uint Get();
+    uint Value { get; }
 }

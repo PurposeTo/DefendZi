@@ -1,16 +1,16 @@
-using Desdiene.MonoBehaviourExtension;
+п»їusing Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class DamageDealerTracker : MonoBehaviourExt, IDamageDealer
+public class DamageTransmitter : MonoBehaviourExt, IDamageDealer
 {
     private IDamageDealer damageDealer;
 
     protected override void Constructor()
     {
-        //todo: верное ли использование?
+        //todo: РІРµСЂРЅРѕРµ Р»Рё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ?
         damageDealer = GetComponentOnlyInParent<IDamageDealer>();
     }
 
-    uint IDamageDealer.Get() => damageDealer.Get();
+    uint IDamageDealer.Value => damageDealer.Value;
 }

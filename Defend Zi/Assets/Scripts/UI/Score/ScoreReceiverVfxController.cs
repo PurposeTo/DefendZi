@@ -3,9 +3,9 @@ using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-public class PopUpScoreUIController : MonoBehaviourExt
+public class ScoreReceiverVfxController : MonoBehaviourExt
 {
-    [SerializeField] private ScoreCollectorTracker collectorTracker;
+    [SerializeField] private ScoreReceiver scoreReceiver;
     [SerializeField] private TextView creatingScoreView;
 
     private readonly float viewLifeTime = 1f;
@@ -41,11 +41,11 @@ public class PopUpScoreUIController : MonoBehaviourExt
 
     private void SubcribeEvents()
     {
-        collectorTracker.OnTracked += CreatePopUp;
+        scoreReceiver.OnReceived += CreatePopUp;
     }
 
     private void UnsubcribeEvents()
     {
-        collectorTracker.OnTracked -= CreatePopUp;
+        scoreReceiver.OnReceived -= CreatePopUp;
     }
 }

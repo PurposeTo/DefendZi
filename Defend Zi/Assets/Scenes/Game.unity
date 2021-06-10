@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1f8b9b12a342e44bf628d1ec884e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementControlData: {fileID: 11400000, guid: bdff5b81ae86fca42949c34c3990a352, type: 2}
+  _movementControlData: {fileID: 11400000, guid: bdff5b81ae86fca42949c34c3990a352, type: 2}
 --- !u!50 &274676709
 Rigidbody2D:
   serializedVersion: 4
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 274676707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d67be2161df52409d20d0e85101e35, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e332f2b76fd9649a4af218aeb5ea9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 1.5
@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 607196008}
   - component: {fileID: 607196009}
   m_Layer: 0
-  m_Name: ScoreCollector
+  m_Name: Score receiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -736,7 +736,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 607196006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ad10c31a711b74aaca91e2ee091fcd, type: 3}
+  m_Script: {fileID: 11500000, guid: 6dccbc869efae5245880a5c0c8abef89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &668012056
@@ -794,7 +794,7 @@ GameObject:
   - component: {fileID: 912748135}
   - component: {fileID: 912748136}
   m_Layer: 5
-  m_Name: PopUp score controller
+  m_Name: PopUp score screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e3d3d65316dbf42926d9b09b43b9a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectorTracker: {fileID: 607196009}
+  scoreReceiver: {fileID: 607196009}
   creatingScoreView: {fileID: 4946509735067544134, guid: d9fbf43a623c80745bc49490ec5581f7, type: 3}
 --- !u!1 &932604054
 GameObject:
@@ -910,12 +910,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932604054}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 9, y: 0, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &932604058
 MonoBehaviour:
@@ -1927,7 +1927,7 @@ RectTransform:
   m_Children:
   - {fileID: 510693537}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

@@ -5,21 +5,21 @@ using Desdiene.Types.Range.Positive;
 
 public class PlayerHealth : IHealth
 {
-    private IntPercentable health;
+    private IntPercentable _healthData;
 
     public PlayerHealth()
     {
         int defaultHealth = 1;
-        health = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
+        _healthData = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
     }
 
     public event Action OnDied;
-    IPercentable<int> IHealthGetter.Value => health;
+    IPercentable<int> IHealthGetter.Value => _healthData;
 
     public void TakeDamage(uint damage)
     {
-        health -= damage;
-        if (health == 0) Die();
+        _healthData -= damage;
+        if (_healthData == 0) Die();
     }
 
     private void Die()

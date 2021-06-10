@@ -130,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1867739337397940177}
   - component: {fileID: 5600275937759133233}
-  - component: {fileID: 4426223097073619406}
+  - component: {fileID: 6687903676389449544}
   m_Layer: 0
   m_Name: Score adder
   m_TagString: Untagged
@@ -168,7 +168,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
---- !u!114 &4426223097073619406
+--- !u!114 &6687903676389449544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4577212621866925062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49fa4d89de4917418f1f75b4e1c3779, type: 3}
+  m_Script: {fileID: 11500000, guid: 3462ad1e4589ec94b828dfbfd5076d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &9090950371155694352

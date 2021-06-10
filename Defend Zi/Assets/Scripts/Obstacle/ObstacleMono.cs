@@ -14,6 +14,5 @@ public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScoreGetter
 
     int IScoreGetter.Value => ((IScoreGetter)obstacle).Value;
 
-    uint IDamageDealer.Get() => ((IDamageDealer)obstacle).Get();
+    uint IDamageDealer.Value => ((IDamageDealer)obstacle).Value;
 }
-

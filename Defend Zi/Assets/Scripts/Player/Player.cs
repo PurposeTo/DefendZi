@@ -8,46 +8,46 @@ public class Player :
     IHealth,
     IScore
 {
-    private readonly IUserInput userInput;
-    private readonly PlayerControl control;
-    private readonly IHealth health = new PlayerHealth();
-    private readonly IPosition position;
-    private readonly IScore score = new PlayerScore();
+    private readonly IUserInput _userInput;
+    private readonly PlayerControl _control;
+    private readonly IHealth _health = new PlayerHealth();
+    private readonly IPosition _position;
+    private readonly IScore _score = new PlayerScore();
 
     public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementControlData)
     {
         if (!rigidbody2D) throw new ArgumentNullException(nameof(rigidbody2D));
         if (!movementControlData) throw new ArgumentNullException(nameof(movementControlData));
 
-        userInput = input ?? throw new ArgumentNullException(nameof(input));
-        position = new PlayerPosition(rigidbody2D);
-        control = new PlayerControl(userInput, position, movementControlData);
+        _userInput = input ?? throw new ArgumentNullException(nameof(input));
+        _position = new PlayerPosition(rigidbody2D);
+        _control = new PlayerControl(_userInput, _position, movementControlData);
     }
 
-    Vector2 IPositionGetter.Value => position.Value;
+    Vector2 IPositionGetter.Value => _position.Value;
 
-    IPercentable<int> IHealthGetter.Value => health.Value;
+    IPercentable<int> IHealthGetter.Value => _health.Value;
 
-    int IScoreGetter.Value => score.Value;
+    int IScoreGetter.Value => _score.Value;
 
     public event Action OnScoreChanged
     {
-        add => score.OnScoreChanged += value;
-        remove => score.OnScoreChanged -= value;
+        add => _score.OnScoreChanged += value;
+        remove => _score.OnScoreChanged -= value;
     }
 
     event Action IDeath.OnDied
     {
-        add => health.OnDied += value;
-        remove => health.OnDied -= value;
+        add => _health.OnDied += value;
+        remove => _health.OnDied -= value;
     }
 
     public void FixedUpdate(float deltaTime)
     {
-        control.FixedUpdate(deltaTime);
+        _control.FixedUpdate(deltaTime);
     }
 
-    void IDamageTaker.TakeDamage(uint damage) => health.TakeDamage(damage);
+    void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);
 
-    void IScoreCollector.Add(int amount) => score.Add(amount);
+    void IScoreCollector.Add(int amount) => _score.Add(amount);
 }
