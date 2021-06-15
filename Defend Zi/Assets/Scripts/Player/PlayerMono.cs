@@ -11,7 +11,7 @@ public class PlayerMono :
     IHealth,
     IScore
 {
-    [SerializeField] private PlayerMovementData _movementData;
+    [SerializeField, NotNull] private PlayerMovementData _movementData;
 
     private IFixedUpdate _fixedUpdate;
     private IHealth _health;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject obstacle;
+    [SerializeField, NotNull] private GameObject obstacle;
     [SerializeField] private int distance = 5;
     [SerializeField] private int startLevelPoint = 6;
     [SerializeField] private int endLevelPoint = 1000;

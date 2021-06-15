@@ -18,7 +18,7 @@ public class DebugUIController : MonoBehaviourExt
         coroutine.StartContinuously(UpdateDebug());
     }
 
-    [SerializeField] private DebugUIView debugUIView;
+    [SerializeField, NotNull] private DebugUIView debugUIView;
 
     private float TimeScale => globalTimeScaler.TimeScale;
 

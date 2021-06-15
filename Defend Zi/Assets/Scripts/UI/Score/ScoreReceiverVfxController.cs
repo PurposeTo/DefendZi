@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ScoreReceiverVfxController : MonoBehaviourExt
 {
-    [SerializeField] private ScoreReceiver scoreReceiver;
-    [SerializeField] private TextView creatingScoreView;
+    [SerializeField, NotNull] private ScoreReceiver scoreReceiver;
+    [SerializeField, NotNull] private TextView creatingScoreView;
 
     private readonly float viewLifeTime = 1f;
 

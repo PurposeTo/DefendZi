@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 
 [ExecuteInEditMode]
 public class CameraSize : MonoBehaviourExt
 {
-    [SerializeField] private Camera _camera;
-    [SerializeField] private Transform _playerTransform;
+    [SerializeField, NotNull] private Camera _camera;
+    [SerializeField, NotNull] private Transform _playerTransform;
 
     private Vector3 _leftDownCorner;
     private Vector3 _rightDownCorner;

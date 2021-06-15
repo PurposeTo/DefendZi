@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DebugUIView : MonoBehaviour
 {
-    [SerializeField] private TMP_Text text;
+    [SerializeField, NotNull] private TMP_Text text;
 
     public void SetText(string str)
     {

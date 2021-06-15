@@ -41,7 +41,7 @@ public class Player :
 
     event Action IPositionNotification.OnChanged
     {
-        add =>  _position.OnChanged += value;
+        add => _position.OnChanged += value;
         remove => _position.OnChanged -= value;
     }
 

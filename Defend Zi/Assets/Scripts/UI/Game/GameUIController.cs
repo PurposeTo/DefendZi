@@ -15,10 +15,8 @@ public class GameUIController : MonoBehaviour
         SubscribeEvents();
     }
 
-    [SerializeField]
+    [SerializeField, NotNull]
     private GameOverView gameOverView;
-
-
 
     private void OnDestroy()
     {

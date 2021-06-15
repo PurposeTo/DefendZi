@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameOverView : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, NotNull]
     private GameObject gameOverScreen;
 
     public event Action OnReloadLvlClicked;

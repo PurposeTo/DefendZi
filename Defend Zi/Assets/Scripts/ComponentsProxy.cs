@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ComponentsProxy : MonoBehaviour
 {
-    [SerializeField] private PlayerMono player;
+    [SerializeField, NotNull] private PlayerMono player;
     public IDeath PlayerDeath => player;
     public IPositionGetter PlayerPosition => player;
     public IPositionNotification PlayerPositionNotification => player;

@@ -3,8 +3,8 @@ using Zenject;
 
 public class GameSceneInstaller : MonoInstaller
 {
-    [SerializeField] private ComponentsProxy componentsProxy;
-    [SerializeField] private PlayerMono player;
+    [SerializeField, NotNull] private ComponentsProxy componentsProxy;
+    [SerializeField, NotNull] private PlayerMono player;
 
     public override void InstallBindings()
     {
