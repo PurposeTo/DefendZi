@@ -17,9 +17,6 @@ public class Player :
 
     public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementControlData)
     {
-        if (!rigidbody2D) throw new ArgumentNullException(nameof(rigidbody2D));
-        if (!movementControlData) throw new ArgumentNullException(nameof(movementControlData));
-
         _position = new PlayerPosition(rigidbody2D);
         _controlFixedUpdate = new PlayerControl(input, _position, movementControlData);
     }

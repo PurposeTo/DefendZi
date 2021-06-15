@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerControl : IFixedUpdate
 {
@@ -8,11 +9,9 @@ public class PlayerControl : IFixedUpdate
 
     public PlayerControl(IUserInput input, IPosition position, PlayerMovementData movementData)
     {
-        _userInput = input ?? throw new System.ArgumentNullException(nameof(input));
-        _position = position ?? throw new System.ArgumentNullException(nameof(position));
-        _movementData = movementData
-            ? movementData
-            : throw new System.ArgumentNullException(nameof(movementData));
+        _userInput = input ?? throw new ArgumentNullException(nameof(input));
+        _position = position ?? throw new ArgumentNullException(nameof(position));
+        _movementData = movementData ?? throw new ArgumentNullException(nameof(movementData));
         _frequency = movementData.defaultFrequency;
     }
 

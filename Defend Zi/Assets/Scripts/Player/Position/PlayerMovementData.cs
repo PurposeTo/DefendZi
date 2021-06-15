@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerMovementData", menuName = "ScriptableObjects/PlayerMovementData")]
-public class PlayerMovementData : ScriptableObject
+[Serializable]
+public class PlayerMovementData
 {
-    public float speed = 12f;
-    public float amplitude = 6f;
-    public float defaultFrequency = 0.15f;
-    public float controlledFrequency = 0.5f;
-    public float frequencyChangeRate = 1.5f;
+    [SerializeField] public float speed = 12f;
+    [SerializeField] public float amplitude = 6f;
+    [SerializeField] public float defaultFrequency = 0.125f;
+    [SerializeField] public float controlledFrequency = 0.5f;
+    [SerializeField] public float frequencyChangeRate = 1.5f;
 }
