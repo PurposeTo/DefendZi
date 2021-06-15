@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ScoreReceiver : MonoBehaviourExt
 {
+    private readonly Desdiene.Logger logger = new Desdiene.Logger(typeof(ScoreReceiver));
+
     public event Action<int> OnReceived;
     private IScoreCollector scoreCollector;
 
@@ -23,7 +25,7 @@ public class ScoreReceiver : MonoBehaviourExt
 
             scoreCollector.Add(value);
             OnReceived?.Invoke(value);
-            Debug.Log($"{GetType()}. Добавлено очков: {value}");
+            logger.Log($"Добавлено очков: {value}");
         }
     }
 }
