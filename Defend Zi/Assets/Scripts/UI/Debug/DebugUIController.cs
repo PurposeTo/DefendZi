@@ -30,11 +30,9 @@ public class DebugUIController : MonoBehaviourExt
     private void SetDebugText(float TimeScale)
     {
         int unscaledDeltaTime = Mathf.Clamp(Mathf.RoundToInt(1 / Time.unscaledDeltaTime), 0, int.MaxValue);
-        int scaledDeltaTime = Mathf.Clamp(Mathf.RoundToInt(1 / Time.deltaTime), 0, int.MaxValue);
 
         debugUIView.SetText($"TimeScale: {TimeScale}.\n" +
-            $"unscaled FPS: {unscaledDeltaTime}\n" +
-            $"scaled FPS: {scaledDeltaTime}");
+            $"FPS: {unscaledDeltaTime}");
     }
 
     private IEnumerator UpdateDebug()
