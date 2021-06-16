@@ -1,71 +1,36 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Desdiene;
-using Desdiene.Extensions.UnityEngine;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
+using Zenject;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : MonoBehaviourExt
 {
-    [SerializeField, NotNull] private GameObject obstacle;
-    [SerializeField] private int distance = 5;
-    [SerializeField] private int startLevelPoint = 6;
-    [SerializeField] private int endLevelPoint = 1000;
-    [SerializeField] private int randomCount = 2;
+    [SerializeReference] private List<Chunk> chunks;
 
-    private readonly float[] hights = { -7, -4.5f, -3.75f, -3, -2, -1, 0, 1, 2, 3, 3.75f, 4.5f, 7 };
-    private float[] rotations;
-    private readonly float eulerStep = 7.5f;
+    private float levelLength = 0f;
 
-    private void Awake()
+    private IPositionGetter playerPosition; //генерировать чанки нужно по мере продвижения игрока
+    private CameraSize cameraSize; //чанки нужно генерировать вне зоны видимости
+
+    [Inject]
+    private void Constructor(ComponentsProxy componentsProxy)
     {
-        InitRotations();
-
-        Math.Compare(ref startLevelPoint, ref endLevelPoint);
-        List<int> randomCordinates = GetRandomCoordinates();
-        List<Vector2> randomVectors = GetRandomVectors2(randomCordinates);
-        SpawnObstacles(randomVectors);
+        playerPosition = componentsProxy.PlayerPosition;
+        cameraSize = componentsProxy.CameraSize;
     }
 
-    private void InitRotations()
+    private void AddChunk()
     {
-        rotations = Enumerable.Range(0, (int)(360 / eulerStep))
-            .Select(euler => euler * eulerStep)
-            .ToArray();
+        Chunk originalChunk = GetRandomChunk();
+        float creatingPoint = levelLength + (originalChunk.Width / 2);
+
+        // todo: необходимо где-то явно указать Y и Z уровня.
+        Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity);
+        levelLength += originalChunk.Width;
     }
 
-    private void SpawnObstacles(List<Vector2> vectors)
+    private Chunk GetRandomChunk()
     {
-        vectors.ForEach(vector =>
-        {
-            float randomRotation = rotations[Random.Range(0, rotations.Length)];
-            Instantiate(obstacle, transform)
-            .transform
-            .SetPosition(new Vector2(vector.x * distance, vector.y))
-            .SetRotation(Quaternion.Euler(0f, 0f, randomRotation));
-        });
-    }
-
-    private List<int> GetRandomCoordinates()
-    {
-        List<int> randomCordinatesList = new List<int>();
-        for (int i = 0; i < randomCount; i++)
-        {
-            IEnumerable<int> range = Enumerable.Range(startLevelPoint, endLevelPoint);
-            randomCordinatesList.AddRange(range);
-        }
-        int[] randomCordinates = randomCordinatesList.ToArray();
-        Randomizer.Shuffle(randomCordinates);
-        return randomCordinates
-            .ToList()
-            .GetRange(0, randomCordinatesList.Count / randomCount)
-            .ToList();
-    }
-
-    private List<Vector2> GetRandomVectors2(List<int> randomCordinates)
-    {
-        return randomCordinates
-            .Select(x => new Vector2(x, hights[Random.Range(0, hights.Length)]))
-            .ToList();
+        return chunks[Random.Range(0, chunks.Count)];
     }
 }
