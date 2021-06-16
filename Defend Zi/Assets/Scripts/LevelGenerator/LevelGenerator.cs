@@ -1,16 +1,16 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
 
 public class LevelGenerator : MonoBehaviourExt
 {
-    [SerializeReference] private List<Chunk> chunks;
+    [SerializeField] private List<Chunk> chunks;
 
     private float levelLength = 0f;
 
-    private IPositionGetter playerPosition; //генерировать чанки нужно по мере продвижения игрока
-    private CameraSize cameraSize; //чанки нужно генерировать вне зоны видимости
+    private IPositionGetter playerPosition; //РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ С‡Р°РЅРєРё РЅСѓР¶РЅРѕ РїРѕ РјРµСЂРµ РїСЂРѕРґРІРёР¶РµРЅРёСЏ РёРіСЂРѕРєР°
+    private CameraSize cameraSize; //С‡Р°РЅРєРё РЅСѓР¶РЅРѕ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РІРЅРµ Р·РѕРЅС‹ РІРёРґРёРјРѕСЃС‚Рё
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
@@ -24,7 +24,7 @@ public class LevelGenerator : MonoBehaviourExt
         Chunk originalChunk = GetRandomChunk();
         float creatingPoint = levelLength + (originalChunk.Width / 2);
 
-        // todo: необходимо где-то явно указать Y и Z уровня.
+        // todo: РЅРµРѕР±С…РѕРґРёРјРѕ РіРґРµ-С‚Рѕ СЏРІРЅРѕ СѓРєР°Р·Р°С‚СЊ Y Рё Z СѓСЂРѕРІРЅСЏ.
         Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity);
         levelLength += originalChunk.Width;
     }
