@@ -26,7 +26,7 @@ public class ScoreAdderByDistance : MonoBehaviourExt
     {
         yield return new WaitForSeconds(_delay);
 
-        float nextOxPosition = default;
+        float nextOxPosition = 0f;
         var wait = new WaitUntil(() => _position.Value.x >= nextOxPosition);
 
         while (true)
