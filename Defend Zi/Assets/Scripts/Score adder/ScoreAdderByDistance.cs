@@ -7,8 +7,10 @@ using Zenject;
 [RequireComponent(typeof(IScoreCollector))]
 public class ScoreAdderByDistance : MonoBehaviourExt
 {
+    [Tooltip("Задержка перед началом исполнения")]
+    [SerializeField] private float _delayBeforeStart = 1.5f;
+    [Tooltip("Дистанция, за прохождение которой начисляется одно очко")]
     [SerializeField] private float _distancePerScore = 17.5f;
-    [SerializeField] private float _delay = 1.5f;
 
     private IScoreCollector _collector;
     private IPositionGetter _position;
@@ -24,7 +26,7 @@ public class ScoreAdderByDistance : MonoBehaviourExt
 
     private IEnumerator Adder()
     {
-        yield return new WaitForSeconds(_delay);
+        yield return new WaitForSeconds(_delayBeforeStart);
 
         float nextOxPosition = 0f;
         var wait = new WaitUntil(() => _position.Value.x >= nextOxPosition);
