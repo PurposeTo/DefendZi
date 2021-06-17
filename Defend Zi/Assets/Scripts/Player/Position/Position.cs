@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerPosition : IPosition
+public class Position : IPosition
 {
     private readonly Rigidbody2D _rigidbody2D;
 
-    public PlayerPosition(Rigidbody2D rigidbody2D)
+    public Position(Rigidbody2D rigidbody2D)
     {
-        _rigidbody2D = rigidbody2D
+        _rigidbody2D = rigidbody2D != null
             ? rigidbody2D
             : throw new ArgumentNullException(nameof(rigidbody2D));
     }

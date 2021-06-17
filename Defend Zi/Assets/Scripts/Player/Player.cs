@@ -17,7 +17,7 @@ public class Player :
 
     public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementControlData)
     {
-        _position = new PlayerPosition(rigidbody2D);
+        _position = new Position(rigidbody2D);
         _controlFixedUpdate = new PlayerControl(input, _position, movementControlData);
     }
 
