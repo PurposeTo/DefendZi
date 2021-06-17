@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class RotationMovement : Movement
 {
-    private protected IRotation Rotation;
+    protected IRotation Rotation;
 
     protected override void Constructor()
     {
