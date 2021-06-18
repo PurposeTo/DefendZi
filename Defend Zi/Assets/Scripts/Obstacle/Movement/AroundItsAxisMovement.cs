@@ -1,7 +1,7 @@
 ﻿public class AroundItsAxisMovement : RotationMovement
 {
-    protected override void Move(float deltaTime)
+    protected override void Move(float delta)
     {
-        Rotation.Rotate(Rotation.Value + deltaTime * Speed);
+        Rotation.RotateTo(Rotation.Angle + delta);
     }
 }

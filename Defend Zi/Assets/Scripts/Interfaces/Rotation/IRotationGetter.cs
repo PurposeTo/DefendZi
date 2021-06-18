@@ -1,4 +1,7 @@
-﻿public interface IRotationGetter
+﻿using UnityEngine;
+
+public interface IRotationGetter
 {
-    float Value { get; }
+    float Angle { get; }
+    Quaternion Quaternion { get; }
 }

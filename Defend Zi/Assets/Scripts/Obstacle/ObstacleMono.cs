@@ -7,16 +7,20 @@ public class ObstacleMono :
     IDamageDealer, 
     IScoreGetter
 {
-    private Obstacle _obstacle;
+    private IScoreGetter _scoreGetter;
+    private IDamageDealer _damageDealer;
 
     protected override void Constructor()
     {
-        _obstacle = new Obstacle(_scoreByAvoding);
+        Obstacle obstacle = new Obstacle(_scoreByAvoding);
+
+        _scoreGetter = obstacle;
+        _damageDealer = obstacle;
     }
 
     [SerializeField] private int _scoreByAvoding = 5;
 
-    int IScoreGetter.Value => ((IScoreGetter)_obstacle).Value;
+    int IScoreGetter.Value => _scoreGetter.Value;
 
-    uint IDamageDealer.Value => ((IDamageDealer)_obstacle).Value;
+    uint IDamageDealer.Value => _damageDealer.Value;
 }
