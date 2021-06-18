@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class AroundItsAxisMovement : RotationMovement
+public class AroundItsAxisMovement : RotationMono
 {
-    protected override void Rotate(float deltaAngle)
+    private void FixedUpdate()
     {
-        var deltaQuaternion = Quaternion.AngleAxis(deltaAngle, Vector3.forward);
+        var deltaQuaternion = Quaternion.AngleAxis(Speed * Time.fixedDeltaTime, Vector3.forward);
         Rotation.RotateBy(deltaQuaternion);
     }
 }

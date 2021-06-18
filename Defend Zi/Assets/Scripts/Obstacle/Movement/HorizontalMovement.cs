@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
 
-public class HorizontalMovement : PositionMovement
+public class HorizontalMovement : PositionMono
 {
     private void FixedUpdate()
     {
-        Move(new Vector2(Speed * Time.fixedDeltaTime, 0f));
-    }
-
-    protected override void Move(Vector2 deltaDistance)
-    {
-        Position.MoveBy(deltaDistance);
+        Debug.Log($"{GetType()}. PreviousPos: {Position.Value.x}, {Position.Value.y}");
+        Position.MoveBy(new Vector2(Speed * Time.fixedDeltaTime, 0f));
+        Debug.Log($"{GetType()}. NextPos: {Position.Value.x}, {Position.Value.y}");
     }
 }
