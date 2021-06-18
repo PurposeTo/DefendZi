@@ -45,9 +45,9 @@ public class Player :
         remove => _position.OnChanged -= value;
     }
 
-    void IFixedUpdate.FixedUpdate(float deltaTime)
+    void IFixedUpdate.Invoke(float deltaTime)
     {
-        _controlFixedUpdate.FixedUpdate(deltaTime);
+        _controlFixedUpdate.Invoke(deltaTime);
     }
 
     void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);

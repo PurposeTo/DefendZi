@@ -19,7 +19,7 @@ public class PlayerControl : IFixedUpdate
     private float _frequency;
     private float _phase;
 
-    void IFixedUpdate.FixedUpdate(float deltaTime)
+    void IFixedUpdate.Invoke(float deltaTime)
     {
         float targetFrequency = IsControlled
             ? _movementData.controlledFrequency

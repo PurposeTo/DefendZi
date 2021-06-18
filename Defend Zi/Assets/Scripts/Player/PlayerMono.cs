@@ -32,7 +32,7 @@ public class PlayerMono :
         _score = _player;
     }
 
-    private void FixedUpdate() => _fixedUpdate.FixedUpdate(Time.fixedDeltaTime);
+    private void FixedUpdate() => _fixedUpdate.Invoke(Time.fixedDeltaTime);
 
     Vector2 IPositionGetter.Value => _positionGetter.Value;
 

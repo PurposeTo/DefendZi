@@ -1,4 +1,4 @@
 ﻿public interface IFixedUpdate
 {
-    void FixedUpdate(float deltaTime);
+    void Invoke(float deltaTime);
 }
