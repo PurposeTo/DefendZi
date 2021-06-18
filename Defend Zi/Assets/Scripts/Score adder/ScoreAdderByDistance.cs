@@ -4,38 +4,38 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
 
+//todo: перенести данный класс в SceneContext?
 [RequireComponent(typeof(IScoreCollector))]
 public class ScoreAdderByDistance : MonoBehaviourExt
 {
-    [Tooltip("Задержка перед началом исполнения")]
-    [SerializeField] private float _delayBeforeStart = 1.5f;
-    [Tooltip("Дистанция, за прохождение которой начисляется одно очко")]
-    [SerializeField] private float _distancePerScore = 17.5f;
+    [SerializeField, NotNull] private float distanceToGetScore = 17.5f;
+    [SerializeField, NotNull] private int scorePerDistance = 1;
+    [SerializeField, NotNull] private float delay = 1f;
 
-    private IScoreCollector _collector;
-    private IPositionGetter _position;
+    private IScoreCollector collector;
+    private IPositionGetter position;
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
-        _collector = GetComponent<IScoreCollector>();
-        _position = componentsProxy.PlayerPosition;
+        collector = GetComponent<IScoreCollector>();
+        position = componentsProxy.PlayerPosition;
         ICoroutine routine = new CoroutineWrap(this);
         routine.StartContinuously(Adder());
     }
 
     private IEnumerator Adder()
     {
-        yield return new WaitForSeconds(_delayBeforeStart);
+        yield return new WaitForSeconds(delay);
 
-        float nextOxPosition = 0f;
-        var wait = new WaitUntil(() => _position.Value.x >= nextOxPosition);
+        float positionOxToGetPoints = default;
+        var wait = new WaitUntil(() => position.Value.x >= positionOxToGetPoints);
 
         while (true)
         {
-            nextOxPosition = _position.Value.x + _distancePerScore;
+            positionOxToGetPoints = position.Value.x + distanceToGetScore;
             yield return wait;
-            _collector.Add(1);
+            collector.Add(scorePerDistance);
         }
     }
 }

@@ -388,8 +388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e332f2b76fd9649a4af218aeb5ea9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayBeforeStart: 1.5
-  _distancePerScore: 17.5
+  distanceToGetScore: 17.5
+  scorePerDistance: 1
+  delay: 1
 --- !u!96 &274676713
 TrailRenderer:
   serializedVersion: 2

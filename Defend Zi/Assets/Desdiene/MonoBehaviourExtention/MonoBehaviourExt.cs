@@ -34,6 +34,9 @@ namespace Desdiene.MonoBehaviourExtension
 
         private void EndOnEnableExecution()
         {
+            //UpdateManager.AddUpdate(UpdateSuper);
+            //UpdateManager.AddFixedUpdate(FixedUpdateSuper);
+            //UpdateManager.AddLateUpdate(LateUpdateSuper);
             OnEnabed?.Invoke();
         }
 
@@ -72,6 +75,9 @@ namespace Desdiene.MonoBehaviourExtension
 
         private void EndOnDisableExecution()
         {
+            //UpdateManager.RemoveUpdate(UpdateSuper);
+            //UpdateManager.RemoveFixedUpdate(FixedUpdateSuper);
+            //UpdateManager.RemoveLateUpdate(LateUpdateSuper);
             OnDisabled?.Invoke();
         }
 
@@ -106,6 +112,50 @@ namespace Desdiene.MonoBehaviourExtension
 
         #endregion
 
+
+        #region Update realization
+
+        /// <summary>
+        /// Необходимо использовать данный метод взамен Update()
+        /// </summary>
+        protected virtual void UpdateExt() { }
+
+        private void UpdateSuper()
+        {
+            UpdateExt();
+        }
+
+        #endregion
+
+
+        #region FixedUpdate realization
+
+        /// <summary>
+        /// Необходимо использовать данный метод взамен FixedUpdate()
+        /// </summary>
+        protected virtual void FixedUpdateExt() { }
+
+        private void FixedUpdateSuper()
+        {
+            FixedUpdateExt();
+        }
+
+        #endregion
+
+
+        #region LateUpdate realization
+
+        /// <summary>
+        /// Необходимо использовать данный метод взамен LateUpdate()
+        /// </summary>
+        protected virtual void LateUpdateExt() { }
+
+        private void LateUpdateSuper()
+        {
+            LateUpdateExt();
+        }
+
+        #endregion
 
         #region CoroutineExecutor
 
@@ -148,8 +198,7 @@ namespace Desdiene.MonoBehaviourExtension
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponent<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
-            return component ?? throw new NullReferenceException($"Can't find component on this gameObject!" +
-                $" Type: {typeof(T)}.");
+            return component ?? throw new NullReferenceException($"Can't find component! Type: {typeof(T)}.");
         }
 
         public new T GetComponentInChildren<T>()
@@ -157,8 +206,7 @@ namespace Desdiene.MonoBehaviourExtension
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInChildren<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
-            return component ?? throw new NullReferenceException($"Can't find component on this gameObject or in children!" +
-                $" Type: {typeof(T)}.");
+            return component ?? throw new NullReferenceException($"Can't find component in children! Type: {typeof(T)}.");
         }
 
         public new T GetComponentInParent<T>()
@@ -166,8 +214,7 @@ namespace Desdiene.MonoBehaviourExtension
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInParent<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
-            return component ?? throw new NullReferenceException($"Can't find component on this gameObject or in parent!" +
-                $" Type: {typeof(T)}.");
+            return component ?? throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.");
         }
 
         public T GetComponentOnlyInParent<T>()
@@ -180,7 +227,7 @@ namespace Desdiene.MonoBehaviourExtension
             }
             catch (InvalidOperationException exception)
             {
-                throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.", exception);
+                throw new NullReferenceException($"Not found {typeof(T)} on parent gameObject/s!", exception);
             }
         }
 

@@ -16,15 +16,9 @@ public class Position : IPosition
 
     public event Action OnChanged;
 
-    void IMovePosition.MoveTo(Vector2 finalPosition)
+    void IMovement.MoveTo(Vector2 vector)
     {
-        _rigidbody2D.MovePosition(finalPosition);
-        OnChanged?.Invoke();
-    }
-
-    void IMovePosition.MoveBy(Vector2 deltaPosition)
-    {
-        _rigidbody2D.MovePosition(_rigidbody2D.position + deltaPosition);
+        _rigidbody2D.MovePosition(vector);
         OnChanged?.Invoke();
     }
 }
