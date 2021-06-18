@@ -12,12 +12,20 @@ public class Rotation : IRotation
             : throw new ArgumentNullException(nameof(rigidbody2D));
     }
 
-    float IRotationGetter.Angle => _rigidbody2D.rotation;
+    private float Angle => _rigidbody2D.rotation;
+    private Quaternion Quaternion => Quaternion.AngleAxis(Angle, Vector3.forward);
 
-    Quaternion IRotationGetter.Quaternion => Quaternion.AngleAxis(_rigidbody2D.rotation, Vector3.forward);
+    float IRotationGetter.Angle => Angle;
 
-    void IMoveRotation.RotateTo(Quaternion quaternion)
+    Quaternion IRotationGetter.Quaternion => Quaternion;
+
+    void IMoveRotation.RotateTo(Quaternion finalQuaternion)
     {
-        _rigidbody2D.MoveRotation(quaternion);
+        _rigidbody2D.MoveRotation(finalQuaternion);
+    }
+
+    void IMoveRotation.RotateBy(Quaternion deltaQuaternion)
+    {
+        _rigidbody2D.MoveRotation(Quaternion * deltaQuaternion);
     }
 }

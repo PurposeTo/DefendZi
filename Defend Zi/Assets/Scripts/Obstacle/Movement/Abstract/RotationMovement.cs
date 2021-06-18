@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Desdiene.MonoBehaviourExtension;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class RotationMovement : Movement
@@ -9,4 +10,11 @@ public abstract class RotationMovement : Movement
     {
         Rotation = new Rotation(GetComponent<Rigidbody2D>());
     }
+
+    private void FixedUpdate()
+    {
+        Rotate(Speed * Time.fixedDeltaTime);
+    }
+
+    protected abstract void Rotate(float deltaAngle);
 }

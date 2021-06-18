@@ -22,9 +22,9 @@ public class Position : IPosition
         OnChanged?.Invoke();
     }
 
-    void IMovePosition.MoveBy(Vector2 deltaPosition)
+    void IMovePosition.MoveBy(Vector2 deltaDistance)
     {
-        _rigidbody2D.MovePosition(_rigidbody2D.position + deltaPosition);
+        _rigidbody2D.MovePosition(_rigidbody2D.position + deltaDistance);
         OnChanged?.Invoke();
     }
 }

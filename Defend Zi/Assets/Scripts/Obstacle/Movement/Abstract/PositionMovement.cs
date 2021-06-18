@@ -9,4 +9,6 @@ public abstract class PositionMovement : Movement
     {
         Position = new Position(GetComponent<Rigidbody2D>());
     }
+
+    protected abstract void Move(Vector2 deltaDistance);
 }

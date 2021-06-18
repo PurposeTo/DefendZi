@@ -2,9 +2,13 @@
 
 public class HorizontalMovement : PositionMovement
 {
-    protected override void Move(float deltaDistance)
+    private void FixedUpdate()
     {
-        var nextPosition = new Vector2(Position.Value.x + deltaDistance, Position.Value.y);
-        Position.MoveBy(nextPosition);
+        Move(new Vector2(Speed * Time.fixedDeltaTime, 0f));
+    }
+
+    protected override void Move(Vector2 deltaDistance)
+    {
+        Position.MoveBy(deltaDistance);
     }
 }
