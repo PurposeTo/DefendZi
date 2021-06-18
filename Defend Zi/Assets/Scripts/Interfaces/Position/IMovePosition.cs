@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IMovement
+public interface IMovePosition
 {
     void MoveTo(Vector2 vector);
 }

@@ -16,7 +16,7 @@ public class PlayerPosition : IPosition
 
     public event Action OnChanged;
 
-    void IMovement.MoveTo(Vector2 vector)
+    void IMovePosition.MoveTo(Vector2 vector)
     {
         _rigidbody2D.MovePosition(vector);
         OnChanged?.Invoke();
