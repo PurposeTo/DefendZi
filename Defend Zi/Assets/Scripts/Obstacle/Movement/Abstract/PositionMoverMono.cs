@@ -2,15 +2,15 @@
 using Desdiene.MonoBehaviourExtension;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public abstract class RotationMono : MonoBehaviourExt
+public abstract class PositionMoverMono : MonoBehaviourExt
 {
     [SerializeField] private float _speed;
 
     protected float Speed => _speed;
-    protected IRotation Rotation;
+    protected IPosition Position;
 
     protected override void Constructor()
     {
-        Rotation = new Rotation(GetComponent<Rigidbody2D>());
+        Position = new Position(GetComponent<Rigidbody2D>());
     }
 }

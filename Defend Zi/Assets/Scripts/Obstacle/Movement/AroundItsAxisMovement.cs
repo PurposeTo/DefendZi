@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AroundItsAxisMovement : RotationMono
+public class AroundItsAxisMovement : RotatorMono
 {
     private void FixedUpdate()
     {

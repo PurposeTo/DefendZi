@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HorizontalMovement : PositionMono
+public class HorizontalMovement : PositionMoverMono
 {
     private void FixedUpdate()
     {
