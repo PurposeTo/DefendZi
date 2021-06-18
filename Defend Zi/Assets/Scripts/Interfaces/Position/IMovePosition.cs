@@ -11,6 +11,6 @@ public interface IMovePosition
     /// <summary>
     /// Подвинуть с текущей позиции на дельту.
     /// </summary>
-    /// <param name="deltaPosition">Дельта позиции, на которую необходимо подвинуть объект.</param>
-    void MoveBy(Vector2 deltaPosition);
+    /// <param name="deltaDistance">Дельта расстояния, на которое необходимо подвинуть объект.</param>
+    void MoveBy(Vector2 deltaDistance);
 }

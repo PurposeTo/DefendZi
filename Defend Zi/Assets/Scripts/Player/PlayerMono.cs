@@ -4,6 +4,7 @@ using Desdiene.Types.Percentale;
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMono :
     MonoBehaviourExt,
     IPositionGetter,

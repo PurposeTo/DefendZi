@@ -1,14 +1,17 @@
+using System;
+using UnityEngine;
+
 public class Obstacle : IDamageDealer, IScoreGetter
 {
-    private readonly IDamageDealer damage = new Damage();
-    private readonly IScoreGetter score;
+    private readonly IDamageDealer _damage = new Damage();
+    private readonly IScoreGetter _score;
 
     public Obstacle(int scoreByAvoding)
     {
-        score = new ScoreGetter(scoreByAvoding);
+        _score = new ScoreGetter(scoreByAvoding);
     }
 
-    int IScoreGetter.Value => score.Value;
+    int IScoreGetter.Value => _score.Value;
 
-    uint IDamageDealer.Value => damage.Value;
+    uint IDamageDealer.Value => _damage.Value;
 }

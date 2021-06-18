@@ -1,18 +1,26 @@
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-public class ObstacleMono : MonoBehaviourExt, IDamageDealer, IScoreGetter
+[RequireComponent(typeof(Rigidbody2D))]
+public class ObstacleMono : 
+    MonoBehaviourExt, 
+    IDamageDealer, 
+    IScoreGetter
 {
-    private Obstacle obstacle;
+    private IScoreGetter _scoreGetter;
+    private IDamageDealer _damageDealer;
 
     protected override void Constructor()
     {
-        obstacle = new Obstacle(scoreByAvoding);
+        Obstacle obstacle = new Obstacle(_scoreByAvoding);
+
+        _scoreGetter = obstacle;
+        _damageDealer = obstacle;
     }
 
-    [SerializeField] private int scoreByAvoding = 5;
+    [SerializeField] private int _scoreByAvoding = 5;
 
-    int IScoreGetter.Value => ((IScoreGetter)obstacle).Value;
+    int IScoreGetter.Value => _scoreGetter.Value;
 
-    uint IDamageDealer.Value => ((IDamageDealer)obstacle).Value;
+    uint IDamageDealer.Value => _damageDealer.Value;
 }
