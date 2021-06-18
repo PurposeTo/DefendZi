@@ -2,9 +2,9 @@
 
 public class VerticalMovement : PositionMovement
 {
-    protected override void Move(float delta)
+    protected override void Move(float deltaDistance)
     {
-        var nextPosition = new Vector2(Position.Value.x, Position.Value.y + delta);
-        Position.MoveTo(nextPosition);
+        var nextPosition = new Vector2(Position.Value.x, Position.Value.y + deltaDistance);
+        Position.MoveBy(nextPosition);
     }
 }

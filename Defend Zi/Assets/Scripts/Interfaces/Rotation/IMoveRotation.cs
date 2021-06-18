@@ -1,4 +1,6 @@
-﻿public interface IMoveRotation
+﻿using UnityEngine;
+
+public interface IMoveRotation
 {
-    void RotateTo(float angle);
+    void RotateTo(Quaternion quaternion);
 }

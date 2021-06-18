@@ -1,7 +1,10 @@
-﻿public class AroundItsAxisMovement : RotationMovement
+﻿using UnityEngine;
+
+public class AroundItsAxisMovement : RotationMovement
 {
-    protected override void Move(float delta)
+    protected override void Move(float deltaDistance)
     {
-        Rotation.RotateTo(Rotation.Angle + delta);
+        var quaternion = Quaternion.AngleAxis(Rotation.Angle + deltaDistance, Vector3.forward);
+        Rotation.RotateTo(quaternion);
     }
 }

@@ -16,8 +16,8 @@ public class Rotation : IRotation
 
     Quaternion IRotationGetter.Quaternion => Quaternion.AngleAxis(_rigidbody2D.rotation, Vector3.forward);
 
-    void IMoveRotation.RotateTo(float angle)
+    void IMoveRotation.RotateTo(Quaternion quaternion)
     {
-        _rigidbody2D.MoveRotation(angle);
+        _rigidbody2D.MoveRotation(quaternion);
     }
 }

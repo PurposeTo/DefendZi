@@ -10,5 +10,5 @@ public abstract class Movement : MonoBehaviourExt
         Move(_speed * Time.fixedDeltaTime);
     }
 
-    protected abstract void Move(float delta);
+    protected abstract void Move(float deltaDistance);
 }
