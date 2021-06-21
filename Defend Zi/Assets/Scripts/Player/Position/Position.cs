@@ -18,13 +18,17 @@ public class Position : IPosition
 
     void IMovePosition.MoveTo(Vector2 finalPosition)
     {
-        _rigidbody2D.MovePosition(finalPosition);
-        OnChanged?.Invoke();
+        MoveTo(finalPosition);
     }
 
     void IMovePosition.MoveBy(Vector2 deltaDistance)
     {
-        _rigidbody2D.MovePosition(_rigidbody2D.position + deltaDistance);
+        MoveTo(_rigidbody2D.position + deltaDistance);
+    }
+
+    private void MoveTo(Vector2 finalPosition)
+    {
+        _rigidbody2D.MovePosition(finalPosition);
         OnChanged?.Invoke();
     }
 }
