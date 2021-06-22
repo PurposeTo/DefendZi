@@ -175,12 +175,34 @@ namespace Desdiene.MonoBehaviourExtension
             try
             {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
-                return GetComponentsInParent<T>().Single(it => !it.Equals(this));
+                T componentOnThisGameObject = base.GetComponent<T>();
+                return GetComponentsInParent<T>().Single(it =>
+                {
+                    return !it.Equals(componentOnThisGameObject);
+                });
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
             }
             catch (InvalidOperationException exception)
             {
                 throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.", exception);
+            }
+        }
+
+        public T[] GetComponentsOnlyInChildren<T>()
+        {
+            try
+            {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+                T componentOnThisGameObject = base.GetComponent<T>();
+                return GetComponentsInChildren<T>().Where(it =>
+                {
+                    return !it.Equals(componentOnThisGameObject);
+                }).ToArray();
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+            }
+            catch (InvalidOperationException exception)
+            {
+                throw new NullReferenceException($"Can't find component in childrens! Type: {typeof(T)}.", exception);
             }
         }
 
