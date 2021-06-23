@@ -3,22 +3,21 @@ using UnityEngine;
 
 public class PointToPointMovementMono : PositionMoverMono
 {
-    private enum MovementType
+    public enum MovementType
     {
         Linear,
-        NonLinear
+        EaseInOut
     }
 
-    [SerializeField] private Transform _targetTransform;
+    [SerializeField, NotNull] private Transform _target;
     [SerializeField] private MovementType _movementType;
-    [SerializeField] private AnimationCurve _animationCurve;
 
     private PointToPointMovement _movement;
 
     protected override void Constructor()
     {
         base.Constructor();
-        InitializeMovement();
+        PointToPointMovementInitializer.Init<PointToPointMovement>();
     }
 
     // TODO: Убрать (добавлено для тестирования)
@@ -26,20 +25,13 @@ public class PointToPointMovementMono : PositionMoverMono
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            InitMovement();
             _movement.Enable();
         }
     }
 
-    private void InitializeMovement()
+    private void InitMovement()
     {
-        if (_movementType == MovementType.Linear)
-        {
-            _movement = new LinearPointToPointMovement(this, Position, _targetTransform.position, Speed);
-        }
-        else if (_movementType == MovementType.NonLinear)
-        {
-            _movement = new NonLinearPointToPointMovement(this, Position, _targetTransform.position, _animationCurve, Speed);
-        }
-        else throw new Exception($"{_movementType} is unkwown type of {typeof(MovementType)}.");
+        _movement = PointToPointMovementFactory.GetMovement(_movementType, this, Position, _target.position, Speed);
     }
 }
