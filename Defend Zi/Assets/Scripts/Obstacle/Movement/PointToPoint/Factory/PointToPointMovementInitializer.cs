@@ -5,9 +5,9 @@ using System.Reflection;
 
 public static class PointToPointMovementInitializer
 {
-    public static void Init<T>()
+    public static void Init()
     {
-        var types = GetAllDerivedTypes<T>();
+        var types = GetAllDerivedTypes();
         IEnumerable<MethodInfo> initializeMethodInfo;
         // TODO: обработка исключений?
         initializeMethodInfo = types.Select(type => type.GetMethod("Init"));
@@ -18,8 +18,8 @@ public static class PointToPointMovementInitializer
         }
     }
 
-    private static IEnumerable<Type> GetAllDerivedTypes<T>()
+    private static IEnumerable<Type> GetAllDerivedTypes()
     {
-        return Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsSubclassOf(typeof(T)));
+        return Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsSubclassOf(typeof(PointToPointMovement)));
     }
 }

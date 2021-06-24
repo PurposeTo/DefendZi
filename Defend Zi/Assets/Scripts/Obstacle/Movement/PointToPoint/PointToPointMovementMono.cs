@@ -17,7 +17,7 @@ public class PointToPointMovementMono : PositionMoverMono
     protected override void Constructor()
     {
         base.Constructor();
-        PointToPointMovementInitializer.Init<PointToPointMovement>();
+        PointToPointMovementInitializer.Init();
     }
 
     // TODO: Убрать (добавлено для тестирования)
