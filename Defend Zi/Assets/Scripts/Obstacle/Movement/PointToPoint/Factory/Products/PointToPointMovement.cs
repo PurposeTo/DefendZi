@@ -6,22 +6,25 @@ using Desdiene.Container;
 
 public abstract class PointToPointMovement : MonoBehaviourExtContainer
 {
-    protected readonly float Speed;
-    protected readonly IPosition Position;
-    protected readonly Vector2 TargetPosition;
-    protected AnimationCurve _animationCurve;
+    private readonly float _speed;
+    private readonly IPosition _position;
+    private readonly Vector2 _targetPosition;
+    private readonly AnimationCurve _animationCurve;
 
     private readonly ICoroutine _routineExecutor;
 
-    public PointToPointMovement(MonoBehaviourExt monoBehaviour,
+    protected PointToPointMovement(MonoBehaviourExt monoBehaviour,
                                 IPosition position,
                                 Vector2 targetPosition,
-                                float speed) : base(monoBehaviour)
+                                float speed,
+                                AnimationCurve animationCurve)
+        : base(monoBehaviour)
     {
         _routineExecutor = new CoroutineWrap(monoBehaviour);
-        Position = position;
-        TargetPosition = targetPosition;
-        Speed = speed;
+        _position = position;
+        _targetPosition = targetPosition;
+        _speed = speed;
+        _animationCurve = animationCurve;
     }
 
     public void Enable()
@@ -33,17 +36,17 @@ public abstract class PointToPointMovement : MonoBehaviourExtContainer
     {
         float t;
         float counter = 0f;
-        var startPosition = Position.Value;
+        var startPosition = _position.Value;
         var wait = new WaitForFixedUpdate();
 
         while (counter <= 1f)
         {
             t = _animationCurve.Evaluate(counter);
-            Position.MoveTo(Vector2.Lerp(startPosition, TargetPosition, t));
-            counter += Time.fixedDeltaTime * Speed;
+            _position.MoveTo(Vector2.Lerp(startPosition, _targetPosition, t));
+            counter += Time.fixedDeltaTime * _speed;
             yield return wait;
         }
 
-        Position.MoveTo(TargetPosition);
+        _position.MoveTo(_targetPosition);
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 
-public static class PointToPointMovementInitializer
+public static class PointToPointMovementIniter
 {
     public static void Init()
     {

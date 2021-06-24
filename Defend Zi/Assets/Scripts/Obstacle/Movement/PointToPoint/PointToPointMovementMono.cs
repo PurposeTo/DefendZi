@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PointToPointMovementMono : PositionMoverMono
 {
@@ -17,21 +16,17 @@ public class PointToPointMovementMono : PositionMoverMono
     protected override void Constructor()
     {
         base.Constructor();
-        PointToPointMovementInitializer.Init();
+        InitMovement();
     }
 
-    // TODO: Убрать (добавлено для тестирования)
-    private void Update()
+    public void Enable()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            InitMovement();
-            _movement.Enable();
-        }
+        _movement.Enable();
     }
 
     private void InitMovement()
     {
-        _movement = PointToPointMovementFactory.GetMovement(_movementType, this, Position, _target.position, Speed);
+        PointToPointMovementIniter.Init();
+        _movement = PointToPointMovementFactory.Get(_movementType, this, Position, _target.position, Speed);
     }
 }

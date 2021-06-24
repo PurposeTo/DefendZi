@@ -6,14 +6,12 @@ public class EaseInOutPointToPointMovement : PointToPointMovement
     public EaseInOutPointToPointMovement(MonoBehaviourExt monoBehaviour,
                                          IPosition position,
                                          Vector2 targetPosition,
-                                         float speed) : base(monoBehaviour, position, targetPosition, speed)
-    {
-        _animationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
-    }
+                                         float speed)
+        : base(monoBehaviour, position, targetPosition, speed, AnimationCurve.EaseInOut(0f, 0f, 1f, 1f)) { }
 
     static EaseInOutPointToPointMovement()
     {
-        PointToPointMovementFactory.AddMovementCreator(PointToPointMovementMono.MovementType.EaseInOut, CreateInstance);
+        PointToPointMovementFactory.AddCreator(PointToPointMovementMono.MovementType.EaseInOut, CreateInstance);
     }
 
     public static void Init()
