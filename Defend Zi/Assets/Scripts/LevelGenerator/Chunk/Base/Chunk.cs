@@ -1,4 +1,4 @@
-using Desdiene.MonoBehaviourExtension;
+п»їusing Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 public abstract class Chunk : MonoBehaviourExt
@@ -9,5 +9,9 @@ public abstract class Chunk : MonoBehaviourExt
     public float Width => _width;
     public float Height => _height;
 
-    // TODO: необходима визуализация размеров чанка
+    [ExecuteInEditMode]
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(gameObject.transform.position, new Vector3(_width, _height));
+    }
 }
