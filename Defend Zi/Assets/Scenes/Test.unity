@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657389949}
   - component: {fileID: 1657389950}
+  - component: {fileID: 1657389951}
   m_Layer: 0
   m_Name: Chunk
   m_TagString: Untagged
@@ -169,6 +170,18 @@ MonoBehaviour:
   _width: 20
   _height: 15
   _squad: {fileID: 0}
+--- !u!114 &1657389951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657389948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1e85c1cdeacca4693d5afae294d614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1753158648
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2690938068689948546, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 2690938068689948546, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_LocalPosition.y
@@ -309,7 +322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4315681309877231985, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}

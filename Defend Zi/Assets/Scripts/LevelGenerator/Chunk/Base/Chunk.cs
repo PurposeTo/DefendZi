@@ -8,10 +8,4 @@ public abstract class Chunk : MonoBehaviourExt
 
     public float Width => _width;
     public float Height => _height;
-
-    [ExecuteInEditMode]
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawCube(gameObject.transform.position, new Vector3(_width, _height));
-    }
 }
