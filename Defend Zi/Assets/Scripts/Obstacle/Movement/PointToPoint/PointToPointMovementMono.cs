@@ -15,9 +15,15 @@ public class PointToPointMovementMono : PositionMoverMono
 
     protected override void Constructor()
     {
-        base.Constructor();
         InitMovement();
     }
+
+    // TODO: решить проблему конфликта Awake
+    private void Start()
+    {
+        Enable();
+    }
+
 
     public void Enable()
     {
