@@ -24,7 +24,6 @@ public class PointToPointMovementMono : PositionMoverMono
         Enable();
     }
 
-
     public void Enable()
     {
         _movement.Enable();
