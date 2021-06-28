@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8247448762870716159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113012221113727131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37253745cfba0b84b8b2d81d06f27796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component: {fileID: 7420965670169712158}
 --- !u!1 &8247448761345418102
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +24,7 @@ GameObject:
   - component: {fileID: 8247448761345418100}
   - component: {fileID: 8247448761345418103}
   m_Layer: 0
-  m_Name: Rotation movement
+  m_Name: Rotation obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,19 +59,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 100
   _rotation: {fileID: 8247448762870716159}
---- !u!114 &8247448762870716159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8113012221113727131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37253745cfba0b84b8b2d81d06f27796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _component: {fileID: 7420965670169712158}
 --- !u!1001 &8247448762774575567
 PrefabInstance:
   m_ObjectHideFlags: 0
