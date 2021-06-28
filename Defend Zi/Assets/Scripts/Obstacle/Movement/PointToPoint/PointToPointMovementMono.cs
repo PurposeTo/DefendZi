@@ -15,23 +15,23 @@ public class PointToPointMovementMono : PositionMoverMono
 
     protected override void Constructor()
     {
-        InitMovement();
+        Init();
     }
 
     // TODO: решить проблему конфликта Awake
     private void Start()
     {
-        Enable();
+        Move();
     }
 
-    public void Enable()
+    public void Move()
     {
-        _movement.Enable();
+        _movement.Move();
     }
 
-    private void InitMovement()
+    private void Init()
     {
-        var animationCurve = PointToPointMovementFactory.Get(_movementType);
+        var animationCurve = AnimationCurveFactory.Get(_movementType);
         _movement = new PointToPointMovement(this, Position, _target.position, Speed, animationCurve);
     }
 }

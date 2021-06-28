@@ -29,6 +29,12 @@ public class Obstacle :
 
     public Quaternion Quaternion => _rotation.Quaternion;
 
+    event Action IPositionNotification.OnChanged
+    {
+        add => _position.OnChanged += value;
+        remove => _position.OnChanged -= value;
+    }
+
     void IMovePosition.MoveBy(Vector2 deltaDistance) => _position.MoveBy(deltaDistance);
 
     void IMovePosition.MoveTo(Vector2 finalPosition) => _position.MoveTo(finalPosition);
@@ -36,10 +42,4 @@ public class Obstacle :
     public void RotateBy(Quaternion deltaQuaternion) => _rotation.RotateBy(deltaQuaternion);
 
     public void RotateTo(Quaternion finalQuaternion) => _rotation.RotateTo(finalQuaternion);
-
-    event Action IPositionNotification.OnChanged
-    {
-        add => _position.OnChanged += value;
-        remove => _position.OnChanged -= value;
-    }
 }

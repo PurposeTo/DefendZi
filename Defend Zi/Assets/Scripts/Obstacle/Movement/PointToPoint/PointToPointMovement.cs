@@ -26,12 +26,12 @@ public class PointToPointMovement : MonoBehaviourExtContainer
         _animationCurve = animationCurve;
     }
 
-    public void Enable()
+    public void Move()
     {
-        _routineExecutor.StartContinuously(Move());
+        _routineExecutor.StartContinuously(MoveEnumerator());
     }
 
-    protected IEnumerator Move()
+    private IEnumerator MoveEnumerator()
     {
         float t;
         float counter = 0f;
