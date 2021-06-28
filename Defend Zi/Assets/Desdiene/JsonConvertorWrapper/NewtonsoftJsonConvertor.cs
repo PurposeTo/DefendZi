@@ -20,12 +20,10 @@ namespace Desdiene.JsonConvertorWrapper
             this.serializerSettings = serializerSettings;
         }
 
-
         T IJsonConvertor<T>.DeserializeObject(string jsonData)
         {
             return JsonConvert.DeserializeObject<T>(jsonData, serializerSettings);
         }
-
 
         string IJsonConvertor<T>.SerializeObject(T data)
         {
@@ -33,6 +31,5 @@ namespace Desdiene.JsonConvertorWrapper
             Debug.Log("Сериализованные данные: " + jsonData);
             return jsonData;
         }
-
     }
 }

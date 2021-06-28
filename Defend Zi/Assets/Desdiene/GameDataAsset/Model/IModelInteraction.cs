@@ -2,7 +2,7 @@
 
 namespace Desdiene.GameDataAsset.Model
 {
-    public interface IModelInteraction<T> where T : GameData
+    public interface IModelInteraction<T> where T : IData
     {
         T GetData();
         void SetData(T data);

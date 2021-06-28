@@ -13,7 +13,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
     /// Логика загрузки и сохранения данных на само хранилище определяется в дочернем классе.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class StorageJsonDataLoader<T> : MonoBehaviourExtContainer, IStorageDataLoader<T> where T : GameData, new()
+    public abstract class StorageJsonDataLoader<T> : MonoBehaviourExtContainer, IStorageDataLoader<T> where T : IData, new()
     {
         public string StorageName { get; }
         protected string FileName { get; }

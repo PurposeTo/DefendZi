@@ -9,7 +9,7 @@ using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.GameDataAsset.DataSynchronizer
 {
-    public class Synchronizer<T> : MonoBehaviourExtContainer, ISynchronizer where T : GameData
+    public class Synchronizer<T> : MonoBehaviourExtContainer, ISynchronizer where T : IData
     {
         private readonly IModelInteraction<T> model;
         private readonly IStorageDataLoader<T> storageDataLoader;
@@ -27,7 +27,7 @@ namespace Desdiene.GameDataAsset.DataSynchronizer
             ChooseDataRoutine = new CoroutineWrap(superMonoBehaviour);
         }
 
-        private T cashData = null;
+        private T cashData = default;
 
 
         public void LoadData()

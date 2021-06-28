@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 
 public abstract class RotatorMono : MonoBehaviourExt
 {

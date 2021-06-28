@@ -3,9 +3,7 @@ using Desdiene.GameDataAsset.Data;
 
 namespace Desdiene.GameDataAsset.DataLoader
 {
-    internal class LoadersContainer<T> :
-        IStorageDataLoader<T>
-        where T : GameData
+    internal class LoadersContainer<T> : IStorageDataLoader<T> where T : IData
     {
         private readonly IStorageDataLoader<T>[] storages;
 
