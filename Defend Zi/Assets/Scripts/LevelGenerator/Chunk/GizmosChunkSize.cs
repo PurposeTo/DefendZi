@@ -15,11 +15,12 @@ public class GizmosChunkSize : MonoBehaviourExt
     protected override void Constructor()
     {
         _chunk = GetComponent<Chunk>();
-        InitSize();
     }
 
     private void OnDrawGizmos()
     {
+        InitSize();
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(_leftDownCorner, _rightDownCorner);
         Gizmos.DrawLine(_rightDownCorner, _rightTopCorner);
