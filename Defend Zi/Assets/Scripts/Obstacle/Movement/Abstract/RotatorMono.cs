@@ -1,16 +1,11 @@
 ﻿using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public abstract class RotatorMono : MonoBehaviourExt
 {
     [SerializeField] private float _speed;
+    [SerializeField, NotNull] private IRotationComponent _rotation;
 
     protected float Speed => _speed;
-    protected IRotation Rotation;
-
-    protected override void Constructor()
-    {
-        Rotation = new Rotation(GetComponent<Rigidbody2D>());
-    }
+    protected IRotation Rotation => _rotation.Implementation;
 }
