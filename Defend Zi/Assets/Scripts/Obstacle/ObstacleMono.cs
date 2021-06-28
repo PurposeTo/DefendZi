@@ -8,13 +8,15 @@ public class ObstacleMono :
     MonoBehaviourExt, 
     IDamageDealer, 
     IScoreGetter,
-    IPosition
+    IPosition,
+    IRotation
 {
     [SerializeField] private int _scoreByAvoding = 5;
 
     private IScoreGetter _scoreGetter;
     private IDamageDealer _damageDealer;
     private IPosition _position;
+    private IRotation _rotation;
 
     protected override void Constructor()
     {
@@ -23,6 +25,7 @@ public class ObstacleMono :
         _scoreGetter = obstacle;
         _damageDealer = obstacle;
         _position = obstacle;
+        _rotation = obstacle;
     }
 
     uint IDamageDealer.Value => _damageDealer.Value;
@@ -31,14 +34,28 @@ public class ObstacleMono :
 
     Vector2 IPositionGetter.Value => _position.Value;
 
+    float IRotationGetter.Angle => _rotation.Angle;
+
+    Quaternion IRotationGetter.Quaternion => _rotation.Quaternion;
+
+    void IMovePosition.MoveBy(Vector2 deltaDistance)
+    {
+        _position.MoveBy(deltaDistance);
+    }
+
     void IMovePosition.MoveTo(Vector2 finalPosition)
     {
         _position.MoveTo(finalPosition);
     }
 
-    void IMovePosition.MoveBy(Vector2 deltaDistance)
+    void IMoveRotation.RotateBy(Quaternion deltaQuaternion)
     {
-        _position.MoveBy(deltaDistance);
+        _rotation.RotateBy(deltaQuaternion);
+    }
+
+    void IMoveRotation.RotateTo(Quaternion finalQuaternion)
+    {
+        _rotation.RotateTo(finalQuaternion);
     }
 
     event Action IPositionNotification.OnChanged
