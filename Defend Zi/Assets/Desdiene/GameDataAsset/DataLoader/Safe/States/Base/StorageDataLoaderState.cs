@@ -5,7 +5,7 @@ using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States.Base
 {
-    internal abstract class StorageDataLoaderState<T> where T : GameData, new()
+    internal abstract class StorageDataLoaderState<T> where T : IData, new()
     {
         private protected readonly StorageJsonDataLoader<T> dataStorage;
         private protected readonly Ref<StorageDataLoaderState<T>> state;

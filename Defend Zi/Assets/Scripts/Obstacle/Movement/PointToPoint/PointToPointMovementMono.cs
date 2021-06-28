@@ -1,37 +1,31 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PointToPointMovementMono : PositionMoverMono
 {
-    public enum MovementType
-    {
-        Linear,
-        EaseInOut
-    }
-
     [SerializeField, NotNull] private Transform _target;
-    [SerializeField] private MovementType _movementType;
+    [SerializeField] private AnimationCurveFactory.CurveType _curveType;
 
     private PointToPointMovement _movement;
 
     protected override void Constructor()
     {
-        base.Constructor();
-        PointToPointMovementInitializer.Init();
+        Init();
     }
 
-    // TODO: Убрать (добавлено для тестирования)
-    private void Update()
+    // TODO: решить проблему конфликта Awake
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            InitMovement();
-            _movement.Enable();
-        }
+        Move();
     }
 
-    private void InitMovement()
+    public void Move()
     {
-        _movement = PointToPointMovementFactory.GetMovement(_movementType, this, Position, _target.position, Speed);
+        _movement.Move();
+    }
+
+    private void Init()
+    {
+        var animationCurve = AnimationCurveFactory.Get(_curveType);
+        _movement = new PointToPointMovement(this, Position, _target.position, Speed, animationCurve);
     }
 }

@@ -14,10 +14,7 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
     /// Данный класс занимается загрузкой, сохранением и валидацией json данных с устройства.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DeviceJsonDataLoader<T> :
-        StorageJsonDataLoader<T>,
-        IStorageDataLoader<T>
-        where T : GameData, new()
+    public class DeviceJsonDataLoader<T> : StorageJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
     {
         protected readonly string filePath;
         protected readonly DeviceDataLoader deviceDataLoader;

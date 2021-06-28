@@ -7,9 +7,7 @@ using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe
 {
-    internal class SafeStorageDataLoader<T> :
-        IStorageDataLoader<T>
-        where T : GameData, new()
+    internal class SafeStorageDataLoader<T> : IStorageDataLoader<T> where T : IData, new()
     {
         private readonly Ref<StorageDataLoaderState<T>> readerWriterState;
 

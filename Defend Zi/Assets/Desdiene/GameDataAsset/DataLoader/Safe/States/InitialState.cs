@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 {
-    internal class InitialState<T> : StorageDataLoaderState<T> where T : GameData, new()
+    internal class InitialState<T> : StorageDataLoaderState<T> where T : IData, new()
     {
         public InitialState(Ref<StorageDataLoaderState<T>> state, StorageJsonDataLoader<T> dataStorage) : base(state, dataStorage) { }
 

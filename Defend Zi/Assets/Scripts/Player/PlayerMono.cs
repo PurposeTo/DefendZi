@@ -5,6 +5,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[DisallowMultipleComponent]
 public class PlayerMono :
     MonoBehaviourExt,
     IPositionGetter,
