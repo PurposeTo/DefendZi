@@ -2,14 +2,8 @@
 
 public class PointToPointMovementMono : PositionMoverMono
 {
-    public enum MovementType
-    {
-        Linear,
-        EaseInOut
-    }
-
     [SerializeField, NotNull] private Transform _target;
-    [SerializeField] private MovementType _movementType;
+    [SerializeField] private AnimationCurveFactory.CurveType _curveType;
 
     private PointToPointMovement _movement;
 
@@ -31,7 +25,7 @@ public class PointToPointMovementMono : PositionMoverMono
 
     private void Init()
     {
-        var animationCurve = AnimationCurveFactory.Get(_movementType);
+        var animationCurve = AnimationCurveFactory.Get(_curveType);
         _movement = new PointToPointMovement(this, Position, _target.position, Speed, animationCurve);
     }
 }

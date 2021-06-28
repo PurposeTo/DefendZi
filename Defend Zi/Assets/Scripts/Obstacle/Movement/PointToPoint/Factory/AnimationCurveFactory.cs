@@ -4,27 +4,33 @@ using UnityEngine;
 
 public static class AnimationCurveFactory
 {
-    private static readonly Dictionary<PointToPointMovementMono.MovementType, AnimationCurve> _movements = new Dictionary<PointToPointMovementMono.MovementType, AnimationCurve>();
+    public enum CurveType
+    {
+        Linear,
+        EaseInOut
+    }
+
+    private static readonly Dictionary<CurveType, AnimationCurve> _curves = new Dictionary<CurveType, AnimationCurve>();
 
     static AnimationCurveFactory()
     {
-        AddEntry(PointToPointMovementMono.MovementType.Linear, AnimationCurve.Linear(0f, 0f, 1f, 1f));
-        AddEntry(PointToPointMovementMono.MovementType.EaseInOut, AnimationCurve.EaseInOut(0f, 0f, 1f, 1f));
+        AddEntry(CurveType.Linear, AnimationCurve.Linear(0f, 0f, 1f, 1f));
+        AddEntry(CurveType.EaseInOut, AnimationCurve.EaseInOut(0f, 0f, 1f, 1f));
     }
 
-    public static AnimationCurve Get(PointToPointMovementMono.MovementType movementType)
+    public static AnimationCurve Get(CurveType movementType)
     {
-        return _movements.TryGetValue(movementType, out var value)
+        return _curves.TryGetValue(movementType, out var value)
             ? value
-            : throw new InvalidOperationException($"Value by key {movementType} does not exist in {_movements}");
+            : throw new InvalidOperationException($"Value by key {movementType} does not exist in {_curves}");
     }
 
-    private static void AddEntry(PointToPointMovementMono.MovementType movementType,
+    private static void AddEntry(CurveType movementType,
                                  AnimationCurve curve)
     {
-        if (_movements.ContainsKey(movementType)) throw new InvalidOperationException($"{_movements} already contains {movementType} key.");
+        if (_curves.ContainsKey(movementType)) throw new InvalidOperationException($"{_curves} already contains {movementType} key.");
         if (curve is null) throw new ArgumentNullException(nameof(curve));
 
-        _movements.Add(movementType, curve);
+        _curves.Add(movementType, curve);
     }
 }
