@@ -169,6 +169,7 @@ MonoBehaviour:
   chunks:
   - {fileID: 11400000, guid: 17e708cf31c496e4cbc92caf0b1180d8, type: 2}
   - {fileID: 11400000, guid: a89793313c100e24ca8b62743dfb9fb8, type: 2}
+  - {fileID: 11400000, guid: fd83a8ee9c215ab48966b40ef7e78419, type: 2}
   levelStartPoint: 40
 --- !u!1 &186482476
 GameObject:

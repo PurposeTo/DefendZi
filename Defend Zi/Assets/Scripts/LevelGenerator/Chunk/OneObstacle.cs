@@ -1,9 +1,9 @@
 using Desdiene.Extensions.UnityEngine;
 using UnityEngine;
 
-public class OneSquad : Chunk
+public class OneObstacle : Chunk
 {
-    [SerializeField, NotNull] private GameObject _squad;
+    [SerializeField, NotNull] private GameObject _obstacle;
 
     private readonly float[] hights = { -7, -4.5f, -3.75f, -3, -2, -1, 0, 1, 2, 3, 3.75f, 4.5f, 7 };
     private readonly BestRotationEulers bestRotationEulers = new BestRotationEulers();
@@ -15,7 +15,7 @@ public class OneSquad : Chunk
 
     private void OnSpawn()
     {
-        _squad.transform
+        _obstacle.transform
             .SetPositionOy(GetRandomHight())
             .SetRotation(Quaternion.Euler(0f, 0f, bestRotationEulers.GetRandom()));
     }
