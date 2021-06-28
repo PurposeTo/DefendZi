@@ -4,22 +4,19 @@ using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.Safe;
 using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.DataSynchronizer;
+using Desdiene.GameDataAsset.Model;
 using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.GameDataAsset
 {
-    public class DataAssetInitializer<TData, TGetter, TSetter, TChangingNotifier>
-        where TGetter : IDataGetter
-        where TData : GameData, TGetter, new()
-        where TSetter : DataSetter<TData>, IDataSetter, new()
-        where TChangingNotifier : IDataChangingNotifier
+    public class DataAssetIniter<TData> where TData : IData, new()
     {
-        public readonly Model.DataModel<TData, TGetter, TSetter, TChangingNotifier> dataModel;
+        public readonly DataModel<TData> dataModel;
         public readonly Synchronizer<TData> synchronizer;
 
-        public DataAssetInitializer(MonoBehaviourExt superMonoBehaviour, params StorageJsonDataLoader<TData>[] storages)
+        public DataAssetIniter(MonoBehaviourExt superMonoBehaviour, params StorageJsonDataLoader<TData>[] storages)
         {
-            dataModel = new Model.DataModel<TData, TGetter, TSetter, TChangingNotifier>();
+            dataModel = new DataModel<TData>();
 
             IStorageDataLoader<TData>[] safeReaderWriters = storages
                 .Select(storage => new SafeStorageDataLoader<TData>(storage))

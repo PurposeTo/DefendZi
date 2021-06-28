@@ -2,9 +2,9 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class ObstacleMono : 
-    MonoBehaviourExt, 
-    IDamageDealer, 
+public class ObstacleMono :
+    MonoBehaviourExt,
+    IDamageDealer,
     IScoreGetter
 {
     private IScoreGetter _scoreGetter;

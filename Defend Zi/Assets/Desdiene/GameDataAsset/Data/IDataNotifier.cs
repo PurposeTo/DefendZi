@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.GameDataAsset.Data
 {
-    public interface IDataChangingNotifier
+    public interface IDataNotifier
     {
         //События изменения данных
     }

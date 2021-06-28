@@ -1,17 +1,13 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
-using Desdiene.GameDataAsset.DataLoader.Storage;
 using Desdiene.GameDataAsset.Encryption;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.GameDataAsset.ConcreteLoaders
 {
-    public class DeviceJsonDataLoaderCrypto<T> :
-        DeviceJsonDataLoader<T>,
-        IStorageDataLoader<T>
-         where T : GameData, new()
+    public class DeviceJsonDataLoaderCrypto<T> : DeviceJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
     {
         private readonly JsonEncryption jsonEncryption;
 
