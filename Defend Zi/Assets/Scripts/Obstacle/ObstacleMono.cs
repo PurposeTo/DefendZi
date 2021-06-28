@@ -38,25 +38,13 @@ public class ObstacleMono :
 
     Quaternion IRotationGetter.Quaternion => _rotation.Quaternion;
 
-    void IMovePosition.MoveBy(Vector2 deltaDistance)
-    {
-        _position.MoveBy(deltaDistance);
-    }
+    void IMovePosition.MoveBy(Vector2 deltaDistance) => _position.MoveBy(deltaDistance);
 
-    void IMovePosition.MoveTo(Vector2 finalPosition)
-    {
-        _position.MoveTo(finalPosition);
-    }
+    void IMovePosition.MoveTo(Vector2 finalPosition) => _position.MoveTo(finalPosition);
 
-    void IMoveRotation.RotateBy(Quaternion deltaQuaternion)
-    {
-        _rotation.RotateBy(deltaQuaternion);
-    }
+    void IMoveRotation.RotateBy(Quaternion deltaQuaternion) => _rotation.RotateBy(deltaQuaternion);
 
-    void IMoveRotation.RotateTo(Quaternion finalQuaternion)
-    {
-        _rotation.RotateTo(finalQuaternion);
-    }
+    void IMoveRotation.RotateTo(Quaternion finalQuaternion) => _rotation.RotateTo(finalQuaternion);
 
     event Action IPositionNotification.OnChanged
     {

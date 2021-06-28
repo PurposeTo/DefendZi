@@ -5,47 +5,27 @@ using UnityEngine;
 
 public static class PointToPointMovementFactory
 {
-    private static readonly Dictionary<PointToPointMovementMono.MovementType, Func<MonoBehaviourExt, IPosition, Vector2, float, PointToPointMovement>> _movements = new Dictionary<PointToPointMovementMono.MovementType, Func<MonoBehaviourExt, IPosition, Vector2, float, PointToPointMovement>>();
+    private static readonly Dictionary<PointToPointMovementMono.MovementType, AnimationCurve> _movements = new Dictionary<PointToPointMovementMono.MovementType, AnimationCurve>();
 
     static PointToPointMovementFactory()
     {
-        AddCreator(PointToPointMovementMono.MovementType.Linear, AddLinearMovement);
-        AddCreator(PointToPointMovementMono.MovementType.EaseInOut, AddEaseInOutMovement);
+        AddCreator(PointToPointMovementMono.MovementType.Linear, AnimationCurve.Linear(0f, 0f, 1f, 1f));
+        AddCreator(PointToPointMovementMono.MovementType.EaseInOut, AnimationCurve.EaseInOut(0f, 0f, 1f, 1f));
     }
 
-    public static PointToPointMovement Get(PointToPointMovementMono.MovementType movementType,
-                                           MonoBehaviourExt monoBehaviour,
-                                           IPosition position,
-                                           Vector2 targetPosition,
-                                           float speed)
+    public static AnimationCurve Get(PointToPointMovementMono.MovementType movementType)
     {
         return _movements.TryGetValue(movementType, out var value)
-            ? value.Invoke(monoBehaviour, position, targetPosition, speed)
+            ? value
             : throw new InvalidOperationException($"Value by key {movementType} does not exist in {_movements}");
     }
 
     private static void AddCreator(PointToPointMovementMono.MovementType movementType,
-                                  Func<MonoBehaviourExt, IPosition, Vector2, float, PointToPointMovement> creator)
+                                   AnimationCurve curve)
     {
         if (_movements.ContainsKey(movementType)) throw new InvalidOperationException($"{_movements} already contains {movementType} key.");
-        if (creator is null) throw new ArgumentNullException(nameof(creator));
+        if (curve is null) throw new ArgumentNullException(nameof(curve));
 
-        _movements.Add(movementType, creator);
-    }
-
-    private static PointToPointMovement AddLinearMovement(MonoBehaviourExt monoBehaviour,
-                                             IPosition position,
-                                             Vector2 targetPosition,
-                                             float speed)
-    {
-        return new LinearPointToPointMovement(monoBehaviour, position, targetPosition, speed);
-    }
-
-    private static PointToPointMovement AddEaseInOutMovement(MonoBehaviourExt monoBehaviour,
-                                         IPosition position,
-                                         Vector2 targetPosition,
-                                         float speed)
-    {
-        return new EaseInOutPointToPointMovement(monoBehaviour, position, targetPosition, speed);
+        _movements.Add(movementType, curve);
     }
 }

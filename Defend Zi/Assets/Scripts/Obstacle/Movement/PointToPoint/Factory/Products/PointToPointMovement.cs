@@ -4,16 +4,15 @@ using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Container;
 
-public abstract class PointToPointMovement : MonoBehaviourExtContainer
+public class PointToPointMovement : MonoBehaviourExtContainer
 {
     private readonly float _speed;
     private readonly IPosition _position;
     private readonly Vector2 _targetPosition;
     private readonly AnimationCurve _animationCurve;
-
     private readonly ICoroutine _routineExecutor;
 
-    protected PointToPointMovement(MonoBehaviourExt monoBehaviour,
+    public PointToPointMovement(MonoBehaviourExt monoBehaviour,
                                 IPosition position,
                                 Vector2 targetPosition,
                                 float speed,

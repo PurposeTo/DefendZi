@@ -31,6 +31,7 @@ public class PointToPointMovementMono : PositionMoverMono
 
     private void InitMovement()
     {
-        _movement = PointToPointMovementFactory.Get(_movementType, this, Position, _target.position, Speed);
+        var animationCurve = PointToPointMovementFactory.Get(_movementType);
+        _movement = new PointToPointMovement(this, Position, _target.position, Speed, animationCurve);
     }
 }
