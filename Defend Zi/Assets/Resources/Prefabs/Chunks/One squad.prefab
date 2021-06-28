@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2964313036409737725}
+  - component: {fileID: 8078752053092493876}
   - component: {fileID: 3650532837805091758}
   m_Layer: 0
-  m_Name: OneSquad
+  m_Name: One squad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,6 +33,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8078752053092493876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7629994131562483980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1e85c1cdeacca4693d5afae294d614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3650532837805091758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,8 +57,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6909b14698235a44488e4d5b5488fa93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 7
-  _height: 10
+  _width: 8
+  _height: 20
   _squad: {fileID: 1035830287531281865}
 --- !u!1001 &901816662929419421
 PrefabInstance:
@@ -56,7 +69,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_Name
-      value: Obstacle
+      value: Obstacle squad
       objectReference: {fileID: 0}
     - target: {fileID: 208264349738541399, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_RootOrder

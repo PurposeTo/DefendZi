@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Desdiene;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
 
 public class LevelGenerator : MonoBehaviourExt
 {
-    [SerializeField] private List<Chunk> chunks;
+    [SerializeField] private ChunkSelection[] chunks;
 
+    [SerializeField] private float levelStartPoint = 40f;
     private float levelLength = 0f;
 
     private IPositionGetter playerPosition; //генерировать чанки нужно по мере продвижения игрока
@@ -17,6 +20,13 @@ public class LevelGenerator : MonoBehaviourExt
     {
         playerPosition = componentsProxy.PlayerPosition;
         cameraSize = componentsProxy.CameraSize;
+        levelLength += levelStartPoint;
+
+        //todo: сделать более оптимизированное построение уровня
+        for (int i = 0; i < 1000; i++)
+        {
+            AddChunk();
+        }
     }
 
     private void AddChunk()
@@ -26,11 +36,25 @@ public class LevelGenerator : MonoBehaviourExt
 
         // todo: необходимо где-то явно указать Y и Z уровня.
         Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity);
-        levelLength += originalChunk.Width;
+        levelLength += createdChunk.Width;
     }
 
     private Chunk GetRandomChunk()
     {
-        return chunks[Random.Range(0, chunks.Count)];
+        uint total = (uint)chunks.Sum(x => x.Chance);
+        uint randomChoice = (uint)Random.Range(0, total);
+
+        uint currentCheck = 0; //вычисление текущего шанса выпадения объекта для проверки
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            currentCheck += chunks[i].Chance;
+            if (randomChoice <= currentCheck) //проверяем, это текущий элемент?
+            {
+                //Это текущий элемент!
+                return chunks[i].Chunk; //возвращаем значение
+            }
+        }
+
+        throw new System.IndexOutOfRangeException("Random chunk was not choosing!");
     }
 }

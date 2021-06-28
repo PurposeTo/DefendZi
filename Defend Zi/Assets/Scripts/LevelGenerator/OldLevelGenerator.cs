@@ -13,35 +13,26 @@ public class OldLevelGenerator : MonoBehaviour
     [SerializeField] private int randomCount = 2;
 
     private readonly float[] hights = { -7, -4.5f, -3.75f, -3, -2, -1, 0, 1, 2, 3, 3.75f, 4.5f, 7 };
-    private float[] rotations;
-    private readonly float eulerStep = 7.5f;
+    private readonly BestRotationEulers bestRotationEulers = new BestRotationEulers();
 
     private void Awake()
     {
-        InitRotations();
-
         Math.Compare(ref startLevelPoint, ref endLevelPoint);
         List<int> randomCordinates = GetRandomCoordinates();
         List<Vector2> randomVectors = GetRandomVectors2(randomCordinates);
         SpawnObstacles(randomVectors);
     }
 
-    private void InitRotations()
-    {
-        rotations = Enumerable.Range(0, (int)(360 / eulerStep))
-            .Select(euler => euler * eulerStep)
-            .ToArray();
-    }
+
 
     private void SpawnObstacles(List<Vector2> vectors)
     {
         vectors.ForEach(vector =>
         {
-            float randomRotation = rotations[Random.Range(0, rotations.Length)];
             Instantiate(obstacle, transform)
             .transform
             .SetPosition(new Vector2(vector.x * distance, vector.y))
-            .SetRotation(Quaternion.Euler(0f, 0f, randomRotation));
+            .SetRotation(Quaternion.Euler(0f, 0f, bestRotationEulers.GetRandom()));
         });
     }
 

@@ -48,7 +48,7 @@ MonoBehaviour:
   _speed: 1
   _position: {fileID: 426200826066035168}
   _target: {fileID: 4815297036307861470}
-  _movementType: 1
+  _curveType: 0
 --- !u!114 &426200826066035168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_Name
-      value: Obstacle
+      value: Obstacle squad
       objectReference: {fileID: 0}
     - target: {fileID: 208264349738541399, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_RootOrder

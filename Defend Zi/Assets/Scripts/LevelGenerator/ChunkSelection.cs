@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ChunkSelectionChance", menuName = "ScriptableObjects/ChunkSelectionChance")]
-public class ChunkSelectionChance : ScriptableObject
+[CreateAssetMenu(fileName = "ChunkSelection", menuName = "ScriptableObjects/ChunkSelection")]
+public class ChunkSelection : ScriptableObject
 {
     [SerializeField, NotNull] private Chunk _chunk;
     [SerializeField] private uint _chance;
