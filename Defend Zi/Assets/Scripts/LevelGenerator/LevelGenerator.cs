@@ -41,17 +41,17 @@ public class LevelGenerator : MonoBehaviourExt
 
     private Chunk GetRandomChunk()
     {
-        uint total = (uint)chunks.Sum(x => x.ChanceMass);
-        uint randomChoice = (uint)Random.Range(0, total);
+        int total = (int)chunks.Sum(x => x.ChanceMass);
+        int randomChoice = Random.Range(0, total + 1); //случайное число. Границы - включительно.
 
-        uint currentCheck = 0; //вычисление текущего шанса выпадения объекта для проверки
+        int currentCheck = 0; //вычисление текущего шанса выпадения объекта для проверки
         for (int i = 0; i < chunks.Length; i++)
         {
-            currentCheck += chunks[i].ChanceMass;
+            currentCheck += (int)chunks[i].ChanceMass;
             if (randomChoice <= currentCheck) //проверяем, это текущий элемент?
             {
-                //Это текущий элемент!
-                return chunks[i].Chunk; //возвращаем значение
+                Debug.Log($"Создан чанк {chunks[i].name} под индексом [{i}]");
+                return chunks[i].Chunk;
             }
         }
 
