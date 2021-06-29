@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8078752053092493876}
   - component: {fileID: 4659739941968241489}
   m_Layer: 0
-  m_Name: Two squads
+  m_Name: Two squares
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_Name
-      value: Obstacle squad 1
+      value: Obstacle square 1
       objectReference: {fileID: 0}
     - target: {fileID: 208264349738541399, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_RootOrder
@@ -138,7 +138,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_Name
-      value: Obstacle squad 2
+      value: Obstacle square 2
       objectReference: {fileID: 0}
     - target: {fileID: 208264349738541399, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
       propertyPath: m_RootOrder
