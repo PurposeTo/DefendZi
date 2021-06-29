@@ -50,7 +50,7 @@ public class LevelGenerator : MonoBehaviourExt
             currentCheck += (int)chunks[i].ChanceMass;
             if (randomChoice <= currentCheck) //проверяем, это текущий элемент?
             {
-                Debug.Log($"Создан чанк {chunks[i].name} под индексом [{i}]");
+                Debug.Log($"Создан чанк \"{chunks[i].name}\" под индексом [{i}]");
                 return chunks[i].Chunk;
             }
         }
