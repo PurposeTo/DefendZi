@@ -32,7 +32,7 @@ public class GizmosChunkSize : MonoBehaviourExt
     {
         var position = transform.position;
 
-        _minimumCornerPosition = new Vector2(position.x - _chunk.Width / 2, position.y - _chunk.Height / 2);
+        _minimumCornerPosition = new Vector2(position.x - _chunk.GetWidth() / 2, position.y - _chunk.Height / 2);
         _minWidthMinimumCornerPosition = new Vector2(position.x - _chunk.MinWidth / 2, position.y - _chunk.Height / 2);
         _maxWidthMinimumCornerPosition = new Vector2(position.x - _chunk.MaxWidth / 2, position.y - _chunk.Height / 2);
     }
@@ -53,7 +53,7 @@ public class GizmosChunkSize : MonoBehaviourExt
 
     private void DrawCurrentSize()
     {
-        Rect currentSize = new Rect(_minimumCornerPosition, new Vector2(_chunk.Width, _chunk.Height));
+        Rect currentSize = new Rect(_minimumCornerPosition, new Vector2(_chunk.GetWidth(), _chunk.Height));
         DrawRectangle(Color.green, currentSize);
     }
 
