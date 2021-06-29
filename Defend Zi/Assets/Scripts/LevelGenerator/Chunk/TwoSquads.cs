@@ -16,10 +16,7 @@ public class TwoSquads : Chunk
 
     private void OnSpawn()
     {
-        //todo: Высота. Выбрать два случайных НЕ рядом стоящих числа. 
         float[] hights = new TwoNonAdjacentNumbers().Get(_hights);
-        print($"1: {hights[0]}");
-        print($"2: {hights[1]}");
 
         _squadFirst.transform
             .SetPositionOy(GetRandomHight())
