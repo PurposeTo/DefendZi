@@ -378,4 +378,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 30
   _height: 20
-  _squad: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
+  _obstacle: {fileID: 208264349738541396, guid: edfdc6db120561c4d8da4052d77d6bb3, type: 3}
