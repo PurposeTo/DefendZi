@@ -57,8 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6909b14698235a44488e4d5b5488fa93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 8
   _height: 20
+  _minWidth: 6
+  _maxWidth: 8
   _obstacle: {fileID: 1035830287531281865}
 --- !u!1001 &901816662929419421
 PrefabInstance:

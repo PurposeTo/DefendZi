@@ -8,12 +8,7 @@ public class OneObstacle : Chunk
     private readonly float[] hights = { -7, -4.5f, -3.75f, -3, -2, -1, 0, 1, 2, 3, 3.75f, 4.5f, 7 };
     private readonly BestRotationEulers bestRotationEulers = new BestRotationEulers();
 
-    private void Start()
-    {
-        OnSpawn();
-    }
-
-    private void OnSpawn()
+    protected override void OnSpawn()
     {
         _obstacle.transform
             .SetPositionOy(GetRandomHight())

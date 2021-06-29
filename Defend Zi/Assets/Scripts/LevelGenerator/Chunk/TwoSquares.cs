@@ -9,12 +9,7 @@ public class TwoSquares : Chunk
     private readonly float[] _hights = { -7, -4.5f, -3.75f, -3, -2, -1, 0, 1, 2, 3, 3.75f, 4.5f, 7 };
     private readonly BestRotationEulers _bestRotationEulers = new BestRotationEulers();
 
-    private void Start()
-    {
-        OnSpawn();
-    }
-
-    private void OnSpawn()
+    protected override void OnSpawn()
     {
         new TwoNonAdjacentNumbers().Get(_hights, out float firstHeight, out float secondHeight);
 

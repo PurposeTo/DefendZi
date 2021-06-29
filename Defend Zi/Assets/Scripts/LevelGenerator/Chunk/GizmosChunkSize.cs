@@ -21,7 +21,7 @@ public class GizmosChunkSize : MonoBehaviourExt
         Init();
 
         if (Application.isPlaying) DrawCurrentSize();
-        else 
+        else
         {
             DrawBorderSize(_minWidthMinimumCornerPosition, _chunk.MinWidth);
             DrawBorderSize(_maxWidthMinimumCornerPosition, _chunk.MaxWidth);

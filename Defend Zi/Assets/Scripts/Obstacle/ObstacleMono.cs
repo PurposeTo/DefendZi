@@ -4,9 +4,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [DisallowMultipleComponent]
-public class ObstacleMono : 
-    MonoBehaviourExt, 
-    IDamageDealer, 
+public class ObstacleMono :
+    MonoBehaviourExt,
+    IDamageDealer,
     IScoreGetter,
     IPosition,
     IRotation

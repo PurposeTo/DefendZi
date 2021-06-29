@@ -58,8 +58,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7ac329ac766f445a178d473b0f1b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 8
   _height: 20
+  _minWidth: 6
+  _maxWidth: 8
   _squadFirst: {fileID: 1035830287531281865}
   _squadSecond: {fileID: 5409779112236974727}
 --- !u!1001 &901816662929419421

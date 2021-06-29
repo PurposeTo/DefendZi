@@ -23,7 +23,7 @@ public class LevelGenerator : MonoBehaviourExt
         levelLength += levelStartPoint;
 
         //todo: сделать более оптимизированное построение уровня
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 100; i++)
         {
             AddChunk();
         }
