@@ -1,7 +1,7 @@
 ﻿using Desdiene.Extensions.UnityEngine;
 using UnityEngine;
 
-public class TwoSquads : Chunk
+public class TwoSquares : Chunk
 {
     [SerializeField, NotNull] private GameObject _squadFirst;
     [SerializeField, NotNull] private GameObject _squadSecond;
