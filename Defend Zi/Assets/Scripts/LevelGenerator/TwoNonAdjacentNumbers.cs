@@ -6,11 +6,12 @@ public class TwoNonAdjacentNumbers
     private float _second;
     private int _firstIndex;
 
-    public float[] Get(float[] sourceArray)
+    public void Get(float[] sourceArray, out float first, out float second)
     {
         InitFirst(sourceArray, out bool isLeftNeighborExists, out bool isRightNeighborExists);
         InitSecond(sourceArray, isLeftNeighborExists, isRightNeighborExists);
-        return new float[] { _first, _second };
+        first = _first;
+        second = _second;
     }
 
     private void InitFirst(float[] sourceArray, out bool isLeftNeighborExists, out bool isRightNeighborExists)

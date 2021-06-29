@@ -16,16 +16,14 @@ public class TwoSquads : Chunk
 
     private void OnSpawn()
     {
-        float[] hights = new TwoNonAdjacentNumbers().Get(_hights);
+        new TwoNonAdjacentNumbers().Get(_hights, out float firstHeight, out float secondHeight);
 
         _squadFirst.transform
-            .SetPositionOy(GetRandomHight())
+            .SetPositionOy(firstHeight)
             .SetRotation(Quaternion.Euler(0f, 0f, _bestRotationEulers.GetRandom()));
 
         _squadSecond.transform
-            .SetPositionOy(GetRandomHight())
+            .SetPositionOy(secondHeight)
             .SetRotation(Quaternion.Euler(0f, 0f, _bestRotationEulers.GetRandom()));
     }
-
-    private float GetRandomHight() => _hights[Random.Range(0, _hights.Length)];
 }
