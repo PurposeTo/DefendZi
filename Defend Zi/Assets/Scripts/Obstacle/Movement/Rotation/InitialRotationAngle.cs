@@ -15,11 +15,7 @@ public class InitialRotationAngle : MonoBehaviourExt
 
     private void InitRotations(IRotation rotation)
     {
-        float[] rotations = Enumerable.Range(0, (int)(360 / eulerStep))
-            .Select(euler => euler * eulerStep)
-            .ToArray();
-
-        float angle = rotations[Random.Range(0, rotations.Length)];
+        float angle = new BestRotationEulers(eulerStep).GetRandom();
         var quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
         rotation.RotateTo(quaternion);
     }
