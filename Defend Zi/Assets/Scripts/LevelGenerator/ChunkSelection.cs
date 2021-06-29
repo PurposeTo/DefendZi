@@ -4,8 +4,8 @@ using UnityEngine;
 public class ChunkSelection : ScriptableObject
 {
     [SerializeField, NotNull] private Chunk _chunk;
-    [SerializeField] private uint _chance;
+    [SerializeField] private uint _chanceMass;
 
     public Chunk Chunk => _chunk;
-    public uint Chance => _chance;
+    public uint ChanceMass => _chanceMass;
 }
