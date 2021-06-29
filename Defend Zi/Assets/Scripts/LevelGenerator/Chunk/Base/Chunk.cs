@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Chunk : MonoBehaviourExt
 {
     // TODO: заменить на ValueInRange
-    [Min(0f)] protected float width;
+    [Min(0f)] private float width;
 
     [SerializeField, Min(0f)] private float _height = 20;
 
