@@ -3,14 +3,17 @@ using UnityEngine;
 
 public abstract class Chunk : MonoBehaviourExt
 {
-    [Min(0f)] protected float Width;
-    [SerializeField] [Min(0f)] private float _height;
-    [SerializeField] [Min(0f)] private float _minWidth;
-    [SerializeField] [Min(0f)] private float _maxWidth;
+    // TODO: заменить на ValueInRange
+    [Min(0f)] protected float width;
 
+    [SerializeField, Min(0f)] private float _height;
+
+    // TODO: заменить на Range
+    [SerializeField, Min(0f)] private float _minWidth;
+    [SerializeField, Min(0f)] private float _maxWidth;
+
+    public float Width => width;
     public float Height => _height;
     public float MinWidth => _minWidth;
     public float MaxWidth => _maxWidth;
-
-    public float GetWidth() => Width;
 }

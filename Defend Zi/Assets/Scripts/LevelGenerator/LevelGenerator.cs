@@ -32,11 +32,11 @@ public class LevelGenerator : MonoBehaviourExt
     private void AddChunk()
     {
         Chunk originalChunk = GetRandomChunk();
-        float creatingPoint = levelLength + (originalChunk.GetWidth() / 2);
+        float creatingPoint = levelLength + (originalChunk.Width / 2);
 
         // todo: необходимо где-то явно указать Y и Z уровня.
         Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity);
-        levelLength += createdChunk.GetWidth();
+        levelLength += createdChunk.Width;
     }
 
     private Chunk GetRandomChunk()
