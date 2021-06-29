@@ -285,7 +285,7 @@ MonoBehaviour:
   _movementData:
     speed: 12
     amplitude: 6
-    defaultFrequency: 0.125
+    defaultFrequency: 0.1
     controlledFrequency: 0.5
     frequencyChangeRate: 1.5
 --- !u!50 &274676709
