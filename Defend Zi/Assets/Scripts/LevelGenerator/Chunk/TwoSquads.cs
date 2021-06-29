@@ -1,4 +1,4 @@
-using Desdiene.Extensions.UnityEngine;
+﻿using Desdiene.Extensions.UnityEngine;
 using UnityEngine;
 
 public class TwoSquads : Chunk
