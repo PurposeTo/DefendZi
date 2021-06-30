@@ -23,6 +23,11 @@ public class PointToPointMovementMono : PositionMoverMono
         _movement.Move();
     }
 
+    public void SetTargetLocalPosition(Vector2 position)
+    {
+        _target.localPosition = position;
+    }
+
     private void Init()
     {
         var animationCurve = AnimationCurveFactory.Get(_curveType);
