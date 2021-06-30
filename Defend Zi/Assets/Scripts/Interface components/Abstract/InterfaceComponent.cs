@@ -1,25 +1,14 @@
-﻿using System;
-using Desdiene.MonoBehaviourExtension;
-using UnityEngine;
+﻿using Desdiene.MonoBehaviourExtension;
 
+// В дочерних классах добавить GetComponent()
 public abstract class InterfaceComponent<T> : MonoBehaviourExt where T : class
 {
-    [SerializeField, NotNull] private MonoBehaviour _component;
+    public T Implementation => _implementation;
 
     private T _implementation;
 
-    public T Implementation
+    protected override void AwakeExt()
     {
-        get
-        {
-            if (_implementation == null) _implementation = Init();
-            return _implementation;
-        }
-    }
-
-    private T Init()
-    {
-        if (_component is T component) return component;
-        else throw new NotImplementedException($"The component {_component} does not implement the {typeof(T)} interface");
+        _implementation = GetComponent<T>();
     }
 }

@@ -1,1 +1,4 @@
-﻿public class IPositionComponent : InterfaceComponent<IPosition> { }
+﻿using UnityEngine;
+
+[RequireComponent(typeof(IPosition))]
+public class IPositionComponent : InterfaceComponent<IPosition> { }

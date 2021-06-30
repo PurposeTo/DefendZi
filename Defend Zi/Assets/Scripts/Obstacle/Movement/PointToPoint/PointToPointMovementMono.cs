@@ -13,15 +13,13 @@ public class PointToPointMovementMono : PositionMoverMono
     }
 
     // TODO: решить проблему конфликта Awake
+    // TODO: убрать метод, используется в тест-режиме
     private void Start()
     {
         Move();
     }
 
-    public void Move()
-    {
-        _movement.Move();
-    }
+    public void Move() => _movement.Move();
 
     private void Init()
     {
