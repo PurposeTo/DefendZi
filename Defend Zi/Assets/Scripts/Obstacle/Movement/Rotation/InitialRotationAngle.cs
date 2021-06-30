@@ -7,7 +7,7 @@ public class InitialRotationAngle : MonoBehaviourExt
 {
     private readonly float eulerStep = 7.5f;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         IRotation rotation = new Rotation(GetComponent<Rigidbody2D>());
         InitRotations(rotation);

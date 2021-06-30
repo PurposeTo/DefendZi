@@ -7,7 +7,7 @@ public class PointToPointMovementMono : PositionMoverMono
 
     private PointToPointMovement _movement;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         Init();
     }

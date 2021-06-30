@@ -10,7 +10,7 @@ public class ScoreReceiver : MonoBehaviourExt
     public event Action<int> OnReceived;
     private IScoreCollector scoreCollector;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         //todo: верное ли использование?
         scoreCollector = GetComponentInParent<IScoreCollector>();

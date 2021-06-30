@@ -13,11 +13,11 @@ namespace Desdiene.MonoBehaviourExtension
         /// <summary>
         /// Необходимо использовать данный метод взамен Awake()
         /// </summary>
-        protected virtual void Constructor() { }
+        protected virtual void AwakeExt() { }
 
         private void Awake()
         {
-            Constructor();
+            AwakeExt();
         }
 
         #endregion

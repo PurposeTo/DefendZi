@@ -6,7 +6,7 @@ public class AxisPositionMover : MonoBehaviourExt
     [SerializeField] private float _obstacleLeftBorderDistance;
     [SerializeField] private float _obstacleRightBorderDistance;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         InitPosition();
     }

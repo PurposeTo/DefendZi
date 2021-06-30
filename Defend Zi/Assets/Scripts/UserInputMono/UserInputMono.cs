@@ -13,7 +13,7 @@ public class UserInputMono : MonoBehaviourExt, IUserInput
         remove => userInput.OnInputChange -= value;
     }
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         userInput = new UserInputCreator(this).GetOrDefault();
     }
