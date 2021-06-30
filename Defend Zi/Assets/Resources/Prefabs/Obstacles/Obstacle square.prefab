@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 208264349738541399}
   - component: {fileID: 208264349738541401}
   - component: {fileID: 1479505073086943185}
+  - component: {fileID: 8363454572330516824}
+  - component: {fileID: 7330123137857089581}
   m_Layer: 0
   m_Name: Obstacle square
   m_TagString: Untagged
@@ -69,6 +71,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreByAvoding: 5
+--- !u!114 &8363454572330516824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208264349738541396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37253745cfba0b84b8b2d81d06f27796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component: {fileID: 1479505073086943185}
+--- !u!114 &7330123137857089581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208264349738541396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e3cc903639cf14f8cf1a4bab48f73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component: {fileID: 1479505073086943185}
 --- !u!1 &2724265535090040783
 GameObject:
   m_ObjectHideFlags: 0

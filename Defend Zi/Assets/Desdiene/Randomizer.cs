@@ -40,18 +40,13 @@ namespace Desdiene
             return listOfReturnedItems.ToArray();
         }
 
-
         /// <summary>
         /// Получить случайный элемент из массива
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="deck"></param>
         /// <returns></returns>
-        public static T GetRandomItem<T>(T[] deck)
-        {
-            return deck[Random.Range(0, deck.Length)];
-        }
-
+        public static T GetRandomItem<T>(T[] deck) => deck[Random.Range(0, deck.Length)];
 
         public static void Swap<T>(ref T x, ref T y)
         {
@@ -59,7 +54,6 @@ namespace Desdiene
             x = y;
             y = temp;
         }
-
 
         public static T[] GetAllEnumValues<T>() where T : System.Enum
         {

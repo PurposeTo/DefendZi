@@ -65,7 +65,9 @@
             }
 
             // Remove NotNullViolations for prefabs with IgnorePrefab
+#pragma warning disable CS0618 // Тип или член устарел
             bool isObjectAPrefab = PrefabUtility.GetPrefabType(sourceMB.gameObject) == PrefabType.Prefab;
+#pragma warning restore CS0618 // Тип или член устарел
             List<NotNullViolation> violationsToIgnore = new List<NotNullViolation>();
             if (isObjectAPrefab)
             {
