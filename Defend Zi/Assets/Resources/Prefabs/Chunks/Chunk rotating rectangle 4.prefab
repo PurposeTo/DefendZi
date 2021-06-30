@@ -60,8 +60,7 @@ MonoBehaviour:
   _height: 20
   _minWidth: 8
   _maxWidth: 12
-  _obstacle: {fileID: 3709013292492358012}
-  rotator: {fileID: 3709013292492358013}
+  _rotatingObstacle: {fileID: 3709013292492358013}
 --- !u!1001 &4687645795020644874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,11 +118,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 953bf04bb55710141917a39b6e381d61, type: 3}
---- !u!1 &3709013292492358012 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8247448761345418102, guid: 953bf04bb55710141917a39b6e381d61, type: 3}
-  m_PrefabInstance: {fileID: 4687645795020644874}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3709013292492358014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8247448761345418100, guid: 953bf04bb55710141917a39b6e381d61, type: 3}
@@ -134,7 +128,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8247448761345418103, guid: 953bf04bb55710141917a39b6e381d61, type: 3}
   m_PrefabInstance: {fileID: 4687645795020644874}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3709013292492358012}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78aa2718765e9f64985ce5e4839b4fd3, type: 3}

@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class OneRotationRectangle : Chunk
 {
-    [SerializeField, NotNull] private GameObject _obstacle;
-    [SerializeField, NotNull] private AroundItsAxisMovement rotator;
+    [SerializeField, NotNull] private AroundItsAxisMovement _rotatingObstacle;
 
     int[] hights = Enumerable.Range(-7, 7).ToArray();
     private readonly int[] directions = { -1, 1 };
@@ -15,10 +14,10 @@ public class OneRotationRectangle : Chunk
     {
         print(hights);
 
-        _obstacle.transform
+        _rotatingObstacle.transform
             .SetPositionOy(Randomizer.GetRandomItem(hights));
 
         float speed = Random.Range(30f, 90f);
-        rotator.SetSpeed(Randomizer.GetRandomItem(directions) * speed);
+        _rotatingObstacle.SetSpeed(Randomizer.GetRandomItem(directions) * speed);
     }
 }
