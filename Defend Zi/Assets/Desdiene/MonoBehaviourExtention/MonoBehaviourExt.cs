@@ -10,14 +10,27 @@ namespace Desdiene.MonoBehaviourExtension
     {
         #region Awake realization
 
+        private bool _isAwaked;
+
         /// <summary>
         /// Необходимо использовать данный метод взамен Awake()
         /// </summary>
         protected virtual void AwakeExt() { }
 
+        private void TryAwakeExt()
+        {
+            if (!_isAwaked)
+            {
+                // Сначала должна щелкнуться булева, т.к. компонент может обращаться к самому себе.
+                // Т.е. обращаться к себе до выполнения AwakeExt(), например GetComponentsInParent().
+                _isAwaked = true;
+                AwakeExt();
+            }
+        }
+
         private void Awake()
         {
-            AwakeExt();
+            TryAwakeExt();
         }
 
         #endregion
@@ -25,7 +38,7 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region OnEnable realization
 
-        public event Action OnEnabed;
+        public event Action OnEnabled;
 
         /// <summary>
         /// Необходимо использовать данный метод взамен OnEnable()
@@ -34,7 +47,7 @@ namespace Desdiene.MonoBehaviourExtension
 
         private void EndOnEnableExecution()
         {
-            OnEnabed?.Invoke();
+            OnEnabled?.Invoke();
         }
 
         private void OnEnable()
@@ -143,13 +156,27 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region GetComponent
 
+        private T ForceAwakeExt<T>(T component)
+        {
+            if (component is MonoBehaviourExt mono)
+            {
+                mono.TryAwakeExt();
+            }
+
+            return component;
+        }
+
         public new T GetComponent<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponent<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
-            return component ?? throw new NullReferenceException($"Can't find component on this gameObject!" +
-                $" Type: {typeof(T)}.");
+            if (component == null)
+            {
+                throw new NullReferenceException($"Can't find component on this gameObject! Type: {typeof(T)}.");
+            }
+
+            return ForceAwakeExt(component);
         }
 
         public new T GetComponentInChildren<T>()
@@ -157,8 +184,12 @@ namespace Desdiene.MonoBehaviourExtension
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInChildren<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
-            return component ?? throw new NullReferenceException($"Can't find component on this gameObject or in children!" +
-                $" Type: {typeof(T)}.");
+            if (component == null)
+            {
+                throw new NullReferenceException($"Can't find component on this gameObject or in children! Type: {typeof(T)}.");
+            }
+
+            return ForceAwakeExt(component);
         }
 
         public new T GetComponentInParent<T>()
@@ -166,8 +197,34 @@ namespace Desdiene.MonoBehaviourExtension
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInParent<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
-            return component ?? throw new NullReferenceException($"Can't find component on this gameObject or in parent!" +
-                $" Type: {typeof(T)}.");
+            if (component == null)
+            {
+                throw new NullReferenceException($"Can't find component on this gameObject or in parent! Type: {typeof(T)}.");
+            }
+
+            return ForceAwakeExt(component);
+        }
+
+        public new T[] GetComponentsInParent<T>()
+        {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+            T[] components = base.GetComponentsInParent<T>();
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+
+            Array.ForEach(components, (component) => ForceAwakeExt(component));
+
+            return components;
+        }
+
+        public new T[] GetComponentsInChildren<T>()
+        {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+            T[] components = base.GetComponentsInChildren<T>();
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+
+            Array.ForEach(components, (component) => ForceAwakeExt(component));
+
+            return components;
         }
 
         public T GetComponentOnlyInParent<T>()
