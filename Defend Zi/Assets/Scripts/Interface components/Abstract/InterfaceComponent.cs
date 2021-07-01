@@ -1,6 +1,6 @@
 ﻿using Desdiene.MonoBehaviourExtension;
 
-// В дочерних классах добавить GetComponent()
+// В дочерних классах добавить RequireComponent
 public abstract class InterfaceComponent<T> : MonoBehaviourExt where T : class
 {
     public T Implementation => _implementation;
