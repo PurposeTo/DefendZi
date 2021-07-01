@@ -7,21 +7,19 @@ public class PointToPointMovementMono : PositionMoverMono
 
     private PointToPointMovement _movement;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         Init();
     }
 
     // TODO: решить проблему конфликта Awake
+    // TODO: убрать метод, используется в тест-режиме
     private void Start()
     {
         Move();
     }
 
-    public void Move()
-    {
-        _movement.Move();
-    }
+    public void Move() => _movement.Move();
 
     public void SetTargetLocalPosition(Vector2 position)
     {

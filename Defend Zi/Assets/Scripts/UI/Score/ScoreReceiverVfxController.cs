@@ -10,7 +10,7 @@ public class ScoreReceiverVfxController : MonoBehaviourExt
 
     private readonly float viewLifeTime = 1f;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         SubcribeEvents();
     }

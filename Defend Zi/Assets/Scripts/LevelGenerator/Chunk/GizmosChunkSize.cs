@@ -11,7 +11,7 @@ public class GizmosChunkSize : MonoBehaviourExt
     private Vector2 _minWidthMinimumCornerPosition;
     private Vector2 _maxWidthMinimumCornerPosition;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         _chunk = GetComponent<Chunk>();
     }

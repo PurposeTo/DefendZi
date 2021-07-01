@@ -6,7 +6,7 @@ public class ScoreTransmitter : MonoBehaviourExt, IScoreGetter
 {
     private IScoreGetter score;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         //todo: верное ли использование?
         score = GetComponentOnlyInParent<IScoreGetter>();

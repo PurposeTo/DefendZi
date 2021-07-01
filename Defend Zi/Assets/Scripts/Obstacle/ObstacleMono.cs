@@ -18,7 +18,7 @@ public class ObstacleMono :
     private IPosition _position;
     private IRotation _rotation;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         Obstacle obstacle = new Obstacle(_scoreByAvoding, GetComponent<Rigidbody2D>());
 

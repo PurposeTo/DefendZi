@@ -6,7 +6,7 @@ public class DamageTransmitter : MonoBehaviourExt, IDamageDealer
 {
     private IDamageDealer damageDealer;
 
-    protected override void Constructor()
+    protected override void AwakeExt()
     {
         //todo: верное ли использование?
         damageDealer = GetComponentOnlyInParent<IDamageDealer>();
