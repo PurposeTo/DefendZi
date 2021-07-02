@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8286671731221371093}
   - component: {fileID: 8996333464835645471}
   m_Layer: 0
-  m_Name: Chunk rotating rectangle 4
+  m_Name: Chunk rotating around its axis rectangle 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

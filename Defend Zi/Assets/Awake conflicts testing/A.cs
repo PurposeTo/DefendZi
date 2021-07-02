@@ -11,7 +11,7 @@ public class A : MonoBehaviourExt
     {
         Debug.Log("AwakeExt call A");
         B b = GetComponent<B>();
-        Debug.Log(b.Value.Name);
-        Value = new C("into A");
+        string name = b.Value.Name;
+        Value = new C("into A. using " + name);
     }
 }
