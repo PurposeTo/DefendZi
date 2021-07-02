@@ -21,10 +21,8 @@ namespace Desdiene.MonoBehaviourExtension
         {
             if (!_isAwaked)
             {
-                // Сначала должна щелкнуться булевая, т.к. компонент может обращаться к самому себе.
-                // Т.е. обращаться к себе до выполнения AwakeExt(), например GetComponentsInParent().
-                _isAwaked = true;
                 AwakeExt();
+                _isAwaked = true;
             }
         }
 
@@ -160,6 +158,9 @@ namespace Desdiene.MonoBehaviourExtension
         {
             if (component is MonoBehaviourExt mono)
             {
+                // Если компонент пытается проиниализаровать сам себя, например в случае вызова GetComponentsInParent
+                if (mono == this) return component;
+
                 mono.TryAwakeExt();
             }
 
