@@ -11,9 +11,7 @@ public class OneObstacle : Chunk
     protected override void OnSpawn()
     {
         _obstacle.transform
-            .SetPositionOy(GetRandomHight())
+            .SetPositionOy(Desdiene.Randomizer.GetRandomItem(hights))
             .SetRotation(Quaternion.Euler(0f, 0f, bestRotationEulers.GetRandom()));
     }
-
-    private float GetRandomHight() => hights[Random.Range(0, hights.Length)];
 }

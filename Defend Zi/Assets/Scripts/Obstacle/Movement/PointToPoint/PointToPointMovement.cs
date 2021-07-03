@@ -8,22 +8,22 @@ public class PointToPointMovement : MonoBehaviourExtContainer
 {
     private readonly float _speed;
     private readonly IPosition _position;
-    private readonly Vector2 _targetPosition;
+    private readonly IPositionGetter _targetPosition;
     private readonly AnimationCurve _animationCurve;
     private readonly ICoroutine _routineExecutor;
 
     public PointToPointMovement(MonoBehaviourExt monoBehaviour,
                                 IPosition position,
-                                Vector2 targetPosition,
+                                IPositionGetter targetPosition,
                                 float speed,
                                 AnimationCurve animationCurve)
         : base(monoBehaviour)
     {
         _routineExecutor = new CoroutineWrap(monoBehaviour);
-        _position = position;
+        _position = position ?? throw new System.ArgumentNullException(nameof(position));
         _targetPosition = targetPosition;
         _speed = speed;
-        _animationCurve = animationCurve;
+        _animationCurve = animationCurve ?? throw new System.ArgumentNullException(nameof(animationCurve));
     }
 
     public void Move()
@@ -41,11 +41,11 @@ public class PointToPointMovement : MonoBehaviourExtContainer
         while (counter <= 1f)
         {
             t = _animationCurve.Evaluate(counter);
-            _position.MoveTo(Vector2.Lerp(startPosition, _targetPosition, t));
+            _position.MoveTo(Vector2.Lerp(startPosition, _targetPosition.Value, t));
             counter += Time.fixedDeltaTime * _speed;
             yield return wait;
         }
 
-        _position.MoveTo(_targetPosition);
+        _position.MoveTo(_targetPosition.Value);
     }
 }

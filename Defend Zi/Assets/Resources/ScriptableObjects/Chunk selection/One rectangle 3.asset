@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: One rectangle 3
   m_EditorClassIdentifier: 
   _chunk: {fileID: 3650532837805091758, guid: b17cef1405b9f604ab036e32f7faf5a2, type: 3}
-  _chanceMass: 1
+  _chanceMass: 0

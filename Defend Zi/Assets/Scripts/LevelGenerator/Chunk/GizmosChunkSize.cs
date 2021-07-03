@@ -54,7 +54,7 @@ public class GizmosChunkSize : MonoBehaviourExt
     private void DrawCurrentSize()
     {
         Rect currentSize = new Rect(_minimumCornerPosition, new Vector2(_chunk.Width, _chunk.Height));
-        DrawRectangle(Color.green, currentSize);
+        DrawRectangle(Color.yellow, currentSize);
     }
 
     private void DrawBorderSize(Vector2 minimumCornerPosition, float width)

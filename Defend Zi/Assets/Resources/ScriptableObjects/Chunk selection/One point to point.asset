@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 202de611a8bfdf243ac4948e685a7bd3, type: 3}
-  m_Name: Rotation rectange 4
+  m_Name: One point to point
   m_EditorClassIdentifier: 
-  _chunk: {fileID: 8996333464835645471, guid: 95826d2f494200a42ad78f144c58233a, type: 3}
-  _chanceMass: 0
+  _chunk: {fileID: 3198614024700122625, guid: 5fc459095cffe43418f33252c727f53d, type: 3}
+  _chanceMass: 1

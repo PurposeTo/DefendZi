@@ -1,34 +1,26 @@
 ﻿using UnityEngine;
 
-public class PointToPointMovementMono : PositionMoverMono
+public class PointToPointMovementMono : PositionMoverMono, IMovableChunk
 {
-    [SerializeField, NotNull] private Transform _target;
+    [SerializeField, NotNull] private InterfaceComponent<IPosition> _target;
     [SerializeField] private AnimationCurveFactory.CurveType _curveType;
 
     private PointToPointMovement _movement;
 
     protected override void AwakeExt()
     {
+        base.AwakeExt();
         Init();
     }
 
-    // TODO: решить проблему конфликта Awake
-    // TODO: убрать метод, используется в тест-режиме
-    private void Start()
-    {
-        Move();
-    }
-
-    public void Move() => _movement.Move();
-
-    public void SetTargetLocalPosition(Vector2 position)
-    {
-        _target.localPosition = position;
-    }
+    void IMovableChunk.Move() => _movement.Move();
 
     private void Init()
     {
+        //fixme быстрофикс пока SerializeField не делает ForceAwake
+        GetComponentsInChildren<InterfaceComponent<IPosition>>();
+
         var animationCurve = AnimationCurveFactory.Get(_curveType);
-        _movement = new PointToPointMovement(this, Position, _target.position, Speed, animationCurve);
+        _movement = new PointToPointMovement(this, Position, _target.Implementation, Speed, animationCurve);
     }
 }

@@ -17,7 +17,7 @@ public abstract class Chunk : MonoBehaviourExt
     public float MinWidth => _minWidth;
     public float MaxWidth => _maxWidth;
 
-    private void Awake()
+    protected override void AwakeExt()
     {
         _width = Random.Range(_minWidth, _maxWidth);
     }

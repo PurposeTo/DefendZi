@@ -35,7 +35,7 @@ public class LevelGenerator : MonoBehaviourExt
         float creatingPoint = levelLength + (originalChunk.Width / 2);
 
         // todo: необходимо где-то явно указать Y и Z уровня.
-        Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity);
+        Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity, transform);
         levelLength += createdChunk.Width;
     }
 
@@ -48,6 +48,9 @@ public class LevelGenerator : MonoBehaviourExt
         for (int i = 0; i < chunks.Length; i++)
         {
             currentCheck += (int)chunks[i].ChanceMass;
+
+            if (currentCheck == 0) continue;
+
             if (randomChoice <= currentCheck) //проверяем, это текущий элемент?
             {
                 Debug.Log($"Создан чанк \"{chunks[i].name}\" под индексом [{i}]");
@@ -55,6 +58,6 @@ public class LevelGenerator : MonoBehaviourExt
             }
         }
 
-        throw new System.IndexOutOfRangeException("Random chunk was not choosing!");
+        throw new System.IndexOutOfRangeException($"Random chunk was not choosing! RandomChoice = {randomChoice}");
     }
 }
