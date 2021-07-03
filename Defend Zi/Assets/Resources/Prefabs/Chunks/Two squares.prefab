@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _height: 20
-  _spawnPlaceWidth: 4
+  _spawnPlaceWidth: 2
   _width: 4
   _squadFirst: {fileID: 1035830287531281865}
   _squadSecond: {fileID: 5409779112236974727}

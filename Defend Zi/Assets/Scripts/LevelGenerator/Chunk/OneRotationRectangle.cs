@@ -17,7 +17,7 @@ public class OneRotationRectangle : Chunk
         _rotatingObstacle.transform
             .SetPositionOy(Randomizer.GetRandomItem(hights));
 
-        float speed = Random.Range(30f, 90f);
+        float speed = Random.Range(15f, 60f);
         _rotatingObstacle.SetSpeed(Randomizer.GetRandomItem(directions) * speed);
     }
 }

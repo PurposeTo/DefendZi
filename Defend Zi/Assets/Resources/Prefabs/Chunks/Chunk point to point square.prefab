@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _height: 20
-  _spawnPlaceWidth: 6
-  _width: 42
+  _spawnPlaceWidth: 2
+  _width: 44
   _obstacle: {fileID: 6692179864819494046}
 --- !u!1001 &9138257332346605944
 PrefabInstance:

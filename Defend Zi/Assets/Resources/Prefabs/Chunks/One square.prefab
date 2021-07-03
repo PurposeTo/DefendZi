@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _height: 20
-  _spawnPlaceWidth: 4
+  _spawnPlaceWidth: 2
   _width: 4
   _obstacle: {fileID: 1035830287531281865}
 --- !u!1001 &901816662929419421

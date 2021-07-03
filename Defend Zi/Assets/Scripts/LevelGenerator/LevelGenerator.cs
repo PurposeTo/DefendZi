@@ -10,7 +10,7 @@ public class LevelGenerator : MonoBehaviourExt
 
     [SerializeField] private float _levelStartPoint = 40f;
 
-    [SerializeField] private FloatRange _extraSpaceBetweenChunks = new FloatRange(4f, 8f);
+    [SerializeField] private FloatRange _extraSpaceBetweenChunks = new FloatRange(5f, 10f);
 
     private float _levelLength = 0f;
 
