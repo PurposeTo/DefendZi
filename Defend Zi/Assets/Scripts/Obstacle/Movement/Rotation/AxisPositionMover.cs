@@ -1,11 +1,11 @@
-﻿using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 public class AxisPositionMover : MonoBehaviourExt
 {
-    [SerializeField] private Transform _transform;
-    [SerializeField] private float _obstacleLeftBorderDistance;
-    [SerializeField] private float _obstacleRightBorderDistance;
+    [SerializeField] private Transform _obstacleMono;
+    [SerializeField] private Transform[] _offsets;
 
     protected override void AwakeExt()
     {
@@ -14,7 +14,10 @@ public class AxisPositionMover : MonoBehaviourExt
 
     private void InitPosition()
     {
-        float positionOx = Random.Range(_obstacleLeftBorderDistance, _obstacleRightBorderDistance);
-        _transform.localPosition = new Vector2(positionOx, transform.localPosition.y);
+        Vector3 offset = _offsets.Length == 0 
+            ? transform.localPosition 
+            : Randomizer.GetRandomItem(_offsets).localPosition;
+
+        //todo как правильно сместить ось?
     }
 }
