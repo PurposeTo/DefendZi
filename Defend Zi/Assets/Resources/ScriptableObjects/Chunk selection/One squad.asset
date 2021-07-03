@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: One squad
   m_EditorClassIdentifier: 
   _chunk: {fileID: 3650532837805091758, guid: aa17833c446d3a14888ba3896bccaa72, type: 3}
-  _chanceMass: 1
+  _chanceMass: 4
