@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _height: 20
-  _minWidth: 6
-  _maxWidth: 8
+  _spawnPlaceWidth: 6
+  _width: 42
   _obstacle: {fileID: 6692179864819494046}
 --- !u!1001 &9138257332346605944
 PrefabInstance:
@@ -161,15 +161,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2690938068689948546, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2690938068689948546, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2690938068689948546, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2690938068689948546, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

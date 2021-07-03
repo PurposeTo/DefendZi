@@ -7,9 +7,8 @@ public class GizmosChunkSize : MonoBehaviourExt
 {
     private Chunk _chunk;
 
+    private Vector2 _minimumCornerPositionSpawnPlace;
     private Vector2 _minimumCornerPosition;
-    private Vector2 _minWidthMinimumCornerPosition;
-    private Vector2 _maxWidthMinimumCornerPosition;
 
     protected override void AwakeExt()
     {
@@ -19,22 +18,14 @@ public class GizmosChunkSize : MonoBehaviourExt
     private void OnDrawGizmos()
     {
         Init();
-
-        if (Application.isPlaying) DrawCurrentSize();
-        else
-        {
-            DrawBorderSize(_minWidthMinimumCornerPosition, _chunk.MinWidth);
-            DrawBorderSize(_maxWidthMinimumCornerPosition, _chunk.MaxWidth);
-        }
+        DrawCurrentSize();
     }
 
     private void Init()
     {
         var position = transform.position;
-
+        _minimumCornerPositionSpawnPlace = new Vector2(position.x - _chunk.SpawnPlaceWidth / 2, position.y - _chunk.Height / 2);
         _minimumCornerPosition = new Vector2(position.x - _chunk.Width / 2, position.y - _chunk.Height / 2);
-        _minWidthMinimumCornerPosition = new Vector2(position.x - _chunk.MinWidth / 2, position.y - _chunk.Height / 2);
-        _maxWidthMinimumCornerPosition = new Vector2(position.x - _chunk.MaxWidth / 2, position.y - _chunk.Height / 2);
     }
 
     private void DrawRectangle(Color color, Rect rectangle)
@@ -53,14 +44,11 @@ public class GizmosChunkSize : MonoBehaviourExt
 
     private void DrawCurrentSize()
     {
+        Rect currentSpawnPlaceSize = new Rect(_minimumCornerPositionSpawnPlace, new Vector2(_chunk.SpawnPlaceWidth, _chunk.Height));
         Rect currentSize = new Rect(_minimumCornerPosition, new Vector2(_chunk.Width, _chunk.Height));
+        DrawRectangle(GetOrangeColor(), currentSpawnPlaceSize);
         DrawRectangle(Color.yellow, currentSize);
     }
 
-    private void DrawBorderSize(Vector2 minimumCornerPosition, float width)
-    {
-        Color color = new Color(1f, 0.55f, 0.3f); // Orange
-        Rect size = new Rect(minimumCornerPosition, new Vector2(width, _chunk.Height));
-        DrawRectangle(color, size);
-    }
+    private Color GetOrangeColor() => new Color(1f, 0.55f, 0.3f);
 }

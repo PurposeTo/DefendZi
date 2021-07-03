@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Desdiene;
+﻿using System.Linq;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.Types.Range.Positive;
 using UnityEngine;
 using Zenject;
 
@@ -9,34 +8,38 @@ public class LevelGenerator : MonoBehaviourExt
 {
     [SerializeField] private ChunkSelection[] chunks;
 
-    [SerializeField] private float levelStartPoint = 40f;
-    private float levelLength = 0f;
+    [SerializeField] private float _levelStartPoint = 40f;
 
-    private IPositionGetter playerPosition; //генерировать чанки нужно по мере продвижения игрока
-    private CameraSize cameraSize; //чанки нужно генерировать вне зоны видимости
+    [SerializeField] private FloatRange _extraSpaceBetweenChunks = new FloatRange(4f, 8f);
+
+    private float _levelLength = 0f;
+
+    private IPositionGetter _playerPosition; //генерировать чанки нужно по мере продвижения игрока
+    private CameraSize _cameraSize; //чанки нужно генерировать вне зоны видимости
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
-        playerPosition = componentsProxy.PlayerPosition;
-        cameraSize = componentsProxy.CameraSize;
-        levelLength += levelStartPoint;
+        _playerPosition = componentsProxy.PlayerPosition;
+        _cameraSize = componentsProxy.CameraSize;
+        _levelLength += _levelStartPoint;
 
         //todo: сделать более оптимизированное построение уровня
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 300; i++)
         {
-            AddChunk();
+            SpawnChunk();
         }
     }
 
-    private void AddChunk()
+    private void SpawnChunk()
     {
         Chunk originalChunk = GetRandomChunk();
-        float creatingPoint = levelLength + (originalChunk.Width / 2);
+        float extraSpaceBetweenChunks = Random.Range(_extraSpaceBetweenChunks.Min, _extraSpaceBetweenChunks.Max);
+        float spawnPointOx = _levelLength + extraSpaceBetweenChunks + (originalChunk.SpawnPlaceWidth / 2);
 
         // todo: необходимо где-то явно указать Y и Z уровня.
-        Chunk createdChunk = Instantiate(originalChunk, new Vector3(creatingPoint, 0f, 0f), Quaternion.identity, transform);
-        levelLength += createdChunk.Width;
+        Chunk createdChunk = Instantiate(originalChunk, new Vector3(spawnPointOx, 0f, 0f), Quaternion.identity, transform);
+        _levelLength += extraSpaceBetweenChunks + createdChunk.SpawnPlaceWidth;
     }
 
     private Chunk GetRandomChunk()

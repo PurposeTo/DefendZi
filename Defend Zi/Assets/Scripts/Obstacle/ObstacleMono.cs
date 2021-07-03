@@ -20,7 +20,7 @@ public class ObstacleMono :
 
     protected override void AwakeExt()
     {
-        Obstacle obstacle = new Obstacle(_scoreByAvoding, GetComponent<Rigidbody2D>());
+        Obstacle obstacle = new Obstacle(_scoreByAvoding, GetInitedComponent<Rigidbody2D>());
 
         _scoreGetter = obstacle;
         _damageDealer = obstacle;

@@ -9,7 +9,7 @@ public class DamageReceiver : MonoBehaviourExt
     protected override void AwakeExt()
     {
         //todo: верное ли использование?
-        _damageTaker = GetComponentOnlyInParent<IDamageTaker>();
+        _damageTaker = GetInitedComponentOnlyInParent<IDamageTaker>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

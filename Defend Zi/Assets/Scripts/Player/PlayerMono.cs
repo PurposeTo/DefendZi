@@ -24,7 +24,7 @@ public class PlayerMono :
     [Inject]
     private void Constructor(IUserInput input)
     {
-        Player _player = new Player(input, GetComponent<Rigidbody2D>(), _movementData);
+        Player _player = new Player(input, GetInitedComponent<Rigidbody2D>(), _movementData);
 
         _fixedUpdate = _player;
         _positionGetter = _player;

@@ -9,6 +9,6 @@ public abstract class InterfaceComponent<T> : MonoBehaviourExt where T : class
 
     protected override void AwakeExt()
     {
-        _implementation = GetComponent<T>();
+        _implementation = GetInitedComponent<T>();
     }
 }

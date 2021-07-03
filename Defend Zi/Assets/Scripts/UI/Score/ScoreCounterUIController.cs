@@ -14,7 +14,7 @@ public class ScoreCounterUiController : MonoBehaviourExt
     {
         score = components.PlayerScore;
         scoreNotification = components.PlayerScoreNotification;
-        scoreCounterView = GetComponent<TextView>();
+        scoreCounterView = GetInitedComponent<TextView>();
         scoreCounterView.SetText($"{score.Value}");
         SubcribeEvents();
     }

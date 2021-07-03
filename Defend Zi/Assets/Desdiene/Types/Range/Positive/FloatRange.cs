@@ -9,17 +9,22 @@ namespace Desdiene.Types.Range.Positive
     /// Не изменяемый.
     /// Гарантируется, что Min всегда будет меньше Max.
     /// </summary>
+    [Serializable]
     public struct FloatRange : IRange<float>
     {
-        public float Min { get; }
-        public float Max { get; }
+        public float Min => _min;
+        public float Max => _max;
+
+        //Не делать readonly, тк могут редактироваться через инспектор.
+        [SerializeField] private float _min;
+        [SerializeField] private float _max;
 
         public FloatRange(float min, float max)
         {
             if (min.CompareTo(max) > 0) throw new FormatException($"Min {min} не может быть больше Max {max}!");
 
-            Min = min;
-            Max = max;
+            _min = min;
+            _max = max;
         }
 
         public float Length => Mathf.Abs(Max - Min);

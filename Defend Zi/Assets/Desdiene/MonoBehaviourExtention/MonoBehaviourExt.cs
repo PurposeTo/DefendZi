@@ -167,7 +167,7 @@ namespace Desdiene.MonoBehaviourExtension
             return component;
         }
 
-        public new T GetComponent<T>()
+        public T GetInitedComponent<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponent<T>();
@@ -180,7 +180,7 @@ namespace Desdiene.MonoBehaviourExtension
             return ForceAwakeExt(component);
         }
 
-        public new T GetComponentInChildren<T>()
+        public T GetInitedComponentInChildren<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInChildren<T>();
@@ -193,7 +193,7 @@ namespace Desdiene.MonoBehaviourExtension
             return ForceAwakeExt(component);
         }
 
-        public new T GetComponentInParent<T>()
+        public T GetInitedComponentInParent<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T component = base.GetComponentInParent<T>();
@@ -206,7 +206,7 @@ namespace Desdiene.MonoBehaviourExtension
             return ForceAwakeExt(component);
         }
 
-        public new T[] GetComponentsInParent<T>()
+        public T[] GetInitedComponentsInParent<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
             T[] components = base.GetComponentsInParent<T>();
@@ -217,10 +217,10 @@ namespace Desdiene.MonoBehaviourExtension
             return components;
         }
 
-        public new T[] GetComponentsInChildren<T>()
+        public T[] GetInitedComponentsInChildren<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
-            T[] components = base.GetComponentsInChildren<T>();
+            T[] components = GetComponentsInChildren<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 
             Array.ForEach(components, (component) => ForceAwakeExt(component));
@@ -228,13 +228,13 @@ namespace Desdiene.MonoBehaviourExtension
             return components;
         }
 
-        public T GetComponentOnlyInParent<T>()
+        public T GetInitedComponentOnlyInParent<T>()
         {
             try
             {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
                 T componentOnThisGameObject = base.GetComponent<T>();
-                return GetComponentsInParent<T>().Single(it =>
+                return GetInitedComponentsInParent<T>().Single(it =>
                 {
                     return !it.Equals(componentOnThisGameObject);
                 });
@@ -252,7 +252,7 @@ namespace Desdiene.MonoBehaviourExtension
             {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
                 T componentOnThisGameObject = base.GetComponent<T>();
-                return GetComponentsInChildren<T>().Where(it =>
+                return GetInitedComponentsInChildren<T>().Where(it =>
                 {
                     return !it.Equals(componentOnThisGameObject);
                 }).ToArray();

@@ -18,7 +18,7 @@ public class ScoreAdderByDistance : MonoBehaviourExt
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
-        _collector = GetComponent<IScoreCollector>();
+        _collector = GetInitedComponent<IScoreCollector>();
         _position = componentsProxy.PlayerPosition;
         ICoroutine routine = new CoroutineWrap(this);
         routine.StartContinuously(Adder());

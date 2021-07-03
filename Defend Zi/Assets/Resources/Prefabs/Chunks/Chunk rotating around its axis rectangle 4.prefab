@@ -58,8 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _height: 20
-  _minWidth: 10
-  _maxWidth: 12
+  _spawnPlaceWidth: 8
+  _width: 8
   _rotatingObstacle: {fileID: 3709013292492358013}
 --- !u!1001 &4687645795020644874
 PrefabInstance:

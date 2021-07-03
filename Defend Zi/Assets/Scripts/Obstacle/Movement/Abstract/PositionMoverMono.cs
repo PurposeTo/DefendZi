@@ -12,7 +12,7 @@ public abstract class PositionMoverMono : MonoBehaviourExt
     protected override void AwakeExt()
     {
         //fixme быстрофикс пока SerializeField не делает ForceAwake
-        GetComponentsInChildren<InterfaceComponent<IPosition>>();
+        GetInitedComponentsInChildren<InterfaceComponent<IPosition>>();
     }
 
     public void SetSpeed(float speed) => _speed = speed;

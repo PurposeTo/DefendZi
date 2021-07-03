@@ -13,7 +13,7 @@ public class ScoreReceiver : MonoBehaviourExt
     protected override void AwakeExt()
     {
         //todo: верное ли использование?
-        scoreCollector = GetComponentInParent<IScoreCollector>();
+        scoreCollector = GetInitedComponentInParent<IScoreCollector>();
     }
 
     // Начисление очков за близкое огибание препятствий происходит через триггер выхода из коллайдера

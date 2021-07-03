@@ -8,7 +8,7 @@ public class MovableChunkTrigger : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        movableChunk = GetComponentOnlyInParent<IMovableChunk>();
+        movableChunk = GetInitedComponentOnlyInParent<IMovableChunk>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

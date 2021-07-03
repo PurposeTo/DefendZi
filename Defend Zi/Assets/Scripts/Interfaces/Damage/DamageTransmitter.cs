@@ -9,7 +9,7 @@ public class DamageTransmitter : MonoBehaviourExt, IDamageDealer
     protected override void AwakeExt()
     {
         //todo: верное ли использование?
-        damageDealer = GetComponentOnlyInParent<IDamageDealer>();
+        damageDealer = GetInitedComponentOnlyInParent<IDamageDealer>();
     }
 
     uint IDamageDealer.Value => damageDealer.Value;

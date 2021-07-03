@@ -18,7 +18,7 @@ public class PointToPointMovementMono : PositionMoverMono, IMovableChunk
     private void Init()
     {
         //fixme быстрофикс пока SerializeField не делает ForceAwake
-        GetComponentsInChildren<InterfaceComponent<IPosition>>();
+        GetInitedComponentsInChildren<InterfaceComponent<IPosition>>();
 
         var animationCurve = AnimationCurveFactory.Get(_curveType);
         _movement = new PointToPointMovement(this, Position, _target.Implementation, Speed, animationCurve);

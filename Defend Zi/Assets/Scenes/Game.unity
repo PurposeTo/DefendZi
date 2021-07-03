@@ -232,7 +232,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fd83a8ee9c215ab48966b40ef7e78419, type: 2}
   - {fileID: 11400000, guid: 29cb6742731b85949b86b9eb2fbd8d0f, type: 2}
   - {fileID: 11400000, guid: 8375a70e11f8c2f41a3d29ccef0c75ab, type: 2}
-  levelStartPoint: 40
+  _levelStartPoint: 40
+  _extraSpaceBetweenChunks:
+    _min: 4
+    _max: 8
 --- !u!1 &186482476
 GameObject:
   m_ObjectHideFlags: 0
