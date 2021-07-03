@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Rotation its axis two squares
   m_EditorClassIdentifier: 
   _chunk: {fileID: 8996333464835645471, guid: e2bce45bb3e5f9e47917aa20e3d47adf, type: 3}
-  _chanceMass: 2
+  _chanceMass: 3

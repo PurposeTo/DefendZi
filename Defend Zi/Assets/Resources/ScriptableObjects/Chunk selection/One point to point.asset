@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: One point to point
   m_EditorClassIdentifier: 
   _chunk: {fileID: 3198614024700122625, guid: 5fc459095cffe43418f33252c727f53d, type: 3}
-  _chanceMass: 3
+  _chanceMass: 4
