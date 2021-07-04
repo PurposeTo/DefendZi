@@ -7,7 +7,10 @@ namespace Desdiene.Coroutine
 {
     public class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
-        public CoroutineWrap(MonoBehaviourExt mono) : base(mono) { }
+        public CoroutineWrap(MonoBehaviourExt mono) : base(mono) 
+        {
+            mono.OnDisabled += Break;
+        }
 
         /// <summary>
         /// Событие о остановке корутины. Вызывается в случае Break-а или по окончанию выполнения.

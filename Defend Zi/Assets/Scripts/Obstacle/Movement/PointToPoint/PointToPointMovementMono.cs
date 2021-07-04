@@ -9,7 +9,6 @@ public class PointToPointMovementMono : PositionMoverMono, IMovableChunk
 
     protected override void AwakeExt()
     {
-        base.AwakeExt();
         Init();
     }
 
@@ -17,9 +16,6 @@ public class PointToPointMovementMono : PositionMoverMono, IMovableChunk
 
     private void Init()
     {
-        //fixme быстрофикс пока SerializeField не делает ForceAwake
-        GetInitedComponentsInChildren<InterfaceComponent<IPosition>>();
-
         var animationCurve = AnimationCurveFactory.Get(_curveType);
         _movement = new PointToPointMovement(this, Position, _target.Implementation, Speed, animationCurve);
     }

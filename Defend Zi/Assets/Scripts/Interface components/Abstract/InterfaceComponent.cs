@@ -3,7 +3,7 @@
 // В дочерних классах добавить RequireComponent
 public abstract class InterfaceComponent<T> : MonoBehaviourExt where T : class
 {
-    public T Implementation => _implementation;
+    public T Implementation => _implementation ?? throw new System.NullReferenceException(nameof(Implementation));
 
     private T _implementation;
 

@@ -7,13 +7,7 @@ public abstract class PositionMoverMono : MonoBehaviourExt
     [SerializeField, NotNull] private InterfaceComponent<IPosition> _position;
 
     protected float Speed => _speed;
-    protected IPosition Position => _position.Implementation;
-
-    protected override void AwakeExt()
-    {
-        //fixme быстрофикс пока SerializeField не делает ForceAwake
-        GetInitedComponentsInChildren<InterfaceComponent<IPosition>>();
-    }
+    protected IPosition Position => _position.Implementation ?? throw new System.NullReferenceException(nameof(Position));
 
     public void SetSpeed(float speed) => _speed = speed;
 }

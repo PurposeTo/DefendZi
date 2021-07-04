@@ -12,8 +12,6 @@ public class OneRotationRectangle : Chunk
 
     protected override void OnSpawn()
     {
-        print(hights);
-
         _rotatingObstacle.transform
             .SetPositionOy(Randomizer.GetRandomItem(hights));
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Desdiene.Coroutine;
 using UnityEngine;
 
@@ -12,23 +13,54 @@ namespace Desdiene.MonoBehaviourExtension
 
         private bool _isAwaked;
 
+        private void Awake()
+        {
+            TryAwake();
+        }
+
         /// <summary>
-        /// Необходимо использовать данный метод взамен Awake()
+        /// Необходимо использовать данный метод в дочернем классе взамен Awake()
         /// </summary>
         protected virtual void AwakeExt() { }
 
-        private void TryAwakeExt()
+        /// <summary>
+        /// Данный метод определяет всю дополнительную логику данного класса.
+        /// </summary>
+        private void AwakeWrap()
+        {
+            ForceAwakeSerializeFields();
+            AwakeExt();
+        }
+
+        /// <summary>
+        /// Вызвать Awake у переданного компонента, если он еще не был вызван.
+        /// </summary>
+        /// <typeparam name="T">Тип компонента.</typeparam>
+        /// <param name="component">Компонент, у которого необходимо вызвать AwakeExt.</param>
+        /// <returns>Компонент, у которого был вызван AwakeExt.</returns>
+        private T TryAwake<T>(T component)
+        {
+            if (component is MonoBehaviourExt mono)
+            {
+                // Если компонент пытается проиниализаровать сам себя, например в случае вызова GetComponentsInParent
+                if (mono == this) return component;
+
+                mono.TryAwake();
+            }
+
+            return component;
+        }
+
+        /// <summary>
+        /// Вызвать Awake у данного компонента, если он еще не был вызван.
+        /// </summary>
+        private void TryAwake()
         {
             if (!_isAwaked)
             {
-                AwakeExt();
+                AwakeWrap();
                 _isAwaked = true;
             }
-        }
-
-        private void Awake()
-        {
-            TryAwakeExt();
         }
 
         #endregion
@@ -39,7 +71,7 @@ namespace Desdiene.MonoBehaviourExtension
         public event Action OnEnabled;
 
         /// <summary>
-        /// Необходимо использовать данный метод взамен OnEnable()
+        /// Необходимо использовать данный метод в дочернем классе взамен OnEnable()
         /// </summary>
         protected virtual void OnEnableExt() { }
 
@@ -60,7 +92,7 @@ namespace Desdiene.MonoBehaviourExtension
         #region Start realization
 
         /// <summary>
-        /// Необходимо использовать данный метод взамен Start()
+        /// Необходимо использовать данный метод в дочернем классе взамен Start()
         /// </summary>
         protected virtual void StartExt() { }
 
@@ -154,19 +186,6 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region GetComponent
 
-        private T ForceAwakeExt<T>(T component)
-        {
-            if (component is MonoBehaviourExt mono)
-            {
-                // Если компонент пытается проиниализаровать сам себя, например в случае вызова GetComponentsInParent
-                if (mono == this) return component;
-
-                mono.TryAwakeExt();
-            }
-
-            return component;
-        }
-
         public T GetInitedComponent<T>()
         {
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
@@ -177,7 +196,7 @@ namespace Desdiene.MonoBehaviourExtension
                 throw new NullReferenceException($"Can't find component on this gameObject! Type: {typeof(T)}.");
             }
 
-            return ForceAwakeExt(component);
+            return TryAwake(component);
         }
 
         public T GetInitedComponentInChildren<T>()
@@ -190,7 +209,7 @@ namespace Desdiene.MonoBehaviourExtension
                 throw new NullReferenceException($"Can't find component on this gameObject or in children! Type: {typeof(T)}.");
             }
 
-            return ForceAwakeExt(component);
+            return TryAwake(component);
         }
 
         public T GetInitedComponentInParent<T>()
@@ -203,7 +222,7 @@ namespace Desdiene.MonoBehaviourExtension
                 throw new NullReferenceException($"Can't find component on this gameObject or in parent! Type: {typeof(T)}.");
             }
 
-            return ForceAwakeExt(component);
+            return TryAwake(component);
         }
 
         public T[] GetInitedComponentsInParent<T>()
@@ -212,7 +231,7 @@ namespace Desdiene.MonoBehaviourExtension
             T[] components = base.GetComponentsInParent<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 
-            Array.ForEach(components, (component) => ForceAwakeExt(component));
+            Array.ForEach(components, (component) => TryAwake(component));
 
             return components;
         }
@@ -223,7 +242,7 @@ namespace Desdiene.MonoBehaviourExtension
             T[] components = GetComponentsInChildren<T>();
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
 
-            Array.ForEach(components, (component) => ForceAwakeExt(component));
+            Array.ForEach(components, (component) => TryAwake(component));
 
             return components;
         }
@@ -265,5 +284,55 @@ namespace Desdiene.MonoBehaviourExtension
         }
 
         #endregion
+
+        private const BindingFlags allObjectBinding = BindingFlags.Instance |
+                                              BindingFlags.NonPublic |
+                                              BindingFlags.Public;
+
+        /// <summary>
+        /// Получить поля с атрибутом SerializeField у текущего объекта.
+        /// Учитывает закрытые поля базовых классов.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<MonoBehaviourExt> GetSerializeMonoBehaviourExtFields()
+        {
+            Type monoBehaviourExtType = typeof(MonoBehaviourExt);
+            IEnumerable<MonoBehaviourExt> fields = Enumerable.Empty<MonoBehaviourExt>();
+
+            Type type = GetType();
+            while (type.IsSubclassOf(monoBehaviourExtType) && type != monoBehaviourExtType)
+            {
+                fields = fields.Union(GetSerializeMonoBehaviourExtFields(type));
+                type = type.BaseType;
+            }
+
+            return fields;
+        }
+
+        /// <summary>
+        /// Получить поля с атрибутом SerializeField у класса с указанным типом.
+        /// Не учитывает закрытые поля у базовых классов.
+        /// </summary>
+        /// <param name="type">Тип класса.</param>
+        /// <returns></returns>
+        private IEnumerable<MonoBehaviourExt> GetSerializeMonoBehaviourExtFields(Type type)
+        {
+            return type
+                .GetFields(allObjectBinding)
+                // false - что атрибут строго SerializeField. Если true, то проверяет и дочерние типы атрибута.
+                .Where(field => field.IsDefined(typeof(SerializeField), false))
+                .Select(field => field.GetValue(this))
+                .OfType<MonoBehaviourExt>();
+        }
+
+        private void ForceAwakeSerializeFields()
+        {
+            IEnumerable<MonoBehaviourExt> serializeMonoBehaviourExtFields = GetSerializeMonoBehaviourExtFields();
+
+            foreach (MonoBehaviourExt component in serializeMonoBehaviourExtFields)
+            {
+                TryAwake(component);
+            }
+        }
     }
 }
