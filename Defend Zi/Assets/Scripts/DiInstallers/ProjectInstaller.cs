@@ -1,3 +1,4 @@
+using Assets.Desdiene.GooglePlayApi;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Scale;
 using Zenject;
@@ -8,6 +9,17 @@ public class ProjectInstaller : MonoInstaller
     {
         BindGlobalTimeScaler();
         BindGlobalTimePauser();
+        BindGPGSAuthentication();
+    }
+
+    private void BindGPGSAuthentication()
+    {
+        Container
+            .Bind<IGPGSAuthentication>()
+            .To<GPGSAuthentication>()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindGlobalTimeScaler()
