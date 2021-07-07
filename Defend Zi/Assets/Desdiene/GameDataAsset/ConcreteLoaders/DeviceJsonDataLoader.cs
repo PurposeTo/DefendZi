@@ -19,11 +19,11 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
         protected readonly string filePath;
         protected readonly DeviceDataLoader deviceDataLoader;
 
-        public DeviceJsonDataLoader(MonoBehaviourExt superMono,
+        public DeviceJsonDataLoader(MonoBehaviourExt mono,
                                     string storageName,
                                     string fileName,
                                     IJsonConvertor<T> jsonConvertor)
-            : base(superMono, storageName, fileName, jsonConvertor)
+            : base(mono, storageName, fileName, jsonConvertor)
         {
             filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
             Debug.Log($"{StorageName}. Путь к файлу данных : {filePath}");
