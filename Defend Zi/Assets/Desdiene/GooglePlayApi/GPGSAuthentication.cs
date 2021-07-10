@@ -66,7 +66,13 @@ namespace Assets.Desdiene.GooglePlayApi
                 .Build();
 
             PlayGamesPlatform.InitializeInstance(configuration);
+
+#if UNITY_EDITOR
+            PlayGamesPlatform.DebugLogEnabled = false;
+#endif
+#if UNITY_ANDROID	
             PlayGamesPlatform.DebugLogEnabled = true;
+#endif
 
             Platform = PlayGamesPlatform.Activate();
         }

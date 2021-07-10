@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
+using Logger = Desdiene.Logger;
 
 public class A : MonoBehaviourExt
 {
-    public C Value { get; private set; }
+    private static readonly Logger LOGGER = new Logger(typeof(A));
+
+    public NameHandler Value { get; private set; }
 
     protected override void AwakeExt()
     {
-        Debug.Log("AwakeExt call A");
+        LOGGER.Log("AwakeExt calling");
         B b = GetInitedComponent<B>();
         string name = b.Value.Name;
-        Value = new C("into A. using " + name);
+        Value = new NameHandler("into A. using " + name);
     }
 }

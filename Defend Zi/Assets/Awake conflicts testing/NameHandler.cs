@@ -1,8 +1,8 @@
-public class C
+public class NameHandler
 {
     public string Name { get; }
 
-    public C(string name)
+    public NameHandler(string name)
     {
         Name = name;
     }

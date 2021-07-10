@@ -12,6 +12,7 @@ namespace Desdiene.MonoBehaviourExtension
         #region Awake realization
 
         private bool _isAwaked;
+        private bool _isAwaking;
 
         private void Awake()
         {
@@ -28,8 +29,10 @@ namespace Desdiene.MonoBehaviourExtension
         /// </summary>
         private void AwakeWrap()
         {
+            _isAwaking = true;
             ForceAwakeSerializeFields();
             AwakeExt();
+            _isAwaking = false;
         }
 
         /// <summary>
@@ -46,6 +49,7 @@ namespace Desdiene.MonoBehaviourExtension
                 if (mono == this) return component;
 
                 mono.TryAwake();
+
             }
 
             return component;
@@ -56,6 +60,12 @@ namespace Desdiene.MonoBehaviourExtension
         /// </summary>
         private void TryAwake()
         {
+            if (_isAwaking)
+            {
+                throw new EntryPointNotFoundException($"GameObject \"{gameObject.name}\" with script \"{GetType().Name}\"" +
+                    $" is already awaking!");
+            }
+
             if (!_isAwaked)
             {
                 AwakeWrap();
