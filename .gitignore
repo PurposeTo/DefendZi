@@ -105,7 +105,7 @@ sysinfo.txt
 
 # Builds
 *.apk
-*.unitypackage
+#*.unitypackage
 *.app
 *.exe
 
