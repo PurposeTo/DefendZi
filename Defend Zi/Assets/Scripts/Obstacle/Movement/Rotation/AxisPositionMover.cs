@@ -18,6 +18,6 @@ public class AxisPositionMover : MonoBehaviourExt
             ? transform.localPosition 
             : Randomizer.GetRandomItem(_offsets).localPosition;
 
-        //todo как правильно сместить ось?
+        // todo как правильно сместить ось?
     }
 }
