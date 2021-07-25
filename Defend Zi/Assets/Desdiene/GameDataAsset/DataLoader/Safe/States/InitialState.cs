@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
-using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.GameDataAsset.DataLoader.FromStorage;
 using Desdiene.Types.AtomicReference;
 using UnityEngine;
 
@@ -13,16 +13,16 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 
         public override void Load(Action<T> dataCallback)
         {
-            dataStorage.Load(data =>
+            _dataStorage.Load(data =>
             {
                 dataCallback?.Invoke(data);
-                state.Set(new DataWasReceivedState<T>(state, dataStorage));
+                _state.Set(new DataWasReceivedState<T>(_state, _dataStorage));
             });
         }
 
         public override void Save(T data)
         {
-            Debug.Log($"Данные с [{dataStorage.StorageName}] еще не были получены. " +
+            Debug.Log($"Данные с [{_dataStorage.StorageName}] еще не были получены. " +
                 $"Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
         }
     }

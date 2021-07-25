@@ -2,7 +2,7 @@
 using System.IO;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
-using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.GameDataAsset.DataLoader.FromStorage;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Tools;
@@ -30,8 +30,8 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
             deviceDataLoader = new DeviceDataLoader(monoBehaviourExt, filePath);
         }
 
-        public DeviceJsonDataLoader(MonoBehaviourExt superMono, string fileName, IJsonConvertor<T> jsonConvertor)
-            : this(superMono, "Локальное хранилище", fileName, jsonConvertor)
+        public DeviceJsonDataLoader(MonoBehaviourExt mono, string fileName, IJsonConvertor<T> jsonConvertor)
+            : this(mono, "Локальное хранилище", fileName, jsonConvertor)
         { }
 
         protected override void ReadFromStorage(Action<string> jsonDataCallback)

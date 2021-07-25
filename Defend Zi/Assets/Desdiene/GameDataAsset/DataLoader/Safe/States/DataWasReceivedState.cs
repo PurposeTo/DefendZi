@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
-using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.GameDataAsset.DataLoader.FromStorage;
 using Desdiene.Types.AtomicReference;
 using UnityEngine;
 
@@ -14,12 +14,12 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 
         public override void Load(Action<T> dataCallback)
         {
-            Debug.Log($"Данные с [{dataStorage.StorageName}] уже были получены!");
+            Debug.Log($"Данные с [{_dataStorage.StorageName}] уже были получены!");
         }
 
         public override void Save(T data)
         {
-            dataStorage.Save(data);
+            _dataStorage.Save(data);
         }
     }
 }
