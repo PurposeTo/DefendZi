@@ -9,7 +9,7 @@ namespace Desdiene.JsonConvertorWrapper
     /// Обращаться через интерфейс.
     /// </summary>
     /// <typeparam name="T">Тип (де)сериализуемого объекта</typeparam>
-    public class NewtonsoftJsonConvertor<T> : IJsonConvertor<T>
+    public class NewtonsoftJsonConvertor<T> : IJsonConvertor<T> where T : new()
     {
         private readonly JsonSerializerSettings serializerSettings;
 

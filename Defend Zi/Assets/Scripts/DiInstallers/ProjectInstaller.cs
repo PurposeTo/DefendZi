@@ -1,4 +1,5 @@
 using Assets.Desdiene.GooglePlayApi;
+using Desdiene.GameDataAsset.Storage;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Scale;
 using Zenject;
@@ -10,6 +11,17 @@ public class ProjectInstaller : MonoInstaller
         BindGlobalTimeScaler();
         BindGlobalTimePauser();
         BindGPGSAuthentication();
+        BindDataStorage();
+    }
+
+    private void BindDataStorage()
+    {
+        Container
+            .Bind<IStorage<IGameData>>()
+            .To<DataStorage>()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindGPGSAuthentication()

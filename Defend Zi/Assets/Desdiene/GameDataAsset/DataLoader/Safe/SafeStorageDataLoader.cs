@@ -2,7 +2,7 @@
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
-using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.GameDataAsset.DataLoader.FromStorage;
 using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe

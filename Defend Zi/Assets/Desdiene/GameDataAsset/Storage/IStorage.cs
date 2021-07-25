@@ -1,6 +1,6 @@
 ﻿using Desdiene.GameDataAsset.Data;
 
-namespace Desdiene.GameDataAsset.DataSynchronizer
+namespace Desdiene.GameDataAsset.Storage
 {
     public interface IStorage<T> where T : IData
     {

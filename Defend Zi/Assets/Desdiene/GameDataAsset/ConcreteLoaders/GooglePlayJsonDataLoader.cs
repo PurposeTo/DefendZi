@@ -5,7 +5,7 @@ using Assets.Desdiene.GooglePlayApi;
 using Desdiene.Coroutine;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
-using Desdiene.GameDataAsset.DataLoader.Storage;
+using Desdiene.GameDataAsset.DataLoader.FromStorage;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;

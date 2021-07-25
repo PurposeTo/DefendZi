@@ -6,7 +6,7 @@ using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.MonoBehaviourExtension;
 
-namespace Desdiene.GameDataAsset.DataSynchronizer
+namespace Desdiene.GameDataAsset.Storage
 {
     public class Storage<T> : MonoBehaviourExtContainer, IStorage<T> where T : IData, new()
     {

@@ -6,7 +6,7 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.Tools;
 using UnityEngine;
 
-namespace Desdiene.GameDataAsset.DataLoader.Storage
+namespace Desdiene.GameDataAsset.DataLoader.FromStorage
 {
     /// <summary>
     /// Данный класс занимается загрузкой, сохранением и валидацией json данных с хранилища.
@@ -20,18 +20,18 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         protected string FileExtension => "json";
         protected string FileNameWithExtension => FileName + "." + FileExtension;
 
-        private readonly Validator validator = new Validator();
-        private readonly IJsonConvertor<T> jsonConvertor;
+        private readonly Validator _validator = new Validator();
+        private readonly IJsonConvertor<T> _jsonConvertor;
 
         /// <param name="storageName">Имя хранилища</param>
         /// <param name="fileName">Имя сохраняемого файла</param>
         /// <param name="fileName">расширение сохраняемого файла</param>
         /// <param name="jsonConvertor">json (де)сериализатор</param>
-        public StorageJsonDataLoader(MonoBehaviourExt superMono,
+        public StorageJsonDataLoader(MonoBehaviourExt mono,
             string storageName,
             string fileName,
             IJsonConvertor<T> jsonConvertor)
-            : base(superMono)
+            : base(mono)
         {
             if (string.IsNullOrEmpty(storageName))
             {
@@ -44,8 +44,8 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
             }
 
             StorageName = storageName;
-            FileName = FileName;
-            this.jsonConvertor = jsonConvertor ?? throw new ArgumentNullException(nameof(jsonConvertor));
+            FileName = fileName;
+            _jsonConvertor = jsonConvertor ?? throw new ArgumentNullException(nameof(jsonConvertor));
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
         public void Save(T data)
         {
             string jsonData = SerializeData(data);
-            if (validator.HasJsonNullValues(jsonData)) return;
+            if (_validator.HasJsonNullValues(jsonData)) return;
             else
             {
                 WriteToStorage(jsonData);
@@ -112,14 +112,14 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
 
         private string SerializeData(T data)
         {
-            return jsonConvertor.SerializeObject(data);
+            return _jsonConvertor.SerializeObject(data);
         }
 
         private T DeserializeData(string jsonData)
         {
             try
             {
-                return jsonConvertor.DeserializeObject(jsonData);
+                return _jsonConvertor.DeserializeObject(jsonData);
             }
             catch (Exception exception)
             {
@@ -136,7 +136,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Storage
 
             try
             {
-                return jsonConvertor.DeserializeObject(repairedJson);
+                return _jsonConvertor.DeserializeObject(repairedJson);
             }
             catch (Exception exception)
             {
