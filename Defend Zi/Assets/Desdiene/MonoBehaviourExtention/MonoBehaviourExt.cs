@@ -49,7 +49,6 @@ namespace Desdiene.MonoBehaviourExtension
                 if (mono == this) return component;
 
                 mono.TryAwake();
-
             }
 
             return component;
