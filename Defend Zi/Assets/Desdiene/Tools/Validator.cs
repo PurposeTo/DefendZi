@@ -19,7 +19,7 @@ namespace Desdiene.Tools
             {
                 JObject jObject = JObject.Parse(stringAsJson);
 
-                Debug.Log($"Found JObject Start validating...\n{jObject}");
+                Debug.Log($"Found JObject. Start validating...\n{jObject}");
 
                 foreach (KeyValuePair<string, JToken> item in jObject)
                 {
