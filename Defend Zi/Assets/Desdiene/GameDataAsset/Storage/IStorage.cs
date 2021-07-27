@@ -6,8 +6,8 @@ namespace Desdiene.GameDataAsset.Storage
     {
         T GetData(); 
 
-        void LoadFromStorage();
+        void InvokeLoadingData();
 
-        void SaveToStorage();
+        void InvokeSavingData();
     }
 }

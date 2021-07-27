@@ -17,11 +17,12 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
         storage = DataAssetIniter<GameData>.GetStorage(this, deviceLoader);
+        storage.InvokeLoadingData();
     }
 
     public IGameData GetData() => storage.GetData();
 
-    public void LoadFromStorage() => storage.LoadFromStorage();
+    public void InvokeLoadingData() => storage.InvokeLoadingData();
 
-    public void SaveToStorage() => storage.SaveToStorage();
+    public void InvokeSavingData() => storage.InvokeSavingData();
 }

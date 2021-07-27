@@ -27,6 +27,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe
                 initState,
                 new DataWasReceivedState<TData>(this, dataStorage)
             };
+            _currentState = initState;
         }
 
         public void Load(Action<TData> dataCallback)
