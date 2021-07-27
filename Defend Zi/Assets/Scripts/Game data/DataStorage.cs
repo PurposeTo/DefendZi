@@ -1,4 +1,4 @@
-using Desdiene.GameDataAsset;
+﻿using Desdiene.GameDataAsset;
 using Desdiene.GameDataAsset.ConcreteLoaders;
 using Desdiene.GameDataAsset.Storage;
 using Desdiene.JsonConvertorWrapper;
@@ -7,9 +7,8 @@ using Desdiene.MonoBehaviourExtension;
 public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 {
     private const string fileName = "GameData";
-
+    
     private IStorage<GameData> storage;
-
 
     protected override void AwakeExt()
     {
@@ -17,6 +16,7 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
         storage = DataAssetIniter<GameData>.GetStorage(this, deviceLoader);
+        // Загрузка даты инициализируется сразу после создания данного класса.
         storage.InvokeLoadingData();
     }
 
