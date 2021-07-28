@@ -1,4 +1,5 @@
 using Desdiene.Extensions.UnityEngine;
+using Desdiene.Random;
 using UnityEngine;
 
 public class OneObstacle : Chunk
@@ -11,7 +12,7 @@ public class OneObstacle : Chunk
     protected override void OnSpawn()
     {
         _obstacle.transform
-            .SetPositionOy(Desdiene.Randomizer.GetRandomItem(hights))
+            .SetPositionOy(Randomizer.GetRandomItem(hights))
             .SetRotation(Quaternion.Euler(0f, 0f, bestRotationEulers.GetRandom()));
     }
 }

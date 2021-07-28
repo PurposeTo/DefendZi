@@ -1,4 +1,5 @@
 using Desdiene.Extensions.UnityEngine;
+using Desdiene.Random;
 using UnityEngine;
 
 public class OnePointToPoint : Chunk, IMovableChunk
@@ -12,7 +13,7 @@ public class OnePointToPoint : Chunk, IMovableChunk
     protected override void OnSpawn()
     {
         _obstacle.transform
-            .SetRotation(Quaternion.Euler(0f, 0f, Desdiene.Randomizer.GetRandomItem(spawnRotation)));
+            .SetRotation(Quaternion.Euler(0f, 0f, Randomizer.GetRandomItem(spawnRotation)));
     }
 
     void IMovableChunk.Move() => MovableChunk.Move();

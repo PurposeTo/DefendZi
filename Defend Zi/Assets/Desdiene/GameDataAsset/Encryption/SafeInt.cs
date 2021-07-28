@@ -9,14 +9,14 @@ namespace Desdiene.GameDataAsset.Encryption
 
         public SafeInt(int value)
         {
-            salt = new Random().Next(int.MinValue / 4, int.MaxValue / 4);
+            salt = new System.Random().Next(int.MinValue / 4, int.MaxValue / 4);
             this.value = value ^ salt;
         }
 
 
         public SafeInt(SafeFloat safeIntValue)
         {
-            salt = new Random().Next(int.MinValue / 4, int.MaxValue / 4);
+            salt = new System.Random().Next(int.MinValue / 4, int.MaxValue / 4);
             this.value = (int)((float)safeIntValue) ^ salt;
         }
 
