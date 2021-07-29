@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public class Position : IPosition
+public class Rigidbody2DPosition : IPosition
 {
     private readonly Rigidbody2D _rigidbody2D;
 
-    public Position(Rigidbody2D rigidbody2D)
+    public Rigidbody2DPosition(Rigidbody2D rigidbody2D)
     {
         _rigidbody2D = rigidbody2D != null
             ? rigidbody2D

@@ -1,20 +1,20 @@
 ﻿using System.Linq;
-using UnityEngine;
+using Desdiene.Random;
 
 public class BestRotationEulers
 {
-    private readonly float[] rotations;
+    private readonly float[] _rotations;
 
     public BestRotationEulers() : this(7.5f) { }
 
     public BestRotationEulers(float eulerStep)
     {
-        rotations = Enumerable.Range(0, (int)(360 / eulerStep))
+        _rotations = Enumerable.Range(0, (int)(360 / eulerStep))
             .Select(euler => euler * eulerStep)
             .ToArray();
     }
 
-    public float[] GetAll() => rotations;
+    public float[] GetAll() => _rotations;
 
-    public float GetRandom() => rotations[Random.Range(0, rotations.Length)];
+    public float GetRandom() => Randomizer.GetRandomItem(_rotations);
 }

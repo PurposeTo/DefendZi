@@ -15,7 +15,7 @@ public class Obstacle :
     public Obstacle(int scoreByAvoding, Rigidbody2D rigidbody2D)
     {
         _score = new ScoreGetter(scoreByAvoding);
-        _position = new Position(rigidbody2D);
+        _position = new Rigidbody2DPosition(rigidbody2D);
         _rotation = new Rotation(rigidbody2D);
     }
 

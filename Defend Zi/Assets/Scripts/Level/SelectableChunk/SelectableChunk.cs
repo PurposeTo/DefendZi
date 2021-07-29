@@ -1,8 +1,8 @@
 using Desdiene.Random;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ChunkSelection", menuName = "ScriptableObjects/ChunkSelection")]
-public class ChunkSelection : ScriptableObject, IRandomlySelectableItem<Chunk>
+[CreateAssetMenu(fileName = "SelectableChunk", menuName = "ScriptableObjects/SelectableChunk")]
+public class SelectableChunk : ScriptableObject, IRandomlySelectableItem<Chunk>
 {
     [SerializeField, NotNull] private Chunk _chunk;
     [SerializeField] private uint _chanceMass;

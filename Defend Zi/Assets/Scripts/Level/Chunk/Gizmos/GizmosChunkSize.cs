@@ -1,18 +1,18 @@
 ﻿using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-[RequireComponent(typeof(Chunk))]
+[RequireComponent(typeof(IChunkSize))]
 [ExecuteInEditMode]
 public class GizmosChunkSize : MonoBehaviourExt
 {
-    private Chunk _chunk;
+    private IChunkSize _chunkSize;
 
     private Vector2 _minimumCornerPositionSpawnPlace;
     private Vector2 _minimumCornerPosition;
 
     protected override void AwakeExt()
     {
-        _chunk = GetComponent<Chunk>();
+        _chunkSize = GetComponent<IChunkSize>();
     }
 
     private void OnDrawGizmos()
@@ -24,8 +24,16 @@ public class GizmosChunkSize : MonoBehaviourExt
     private void Init()
     {
         var position = transform.position;
-        _minimumCornerPositionSpawnPlace = new Vector2(position.x - _chunk.SpawnPlaceWidth / 2, position.y - _chunk.Height / 2);
-        _minimumCornerPosition = new Vector2(position.x - _chunk.Width / 2, position.y - _chunk.Height / 2);
+        _minimumCornerPositionSpawnPlace = new Vector2(position.x - _chunkSize.SpawnPlaceWidth / 2, position.y - _chunkSize.Height / 2);
+        _minimumCornerPosition = new Vector2(position.x - _chunkSize.Width / 2, position.y - _chunkSize.Height / 2);
+    }
+
+    private void DrawCurrentSize()
+    {
+        Rect currentSpawnPlaceSize = new Rect(_minimumCornerPositionSpawnPlace, new Vector2(_chunkSize.SpawnPlaceWidth, _chunkSize.Height));
+        Rect currentSize = new Rect(_minimumCornerPosition, new Vector2(_chunkSize.Width, _chunkSize.Height));
+        DrawRectangle(GetOrangeColor(), currentSpawnPlaceSize);
+        DrawRectangle(Color.yellow, currentSize);
     }
 
     private void DrawRectangle(Color color, Rect rectangle)
@@ -40,14 +48,6 @@ public class GizmosChunkSize : MonoBehaviourExt
         Gizmos.DrawLine(rightDownCorner, rightTopCorner);
         Gizmos.DrawLine(rightTopCorner, leftTopCorner);
         Gizmos.DrawLine(leftTopCorner, leftDownCorner);
-    }
-
-    private void DrawCurrentSize()
-    {
-        Rect currentSpawnPlaceSize = new Rect(_minimumCornerPositionSpawnPlace, new Vector2(_chunk.SpawnPlaceWidth, _chunk.Height));
-        Rect currentSize = new Rect(_minimumCornerPosition, new Vector2(_chunk.Width, _chunk.Height));
-        DrawRectangle(GetOrangeColor(), currentSpawnPlaceSize);
-        DrawRectangle(Color.yellow, currentSize);
     }
 
     private Color GetOrangeColor() => new Color(1f, 0.55f, 0.3f);

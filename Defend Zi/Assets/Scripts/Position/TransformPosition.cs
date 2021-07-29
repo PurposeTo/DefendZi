@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Transform))]
 [DisallowMultipleComponent]
-public class TransformToIPosition : MonoBehaviourExt, IPosition
+public class TransformPosition : MonoBehaviourExt, IPosition
 {
     Vector2 IPositionGetter.Value => transform.position;
 

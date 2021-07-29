@@ -2,11 +2,11 @@ using Desdiene.Extensions.UnityEngine;
 using Desdiene.Random;
 using UnityEngine;
 
-public class OnePointToPoint : Chunk, IMovableChunk
+public class OnePointToPoint : Chunk, ITriggerable
 {
     [SerializeField, NotNull] private PointToPointMovementMono _obstacle;
 
-    private IMovableChunk MovableChunk => _obstacle;
+    private ITriggerable TriggerableChunk => _obstacle;
 
     private readonly float[] spawnRotation = { 0, 90, 180, 270 };
 
@@ -16,5 +16,5 @@ public class OnePointToPoint : Chunk, IMovableChunk
             .SetRotation(Quaternion.Euler(0f, 0f, Randomizer.GetRandomItem(spawnRotation)));
     }
 
-    void IMovableChunk.Move() => MovableChunk.Move();
+    void ITriggerable.Invoke() => TriggerableChunk.Invoke();
 }

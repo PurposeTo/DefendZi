@@ -5,17 +5,17 @@ using Desdiene.Types.Range.Positive;
 using UnityEngine;
 using Zenject;
 
-public class LevelGenerator : MonoBehaviourExt
+public class LevelGeneratorOld : MonoBehaviourExt
 {
     // Используется два поля, тк unity не умеет работать с интерфейсами через инспектор.
-    [SerializeField] private ChunkSelection[] _selectableChanksMono;
-    private IRandomlySelectableItem<Chunk>[] _selectableChanks;
+    [SerializeField] private SelectableChunk[] _selectableChunksMono;
+    private IRandomlySelectableItem<Chunk>[] _selectableChunks;
 
     [SerializeField] private float _levelStartPoint = 40f;
 
     [SerializeField] private FloatRange _extraSpaceBetweenChunks = new FloatRange(5f, 10f);
 
-    private float _levelLength = 0f;
+    private float _levelWidth = 0f;
 
     private IPositionGetter _playerPosition; //генерировать чанки нужно по мере продвижения игрока
     private CameraSize _cameraSize; //чанки нужно генерировать вне зоны видимости
@@ -25,8 +25,8 @@ public class LevelGenerator : MonoBehaviourExt
     {
         _playerPosition = componentsProxy.PlayerPosition;
         _cameraSize = componentsProxy.CameraSize;
-        _levelLength += _levelStartPoint;
-        _selectableChanks = _selectableChanksMono.Select(it => it as IRandomlySelectableItem<Chunk>).ToArray();
+        _levelWidth += _levelStartPoint;
+        _selectableChunks = _selectableChunksMono.Select(it => it as IRandomlySelectableItem<Chunk>).ToArray();
 
         //todo: сделать более оптимизированное построение уровня
         for (int i = 0; i < 300; i++)
@@ -37,12 +37,14 @@ public class LevelGenerator : MonoBehaviourExt
 
     private void SpawnChunk()
     {
-        Chunk originalChunk = Randomizer.GetRandomItem(_selectableChanks);
+        Chunk originalChunk = Randomizer.GetRandomItem(_selectableChunks); // todo возможно понадобится originalChunk при реализации генерации уровня. Если нет - сразу привести к интерфейсу.
+        IChunkSize chunkSize = originalChunk;
+
         float extraSpaceBetweenChunks = Random.Range(_extraSpaceBetweenChunks.Min, _extraSpaceBetweenChunks.Max);
-        float spawnPointOx = _levelLength + extraSpaceBetweenChunks + (originalChunk.SpawnPlaceWidth / 2);
+        float spawnPointOx = _levelWidth + extraSpaceBetweenChunks + (chunkSize.SpawnPlaceWidth / 2);
 
         // todo: необходимо где-то явно указать Y и Z уровня.
         Chunk createdChunk = Instantiate(originalChunk, new Vector3(spawnPointOx, 0f, 0f), Quaternion.identity, transform);
-        _levelLength += extraSpaceBetweenChunks + createdChunk.SpawnPlaceWidth;
+        _levelWidth += extraSpaceBetweenChunks + chunkSize.SpawnPlaceWidth;
     }
 }
