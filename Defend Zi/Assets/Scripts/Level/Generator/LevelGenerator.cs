@@ -32,7 +32,7 @@ public class LevelGenerator : MonoBehaviourExt
             float spawnPointOx = _levelSize.Width + extraSpaceBetweenChunks + (chunkSize.SpawnPlaceWidth / 2);
 
             // todo: необходимо где-то явно указать Y и Z уровня.
-            Vector3 spawnPosition = new Vector3(spawnPointOx, Level.YAxisStart, Level.ZAxisStart);
+            Vector3 spawnPosition = new Vector3(spawnPointOx, LevelConfig.YAxisStart, LevelConfig.ZAxisStart);
             Instantiate(originalChunk, spawnPosition, Quaternion.identity, transform);
             generatedLevelWidth += extraSpaceBetweenChunks + chunkSize.SpawnPlaceWidth;
 
