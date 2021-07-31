@@ -14,7 +14,6 @@ public class VisibleGameSpace : MonoBehaviourExt, IRect2DPointsPosition, IPositi
     Vector2 IPositionGetter.Value => transform.position;
 
     [SerializeField, NotNull] private Camera _camera;
-    [SerializeField, NotNull] private Transform _playerTransform;
 
     Vector2 IRect2DPointsPosition.LeftDown => _leftDownCorner;
     Vector2 IRect2DPointsPosition.RightDown => _rightDownCorner;
@@ -36,7 +35,8 @@ public class VisibleGameSpace : MonoBehaviourExt, IRect2DPointsPosition, IPositi
 
     private void UpdateSizePointsPosition()
     {
-        _depth = _playerTransform.position.z - _camera.transform.position.z;
+        transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
+        _depth = _camera.transform.position.z;
 
         _leftDownCorner = GetLeftDownCorner();
         _rightDownCorner = GetRightDownCorner();

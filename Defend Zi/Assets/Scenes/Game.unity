@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 195388658}
   - component: {fileID: 195388660}
   m_Layer: 0
-  m_Name: ActiveSpace
+  m_Name: VisibleGameSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,7 +430,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 932604056}
-  _playerTransform: {fileID: 274676711}
 --- !u!4 &195388659
 Transform:
   m_ObjectHideFlags: 0

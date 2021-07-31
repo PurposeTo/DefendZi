@@ -33,11 +33,12 @@ public class ObstacleSpace : MonoBehaviourExtContainer
     }
 
     /*
-     * 1. Отследить изменение позиции/размера ActiveSpace.
-     * 2. Есть ли участок ActiveSpace, который не заполнен ObstacleSpace?
-     * 3. Если да, создать чанки.
+     * 1. Отследить изменение позиции/размера VisibleGameSpace.
+     * 2. Будет ли следующий участок VisibleGameSpace в следующем кадре + offset в позиции, которая не заполнена ObstacleSpace?
+     * offset - длина смещения проверки (изменить название). 
+     * Нужна, чтобы препятствия генерировались ДО того, как подойдет VisibleGameSpace до пустого пространства.
+     * 3. Если да, создать чанки, пока условие из п.2 не станет false.
      * 
-     * Проблема с п.2. Надо создавать чанки ДО того, как до этого места дойдет ActiveSpace...
      */
 
     private void GenerateObstacles()
@@ -48,7 +49,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer
         float extraSpace = Random.Range(_extraSpaceOnGeneration.Min, _extraSpaceOnGeneration.Max);
         float spawnPointOx = Width + extraSpace + (chunkSize.SpawnPlaceWidth / 2);
 
-        Vector3 spawnPosition = new Vector3(spawnPointOx, GameSpace.Pivot.y, GameSpace.Pivot.x);
+        Vector3 spawnPosition = new Vector3(spawnPointOx, 0f, 0f);
         Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, monoBehaviourExt.transform);
         Width += extraSpace + chunkSize.SpawnPlaceWidth;
     }
