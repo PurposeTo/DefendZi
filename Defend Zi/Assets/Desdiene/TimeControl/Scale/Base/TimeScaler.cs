@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Types.Percent;
+using Desdiene.Types.PercentAsset;
 
 namespace Desdiene.TimeControl.Scale.Base
 {
@@ -9,7 +9,7 @@ namespace Desdiene.TimeControl.Scale.Base
 
         public TimeScaler()
         {
-            timeScaleSaved = new Percents(TimeScale);
+            timeScaleSaved = new Percent(TimeScale);
         }
 
         public abstract float TimeScale { get; protected set; }

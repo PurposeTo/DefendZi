@@ -1,6 +1,6 @@
-﻿namespace Desdiene.Types.Percent
+﻿namespace Desdiene.Types.PercentAsset
 {
-    public interface IPercent : IReadPercent, IWritePercent, IPercentOnChanged
+    public interface IPercent : IPercentGetter, IPercentSetter, IPercentNotifier
     {
 
     }
