@@ -48,7 +48,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer
         float extraSpace = Random.Range(_extraSpaceOnGeneration.Min, _extraSpaceOnGeneration.Max);
         float spawnPointOx = Width + extraSpace + (chunkSize.SpawnPlaceWidth / 2);
 
-        Vector3 spawnPosition = new Vector3(spawnPointOx, GameLevel.Pivot.y, GameLevel.Pivot.x);
+        Vector3 spawnPosition = new Vector3(spawnPointOx, GameSpace.Pivot.y, GameSpace.Pivot.x);
         Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, monoBehaviourExt.transform);
         Width += extraSpace + chunkSize.SpawnPlaceWidth;
     }
