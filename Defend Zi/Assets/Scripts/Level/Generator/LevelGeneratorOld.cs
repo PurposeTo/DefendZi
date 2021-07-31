@@ -18,7 +18,7 @@ public class LevelGeneratorOld : MonoBehaviourExt
     private float _levelWidth = 0f;
 
     private IPositionGetter _playerPosition; //генерировать чанки нужно по мере продвижения игрока
-    private CameraSize _cameraSize; //чанки нужно генерировать вне зоны видимости
+    private GizmosCameraSize _cameraSize; //чанки нужно генерировать вне зоны видимости
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)

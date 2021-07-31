@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class CameraSize : MonoBehaviourExt
+public class GizmosCameraSize : MonoBehaviourExt
 {
     [SerializeField, NotNull] private Camera _camera;
     [SerializeField, NotNull] private Transform _playerTransform;
