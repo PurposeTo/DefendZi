@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(TextView))]
-public class ScoreCounterUiController : MonoBehaviourExt
+public class ScoreCounterUIController : MonoBehaviourExt
 {
     private IScoreGetter score;
     private IScoreNotification scoreNotification;

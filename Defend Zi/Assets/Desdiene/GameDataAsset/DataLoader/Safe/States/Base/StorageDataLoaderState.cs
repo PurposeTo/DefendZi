@@ -1,18 +1,19 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
-using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States.Base
 {
     internal abstract class StorageDataLoaderState<T> where T : IData, new()
     {
-        private protected readonly StorageJsonDataLoader<T> _dataStorage;
-        private protected readonly Ref<StorageDataLoaderState<T>> _state;
+        private readonly IStateSwitcher<StorageDataLoaderState<T>> _stateSwitcher;
 
-        private protected StorageDataLoaderState(Ref<StorageDataLoaderState<T>> state, StorageJsonDataLoader<T> dataStorage)
+        protected readonly StorageJsonDataLoader<T> _dataStorage;
+
+        private protected StorageDataLoaderState(IStateSwitcher<StorageDataLoaderState<T>> stateSwitcher,
+                                                 StorageJsonDataLoader<T> dataStorage)
         {
-            _state = state ?? throw new ArgumentNullException(nameof(state));
+            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
             if (dataStorage is null) throw new ArgumentNullException(nameof(dataStorage));
 
             _dataStorage = dataStorage;
@@ -20,5 +21,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.States.Base
 
         public abstract void Load(Action<T> dataCallback);
         public abstract void Save(T data);
+
+        protected void SwitchState<stateT>() where stateT : StorageDataLoaderState<T> => _stateSwitcher.Switch<stateT>();
     }
 }

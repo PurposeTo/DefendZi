@@ -2,5 +2,7 @@
 
 public interface IGameData : IData
 {
-    int TestCount { get; }
+    int MaxScore { get; }
+
+    void SetMaxScore(uint score);
 }

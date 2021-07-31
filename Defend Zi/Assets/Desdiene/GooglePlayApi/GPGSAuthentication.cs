@@ -42,7 +42,7 @@ namespace Assets.Desdiene.GooglePlayApi
 
         private void Authenticate()
         {
-            Platform.Authenticate(SignInInteractivity.CanPromptOnce, (result) =>
+            Platform.Authenticate(SignInInteractivity.CanPromptAlways, (result) =>
             {
                 Debug.Log($"Authenticate is completed with code: {result}. IsAuthenticated {IsAuthenticated}");
                 SignInStatus = result;

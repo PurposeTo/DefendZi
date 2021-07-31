@@ -1,5 +1,5 @@
-﻿using Desdiene;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
+using Desdiene.Random;
 using UnityEngine;
 
 public class AxisPositionMover : MonoBehaviourExt

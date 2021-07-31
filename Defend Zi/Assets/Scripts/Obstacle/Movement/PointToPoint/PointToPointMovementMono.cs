@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PointToPointMovementMono : PositionMoverMono, IMovableChunk
+public class PointToPointMovementMono : PositionMoverMono, ITriggerable
 {
     [SerializeField, NotNull] private InterfaceComponent<IPosition> _target;
     [SerializeField] private AnimationCurveFactory.CurveType _curveType;
@@ -12,7 +12,7 @@ public class PointToPointMovementMono : PositionMoverMono, IMovableChunk
         Init();
     }
 
-    void IMovableChunk.Move() => _movement.Move();
+    void ITriggerable.Invoke() => _movement.Move();
 
     private void Init()
     {

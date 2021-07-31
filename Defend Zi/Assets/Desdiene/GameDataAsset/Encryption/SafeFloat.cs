@@ -10,7 +10,7 @@ namespace Desdiene.GameDataAsset.Encryption
 
         public SafeFloat(float value)
         {
-            salt = new Random().Next(int.MinValue / 4, int.MaxValue / 4);
+            salt = new System.Random().Next(int.MinValue / 4, int.MaxValue / 4);
             int intValue = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
             this.value = intValue ^ salt;
         }

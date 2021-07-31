@@ -2,21 +2,23 @@
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
-using Desdiene.Types.AtomicReference;
 using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 {
     internal class InitialState<T> : StorageDataLoaderState<T> where T : IData, new()
     {
-        public InitialState(Ref<StorageDataLoaderState<T>> state, StorageJsonDataLoader<T> dataStorage) : base(state, dataStorage) { }
+
+        public InitialState(IStateSwitcher<StorageDataLoaderState<T>> stateSwitcher,
+                            StorageJsonDataLoader<T> dataStorage)
+            : base(stateSwitcher, dataStorage) { }
 
         public override void Load(Action<T> dataCallback)
         {
             _dataStorage.Load(data =>
             {
                 dataCallback?.Invoke(data);
-                _state.Set(new DataWasReceivedState<T>(_state, _dataStorage));
+                SwitchState<DataWasReceivedState<T>>();
             });
         }
 

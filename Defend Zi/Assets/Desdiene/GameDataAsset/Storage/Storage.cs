@@ -29,7 +29,7 @@ namespace Desdiene.GameDataAsset.Storage
 
         public T GetData() => _data;
 
-        public void LoadFromStorage()
+        public void InvokeLoadingData()
         {
             _storageDataLoader.Load(loadedData =>
             {
@@ -56,7 +56,7 @@ namespace Desdiene.GameDataAsset.Storage
             });
         }
 
-        public void SaveToStorage()
+        public void InvokeSavingData()
         {
             _storageDataLoader.Save(_data);
         }
