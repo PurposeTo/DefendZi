@@ -1,13 +1,14 @@
+using Desdiene.Types.RectangleAsset;
 using UnityEngine;
 
 public class ComponentsProxy : MonoBehaviour
 {
-    [SerializeField, NotNull] private PlayerMono player;
-    [SerializeField, NotNull] private GizmosCameraSize cameraSize;
-    public IDeath PlayerDeath => player;
-    public IPositionGetter PlayerPosition => player;
-    public IPositionNotification PlayerPositionNotification => player;
-    public IScoreGetter PlayerScore => player;
-    public IScoreNotification PlayerScoreNotification => player;
-    public GizmosCameraSize CameraSize => cameraSize;
+    [SerializeField, NotNull] private PlayerMono _player;
+    [SerializeField, NotNull] private VisibleGameSpace _visibleGameSpace;
+    public IDeath PlayerDeath => _player;
+    public IPositionGetter PlayerPosition => _player;
+    public IPositionNotification PlayerPositionNotification => _player;
+    public IScoreGetter PlayerScore => _player;
+    public IScoreNotification PlayerScoreNotification => _player;
+    public IRectangleIn2DSpace VisibleGameSpace => _visibleGameSpace;
 }

@@ -2,14 +2,18 @@
 using Desdiene.Random;
 using Desdiene.Types.Range.Positive;
 
-public class LevelGeneratorConfig
+public class ObstaclesGenerationData
 {
     public IRandomlySelectableItem<Chunk>[] SelectableChunks { get; }
-    public FloatRange ExtraSpaceBetweenChunks { get; }
+    public FloatRange ExtraSpaceOnGeneration { get; }
+    public float OffsetGeneration { get; }
 
-    public LevelGeneratorConfig(IRandomlySelectableItem<Chunk>[] selectableChunks, FloatRange extraSpaceBetweenChunks)
+    public ObstaclesGenerationData(IRandomlySelectableItem<Chunk>[] selectableChunks,
+                                   FloatRange extraSpaceGeneration,
+                                   float offsetGeneration)
     {
         SelectableChunks = selectableChunks ?? throw new ArgumentNullException(nameof(selectableChunks));
-        ExtraSpaceBetweenChunks = extraSpaceBetweenChunks;
+        ExtraSpaceOnGeneration = extraSpaceGeneration;
+        OffsetGeneration = offsetGeneration;
     }
 }
