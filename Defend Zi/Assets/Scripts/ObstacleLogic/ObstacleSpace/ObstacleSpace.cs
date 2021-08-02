@@ -2,44 +2,43 @@ using Desdiene.Container;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Random;
 using Desdiene.Types.Range.Positive;
+using Desdiene.Types.RectangleAsset;
 using UnityEngine;
 
 /// <summary>
 /// ќбласть, заполненна€ преп€тстви€ми.
 /// </summary>
-public class ObstacleSpace : MonoBehaviourExtContainer
+public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 {
-    public float Width { get; private set; } // измен€ема€ величина.
-
-    // активна€ часть пространства. измен€емые величины.
-    public float ActiveSpaceWidth { get; }
-    public Vector2 ActiveSpacePosition { get; }
+    private IRectangleIn2DSpace _visibleGameSpace;
 
     private readonly IRandomlySelectableItem<Chunk>[] _selectableChunks;
     private readonly FloatRange _extraSpaceOnGeneration;
+    private readonly float _offsetGeneration;
 
-    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data) : base(mono)
+    // ƒлина пространства преп€тствий. «начение эквивалентно местоположению правой границе chunkSpawn.width
+    public float Width { get; private set; }
+
+    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DSpace visibleGameSpace) : base(mono)
     {
         Width = data.Width;
 
         _selectableChunks = data.GenerationData.SelectableChunks;
         _extraSpaceOnGeneration = data.GenerationData.ExtraSpaceOnGeneration;
+        _offsetGeneration = data.GenerationData.OffsetGeneration;
 
-        //todo: сделать более оптимизированное построение уровн€
-        for (int i = 0; i < 300; i++)
+        _visibleGameSpace = visibleGameSpace;
+    }
+
+    private bool IsNeedToGenerate => Width <= _visibleGameSpace.RightBorder.x + _offsetGeneration;
+
+    void IUpdate.Invoke(float deltaTime)
+    {
+        while (IsNeedToGenerate)
         {
             GenerateObstacles();
         }
     }
-
-    /*
-     * 1. ќтследить изменение позиции/размера VisibleGameSpace.
-     * 2. Ѕудет ли следующий участок VisibleGameSpace в следующем кадре + offset в позиции, котора€ не заполнена ObstacleSpace?
-     * offset - длина смещени€ проверки (изменить название). 
-     * Ќужна, чтобы преп€тстви€ генерировались ƒќ того, как подойдет VisibleGameSpace до пустого пространства.
-     * 3. ≈сли да, создать чанки, пока условие из п.2 не станет false.
-     * 
-     */
 
     private void GenerateObstacles()
     {
