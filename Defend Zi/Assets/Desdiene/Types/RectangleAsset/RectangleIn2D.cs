@@ -36,7 +36,7 @@ namespace Desdiene.Types.RectangleAsset
             _position = position;
             _pivotOffset = pivotOffset;
 
-            // нужно проинициализировать все поля, прежде чем использовать объект this (т.е. использовать методы)
+            // нужно проинициализировать все поля, прежде чем использовать объект this
             _leftBorder = Vector2.zero;
             _rightBorder = Vector2.zero;
             _bottomBorder = Vector2.zero;
