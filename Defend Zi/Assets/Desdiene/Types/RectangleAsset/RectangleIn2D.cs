@@ -2,6 +2,13 @@
 
 namespace Desdiene.Types.RectangleAsset
 {
+    /*
+     * Невозможно использовать для редактирование через unity inspector:
+     * Т.к. тогда изменяются значения полей, которое нельзя отследить, необходимо пересчитать всю фигуру.
+     */
+    /// <summary>
+    /// Описывает прямоугольник в 2D пространстве.
+    /// </summary>
     public struct RectangleIn2D : IRectangleIn2DGetter
     {
         private float _height; // need to be ufloat

@@ -62,7 +62,7 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
         float height = GetHeight(distanceToPlane);
         float width = GetWidth(distanceToPlane);
 
-       return new RectangleIn2D(new Rectangle(height, width), transform.position);
+        return new RectangleIn2D(new Rectangle(height, width), transform.position);
     }
 
     private BoxCollider2D GetBoxTrigger2D()
