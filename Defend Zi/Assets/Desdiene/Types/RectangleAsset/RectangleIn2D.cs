@@ -27,9 +27,12 @@ namespace Desdiene.Types.RectangleAsset
         private Vector2 _position;
         private Vector2 _pivotOffset;
 
-        public RectangleIn2D(Rectangle rectangle, Vector2 position) : this(rectangle, position, Vector2.zero) { }
+        private Quaternion _rotation;
 
-        public RectangleIn2D(Rectangle rectangle, Vector2 position, Vector2 pivotOffset)
+        public RectangleIn2D(Rectangle rectangle, Vector2 position, Quaternion rotation)
+            : this(rectangle, position, rotation, Vector2.zero) { }
+
+        public RectangleIn2D(Rectangle rectangle, Vector2 position, Quaternion rotation, Vector2 pivotOffset)
         {
             _height = rectangle.Height;
             _width = rectangle.Width;
@@ -45,9 +48,9 @@ namespace Desdiene.Types.RectangleAsset
             _rightDown = Vector2.zero;
             _rightTop = Vector2.zero;
             _leftTop = Vector2.zero;
+            _rotation = rotation;
 
-            UpdateBordersPosition();
-            UpdateCornersPosition();
+            Update();
         }
 
         #region реализация интерфейсов через прокидывание ссылок на поле/свойство/метод
@@ -69,18 +72,66 @@ namespace Desdiene.Types.RectangleAsset
 
         #endregion
 
-        public float Height { get => _height; set => _height = value; }
-        public float Width { get => _width; set => _width = value; }
-        public Vector2 LeftBorder { get => _leftBorder; set => _leftBorder = value; }
-        public Vector2 RightBorder { get => _rightBorder; set => _rightBorder = value; }
-        public Vector2 BottomBorder { get => _bottomBorder; set => _bottomBorder = value; }
-        public Vector2 UpperBorder { get => _upperBorder; set => _upperBorder = value; }
-        public Vector2 LeftDown { get => _leftDown; set => _leftDown = value; }
-        public Vector2 RightDown { get => _rightDown; set => _rightDown = value; }
-        public Vector2 RightTop { get => _rightTop; set => _rightTop = value; }
-        public Vector2 LeftTop { get => _leftTop; set => _leftTop = value; }
-        public Vector2 Position { get => _position; set => _position = value; }
-        public Vector2 PivotOffset { get => _pivotOffset; set => _pivotOffset = value; }
+        public float Height
+        {
+            get => _height;
+            set
+            {
+                _height = value;
+                Update();
+            }
+        }
+        public float Width
+        {
+            get => _width;
+            set
+            {
+                _width = value;
+                Update();
+            }
+        }
+        public Vector2 LeftBorder => _leftBorder;
+        public Vector2 RightBorder => _rightBorder;
+        public Vector2 BottomBorder => _bottomBorder;
+        public Vector2 UpperBorder => _upperBorder;
+        public Vector2 LeftDown => _leftDown;
+        public Vector2 RightDown => _rightDown;
+        public Vector2 RightTop => _rightTop;
+        public Vector2 LeftTop => _leftTop;
+        public Vector2 Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
+                Update();
+            }
+        }
+        public Vector2 PivotOffset
+        {
+            get => _pivotOffset;
+            set
+            {
+                _pivotOffset = value;
+                Update();
+            }
+        }
+        public Quaternion Rotation
+        {
+            get => _rotation;
+            set
+            {
+                _rotation = value;
+                Update();
+            }
+        }
+
+        private void Update()
+        {
+            //todo не учитывает поворот.
+            UpdateBordersPosition();
+            UpdateCornersPosition();
+        }
 
         private void UpdateBordersPosition()
         {

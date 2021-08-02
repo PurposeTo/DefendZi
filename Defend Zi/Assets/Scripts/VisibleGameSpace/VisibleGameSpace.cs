@@ -12,7 +12,7 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
     public const float Height = 15;
 
     [SerializeField, NotNull] private Camera _camera;
-    private BoxCollider2D colliderArea;
+    private BoxCollider2D _colliderArea;
 
     private RectangleIn2D _area;
 
@@ -33,7 +33,7 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
 
     protected override void AwakeExt()
     {
-        colliderArea = GetBoxTrigger2D();
+        _colliderArea = GetBoxTrigger2D();
         _area = GetVisibleArea();
     }
 
@@ -44,15 +44,22 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
 
     private void UpdateArea()
     {
-        UpdatePosition();
+        transform.position = GetPosition();
+        transform.rotation = GetRotation();
         _area = GetVisibleArea();
-        UpdateColliderArea();
+        UpdateBoxCollider2DWithRect(_colliderArea, _area);
     }
 
-    private void UpdateColliderArea()
+    // Вынести этот метод и сделать его методом расширения?
+    private void UpdateBoxCollider2DWithRect(BoxCollider2D boxCollider2D, RectangleIn2D rectangleIn2D)
     {
-        colliderArea.size = new Vector2(_area.Width, _area.Height);
-        colliderArea.offset = _area.PivotOffset;
+        if (boxCollider2D == null)
+        {
+            throw new System.ArgumentNullException(nameof(boxCollider2D));
+        }
+
+        boxCollider2D.size = new Vector2(rectangleIn2D.Width, rectangleIn2D.Height);
+        boxCollider2D.offset = rectangleIn2D.PivotOffset;
     }
 
     private RectangleIn2D GetVisibleArea()
@@ -62,7 +69,7 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
         float height = GetHeight(distanceToPlane);
         float width = GetWidth(distanceToPlane);
 
-        return new RectangleIn2D(new Rectangle(height, width), transform.position);
+        return new RectangleIn2D(new Rectangle(height, width), transform.position, transform.rotation);
     }
 
     private BoxCollider2D GetBoxTrigger2D()
@@ -72,9 +79,14 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
         return boxCollider2D;
     }
 
-    private void UpdatePosition()
+    private Vector3 GetPosition()
     {
-        transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
+        return new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
+    }
+
+    private Quaternion GetRotation()
+    {
+        return _camera.transform.rotation;
     }
 
     private float GetHeight(float distanceToPlane)
