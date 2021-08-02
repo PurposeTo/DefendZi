@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IPivot2DGetter
+public interface IPivotOffset2DGetter
 {
     Vector2 Value { get; }
 }

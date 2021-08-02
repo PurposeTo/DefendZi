@@ -7,42 +7,62 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(BoxCollider2D))]
 [ExecuteInEditMode]
-public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DSpace
+public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
 {
     public const float Height = 15;
 
     [SerializeField, NotNull] private Camera _camera;
     private BoxCollider2D colliderArea;
 
-    private Rectangle _size;
-    private Vector2 _leftDownCorner;
-    private Vector2 _rightDownCorner;
-    private Vector2 _rightTopCorner;
-    private Vector2 _leftTopCorner;
+    private RectangleIn2D _area;
 
-    float IRectangle.Height => _size.Height;
-    float IRectangle.Width => _size.Width;
+    float IRectangleGetter.Height => _area.Height;
+    float IRectangleGetter.Width => _area.Width;
 
-    Vector2 IRectangleIn2DSpace.LeftBorder => new Vector2(_leftDownCorner.x, transform.position.y);
-    Vector2 IRectangleIn2DSpace.RightBorder => new Vector2(_rightDownCorner.x, transform.position.y);
-    Vector2 IRectangleIn2DSpace.BottomBorder => new Vector2(transform.position.x, _leftDownCorner.y);
-    Vector2 IRectangleIn2DSpace.UpperBorder => new Vector2(transform.position.x, _leftTopCorner.y);
+    Vector2 IRectangleIn2DGetter.LeftBorder => _area.LeftBorder;
+    Vector2 IRectangleIn2DGetter.RightBorder => _area.RightBorder;
+    Vector2 IRectangleIn2DGetter.BottomBorder => _area.BottomBorder;
+    Vector2 IRectangleIn2DGetter.UpperBorder => _area.UpperBorder;
 
+    Vector2 IPivotOffset2DGetter.Value => Vector2.zero;
     Vector2 IPositionGetter.Value => transform.position;
-    Vector2 IRectangleIn2DSpace.LeftDown => _leftDownCorner;
-    Vector2 IRectangleIn2DSpace.RightDown => _rightDownCorner;
-    Vector2 IRectangleIn2DSpace.RightTop => _rightTopCorner;
-    Vector2 IRectangleIn2DSpace.LeftTop => _leftTopCorner;
+    Vector2 IRectangleIn2DGetter.LeftDown => _area.LeftDown;
+    Vector2 IRectangleIn2DGetter.RightDown => _area.RightDown;
+    Vector2 IRectangleIn2DGetter.RightTop => _area.RightTop;
+    Vector2 IRectangleIn2DGetter.LeftTop => _area.LeftTop;
 
     protected override void AwakeExt()
     {
         colliderArea = GetBoxTrigger2D();
+        _area = GetVisibleArea();
     }
 
     private void Update()
     {
+        UpdateArea();
+    }
+
+    private void UpdateArea()
+    {
         UpdatePosition();
-        UpdateSizePointsPosition();
+        _area = GetVisibleArea();
+        UpdateColliderArea();
+    }
+
+    private void UpdateColliderArea()
+    {
+        colliderArea.size = new Vector2(_area.Width, _area.Height);
+        colliderArea.offset = _area.PivotOffset;
+    }
+
+    private RectangleIn2D GetVisibleArea()
+    {
+        //Расстояние по z от камеры до игровой плоскости
+        float distanceToPlane = -_camera.transform.position.z;
+        float height = GetHeight(distanceToPlane);
+        float width = GetWidth(distanceToPlane);
+
+       return new RectangleIn2D(new Rectangle(height, width), transform.position);
     }
 
     private BoxCollider2D GetBoxTrigger2D()
@@ -57,40 +77,21 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DSpace
         transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
     }
 
-    private void UpdateSizePointsPosition()
-    {
-        //Расстояние по z от камеры до игровой плоскости
-        float distanceToPlane = -_camera.transform.position.z;
-
-        _leftDownCorner = GetLeftDownCorner(distanceToPlane);
-        _rightDownCorner = GetRightDownCorner(distanceToPlane);
-        _rightTopCorner = GetRightTopCorner(distanceToPlane);
-        _leftTopCorner = GetLeftTopCorner(distanceToPlane);
-
-        float height = Vector2.Distance(_leftDownCorner, _leftTopCorner);
-        float width = Vector2.Distance(_leftDownCorner, _rightDownCorner);
-        _size = new Rectangle(height, width);
-        colliderArea.size = new Vector2(_size.Width, _size.Height);
-    }
-
-    private Vector3 GetLeftDownCorner(float distanceToPlane)
+    private float GetHeight(float distanceToPlane)
     {
         // Ось координат, при использовании данного метода, начинается в левом нижнем углу.
-        return _camera.ScreenToWorldPoint(new Vector3(0f, 0f, distanceToPlane));
+        Vector2 leftDown = _camera.ScreenToWorldPoint(new Vector3(0f, 0f, distanceToPlane));
+        Vector2 leftUp = _camera.ScreenToWorldPoint(new Vector3(0f, _camera.pixelHeight, distanceToPlane));
+
+        return Vector2.Distance(leftDown, leftUp);
     }
 
-    private Vector3 GetRightDownCorner(float distanceToPlane)
+    private float GetWidth(float distanceToPlane)
     {
-        return _camera.ScreenToWorldPoint(new Vector3(_camera.pixelWidth, 0f, distanceToPlane));
-    }
+        // Ось координат, при использовании данного метода, начинается в левом нижнем углу.
+        Vector2 leftDown = _camera.ScreenToWorldPoint(new Vector3(0f, 0f, distanceToPlane));
+        Vector2 leftUp = _camera.ScreenToWorldPoint(new Vector3(_camera.pixelWidth, 0f, distanceToPlane));
 
-    private Vector3 GetRightTopCorner(float distanceToPlane)
-    {
-        return _camera.ScreenToWorldPoint(new Vector3(_camera.pixelWidth, _camera.pixelHeight, distanceToPlane));
-    }
-
-    private Vector3 GetLeftTopCorner(float distanceToPlane)
-    {
-        return _camera.ScreenToWorldPoint(new Vector3(0f, _camera.pixelHeight, distanceToPlane));
+        return Vector2.Distance(leftDown, leftUp);
     }
 }

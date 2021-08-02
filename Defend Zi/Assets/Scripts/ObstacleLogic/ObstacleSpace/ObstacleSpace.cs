@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 {
-    private IRectangleIn2DSpace _visibleGameSpace;
+    private IRectangleIn2DGetter _visibleGameSpace;
 
     private readonly IRandomlySelectableItem<Chunk>[] _selectableChunks;
     private readonly FloatRange _extraSpaceOnGeneration;
@@ -19,7 +19,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     // Длина пространства препятствий. Значение эквивалентно местоположению правой границе chunkSpawn.width
     public float Width { get; private set; }
 
-    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DSpace visibleGameSpace) : base(mono)
+    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DGetter visibleGameSpace) : base(mono)
     {
         Width = data.Width;
 

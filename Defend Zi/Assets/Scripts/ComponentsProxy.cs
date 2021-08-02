@@ -10,5 +10,5 @@ public class ComponentsProxy : MonoBehaviour
     public IPositionNotification PlayerPositionNotification => _player;
     public IScoreGetter PlayerScore => _player;
     public IScoreNotification PlayerScoreNotification => _player;
-    public IRectangleIn2DSpace VisibleGameSpace => _visibleGameSpace;
+    public IRectangleIn2DGetter VisibleGameSpace => _visibleGameSpace;
 }
