@@ -1,9 +1,9 @@
-﻿namespace Desdiene.Types.Percent
+﻿namespace Desdiene.Types.PercentAsset
 {
     /// <summary>
     /// Сущность, у которой можно взять процентное значение.
     /// </summary>
-    public interface IReadPercent
+    public interface IPercentGetter
     {
         float Get();
     }

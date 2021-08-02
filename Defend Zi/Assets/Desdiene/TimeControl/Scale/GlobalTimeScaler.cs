@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.Percent;
+using Desdiene.Types.PercentAsset;
 using UnityEngine;
 
 namespace Desdiene.TimeControl.Scale
@@ -18,7 +18,7 @@ namespace Desdiene.TimeControl.Scale
 
         protected override void AwakeExt()
         {
-            timeScaleSaved = new Percents(Time.timeScale);
+            timeScaleSaved = new Percent(Time.timeScale);
         }
 
         public void SetPause(bool pause)

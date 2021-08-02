@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Desdiene.Types.Percent
+namespace Desdiene.Types.PercentAsset
 {
-    public interface IPercentOnChanged
+    public interface IPercentNotifier
     {
         event Action OnValueChanged;
     }

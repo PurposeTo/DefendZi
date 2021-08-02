@@ -14,10 +14,11 @@ namespace Assets.Desdiene.GooglePlayApi
         {
             get
             {
-                if (Platform != null) return Platform.IsAuthenticated();
+                if (Platform != null) { return Platform.IsAuthenticated(); }
                 return false;
             }
         }
+
 
         protected override void AwakeExt()
         {
@@ -25,10 +26,12 @@ namespace Assets.Desdiene.GooglePlayApi
             TryAuthenticate();
         }
 
+
         private void OnApplicationQuit()
         {
             SignOut();
         }
+
 
         public void TryAuthenticate()
         {
@@ -38,6 +41,7 @@ namespace Assets.Desdiene.GooglePlayApi
                 return;
             }
             else Authenticate();
+
         }
 
         private void Authenticate()
