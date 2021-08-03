@@ -11,6 +11,7 @@ using UnityEngine;
 public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 {
     private IRectangleIn2DGetter _visibleGameSpace;
+    private IPositionGetter _visibleGameSpacePosition;
 
     private readonly IRandomlySelectableItem<Chunk>[] _selectableChunks;
     private readonly FloatRange _extraSpaceOnGeneration;
@@ -28,9 +29,10 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         _offsetGeneration = data.GenerationData.OffsetGeneration;
 
         _visibleGameSpace = visibleGameSpace;
+        _visibleGameSpacePosition = visibleGameSpace;
     }
 
-    private bool IsNeedToGenerate => Width <= _visibleGameSpace.RightBorder.x + _offsetGeneration;
+    private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
 
     void IUpdate.Invoke(float deltaTime)
     {

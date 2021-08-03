@@ -18,18 +18,10 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
 
     float IRectangleGetter.Height => _area.Height;
     float IRectangleGetter.Width => _area.Width;
-
-    Vector2 IRectangleIn2DGetter.LeftBorder => _area.LeftBorder;
-    Vector2 IRectangleIn2DGetter.RightBorder => _area.RightBorder;
-    Vector2 IRectangleIn2DGetter.BottomBorder => _area.BottomBorder;
-    Vector2 IRectangleIn2DGetter.UpperBorder => _area.UpperBorder;
-
-    Vector2 IPivotOffset2DGetter.Value => Vector2.zero;
-    Vector2 IPositionGetter.Value => transform.position;
-    Vector2 IRectangleIn2DGetter.LeftDown => _area.LeftDown;
-    Vector2 IRectangleIn2DGetter.RightDown => _area.RightDown;
-    Vector2 IRectangleIn2DGetter.RightTop => _area.RightTop;
-    Vector2 IRectangleIn2DGetter.LeftTop => _area.LeftTop;
+    Vector2 IPivotOffset2DGetter.Value => _area.PivotOffset;
+    Vector2 IPositionGetter.Value => _area.Position;
+    float IRotationGetter.Angle => _area.Rotation.eulerAngles.z;
+    Quaternion IRotationGetter.Quaternion => _area.Rotation;
 
     protected override void AwakeExt()
     {

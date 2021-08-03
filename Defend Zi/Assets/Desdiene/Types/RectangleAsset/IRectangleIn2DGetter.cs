@@ -8,16 +8,8 @@
 /// </summary>
 namespace Desdiene.Types.RectangleAsset
 {
-    public interface IRectangleIn2DGetter : IRectangleGetter, IPositionGetter, IPivotOffset2DGetter
+    public interface IRectangleIn2DGetter : IRectangleGetter, IPositionGetter, IPivotOffset2DGetter, IRotationGetter
     {
-        Vector2 LeftBorder { get; }
-        Vector2 RightBorder { get; }
-        Vector2 BottomBorder { get; }
-        Vector2 UpperBorder { get; }
 
-        Vector2 LeftDown { get; }
-        Vector2 RightDown { get; }
-        Vector2 RightTop { get; }
-        Vector2 LeftTop { get; }
     }
 }
