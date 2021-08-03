@@ -12,6 +12,9 @@ public abstract class Chunk : MonoBehaviourExt
     public float SpawnPlaceWidth => _spawnPlaceSize
         .Implementation
         .Width;
+    public float Width => _chunkSize
+        .Implementation
+        .Width;
 
     protected override void AwakeExt()
     {
@@ -33,5 +36,5 @@ public abstract class Chunk : MonoBehaviourExt
         OnDisabled -= UnsubscribeEvents;
     }
 
-    private void Disable() => gameObject.SetActive(false);
+    private void Disable() => Destroy(gameObject);
 }

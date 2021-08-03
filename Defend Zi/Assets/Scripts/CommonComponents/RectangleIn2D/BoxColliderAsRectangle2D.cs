@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [ExecuteInEditMode]
-public class BoxCollider2DMark : MonoBehaviourExt, IRectangleIn2DGetter
+public class BoxColliderAsRectangle2D : MonoBehaviourExt, IRectangleIn2DGetter
 {
     private BoxCollider2D _boxCollider2D;
 

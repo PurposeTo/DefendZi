@@ -632,7 +632,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cdbee877006b61d4aa6d47910cb20169, type: 2}
   - {fileID: 11400000, guid: a89793313c100e24ca8b62743dfb9fb8, type: 2}
   _startPoint: 40
-  _offsetGeneration: 30
+  _offsetGeneration: 50
   _safeSpaceBetweenChunks:
     _min: 5
     _max: 10

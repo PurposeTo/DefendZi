@@ -1,3 +1,4 @@
+using System.Linq;
 using Desdiene.Container;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Random;
@@ -26,7 +27,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 
         _selectableChunks = data.GenerationData.SelectableChunks;
         _safeSpaceBetweenChunks = data.GenerationData.SafeSpaceBetweenChunks;
-        _offsetGeneration = data.GenerationData.OffsetGeneration;
+        _offsetGeneration = ValidateOffsetGeneration(data.GenerationData.OffsetGeneration);
 
         _visibleGameSpace = visibleGameSpace;
         _visibleGameSpacePosition = visibleGameSpace;
@@ -52,5 +53,20 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         Vector3 spawnPosition = new Vector3(spawnPointOx, 0f, 0f);
         Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, monoBehaviourExt.transform);
         Width += safeSpace + originalChunk.SpawnPlaceWidth;
+    }
+
+    /// <summary>
+    /// —ейчас генератор не учитывает ширину создаваемого чанка.
+    /// ѕоэтому может произойти такой случай, когда чанк сгенерируетс€, а триггер зоны, к примеру, останутс€ сзади игрока.
+    /// </summary>
+    private float ValidateOffsetGeneration(float offsetGeneration)
+    {
+        float maxChunkSpawnPlaceWidth = _selectableChunks.Select(chunk => chunk.Item.Width).Max();
+        if (offsetGeneration < maxChunkSpawnPlaceWidth)
+        {
+            Debug.LogWarning($"offsetGeneration не может быть меньше ширины самого большого чанка - {maxChunkSpawnPlaceWidth}!");
+            return maxChunkSpawnPlaceWidth;
+        }
+        else return offsetGeneration;
     }
 }
