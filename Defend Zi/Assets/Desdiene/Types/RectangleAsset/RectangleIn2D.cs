@@ -50,5 +50,21 @@ namespace Desdiene.Types.RectangleAsset
         public Vector2 Position { get => _position; set => _position = value; }
         public Vector2 PivotOffset { get => _pivotOffset; set => _pivotOffset = value; }
         public Quaternion Rotation { get => _rotation; set => _rotation = value; }
+
+        public void CopyConfigsTo(BoxCollider2D boxCollider2D)
+        {
+            if (boxCollider2D == null) throw new ArgumentNullException(nameof(boxCollider2D));
+
+            boxCollider2D.size = new Vector2(Width, Height);
+            boxCollider2D.offset = PivotOffset;
+        }
+
+        public void CopyConfigsFrom(BoxCollider2D boxCollider2D)
+        {
+            if (boxCollider2D == null) throw new ArgumentNullException(nameof(boxCollider2D));
+            Width = boxCollider2D.size.x;
+            Height = boxCollider2D.size.y;
+            PivotOffset = boxCollider2D.offset;
+        }
     }
 }

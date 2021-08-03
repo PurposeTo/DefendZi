@@ -3,11 +3,11 @@ using Desdiene.Types.RectangleAsset;
 using UnityEngine;
 
 /// <summary>
-/// Описывает видимую камерой часть игровой плоскости.
+/// Описывает игровую плоскость в поле зрения.
 /// </summary>
 [RequireComponent(typeof(BoxCollider2D))]
 [ExecuteInEditMode]
-public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
+public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DGetter
 {
     public const float Height = 15;
 
@@ -39,19 +39,7 @@ public class VisibleGameSpace : MonoBehaviourExt, IRectangleIn2DGetter
         transform.position = GetPosition();
         transform.rotation = GetRotation();
         _area = GetVisibleArea();
-        UpdateBoxCollider2DWithRect(_colliderArea, _area);
-    }
-
-    // Вынести этот метод и сделать его методом расширения?
-    private void UpdateBoxCollider2DWithRect(BoxCollider2D boxCollider2D, RectangleIn2D rectangleIn2D)
-    {
-        if (boxCollider2D == null)
-        {
-            throw new System.ArgumentNullException(nameof(boxCollider2D));
-        }
-
-        boxCollider2D.size = new Vector2(rectangleIn2D.Width, rectangleIn2D.Height);
-        boxCollider2D.offset = rectangleIn2D.PivotOffset;
+        _area.CopyConfigsTo(_colliderArea);
     }
 
     private RectangleIn2D GetVisibleArea()

@@ -3,7 +3,7 @@ using Desdiene.Extensions.UnityEngine;
 using Desdiene.Random;
 using UnityEngine;
 
-public class OneRotationRectangle : Chunk
+public class OneRotation : Chunk
 {
     [SerializeField, NotNull] private AroundItsAxisMovement _rotatingObstacle;
 

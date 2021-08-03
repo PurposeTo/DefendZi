@@ -1,15 +1,19 @@
-﻿namespace Desdiene.MonoBehaviourExtension
+﻿using Desdiene.Types.AtomicReference.RefRuntimeInit;
+
+namespace Desdiene.MonoBehaviourExtension
 {
     // В дочерних классах добавить RequireComponent
     public abstract class InterfaceComponent<T> : MonoBehaviourExt where T : class
     {
-        public T Implementation => _implementation ?? throw new System.NullReferenceException(nameof(Implementation));
+        public T Implementation => GetOrInitImplementation() ?? throw new System.NullReferenceException(nameof(Implementation));
 
-        private T _implementation;
+        private readonly RefRuntimeInit<T> _implementation = new RefRuntimeInit<T>();
 
         protected override void AwakeExt()
         {
-            _implementation = GetInitedComponent<T>();
+            GetOrInitImplementation();
         }
+
+        private T GetOrInitImplementation() => _implementation.GetOrInit(GetInitedComponent<T>);
     }
 }
