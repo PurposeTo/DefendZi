@@ -8,21 +8,21 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 {
     private const string fileName = "GameData";
     
-    private IStorage<GameData> storage;
+    private IStorage<GameData> _storage;
 
     protected override void AwakeExt()
     {
         IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>();
 
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
-        storage = DataAssetIniter<GameData>.GetStorage(this, deviceLoader);
+        _storage = DataAssetIniter<GameData>.GetStorage(this, new DataCombiner(), deviceLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.
-        storage.InvokeLoadingData();
+        _storage.InvokeLoadingData();
     }
 
-    public IGameData GetData() => storage.GetData();
+    public IGameData GetData() => _storage.GetData();
 
-    public void InvokeLoadingData() => storage.InvokeLoadingData();
+    public void InvokeLoadingData() => _storage.InvokeLoadingData();
 
-    public void InvokeSavingData() => storage.InvokeSavingData();
+    public void InvokeSavingData() => _storage.InvokeSavingData();
 }

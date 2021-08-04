@@ -2,23 +2,28 @@
 using System.Collections;
 using Desdiene.Container;
 using Desdiene.Coroutine;
+using Desdiene.GameDataAsset.Combiner;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 
 namespace Desdiene.GameDataAsset.Storage
 {
     public class Storage<T> : MonoBehaviourExtContainer, IStorage<T> where T : IData, new()
     {
         private T _data = new T();
+        private readonly IDataCombiner<T> _combiner;
         private readonly IStorageDataLoader<T> _storageDataLoader;
 
         private readonly ICoroutine _chooseDataRoutine;
 
         public Storage(MonoBehaviourExt superMonoBehaviour,
-            IStorageDataLoader<T> storageDataLoader)
+                       IDataCombiner<T> combiner,
+                       IStorageDataLoader<T> storageDataLoader)
             : base(superMonoBehaviour)
         {
+            _combiner = combiner ?? throw new ArgumentNullException(nameof(combiner));
             _storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
 
             _chooseDataRoutine = new CoroutineWrap(superMonoBehaviour);
@@ -70,6 +75,7 @@ namespace Desdiene.GameDataAsset.Storage
 
         private IEnumerator ChooseDataEnumerator(T currentData, T loadedData, Action<T> choosedData)
         {
+            Debug.LogWarning("NotImplementedException: выбор моделей");
             //todo предложить игроку выбрать модель
             yield return null;
             choosedData?.Invoke(currentData);
@@ -77,8 +83,8 @@ namespace Desdiene.GameDataAsset.Storage
 
         private T CombineData(T data1, T data2)
         {
-            //todo добавить смешение данных за прошлую игровую сессию с текущими данными
-            return data1;
+            Debug.Log($"Combining data!\nFirst data:\n{data1}\n\nSecond data:\n{data2}");
+            return _combiner.Combine(data1, data2);
         }
     }
 }

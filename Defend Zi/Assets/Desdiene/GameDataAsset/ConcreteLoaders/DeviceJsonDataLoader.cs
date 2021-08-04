@@ -16,8 +16,8 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
     /// <typeparam name="T"></typeparam>
     public class DeviceJsonDataLoader<T> : StorageJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
     {
-        protected readonly string filePath;
-        protected readonly DeviceDataLoader deviceDataLoader;
+        protected readonly string _filePath;
+        protected readonly DeviceDataLoader _deviceDataLoader;
 
         public DeviceJsonDataLoader(MonoBehaviourExt mono,
                                     string storageName,
@@ -25,9 +25,9 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
                                     IJsonConvertor<T> jsonConvertor)
             : base(mono, storageName, fileName, jsonConvertor)
         {
-            filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
-            Debug.Log($"{StorageName}. Путь к файлу данных : {filePath}");
-            deviceDataLoader = new DeviceDataLoader(monoBehaviourExt, filePath);
+            _filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
+            Debug.Log($"{StorageName}. Путь к файлу данных : {_filePath}");
+            _deviceDataLoader = new DeviceDataLoader(monoBehaviourExt, _filePath);
         }
 
         public DeviceJsonDataLoader(MonoBehaviourExt mono, string fileName, IJsonConvertor<T> jsonConvertor)
@@ -36,7 +36,7 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
 
         protected override void ReadFromStorage(Action<string> jsonDataCallback)
         {
-            deviceDataLoader.ReadDataFromDevice(jsonDataCallback.Invoke);
+            _deviceDataLoader.ReadDataFromDevice(jsonDataCallback.Invoke);
         }
 
         protected override void WriteToStorage(string jsonData)
@@ -48,7 +48,7 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
 
             // TODO: А если у пользователя недостаточно памяти, чтобы создать файл?
 
-            File.WriteAllText(filePath, jsonData);
+            File.WriteAllText(_filePath, jsonData);
         }
     }
 }

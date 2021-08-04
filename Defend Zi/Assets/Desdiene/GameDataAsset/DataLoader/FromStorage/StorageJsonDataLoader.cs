@@ -15,11 +15,6 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
     /// <typeparam name="T"></typeparam>
     public abstract class StorageJsonDataLoader<T> : MonoBehaviourExtContainer, IStorageDataLoader<T> where T : IData, new()
     {
-        public string StorageName { get; }
-        protected string FileName { get; }
-        protected string FileExtension => "json";
-        protected string FileNameWithExtension => FileName + "." + FileExtension;
-
         private readonly Validator _validator = new Validator();
         private readonly IJsonConvertor<T> _jsonConvertor;
 
@@ -48,6 +43,11 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
             _jsonConvertor = jsonConvertor ?? throw new ArgumentNullException(nameof(jsonConvertor));
         }
 
+        public string StorageName { get; }
+        protected string FileName { get; }
+        protected string FileExtension => "json";
+        protected string FileNameWithExtension => FileName + "." + FileExtension;
+
         /// <summary>
         /// Возвращает коллбеком данные из хранилища.
         /// Не вызовется, если произошли проблемы при чтении.
@@ -55,11 +55,17 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
         /// <param name="dataCallback"></param>
         public void Load(Action<T> dataCallback)
         {
+            Debug.Log($"Начата загрузка данных с [{StorageName}]!");
             ReadFromStorage(jsonData =>
             {
-                if (string.IsNullOrEmpty(jsonData)) dataCallback?.Invoke(new T());
+                if (string.IsNullOrEmpty(jsonData))
+                {
+                    Debug.Log($"Данные на [{StorageName}] не найдены!");
+                    dataCallback?.Invoke(new T());
+                }
                 else
                 {
+                    Debug.Log($"Данные с [{StorageName}] загружены!\nДанные:\n{jsonData}");
                     T data = DeserializeData(jsonData);
                     data = TryToRepairNullFields(data);
                     dataCallback?.Invoke(data);
@@ -69,6 +75,7 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
 
         public void Save(T data)
         {
+            Debug.Log($"Начато сохранение данных на [{StorageName}]!");
             string jsonData = SerializeData(data);
             if (_validator.HasJsonNullValues(jsonData)) return;
             else
@@ -130,7 +137,7 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
 
         private T RepairJsonAndDeserialize(string jsonData)
         {
-            Debug.Log($"Start repairing json data:\n{jsonData}");
+            Debug.LogWarning($"Start repairing json data:\n{jsonData}");
 
             string repairedJson = RepairJson(jsonData);
 
