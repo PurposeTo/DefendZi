@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviourExt
     {
         _dataStorage
             .GetData()
-            .SetMaxScore((uint)_playerScore.Value);
+            .SetBestScore((uint)_playerScore.Value);
     }
 
     private void SaveGameData() => _dataStorage.InvokeSavingData();
