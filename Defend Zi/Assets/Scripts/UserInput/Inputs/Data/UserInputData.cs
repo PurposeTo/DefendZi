@@ -1,6 +1,5 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference;
-using Desdiene.Types.AtomicReference.Interfaces;
 
 /// <summary>
 /// Класс с данными, которые может ввести пользователь.

@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.Types.UfloatAsset;
 using UnityEngine;
 
 namespace Desdiene.Types.RectangleAsset
@@ -14,8 +15,8 @@ namespace Desdiene.Types.RectangleAsset
     [Serializable]
     public struct RectangleIn2D : IRectangleIn2DGetter
     {
-        [SerializeField] private float _height; // need to be ufloat
-        [SerializeField] private float _width; // need to be ufloat
+        [SerializeField] private Ufloat _height;
+        [SerializeField] private Ufloat _width;
 
         [SerializeField] private Vector2 _position;
         [SerializeField] private Vector2 _pivotOffset;

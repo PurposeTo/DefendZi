@@ -1,7 +1,7 @@
 ﻿
-namespace Desdiene.Types.AtomicReference.Interfaces
+namespace Desdiene.Types.AtomicReference
 {
-    public interface IRef<T> : IReadRef<T>, IWriteRef<T>, IRefOnChanged
+    public interface IRef<T> : IRefGetter<T>, IRefSetter<T>, IRefNotifier
     {
         public T SetAndGet(T value);
         //Не поддерживается в данной версии :(

@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.AtomicReference.RefRuntimeInit.States;
 
 namespace Desdiene.Types.AtomicReference.RefRuntimeInit
@@ -9,7 +8,7 @@ namespace Desdiene.Types.AtomicReference.RefRuntimeInit
     /// Инициализация данного поля произойдет либо при его получении, либо при вызове соответстующего метода.
     /// </summary>
     /// <typeparam name="T">Тип поля в данном классе.</typeparam>
-    public class RefRuntimeInit<T> : IWriteRef<T>
+    public class RefRuntimeInit<T> : IRefSetter<T>
     {
         private readonly Ref<InitStateValue<T>> initStateRef = new Ref<InitStateValue<T>>();
         private InitStateValue<T> InitState => initStateRef.Get();

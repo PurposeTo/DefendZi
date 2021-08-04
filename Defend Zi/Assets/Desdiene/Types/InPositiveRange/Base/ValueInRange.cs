@@ -1,9 +1,8 @@
 ﻿using System;
 using Desdiene.Types.AtomicReference;
-using Desdiene.Types.AtomicReference.Interfaces;
 using Desdiene.Types.Range.Positive;
 
-namespace Desdiene.Types.InPositiveRange.Abstract
+namespace Desdiene.Types.InPositiveRange.Base
 {
     public class ValueInRange<T> : IRef<T> where T : struct, IComparable<T>
     {

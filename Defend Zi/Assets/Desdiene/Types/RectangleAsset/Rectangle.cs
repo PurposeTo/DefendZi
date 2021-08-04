@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.Types.UfloatAsset;
 using UnityEngine;
 
 namespace Desdiene.Types.RectangleAsset
@@ -7,8 +8,8 @@ namespace Desdiene.Types.RectangleAsset
     public struct Rectangle : IRectangleGetter
     {
         //Не делать readonly, тк могут редактироваться через инспектор.
-        [SerializeField] private float _height; // need to be ufloat
-        [SerializeField] private float _width; // need to be ufloat
+        [SerializeField] private Ufloat _height;
+        [SerializeField] private Ufloat _width; 
 
         public Rectangle(float height, float width)
         {
