@@ -71,8 +71,34 @@ public abstract class OrientationAdapter : MonoBehaviourExt
         AdjustCameraToLandscape();
     }
 
+    private void SetPrevious(DeviceOrientation previousOrientation)
+    {
+        switch (previousOrientation)
+        {
+            case DeviceOrientation.Portrait:
+                SetPortrait();
+                break;
+            case DeviceOrientation.PortraitUpsideDown:
+                SetPortraitUpsideDown();
+                break;
+            case DeviceOrientation.LandscapeLeft:
+                SetLandscapeLeft();
+                break;
+            case DeviceOrientation.LandscapeRight:
+                SetLandscapeRight();
+                break;
+
+        //    // Переход в FaceUp и FaceDown возможен только из вышеперечисленных состояний.
+        //    // Возможно ли попасть из FaceUp в FaceDown или наоборот ?
+        //    default:
+        //        SetLandscapeLeft();
+        //        break;
+        }
+    }
+
     private IEnumerator SetOrientation()
     {
+        // Брать фактическое значение во избежании поворота при перезагрузке сцены.
         DeviceOrientation previousOrientation = DeviceOrientation.LandscapeLeft;
         DeviceOrientation currentOrientation;
 
@@ -101,6 +127,12 @@ public abstract class OrientationAdapter : MonoBehaviourExt
                         break;
                     case DeviceOrientation.LandscapeRight:
                         SetLandscapeRight();
+                        break;
+                    case DeviceOrientation.FaceUp:
+                        SetPrevious(previousOrientation);
+                        break;
+                    case DeviceOrientation.FaceDown:
+                        SetPrevious(previousOrientation);
                         break;
                     default:
                         SetLandscapeLeft();
