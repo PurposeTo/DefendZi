@@ -1,40 +1,50 @@
 ﻿using System.Collections;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Coroutine;
+using Desdiene;
 using UnityEngine;
 
 /// <summary>
-/// Изменяет ориентацию экрана, вращает камеру, отдаляет и смещает её.
+/// Изменяет ориентацию экрана, вращает камеру и отдаляет её.
 /// </summary>
 public abstract class OrientationAdapter : MonoBehaviourExt
 {
-    [SerializeField, NotNull] protected Camera _camera;
+    [SerializeField, NotNull] private Camera _camera;
+    private float _aspectRatio;
 
-    protected abstract float PortraitCameraSize { get; }
-    protected abstract float LandscapeCameraSize { get; }
+    protected Camera Camera => _camera;
+    protected float AspectRatio => _aspectRatio;
 
-    private readonly float _portraitCameraOffset = 12f;
-    private readonly float _landscapeCameraOffset = 8f;
+    private ScreenOrientation DefaultScreenOrientation => ScreenOrientation.LandscapeLeft;
 
     protected override void AwakeExt()
     {
+        _aspectRatio = GetAspectRatio();
         new CoroutineWrap(this).StartContinuously(SetOrientation());
     }
 
-    protected abstract void ResizeCamera(float newSize);
+    protected abstract void ChangeVisionToLandscape();
+    protected abstract void ChangeVisionToPortrait();
+
+    private float GetAspectRatio()
+    {
+        float width = Camera.pixelWidth;
+        float hight = Camera.pixelHeight;
+
+        Math.Compare(ref hight, ref width);
+        return width / hight;
+    }
 
     private void AdjustCameraToLandscape()
     {
         _camera.transform.rotation = Quaternion.AngleAxis(0f, Vector3.forward);
-        ResizeCamera(LandscapeCameraSize);
-        _camera.transform.position += Vector3.right * _landscapeCameraOffset;
+        ChangeVisionToLandscape();
     }
 
     private void AdjustCameraToPortrait()
     {
         _camera.transform.rotation = Quaternion.AngleAxis(270f, Vector3.forward);
-        ResizeCamera(PortraitCameraSize);
-        _camera.transform.position += Vector3.right * _portraitCameraOffset;
+        ChangeVisionToPortrait();
     }
 
     private void SetPortrait()
@@ -63,19 +73,21 @@ public abstract class OrientationAdapter : MonoBehaviourExt
 
     private IEnumerator SetOrientation()
     {
-        DeviceOrientation lastFrameOrientation = DeviceOrientation.LandscapeLeft;
+        DeviceOrientation previousOrientation = DeviceOrientation.LandscapeLeft;
         DeviceOrientation currentOrientation;
 
         while (true)
         {
             currentOrientation = Input.deviceOrientation;
 
-            if (currentOrientation != lastFrameOrientation)
+            // Unity-приложение не учитывает настройки поворота экрана, установленные пользователем, на Android-устройстве.
+            if (Application.platform == RuntimePlatform.Android)
             {
-                lastFrameOrientation = currentOrientation;
-                Debug.Log($"Device orientation: {currentOrientation}.");
-                Debug.Log($"Screen orientation: {Screen.orientation}.");
+                // if (!IsRotationAllowed() currentOrientation = DefaultScreenOrientation;
+            }
 
+            if (currentOrientation != previousOrientation)
+            {
                 switch (currentOrientation)
                 {
                     case DeviceOrientation.Portrait:
@@ -94,6 +106,8 @@ public abstract class OrientationAdapter : MonoBehaviourExt
                         SetLandscapeLeft();
                         break;
                 }
+
+                previousOrientation = currentOrientation;
             }
 
             yield return null;
