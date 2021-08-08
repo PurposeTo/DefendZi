@@ -9,8 +9,8 @@ public class ObstacleSpaceMono : MonoBehaviourExt
 {
     [SerializeField] private SelectableChunk[] _selectableChunks;
     [SerializeField] private float _startPoint = 40f;
-    [SerializeField] private FloatRange _extraSpaceGeneration = new FloatRange(5f, 10f);
-    [SerializeField] private float _offsetGeneration = 10f;
+    [SerializeField] private float _offsetGeneration = 30f; // Сейчас не учитывает размеры препятствий, поэтому поставить число побольше
+    [SerializeField] private FloatRange _safeSpaceBetweenChunks = new FloatRange(5f, 10f);
 
     private IUpdate _update;
     private ObstacleSpace _obstacleSpace; // пока оставить, может пригодиться
@@ -22,7 +22,7 @@ public class ObstacleSpaceMono : MonoBehaviourExt
             .Select(it => it as IRandomlySelectableItem<Chunk>)
             .ToArray();
         ObstaclesGenerationData obstaclesGenerationData = new ObstaclesGenerationData(selectableChunks,
-                                                                                      _extraSpaceGeneration,
+                                                                                      _safeSpaceBetweenChunks,
                                                                                       _offsetGeneration);
         ObstacleSpaceData obstacleSpaceData = new ObstacleSpaceData(_startPoint,
                                                                     obstaclesGenerationData);

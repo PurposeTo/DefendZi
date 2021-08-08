@@ -22,13 +22,15 @@ namespace Desdiene.JsonConvertorWrapper
 
         T IJsonConvertor<T>.DeserializeObject(string jsonData)
         {
-            return JsonConvert.DeserializeObject<T>(jsonData, serializerSettings);
+            T data = JsonConvert.DeserializeObject<T>(jsonData, serializerSettings);
+            Debug.Log("Десериализованные данные:\n" + data);
+            return data;
         }
 
         string IJsonConvertor<T>.SerializeObject(T data)
         {
             string jsonData = JsonConvert.SerializeObject(data, serializerSettings);
-            Debug.Log("Сериализованные данные: " + jsonData);
+            Debug.Log("Сериализованные данные:\n" + jsonData);
             return jsonData;
         }
     }

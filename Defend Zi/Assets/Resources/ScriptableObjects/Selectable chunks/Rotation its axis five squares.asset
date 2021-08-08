@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202de611a8bfdf243ac4948e685a7bd3, type: 3}
   m_Name: Rotation its axis five squares
   m_EditorClassIdentifier: 
-  _chunk: {fileID: 8996333464835645471, guid: 167efdfdb3389e042adf02340f07489a, type: 3}
+  _chunk: {fileID: 4905398509597510366, guid: 00d82b95339381e4f8637f8cdc29bfb2, type: 3}
   _chanceMass: 1

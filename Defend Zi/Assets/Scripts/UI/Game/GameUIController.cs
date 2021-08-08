@@ -1,22 +1,26 @@
+п»їusing Desdiene.GameDataAsset.Storage;
 using UnityEngine;
 using Zenject;
 
 public class GameUIController : MonoBehaviour
 {
-    private GameManager gameManager;
-    private IDeath playerDeath;
+    private GameManager _gameManager;
+    private IStorage<IGameData> _storage;
+    private IDeath _playerDeath;
+    private IScoreGetter _playerScore;
 
     [Inject]
-    private void Constructor(GameManager gameManager, ComponentsProxy componentsProxy)
+    private void Constructor(GameManager gameManager, ComponentsProxy componentsProxy, IStorage<IGameData> storage)
     {
-        this.gameManager = gameManager;
-        playerDeath = componentsProxy.PlayerDeath;
+        _gameManager = gameManager;
+        _storage = storage;
+        _playerDeath = componentsProxy.PlayerDeath;
+        _playerScore = componentsProxy.PlayerScore;
         InitViews();
         SubscribeEvents();
     }
 
-    [SerializeField, NotNull]
-    private GameOverView gameOverView;
+    [SerializeField, NotNull] private GameOverView _gameOverView;
 
     private void OnDestroy()
     {
@@ -25,20 +29,34 @@ public class GameUIController : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        playerDeath.OnDied += gameOverView.Enable;
-        gameOverView.OnReloadLvlClicked += gameManager.ReloadLvl;
+        _playerDeath.OnDied += _gameOverView.Enable;
+        _playerDeath.OnDied += SetBestScore;
+        _playerDeath.OnDied += SetScore;
+        _gameOverView.OnReloadLvlClicked += _gameManager.ReloadLvl;
     }
 
     private void UnsubscribeEvents()
     {
-        playerDeath.OnDied -= gameOverView.Enable;
-        gameOverView.OnReloadLvlClicked -= gameManager.ReloadLvl;
+        _playerDeath.OnDied -= _gameOverView.Enable;
+        _playerDeath.OnDied -= SetBestScore;
+        _playerDeath.OnDied -= SetScore; 
+        _gameOverView.OnReloadLvlClicked -= _gameManager.ReloadLvl;
+    }
+
+    private void SetBestScore()
+    {
+        _gameOverView.SetBestScore(_storage.GetData().BestScore);
+    }
+
+    private void SetScore()
+    {
+        _gameOverView.SetScore(_playerScore.Value);
     }
 
     private void InitViews()
     {
-        gameOverView.Enable(); // Включить UI для первоначальной отрисовки и кеширования отрендеренных данных
-        gameOverView.Disable();
+        _gameOverView.Enable(); // Р’РєР»СЋС‡РёС‚СЊ UI РґР»СЏ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕР№ РѕС‚СЂРёСЃРѕРІРєРё Рё РєРµС€РёСЂРѕРІР°РЅРёСЏ РѕС‚СЂРµРЅРґРµСЂРµРЅРЅС‹С… РґР°РЅРЅС‹С…
+        _gameOverView.Disable();
     }
 
 }

@@ -2,7 +2,7 @@
 
 public interface IGameData : IData
 {
-    int MaxScore { get; }
+    int BestScore { get; }
 
-    void SetMaxScore(uint score);
+    void SetBestScore(uint score);
 }

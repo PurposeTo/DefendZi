@@ -35,7 +35,7 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
 
         private void LoadAndDecryptData(Action<string> jsonDataCallback)
         {
-            deviceDataLoader.ReadDataFromDevice(receivedData =>
+            _deviceDataLoader.ReadDataFromDevice(receivedData =>
             {
                 jsonDataCallback?.Invoke(jsonEncryption.Decrypt(receivedData));
             });
