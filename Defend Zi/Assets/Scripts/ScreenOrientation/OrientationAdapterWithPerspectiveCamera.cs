@@ -19,7 +19,7 @@ public class OrientationAdapterWithPerspectiveCamera : OrientationAdapter
 
     private float GetDistanceToPlain()
     {
-        float oppositeSide = VisibleGameSpace.Height / 2f;
+        float oppositeSide = GameSpaceInSight.Height / 2f;
         float angle = Camera.fieldOfView / 2f;
         float adjacentSide = oppositeSide / Mathf.Tan(Mathf.Deg2Rad * angle);
 

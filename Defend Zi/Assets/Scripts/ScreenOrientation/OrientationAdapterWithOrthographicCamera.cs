@@ -6,7 +6,7 @@
 public class OrientationAdapterWithOrthographicCamera : OrientationAdapter
 {
     private float PortraitCameraSize => LandscapeCameraSize * AspectRatio;
-    private float LandscapeCameraSize => VisibleGameSpace.Height / 2;
+    private float LandscapeCameraSize => GameSpaceInSight.Height / 2;
 
     protected override void ChangeVisionToLandscape()
     {
