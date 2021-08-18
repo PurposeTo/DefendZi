@@ -2,16 +2,28 @@ using Assets.Desdiene.GooglePlayApi;
 using Desdiene.GameDataAsset.Storage;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Scale;
+using Desdiene.UnityScenes;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        BindScenesInBuild();
         BindGlobalTimeScaler();
         BindGlobalTimePauser();
         BindGPGSAuthentication();
         BindDataStorage();
+    }
+
+    private void BindScenesInBuild()
+    {
+        Container
+            .Bind<ScenesInBuild>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindDataStorage()
