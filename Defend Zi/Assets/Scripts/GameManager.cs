@@ -24,55 +24,57 @@ public class GameManager : MonoBehaviourExt
     {
         _playerDeath = componentsProxy.PlayerDeath;
         _playerScore = componentsProxy.PlayerScore;
-
         _dataStorage = dataStorage;
 
         _isGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
         SubscribeEvents();
+        OnGameStarted?.Invoke();
     }
 
+    public event Action OnGameStarted;
     public event Action OnGameOver;
-
 
     protected override void OnDestroyExt()
     {
         UnsubscribeEvents();
     }
 
+    public void ReloadLvl()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void SubscribeEvents()
     {
         _playerDeath.OnDied += SavePlayerScore;
         _playerDeath.OnDied += EndGame;
-        _playerDeath.OnDied += SaveGameData;
+        _playerDeath.OnReborn += ResumeEndedGame;
+        OnGameOver += SaveGameData;
     }
 
     private void UnsubscribeEvents()
     {
         _playerDeath.OnDied -= SavePlayerScore;
         _playerDeath.OnDied -= EndGame;
-        _playerDeath.OnDied -= SaveGameData;
+        _playerDeath.OnReborn -= ResumeEndedGame;
+        OnGameOver += SaveGameData;
     }
 
     /// <summary>
     /// Закончить игру
     /// </summary>
-    public void EndGame()
+    private void EndGame()
     {
-        OnGameOver?.Invoke();
         _isGameOver.SetPause(true);
+        OnGameOver?.Invoke();
     }
 
     /// <summary>
     /// Продолжить законченную игру (Например, после возрождения игрока).
     /// </summary>
-    public void ResumeEndedGame()
+    private void ResumeEndedGame()
     {
         _isGameOver.SetPause(false);
-    }
-
-    public void ReloadLvl()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void SavePlayerScore()

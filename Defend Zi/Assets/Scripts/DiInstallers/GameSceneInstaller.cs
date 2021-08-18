@@ -12,6 +12,7 @@ public class GameSceneInstaller : MonoInstaller
         BindComponentsProxy();
         BindGameManager();
         BindUserInput();
+        BindGameDifficulty();
     }
 
     private void BindPlayer()
@@ -49,6 +50,15 @@ public class GameSceneInstaller : MonoInstaller
         Container
             .Bind<IUserInput>()
             .To<UserInputMono>()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
+    }
+    private void BindGameDifficulty()
+    {
+        Container
+            .Bind<GameDifficulty>()
+            .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();

@@ -22,9 +22,14 @@ public class PlayerMono :
     private IScore _score;
 
     [Inject]
-    private void Constructor(IUserInput input)
+    private void Constructor(IUserInput input, GameDifficulty gameDifficulty)
     {
-        Player _player = new Player(input, GetInitedComponent<Rigidbody2D>(), _movementData);
+        if (input == null) throw new ArgumentNullException(nameof(input));
+        if (gameDifficulty == null) throw new ArgumentNullException(nameof(gameDifficulty));
+
+        Rigidbody2D rb2d = GetInitedComponent<Rigidbody2D>();
+        PlayerMovementView movementView = new PlayerMovementView(gameDifficulty, _movementData);
+        Player _player = new Player(input, rb2d, movementView);
 
         _fixedUpdate = _player;
         _positionGetter = _player;
@@ -51,6 +56,12 @@ public class PlayerMono :
     {
         add => _health.OnDied += value;
         remove => _health.OnDied -= value;
+    }
+
+    event Action IDeath.OnReborn
+    {
+        add => _health.OnReborn += value;
+        remove => _health.OnReborn -= value;
     }
 
     event Action IPositionNotification.OnChanged
