@@ -15,24 +15,19 @@ public class GameManager : MonoBehaviourExt
     private GlobalTimePauser _isGameOver;
 
     private IDeath _playerDeath;
-    private IScoreGetter _playerScore;
 
-    private IStorage<IGameData> _dataStorage;
+    public event Action OnGameStarted;
+    public event Action OnGameOver;
 
     [Inject]
     private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy, IStorage<IGameData> dataStorage)
     {
         _playerDeath = componentsProxy.PlayerDeath;
-        _playerScore = componentsProxy.PlayerScore;
-        _dataStorage = dataStorage;
 
         _isGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
         SubscribeEvents();
         OnGameStarted?.Invoke();
     }
-
-    public event Action OnGameStarted;
-    public event Action OnGameOver;
 
     protected override void OnDestroyExt()
     {
@@ -46,18 +41,14 @@ public class GameManager : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _playerDeath.OnDied += SavePlayerScore;
         _playerDeath.OnDied += EndGame;
         _playerDeath.OnReborn += ResumeEndedGame;
-        OnGameOver += SaveGameData;
     }
 
     private void UnsubscribeEvents()
     {
-        _playerDeath.OnDied -= SavePlayerScore;
         _playerDeath.OnDied -= EndGame;
         _playerDeath.OnReborn -= ResumeEndedGame;
-        OnGameOver += SaveGameData;
     }
 
     /// <summary>
@@ -76,13 +67,4 @@ public class GameManager : MonoBehaviourExt
     {
         _isGameOver.SetPause(false);
     }
-
-    private void SavePlayerScore()
-    {
-        _dataStorage
-            .GetData()
-            .SetBestScore((uint)_playerScore.Value);
-    }
-
-    private void SaveGameData() => _dataStorage.InvokeSavingData();
 }
