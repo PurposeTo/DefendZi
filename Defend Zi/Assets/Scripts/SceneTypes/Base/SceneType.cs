@@ -1,10 +1,10 @@
-using System;
+п»їusing System;
 using Desdiene.UnityScenes;
 
 namespace SceneTypes.Base
 {
     /// <summary>
-    /// Дочернему классу необходимо дать название, соответствующему названию сцены.
+    /// Р”РѕС‡РµСЂРЅРµРјСѓ РєР»Р°СЃСЃСѓ РЅРµРѕР±С…РѕРґРёРјРѕ РґР°С‚СЊ РЅР°Р·РІР°РЅРёРµ, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РЅР°Р·РІР°РЅРёСЋ СЃС†РµРЅС‹.
     /// </summary>
     public abstract class SceneType
     {
@@ -22,7 +22,7 @@ namespace SceneTypes.Base
             _sceneName = sceneName;
         }
 
-        // todo: может ли сцена быть загружена несколько раз одновременно?
+        // todo: РјРѕР¶РµС‚ Р»Рё СЃС†РµРЅР° Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅР° РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р· РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ?
 
         public bool IsLoading => throw new NotImplementedException();
         public bool IsLoaded=> throw new NotImplementedException();
