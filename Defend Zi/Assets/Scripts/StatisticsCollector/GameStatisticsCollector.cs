@@ -5,7 +5,7 @@ using Zenject;
 public class GameStatisticsCollector : MonoBehaviourExt
 {
     private IDeath _playerDeath;
-    [SerializeField] private GameStatistics _statistics = new GameStatistics();
+    private GameStatistics _statistics = new GameStatistics();
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
