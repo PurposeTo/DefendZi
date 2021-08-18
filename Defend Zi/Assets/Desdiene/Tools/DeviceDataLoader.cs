@@ -32,7 +32,6 @@ namespace Desdiene.Tools
             loadDataRoutine.StartContinuously(ReadDataEnumerator(stringDataCallback.Invoke));
         }
 
-
         private IEnumerator ReadDataEnumerator(Action<string> stringDataCallback)
         {
             var platform = Application.platform;
@@ -52,12 +51,10 @@ namespace Desdiene.Tools
             }
         }
 
-
         private string LoadViaEditor()
         {
             return File.Exists(filePath) ? File.ReadAllText(filePath) : null;
         }
-
 
         private IEnumerator LoadViaAndroid(Action<string> stringDataCallback)
         {
@@ -65,17 +62,22 @@ namespace Desdiene.Tools
 
             using (UnityWebRequest request = new UnityWebRequest { url = filePath, downloadHandler = new DownloadHandlerBuffer() })
             {
-                for (int i = 0; data == null && i < retryCount; i++)
+                bool dataWasLoaded = false;
+
+                for (int i = 0; !dataWasLoaded || i < retryCount; i++)
                 {
                     yield return request.SendWebRequest();
 
                     if (request.error != null || request.responseCode == 404)
                     {
-                        Debug.LogWarning(request.error);
-
+                        Debug.LogWarning($"Сaught an exception while loading data from android:\n{request.error}");
                         yield return null;
                     }
-                    else data = request.downloadHandler.text;
+                    else
+                    {
+                        data = request.downloadHandler.text;
+                        dataWasLoaded = true;
+                    }
                 }
             }
 
