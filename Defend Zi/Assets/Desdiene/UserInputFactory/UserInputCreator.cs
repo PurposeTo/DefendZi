@@ -19,12 +19,12 @@ namespace Desdiene.UserInputFactory
         {
             if (userInputs.TryGetValue(platform, out Func<T> userInputGetter))
             {
-                Debug.Log($"Creating userInput with {platform}!");
+                Debug.Log($"Creating userInput with {platform}");
                 return userInputGetter.Invoke();
             }
             else
             {
-                Debug.LogError($"{platform} is unknown platform!");
+                Debug.LogError($"{platform} is unknown platform");
                 return GetDefault();
             }
         }
