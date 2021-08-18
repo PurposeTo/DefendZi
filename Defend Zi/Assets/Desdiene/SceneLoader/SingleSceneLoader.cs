@@ -22,13 +22,25 @@ namespace Desdiene.SceneLoader
 
             this.loadingScreen = loadingScreen;
 
-            //todo дабы избежать утечек памяти, необходимо либо отписаться, либо быть синглтоном
+            SubscribeEvents();
+            monoBehaviourExt.OnDestroyed -= UnsubscribeEvents;
+        }
+
+        private string loadingSceneName;
+
+        private void SubscribeEvents()
+        {
             SceneManager.sceneLoaded += OnSceneLoaded;
             loadingScreen.AtOpeningEnd += AtOpeningEnd;
             loadingScreen.AtClosingEnd += AtClosingEnd;
         }
 
-        private string loadingSceneName;
+        private void UnsubscribeEvents()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            loadingScreen.AtOpeningEnd -= AtOpeningEnd;
+            loadingScreen.AtClosingEnd -= AtClosingEnd;
+        }
 
         public void LoadScene(string sceneName)
         {
@@ -39,8 +51,8 @@ namespace Desdiene.SceneLoader
 
         public void ReloadScene()
         {
-            loadingSceneName = SceneManager.GetActiveScene().name; //кеширование необходимо для возможного отслеживания
-            LoadScene(loadingSceneName);
+            string sceneName = SceneManager.GetActiveScene().name;
+            LoadScene(sceneName);
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
