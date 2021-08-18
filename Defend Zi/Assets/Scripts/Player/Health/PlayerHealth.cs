@@ -8,11 +8,14 @@ public class PlayerHealth : IHealth
     private IntPercentable _healthData;
     private event Action OnDied;
     private event Action OnReborn;
+    private bool IsDeath;
 
     public PlayerHealth()
     {
         int defaultHealth = 1;
         _healthData = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
+        OnDied += () => IsDeath = true;
+        OnReborn += () => IsDeath = false;
     }
 
     event Action IDeath.OnDied
@@ -27,6 +30,7 @@ public class PlayerHealth : IHealth
         remove => OnReborn -= value;
     }
 
+    bool IDeath.IsDeath => IsDeath;
     IPercentable<int> IHealthGetter.Value => _healthData;
 
     void IDamageTaker.TakeDamage(uint damage)

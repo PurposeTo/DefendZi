@@ -46,6 +46,8 @@ public class PlayerMono :
 
     int IScoreGetter.Value => _score.Value;
 
+    bool IDeath.IsDeath => _health.IsDeath;
+
     event Action IScoreNotification.OnChanged
     {
         add => _score.OnChanged += value;

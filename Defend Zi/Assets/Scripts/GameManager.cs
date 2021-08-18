@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.GameDataAsset.Storage;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
@@ -20,7 +19,7 @@ public class GameManager : MonoBehaviourExt
     public event Action OnGameOver;
 
     [Inject]
-    private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy, IStorage<IGameData> dataStorage)
+    private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy)
     {
         _playerDeath = componentsProxy.PlayerDeath;
 

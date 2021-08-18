@@ -12,13 +12,20 @@ public class GameDataSaver : MonoBehaviourExt
     private GameManager _gameManager;
 
     private IScoreGetter _playerScore;
+    private GameStatisticsCollector _statisticsCollector;
+    private GameStatistics Statistics => _statisticsCollector.GetStatistics();
 
     [Inject]
-    private void Constructor(ComponentsProxy componentsProxy, GameManager gameManager, IStorage<IGameData> dataStorage)
+    private void Constructor(IStorage<IGameData> dataStorage,
+                             GameManager gameManager,
+                             ComponentsProxy componentsProxy,
+                             GameStatisticsCollector statisticsCollector)
     {
-        _playerScore = componentsProxy.PlayerScore;
         _dataStorage = dataStorage;
         _gameManager = gameManager;
+
+        _playerScore = componentsProxy.PlayerScore;
+        _statisticsCollector = statisticsCollector;
 
         SubscribeEvents();
     }
@@ -40,15 +47,32 @@ public class GameDataSaver : MonoBehaviourExt
 
     private void SaveGameData()
     {
+        SaveGamesNumber();
         SavePlayerScore();
+        SavePlayerLifeTime();
         InvokeSavingData();
     }
+
+    private void SaveGamesNumber() => _dataStorage.GetData().IncreaseGamesNumber();
 
     private void SavePlayerScore()
     {
         _dataStorage
             .GetData()
             .SetBestScore((uint)_playerScore.Value);
+    }
+
+    private void SavePlayerLifeTime()
+    {
+        uint lifeTimeSec = (uint)Statistics.LifeTimeSec;
+
+        _dataStorage
+            .GetData()
+            .SetAverageLifeTimeSec(lifeTimeSec);
+
+        _dataStorage
+            .GetData()
+            .SetBestLifeTimeSec(lifeTimeSec);
     }
 
     private void InvokeSavingData() => _dataStorage.InvokeSavingData();

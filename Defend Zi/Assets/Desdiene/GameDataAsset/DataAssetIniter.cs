@@ -9,14 +9,12 @@ using Desdiene.GameDataAsset.Combiner;
 
 namespace Desdiene.GameDataAsset
 {
-    public static class DataAssetIniter<TData> where TData : IData, new()
+    public static class DataAssetIniter<TData> where TData : IData, IDataCombiner<TData>, new()
     {
         public static IStorage<TData> GetStorage(MonoBehaviourExt mono,
-                                                 IDataCombiner<TData> combiner,
                                                  params StorageJsonDataLoader<TData>[] loaders)
         {
             if (mono == null) throw new System.ArgumentNullException(nameof(mono));
-            if (combiner is null) throw new System.ArgumentNullException(nameof(combiner));
             if (loaders is null) throw new System.ArgumentNullException(nameof(loaders));
 
             IStorageDataLoader<TData>[] safeReaderWriters = loaders
@@ -24,7 +22,7 @@ namespace Desdiene.GameDataAsset
                 .ToArray();
 
             IStorageDataLoader<TData> loadersContainer = new LoadersContainer<TData>(safeReaderWriters);
-            return new Storage<TData>(mono, combiner, loadersContainer);
+            return new Storage<TData>(mono, loadersContainer);
         }
     }
 }

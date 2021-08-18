@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.Storage
 {
-    public class Storage<T> : MonoBehaviourExtContainer, IStorage<T> where T : IData, new()
+    public class Storage<T> : MonoBehaviourExtContainer, IStorage<T> where T : IData, IDataCombiner<T>, new()
     {
         private T _data = new T();
         private readonly IDataCombiner<T> _combiner;
@@ -19,11 +19,10 @@ namespace Desdiene.GameDataAsset.Storage
         private readonly ICoroutine _chooseDataRoutine;
 
         public Storage(MonoBehaviourExt superMonoBehaviour,
-                       IDataCombiner<T> combiner,
                        IStorageDataLoader<T> storageDataLoader)
             : base(superMonoBehaviour)
         {
-            _combiner = combiner ?? throw new ArgumentNullException(nameof(combiner));
+            _combiner = _data;
             _storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
 
             _chooseDataRoutine = new CoroutineWrap(superMonoBehaviour);

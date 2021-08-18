@@ -15,7 +15,7 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
         IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>();
 
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
-        _storage = DataAssetIniter<GameData>.GetStorage(this, new DataCombiner(), deviceLoader);
+        _storage = DataAssetIniter<GameData>.GetStorage(this, deviceLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.
         _storage.InvokeLoadingData();
     }

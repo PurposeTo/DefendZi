@@ -1,21 +1,67 @@
-using Desdiene;
+п»їusing Desdiene.GameDataAsset.Combiner;
+using UnityEngine;
 
 /* 
- * Для (де)сериализации используется NewtonsoftJson, 
- * поэтому все данные должны лежать в свойствах и иметь public get и public set
+ * Р”Р»СЏ (РґРµ)СЃРµСЂРёР°Р»РёР·Р°С†РёРё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ NewtonsoftJson, 
+ * РїРѕСЌС‚РѕРјСѓ РІСЃРµ РґР°РЅРЅС‹Рµ РґРѕР»Р¶РЅС‹ Р»РµР¶Р°С‚СЊ РІ СЃРІРѕР№СЃС‚РІР°С… Рё РёРјРµС‚СЊ public get Рё public set, Р° С‚Р°РєР¶Рµ Р±С‹С‚СЊ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹.
  */
-public class GameData : IGameData
+public class GameData : IGameData, IDataCombiner<GameData>
 {
+    public int GamesNumber { get; set; } = 0;
+
     public int BestScore { get; set; } = 0;
+
+    public int AverageLifeTimeSec { get; set; } = 0;
+    public int BestLifeTimeSec { get; set; } = 0;
+
+    public void IncreaseGamesNumber() => GamesNumber++;
 
     public void SetBestScore(uint score)
     {
-        BestScore = Math.ClampMin((int)score, BestScore);
+        BestScore = Desdiene.Math.ClampMin((int)score, BestScore);
+    }
+
+    /// <summary>
+    /// Р”Р°РЅРЅС‹Р№ РјРµС‚РѕРґ 
+    /// </summary>
+    /// <param name="timeSec"></param>
+    public void SetAverageLifeTimeSec(uint timeSec)
+    {
+        int previosLifeTime = AverageLifeTimeSec * (GamesNumber - 1);
+        int fullLifeTime = (int)(previosLifeTime + timeSec);
+
+        if (GamesNumber != 0) AverageLifeTimeSec = fullLifeTime / GamesNumber;
+    }
+
+    public void SetBestLifeTimeSec(uint timeSec)
+    {
+        BestLifeTimeSec = Desdiene.Math.ClampMin((int)timeSec, BestLifeTimeSec);
     }
 
     public override string ToString()
     {
-        return $"{GetType().Name}\n"
-             + $"BestScore={BestScore}";
+        return $"{GetType().Name}"
+             + $"\nGamesNumber={GamesNumber}"
+             + $"\nBestScore={BestScore}"
+             + $"\nAverageLifeTimeSec={AverageLifeTimeSec}"
+             + $"\nBestLifeTimeSec={BestLifeTimeSec}";
+    }
+
+    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
+    {
+        GameData gameData = new GameData();
+
+        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
+        gameData.GamesNumber = fullGamesNumber;
+
+        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+
+        if (fullGamesNumber != 0)
+        {
+            int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
+            gameData.AverageLifeTimeSec = fullLifeTime / fullGamesNumber;
+        }
+
+        return gameData;
     }
 }
