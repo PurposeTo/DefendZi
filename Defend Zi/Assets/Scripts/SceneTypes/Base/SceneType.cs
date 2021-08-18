@@ -1,5 +1,7 @@
 ﻿using System;
 using Desdiene.UnityScenes;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SceneTypes.Base
 {
@@ -20,6 +22,8 @@ namespace SceneTypes.Base
             }
 
             _sceneName = sceneName;
+
+            Debug.Log($"Scene with name \"{_sceneName}\" was found successfully");
         }
 
         // todo: может ли сцена быть загружена несколько раз одновременно?
