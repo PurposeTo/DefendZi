@@ -55,17 +55,17 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
         /// <param name="dataCallback"></param>
         public void Load(Action<T> dataCallback)
         {
-            Debug.Log($"Начата загрузка данных с [{StorageName}]!");
+            Debug.Log($"Начата загрузка данных с [{StorageName}]");
             ReadFromStorage(jsonData =>
             {
                 if (string.IsNullOrEmpty(jsonData))
                 {
-                    Debug.Log($"Данные на [{StorageName}] не найдены!");
+                    Debug.Log($"Данные на [{StorageName}] не найдены");
                     dataCallback?.Invoke(new T());
                 }
                 else
                 {
-                    Debug.Log($"Данные с [{StorageName}] загружены!\nДанные:\n{jsonData}");
+                    Debug.Log($"Данные с [{StorageName}] загружены\nДанные:\n{jsonData}");
                     T data = DeserializeData(jsonData);
                     data = TryToRepairNullFields(data);
                     dataCallback?.Invoke(data);
@@ -75,7 +75,7 @@ namespace Desdiene.GameDataAsset.DataLoader.FromStorage
 
         public void Save(T data)
         {
-            Debug.Log($"Начато сохранение данных на [{StorageName}]!");
+            Debug.Log($"Начато сохранение данных на [{StorageName}]");
             string jsonData = SerializeData(data);
             if (_validator.HasJsonNullValues(jsonData)) return;
             else
