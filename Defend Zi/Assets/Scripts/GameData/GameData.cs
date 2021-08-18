@@ -51,11 +51,14 @@ public class GameData : IGameData, IDataCombiner<GameData>
     {
         GameData gameData = new GameData();
 
+        //combine GamesNumber
         int fullGamesNumber = first.GamesNumber + second.GamesNumber;
         gameData.GamesNumber = fullGamesNumber;
 
+        //combine BestScore
         gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
 
+        //combine AverageLifeTimeSec
         if (fullGamesNumber != 0)
         {
             int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
