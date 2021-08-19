@@ -15,7 +15,7 @@ namespace Desdiene.Singleton.Unity
         {
             if (Instance == null)
             {
-                Debug.Log($"Initialize GlobalSingleton.Unity {this}");
+                Debug.Log($"Initialize Unity.GlobalSingleton {this}");
                 DontDestroyOnLoad(gameObject);
                 Instance = this as T;
                 AwakeSingleton();

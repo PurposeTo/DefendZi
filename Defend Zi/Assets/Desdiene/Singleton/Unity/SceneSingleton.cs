@@ -16,7 +16,7 @@ namespace Desdiene.Singleton.Unity
         {
             if (Instance == null)
             {
-                Debug.Log($"Initialize SceneSingleton.Unity {this}");
+                Debug.Log($"Initialize Unity.SceneSingleton {this}");
                 Instance = this as T;
                 AwakeSingleton();
                 onInitedAction.InvokeAndClear(Instance);
