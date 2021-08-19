@@ -82,8 +82,9 @@ namespace Desdiene.GameDataAsset.Storage
 
         private T CombineData(T data1, T data2)
         {
-            Debug.Log($"Combining data\nFirst data:\n{data1}\n\nSecond data:\n{data2}");
-            return _combiner.Combine(data1, data2);
+            T combinedData = _combiner.Combine(data1, data2);
+            Debug.Log($"Data was combined\nFirst data:\n{data1}\n\nSecond data:\n{data2}\n\nCombined data:\n{combinedData}");
+            return combinedData;
         }
     }
 }
