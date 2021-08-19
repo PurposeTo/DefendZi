@@ -3,7 +3,7 @@ using Desdiene.Types.PercentAsset;
 
 namespace Desdiene.Types.Percentale
 {
-    public interface IReadPercentable<T> : IRefGetter<T>, IPercentGetter
+    public interface IPercentableGetter<T> : IRefGetter<T>, IPercentGetter
     {
 
     }

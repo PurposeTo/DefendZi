@@ -14,7 +14,7 @@ namespace Desdiene.Types.Percentable
         /// Получить процентное значение.
         /// </summary>
         /// <returns></returns>
-        float IPercentGetter.Get() => GetPercent();
+        float IPercentGetter.Value => Percent;
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
@@ -23,9 +23,13 @@ namespace Desdiene.Types.Percentable
         /// <param name="percent"></param>
         void IPercentSetter.Set(float percent) => SetByPercent(percent);
 
-        float IPercentSetter.SetAndGet(float percent) => SetByPercentAndGet(percent);
+        float IPercentSetter.SetAndGet(float percent)
+        {
+            SetByPercent(percent);
+            return Percent;
+        }
 
-        public float GetPercent() => Mathf.InverseLerp(range.Min, range.Max, Get());
+        public float Percent => Mathf.InverseLerp(range.Min, range.Max, Get());
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
@@ -36,12 +40,6 @@ namespace Desdiene.Types.Percentable
         {
             float value = Mathf.Lerp(range.Min, range.Max, percent);
             Set(value);
-        }
-
-        public float SetByPercentAndGet(float percent)
-        {
-            SetByPercent(percent);
-            return GetPercent();
         }
 
         public static FloatPercentable operator -(FloatPercentable value, float delta)

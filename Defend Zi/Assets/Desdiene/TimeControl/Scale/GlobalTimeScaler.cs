@@ -36,7 +36,7 @@ namespace Desdiene.TimeControl.Scale
         private void SetTimeScaleViaPause()
         {
             if (pause) Time.timeScale = 0f;
-            else Time.timeScale = timeScaleSaved.Get();
+            else Time.timeScale = timeScaleSaved.Value;
             OnTimeScaleChanged?.Invoke(Time.timeScale);
         }
     }

@@ -5,6 +5,8 @@
     /// </summary>
     public interface IPercentGetter
     {
-        float Get();
+        bool IsMin { get; }
+        bool IsMax { get; }
+        float Value { get; }
     }
 }

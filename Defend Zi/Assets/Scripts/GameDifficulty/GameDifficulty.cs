@@ -9,6 +9,10 @@ public class GameDifficulty : MonoBehaviourExt, IPercentGetter, IPercentNotifier
     private Percent _difficulty = new Percent();
     private string _difficultyDebug; // поле для выведения в дебаг инспектора
 
+    public bool IsMin => _difficulty.IsMin;
+    public bool IsMax => _difficulty.IsMax;
+    public float Value => _difficulty.Value;
+
     public event Action OnValueChanged
     {
         add => _difficulty.OnValueChanged += value;

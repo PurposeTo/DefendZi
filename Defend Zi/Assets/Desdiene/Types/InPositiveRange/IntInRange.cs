@@ -10,6 +10,9 @@ namespace Desdiene.Types.InPositiveRange
     {
         public IntInRange(int value, IntRange range) : base(value, range) { }
 
+        public override bool IsMin => Value == range.Min;
+        public override bool IsMax => Value == range.Max;
+
         public static IntInRange operator -(IntInRange value, int delta)
         {
             value.Set(value.Get() - delta);
