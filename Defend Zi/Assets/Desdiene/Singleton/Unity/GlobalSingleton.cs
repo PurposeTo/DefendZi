@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Desdiene.Singleton.Unity.Base;
+using UnityEngine;
 
 namespace Desdiene.Singleton.Unity
 {

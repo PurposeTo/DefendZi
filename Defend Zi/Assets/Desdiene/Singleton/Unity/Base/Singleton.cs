@@ -2,7 +2,7 @@
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.EventContainers;
 
-namespace Desdiene.Singleton.Unity
+namespace Desdiene.Singleton.Unity.Base
 {
     /// <summary> 
     /// To access the heir by a static field "Instance".
