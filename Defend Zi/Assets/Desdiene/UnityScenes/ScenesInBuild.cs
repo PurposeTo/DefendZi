@@ -1,24 +1,20 @@
 ﻿using System.IO;
 using System.Linq;
-using Desdiene.MonoBehaviourExtension;
+using Desdiene.Singleton.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Desdiene.UnityScenes
 {
-    public class ScenesInBuild : MonoBehaviourExt
+    /// <summary>
+    /// Класс содержит информацию о сценах в сборке.
+    /// Обращаться к SceneManager можно только из MonoBehaviour класса.
+    /// </summary>
+    public class ScenesInBuild : GlobalSingleton<ScenesInBuild>
     {
         private string[] _scenesInBuild;
 
-        protected override void AwakeExt()
-        {
-            _scenesInBuild = GetScenesInBuildNames();
-            Debug.Log($"Сцен в сборке: {_scenesInBuild.Length}. Имена сцен:\n{string.Join("\n", _scenesInBuild.ToArray())}");
-        }
-
-        public bool Contains(string sceneName) => _scenesInBuild.Contains(sceneName);
-
-        private string[] GetScenesInBuildNames()
+        protected override void AwakeSingleton()
         {
             int sceneNumber = SceneManager.sceneCountInBuildSettings;
             string[] arrayOfNames;
@@ -27,7 +23,12 @@ namespace Desdiene.UnityScenes
             {
                 arrayOfNames[i] = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
             }
-            return arrayOfNames;
+            _scenesInBuild = arrayOfNames;
+            Debug.Log($"Сцен в сборке: {_scenesInBuild.Length}. Имена сцен:\n{string.Join("\n", _scenesInBuild.ToArray())}");
         }
+
+        public bool Contains(string sceneName) => _scenesInBuild.Contains(sceneName);
+
+        public string[] GetNames() => _scenesInBuild;
     }
 }

@@ -3,9 +3,9 @@ using SceneTypes.Base;
 
 namespace SceneTypes
 {
-    public class Game : SceneType
+    public class Test : SceneType
     {
-        public Game(MonoBehaviourExt mono) : base(mono)
+        public Test(MonoBehaviourExt mono) : base(mono)
         {
 
         }

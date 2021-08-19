@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
@@ -7,9 +7,20 @@ using Zenject;
 
 public class SceneInitorTest : MonoBehaviourExt
 {
-    [Inject]
-    private void Constructor(ScenesInBuild scenesInBuild)
+    private SceneTypes.Base.SceneType _sceneType;
+
+
+    protected override void AwakeExt()
     {
-        var game = new SceneTypes.Game(scenesInBuild);
+        _sceneType = new SceneTypes.Test(this);
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _sceneType.Load();
+        }
     }
 }
