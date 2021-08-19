@@ -12,7 +12,7 @@ namespace Desdiene.Singleton.Unity
         : Singleton<T>
         where T : Singleton<T>
     {
-        private protected override void AwakeInstance()
+        private protected sealed override void AwakeInstance()
         {
             if (Instance == null)
             {
