@@ -1,4 +1,4 @@
-﻿namespace Assets.Desdiene.GooglePlayApi
+﻿namespace Desdiene.GooglePlayApi
 {
     public interface IGPGSAuthentication
     {

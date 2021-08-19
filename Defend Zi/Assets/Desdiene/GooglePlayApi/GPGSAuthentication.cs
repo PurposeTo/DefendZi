@@ -3,7 +3,7 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 
-namespace Assets.Desdiene.GooglePlayApi
+namespace Desdiene.GooglePlayApi
 {
    public class GPGSAuthentication : MonoBehaviourExt, IGPGSAuthentication
     {

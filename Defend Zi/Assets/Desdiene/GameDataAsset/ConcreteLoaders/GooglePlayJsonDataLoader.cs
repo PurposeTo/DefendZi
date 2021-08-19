@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
-using Assets.Desdiene.GooglePlayApi;
+using Desdiene.GooglePlayApi;
 using Desdiene.Coroutine;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
