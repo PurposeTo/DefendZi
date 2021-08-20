@@ -103,7 +103,7 @@ namespace Desdiene.UnityScenes.LoadingProcess
             else
             {
                 throw new InvalidOperationException($"Unknown loading status! Progress: {Progress * 100}%, " +
-                    $"allowSceneActivation = {allowSceneActivation}.");
+                    $"allowSceneActivation = {allowSceneActivation}, _asyncOperation.isDone = {_asyncOperation.isDone}");
             }
         }
 
