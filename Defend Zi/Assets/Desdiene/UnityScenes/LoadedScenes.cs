@@ -1,4 +1,7 @@
-﻿using Desdiene.Singleton.Unity;
+﻿using System;
+using System.Linq;
+using Desdiene.Singleton.Unity;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Desdiene.UnityScenes
@@ -23,7 +26,16 @@ namespace Desdiene.UnityScenes
                 loadedScenes[i] = SceneManager.GetSceneAt(i);
             }
 
+            Debug.Log($"Имена загруженных сцен:\n{string.Join("\n", loadedScenes.Select(it => it.name))}");
             return loadedScenes;
+        }
+
+        public bool Contains(Scene scene) => Get().Contains(scene);
+
+        public bool Contains(string sceneName)
+        {
+            Scene[] scenes = Get();
+            return Array.Exists(scenes, scene => scene.name == sceneName);
         }
     }
 }

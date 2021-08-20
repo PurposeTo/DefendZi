@@ -2,6 +2,8 @@
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
+using SceneTypes;
+using SceneTypes.Base;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -12,8 +14,8 @@ using Zenject;
 public class GameManager : MonoBehaviourExt
 {
     private GlobalTimePauser _isGameOver;
-
     private IDeath _playerDeath;
+    private SceneType _gameScene;
 
     public event Action OnGameStarted;
     public event Action OnGameOver;
@@ -22,8 +24,8 @@ public class GameManager : MonoBehaviourExt
     private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy)
     {
         _playerDeath = componentsProxy.PlayerDeath;
-
         _isGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
+        _gameScene = new Game(this);
         SubscribeEvents();
         OnGameStarted?.Invoke();
     }
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviourExt
 
     public void ReloadLvl()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _gameScene.LoadAsSingle();
     }
 
     private void SubscribeEvents()

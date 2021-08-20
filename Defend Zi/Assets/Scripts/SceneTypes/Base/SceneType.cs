@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using Desdiene.Container;
-using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.PercentAsset;
 using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.LoadingProcess;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,45 +35,56 @@ namespace SceneTypes.Base
         }
 
         public event Action OnUnloading;
-        public event Action OnLoaded;
+        public event Action OnWaitingForAllowingToEnabling;
+        public event Action OnLoadedAndEnabled;
 
-        // public bool IsLoading => throw new NotImplementedException();
-        public bool IsLoaded => throw new NotImplementedException();
 
-        private Percent _loadingProgress = new Percent();
-
-        public void Load()
+        /// <summary>
+        /// Загрузить сцену в одиночном режиме.
+        /// Если указать enablingMode = Forbid, то старая сцена не будет выгружена до тех пор, пока новая сцена не будет включена.
+        /// </summary>
+        /// <param name="enablingMode">Режим разрешения на включение сцены после загрузки.</param>
+        /// <returns>Объект, описывающий процесс ожидания.</returns>
+        public Loading LoadAsSingle(AllowingSceneEnabling.Mode enablingMode = AllowingSceneEnabling.Mode.Allow)
         {
-            AsyncOperation async = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
-            new CoroutineWrap(monoBehaviourExt).StartContinuously(WaitSceneLoading(async));
+            return Load(LoadSceneMode.Single, enablingMode);
         }
 
-        private IEnumerator WaitSceneLoading(AsyncOperation async)
+        public Loading LoadAsAdditive(AllowingSceneEnabling.Mode enablingMode)
         {
-            async.allowSceneActivation = false;
-            Debug.Log($"КРЯ");
-
-            yield return new WaitUntil(() => IsLoading(async));
-            Debug.Log($"Загружено сцен: {_loadedScenes.Get().Length}");
+            return Load(LoadSceneMode.Additive, enablingMode);
         }
 
-        /*
-         * Существует три состояния загрузки сцены:
-         * 1. Сцена в процессе загрузки
-         * 2. Сцена загружена и ожидает включения
-         *     Исходя из документации, async.progress равен .9f И async.allowSceneActivation = false) 
-         * 3. Сцена загружена и включена
-         *     async.progress равен 1 И async.allowSceneActivation = true
-         */
-
-        //todo переписать с учетом состояния загрузки сцен
-        private bool IsLoading(AsyncOperation async)
+        /// <summary>
+        /// Загрузить сцену.
+        /// </summary>
+        /// <param name="loadSceneMode">Режим загрузки сцены.</param>
+        /// <param name="enablingMode">Режим разрешения на включение сцены после загрузки.</param>
+        /// <returns>Объект, описывающий процесс ожидания.</returns>
+        public Loading Load(LoadSceneMode loadSceneMode, AllowingSceneEnabling.Mode enablingMode)
         {
-            _loadingProgress.Set(Mathf.Clamp01(async.progress / .9f));
-            Debug.Log($"Загрузка сцены завершена на {_loadingProgress * 100}%");
+            AsyncOperation async = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
+            async.allowSceneActivation = AllowingSceneEnabling.Check(enablingMode);
+            Loading loading = new Loading(monoBehaviourExt, async);
+            loading.OnWaitingForAllowingToEnabling += OnWaitingForAllowingToEnabling;
+            loading.OnLoadedAndEnabled += OnLoadedAndEnabled;
+            //loading.SetAllowSceneEnabling(allowSceneActivation);
+            return loading;
+        }
 
-            return _loadingProgress.IsMax;
+        /// <summary>
+        /// Выгрузить сцену.
+        /// </summary>
+        public void Unload()
+        {
+            if (!_loadedScenes.Contains(_sceneName))
+            {
+                Debug.LogError($"You can't unload the scene {_sceneName}, because it is not loaded");
+            }
+
+            throw new NotImplementedException("Не реализовано. Если будет загружено две одинаковых сцены, то не понятно, какую необходимо выгрузить. Реализовать через выгрузку не по имени, а по Scene scene.");
+            AsyncOperation async = SceneManager.UnloadSceneAsync(_sceneName);
+            async.completed += (_) => OnUnloading?.Invoke();
         }
     }
 }
-
