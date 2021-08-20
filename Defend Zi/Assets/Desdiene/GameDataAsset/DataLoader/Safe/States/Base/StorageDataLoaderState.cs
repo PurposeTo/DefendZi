@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
+using Desdiene.StateMachine.StateSwitcher;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States.Base
 {

@@ -2,6 +2,7 @@
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
+using Desdiene.StateMachine.StateSwitcher;
 using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
