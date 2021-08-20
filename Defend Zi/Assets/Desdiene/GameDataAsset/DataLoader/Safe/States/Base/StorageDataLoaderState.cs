@@ -1,15 +1,19 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
+using Desdiene.StateMachine;
 using Desdiene.StateMachine.StateSwitcher;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States.Base
 {
-    internal abstract class StorageDataLoaderState<T> where T : IData, new()
+    internal abstract class StorageDataLoaderState<T> : IState where T : IData, new()
     {
         private readonly IStateSwitcher<StorageDataLoaderState<T>> _stateSwitcher;
 
         protected readonly StorageJsonDataLoader<T> _dataStorage;
+
+        public virtual Action OnEnter { get; }
+        public virtual Action OnExit { get; }
 
         private protected StorageDataLoaderState(IStateSwitcher<StorageDataLoaderState<T>> stateSwitcher,
                                                  StorageJsonDataLoader<T> dataStorage)

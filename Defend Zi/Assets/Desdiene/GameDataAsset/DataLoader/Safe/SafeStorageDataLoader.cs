@@ -44,7 +44,9 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe
         void IStateSwitcher<StorageDataLoaderState<TData>>.Switch<ConcreteStateT>()
         {
             var state = _allStates.FirstOrDefault(s => s is ConcreteStateT);
+            _currentState.OnExit?.Invoke();
             _currentState = state;
+            _currentState.OnEnter?.Invoke();
         }
     }
 }
