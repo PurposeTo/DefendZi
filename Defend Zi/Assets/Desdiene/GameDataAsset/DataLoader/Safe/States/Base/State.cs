@@ -1,8 +1,8 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
-using Desdiene.StateMachine;
-using Desdiene.StateMachine.StateSwitcher;
+using Desdiene.StateMachine.State;
+using Desdiene.StateMachine.StateSwitching;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States.Base
 {

@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Desdiene.MonoBehaviourExtension;
-using Desdiene.UnityScenes;
+﻿using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes.LoadingOperationAsset;
 using UnityEngine;
-using Zenject;
 
 public class SceneInitorTest : MonoBehaviourExt
 {

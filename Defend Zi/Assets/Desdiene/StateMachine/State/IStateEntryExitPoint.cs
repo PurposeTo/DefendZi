@@ -1,4 +1,4 @@
-﻿namespace Desdiene.StateMachine
+﻿namespace Desdiene.StateMachine.State
 {
     public interface IStateEntryExitPoint
     {

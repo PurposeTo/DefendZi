@@ -1,4 +1,6 @@
-﻿namespace Desdiene.StateMachine.StateSwitcher
+﻿using Desdiene.StateMachine.State;
+
+namespace Desdiene.StateMachine.StateSwitching
 {
     public interface IStateSwitcher<AbstractStateT> where AbstractStateT : IStateEntryExitPoint
     {

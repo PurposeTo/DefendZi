@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Desdiene.Container;
-using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.StateMachine;
-using Desdiene.StateMachine.StateSwitcher;
+using Desdiene.StateMachine.StateSwitching;
+using Desdiene.Types.AtomicReference;
 using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
 using Desdiene.UnityScenes.LoadingProcess.States;
 using UnityEngine;
@@ -16,11 +13,10 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
     /// <summary>
     /// Данный класс описывает операцию асинхронной загрузки сцены.
     /// </summary>
-    public class LoadingOperation : MonoBehaviourExtContainer, IStateSwitcher<State>
+    public class LoadingOperation : MonoBehaviourExtContainer
     {
         private readonly string _sceneName;
-
-        private readonly List<State> _allStates;
+        private readonly IRef<State> _refCurrentState = new Ref<State>();
 
         public LoadingOperation(MonoBehaviourExt mono, AsyncOperation loadingOperation, string sceneName) : base(mono)
         {
@@ -33,18 +29,17 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
 
             _sceneName = sceneName;
 
-            State loading = new Loading(mono, this, loadingOperation, _sceneName);
-            _allStates = new List<State>()
+            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+            List<State> allStates = new List<State>()
             {
-                loading,
-                new WaitingForAllowingToEnabling(mono, this, loadingOperation, _sceneName),
-                new Enabling(mono, this, loadingOperation, _sceneName),
-                new LoadedAndEnabled(mono, this, loadingOperation, _sceneName),
-        };
-            _currentState = loading;
+                new Loading(mono, stateSwitcher, loadingOperation, _sceneName),
+                new WaitingForAllowingToEnabling(mono, stateSwitcher, loadingOperation, _sceneName),
+                new Enabling(mono, stateSwitcher, loadingOperation, _sceneName),
+                new LoadedAndEnabled(mono, stateSwitcher, loadingOperation, _sceneName)
+            };
+            stateSwitcher.Add(allStates);
+            stateSwitcher.Switch<Loading>();
         }
-
-        private State _currentState;
 
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены,
@@ -52,8 +47,8 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
         /// </summary>
         public event Action OnWaitingForAllowingToEnabling
         {
-            add => _currentState.OnWaitingForAllowingToEnabling += value;
-            remove => _currentState.OnWaitingForAllowingToEnabling -= value;
+            add => CurrentState.OnWaitingForAllowingToEnabling += value;
+            remove => CurrentState.OnWaitingForAllowingToEnabling -= value;
         }
 
         /// <summary>
@@ -61,9 +56,11 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
         /// </summary>
         public event Action OnLoadedAndEnabled
         {
-            add => _currentState.OnLoadedAndEnabled += value;
-            remove => _currentState.OnLoadedAndEnabled -= value;
+            add => CurrentState.OnLoadedAndEnabled += value;
+            remove => CurrentState.OnLoadedAndEnabled -= value;
         }
+
+        private State CurrentState => _refCurrentState.Get() ?? throw new ArgumentNullException(nameof(CurrentState));
 
         /* Используется слово "enable" для разделения понятий.
          * Согласно документации unity, может быть "active scene" - главная включенная сцена, при использовании LoadSceneMode.Additive
@@ -73,14 +70,6 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
         /// Установить разрешение на включение сцены после загрузки.
         /// Внимание! Загруженная, но не включенная сцена все равно учитывается unity как загруженная.
         /// </summary>
-        public void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode mode) => _currentState.SetAllowSceneEnabling(mode);
-
-        void IStateSwitcher<State>.Switch<ConcreteStateT>()
-        {
-            var state = _allStates.FirstOrDefault(s => s is ConcreteStateT);
-            _currentState.OnExit();
-            _currentState = state;
-            _currentState.OnEnter();
-        }
+        public void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode mode) => CurrentState.SetAllowSceneEnabling(mode);
     }
 }

@@ -3,8 +3,8 @@ using System.Collections;
 using Desdiene.Container;
 using Desdiene.Coroutine;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.StateMachine;
-using Desdiene.StateMachine.StateSwitcher;
+using Desdiene.StateMachine.State;
+using Desdiene.StateMachine.StateSwitching;
 using Desdiene.UnityScenes.LoadingProcess;
 using UnityEngine;
 

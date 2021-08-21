@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.StateMachine.StateSwitcher;
+using Desdiene.StateMachine.StateSwitching;
 using Desdiene.UnityScenes.LoadingOperationAsset;
 using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
 using UnityEngine;
