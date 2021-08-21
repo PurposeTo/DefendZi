@@ -1,9 +1,9 @@
 ﻿using System;
 using Desdiene.GameDataAsset.Data;
-using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;
-using UnityEngine;
+using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
 using Desdiene.StateMachine.StateSwitching;
+using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 {

@@ -39,7 +39,7 @@ public class GameUIController : MonoBehaviour
     {
         _playerDeath.OnDied -= _gameOverView.Enable;
         _playerDeath.OnDied -= SetBestScore;
-        _playerDeath.OnDied -= SetScore; 
+        _playerDeath.OnDied -= SetScore;
         _gameOverView.OnReloadLvlClicked -= _gameManager.ReloadLvl;
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ChunkTrigger : MonoBehaviourExt
 {
-   [SerializeField, NotNull] private InterfaceComponent<ITriggerable> _triggerableChunk;
+    [SerializeField, NotNull] private InterfaceComponent<ITriggerable> _triggerableChunk;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

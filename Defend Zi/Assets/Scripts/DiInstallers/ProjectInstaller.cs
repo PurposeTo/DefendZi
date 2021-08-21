@@ -1,10 +1,9 @@
-﻿using Desdiene.GooglePlayApi;
-using Desdiene.GameDataAsset.Storage;
+﻿using Desdiene.GameDataAsset.Storage;
+using Desdiene.GooglePlayApi;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Scale;
-using Zenject;
-using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
+using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {

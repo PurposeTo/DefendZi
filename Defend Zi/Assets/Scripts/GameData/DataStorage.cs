@@ -7,7 +7,7 @@ using Desdiene.MonoBehaviourExtension;
 public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 {
     private const string fileName = "GameData";
-    
+
     private IStorage<GameData> _storage;
 
     protected override void AwakeExt()

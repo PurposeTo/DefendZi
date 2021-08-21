@@ -14,8 +14,8 @@ public class AxisPositionMover : MonoBehaviourExt
 
     private void InitPosition()
     {
-        Vector3 offset = _offsets.Length == 0 
-            ? transform.localPosition 
+        Vector3 offset = _offsets.Length == 0
+            ? transform.localPosition
             : Randomizer.GetRandomItem(_offsets).localPosition;
 
         //todo как правильно сместить ось?

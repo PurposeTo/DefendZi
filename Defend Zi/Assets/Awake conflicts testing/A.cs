@@ -1,5 +1,4 @@
 using Desdiene.MonoBehaviourExtension;
-using UnityEngine;
 using Logger = Desdiene.Logger;
 
 public class A : MonoBehaviourExt

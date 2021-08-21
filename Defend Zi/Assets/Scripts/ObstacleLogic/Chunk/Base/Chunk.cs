@@ -1,6 +1,5 @@
 ﻿using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.RectangleAsset;
-using Desdiene.Types.UfloatAsset;
 using UnityEngine;
 
 public abstract class Chunk : MonoBehaviourExt

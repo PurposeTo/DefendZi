@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Desdiene.GameDataAsset.Encryption
+﻿namespace Desdiene.GameDataAsset.Encryption
 {
     public struct SafeInt
     {

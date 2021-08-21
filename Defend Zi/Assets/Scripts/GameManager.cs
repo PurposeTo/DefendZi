@@ -4,7 +4,6 @@ using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
 using SceneTypes;
 using SceneTypes.Base;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 /// <summary>

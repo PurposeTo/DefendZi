@@ -1,5 +1,4 @@
 ﻿using Desdiene.Extensions.System.Math;
-using Desdiene.Types.Range.NonDirectional.Interfaces;
 using UnityEngine;
 
 namespace Desdiene.Types.Range.NonDirectional.Abstract

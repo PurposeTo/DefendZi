@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Desdiene.GameDataAsset.Data;
+using Desdiene.GameDataAsset.DataLoader.FromStorage;
 using Desdiene.GameDataAsset.DataLoader.Safe.States;
 using Desdiene.GameDataAsset.DataLoader.Safe.States.Base;
-using Desdiene.GameDataAsset.DataLoader.FromStorage;
-using Desdiene.Types.AtomicReference;
 using Desdiene.StateMachine.StateSwitching;
+using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe
 {

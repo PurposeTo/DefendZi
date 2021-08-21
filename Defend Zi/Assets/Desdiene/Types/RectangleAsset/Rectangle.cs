@@ -9,7 +9,7 @@ namespace Desdiene.Types.RectangleAsset
     {
         //Не делать readonly, тк могут редактироваться через инспектор.
         [SerializeField] private Ufloat _height;
-        [SerializeField] private Ufloat _width; 
+        [SerializeField] private Ufloat _width;
 
         public Rectangle(float height, float width)
         {

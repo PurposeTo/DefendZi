@@ -1,7 +1,7 @@
 using System;
 using Desdiene.Types.InPositiveRange;
-using Desdiene.Types.PercentAsset;
 using Desdiene.Types.Percentale;
+using Desdiene.Types.PercentAsset;
 using Desdiene.Types.Range.Positive;
 using UnityEngine;
 
