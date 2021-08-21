@@ -40,14 +40,14 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
             onWaitingForAllowingToEnabling?.Invoke();
         }
 
-        protected override void OnCheckingState()
+        protected override bool IsThisState(ProgressInfo progressInfo)
         {
-            if (ProgressInfo.Equals90Percents && ProgressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Forbid)
+            if (progressInfo.Equals90Percents && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Forbid)
             {
-                return;
+                Debug.Log($"КРЯ! Проверка внутри состояния WaitingForAllowingToEnabling. Equals90Percents={progressInfo.Equals90Percents}. SceneEnablingAfterLoading.Mode={progressInfo.SceneEnablindAfterLoading}. Это ли состояние? -{progressInfo.Equals90Percents && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Forbid}") ;
+                return true;
             }
-
-            SwitchState<Enabling>();
+            else return false;
         }
 
         private void AllowSceneEnabling() => LoadingOperation.allowSceneActivation = true;

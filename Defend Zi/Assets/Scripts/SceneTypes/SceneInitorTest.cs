@@ -15,7 +15,7 @@ public class SceneInitorTest : MonoBehaviourExt
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            LoadingOperation loading = _sceneType.LoadAsSingle(SceneEnablingAfterLoading.Mode.Allow);
+            LoadingOperation loading = _sceneType.LoadAsSingle(SceneEnablingAfterLoading.Mode.Forbid);
         }
     }
 }

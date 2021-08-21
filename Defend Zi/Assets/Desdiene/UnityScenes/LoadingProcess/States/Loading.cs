@@ -24,15 +24,14 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
             LoadingOperation.allowSceneActivation = isAllow;
         }
 
-        protected override void OnCheckingState()
+        protected override bool IsThisState(ProgressInfo progressInfo)
         {
-            if (ProgressInfo.LessThan90Percents) return;
-            if (ProgressInfo.Equals90Percents && ProgressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
+            if (progressInfo.LessThan90Percents) return true;
+            else if (progressInfo.Equals90Percents && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
             {
-                return;
+                return true;
             }
-
-            SwitchState<WaitingForAllowingToEnabling>();
+            else return false;
         }
     }
 }

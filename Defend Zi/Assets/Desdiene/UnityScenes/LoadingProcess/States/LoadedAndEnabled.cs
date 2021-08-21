@@ -1,5 +1,4 @@
-﻿using System;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
 using Desdiene.UnityScenes.LoadingOperationAsset;
 using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
@@ -24,19 +23,15 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
             Debug.LogWarning($"You can't change scene enabling after loading mode to {enablingMode}, because it is already loaded and enabled");
         }
 
-        protected override void OnCheckingState()
+        protected override bool IsThisState(ProgressInfo progressInfo)
         {
-            if (ProgressInfo.IsDone
-                && ProgressInfo.Equals100Percents
-                && ProgressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
+            if (progressInfo.IsDone
+                && progressInfo.Equals100Percents
+                && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
             {
-                return;
+                return true;
             }
-
-            throw new InvalidOperationException($"Unknown loading status! "
-                                                + $"Progress: {Progress * 100}%, "
-                                                + $"allowSceneActivation = {ProgressInfo.SceneEnablindAfterLoading}, "
-                                                + $"_loadingOperation.isDone = {ProgressInfo.IsDone}");
+            else return false;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
     public class Enabling : State
     {
         public Enabling(MonoBehaviourExt mono,
-                       IStateSwitcher<State> stateSwitcher,
+                     IStateSwitcher<State> stateSwitcher,
                        AsyncOperation loadingOperation,
                        string sceneName)
             : base(mono,
@@ -23,14 +23,14 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
             Debug.LogWarning($"You can't change allowing for scene enabling after loading to {enablingMode} while {nameof(Enabling)}");
         }
 
-        protected override void OnCheckingState()
+        protected override bool IsThisState(ProgressInfo progressInfo)
         {
-            if (ProgressInfo.Between90And100PercentsIncluding
-                && ProgressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
+            if (progressInfo.Between90And100PercentsIncluding
+                && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
             {
-                return;
+                return true;
             }
-            SwitchState<LoadedAndEnabled>();
+            else return false;
         }
     }
 }

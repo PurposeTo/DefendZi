@@ -13,10 +13,10 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
     public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint
     {
         private readonly IStateSwitcher<State> _stateSwitcher;
-        private readonly string _sceneName;
-        private readonly ICoroutine _checkingStatus;
         protected AsyncOperation LoadingOperation { get; }
-        protected ProgressInfo ProgressInfo { get; }
+        private readonly string _sceneName;
+        private readonly ProgressInfo _progressInfo;
+        private readonly ICoroutine _checkingStatus;
 
         public State(MonoBehaviourExt mono,
                      IStateSwitcher<State> stateSwitcher,
@@ -32,7 +32,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
             _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
             LoadingOperation = loadingOperation ?? throw new ArgumentNullException(nameof(loadingOperation));
             _sceneName = sceneName;
-            ProgressInfo = new ProgressInfo(loadingOperation);
+            _progressInfo = new ProgressInfo(loadingOperation);
             _checkingStatus = new CoroutineWrap(mono);
         }
 
@@ -61,35 +61,53 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 
         public virtual void OnEnter()
         {
-            _checkingStatus.StartContinuously(CheckingStatus());
+            Debug.Log($"КРЯ! Вход в состояние {GetType().Name}");
+            _checkingStatus.StartContinuously(CheckingState());
         }
 
         public virtual void OnExit()
         {
+            Debug.Log($"КРЯ! Выход из состояния {GetType().Name}");
             _checkingStatus.Break();
         }
 
-        protected void SwitchState<stateT>() where stateT : State
+        /// <summary>
+        /// Соответствует ли текущий процесс загрузки данному состоянию?
+        /// </summary>
+        protected abstract bool IsThisState(ProgressInfo progressInfo);
+
+        private void FindAndSwitchState()
         {
-            _stateSwitcher.Switch<stateT>();
+            try
+            {
+                Debug.Log($"Кря! Состояние изменилось. Текущее состояние: {GetType().Name}. Это ли состояние? -{IsThisState(_progressInfo)}.");
+                _stateSwitcher.Switch(state => state.IsThisState(_progressInfo));
+            }
+            catch (InvalidOperationException exception)
+            {
+                throw new InvalidOperationException($"Unknown loading operation state! "
+                                                + $"Progress: {Progress * 100}%, "
+                                                + $"allowSceneActivation = {_progressInfo.SceneEnablindAfterLoading}, "
+                                                + $"_loadingOperation.isDone = {_progressInfo.IsDone}",
+                                                exception);
+            }
         }
 
-        //todo: сделать так, чтобы он проверял, соответствует ли текущее ожидаемое состояние текущему фактическому состоянию.
-        // Если нет, то сменить состояние.
-        /// <summary>
-        /// Данный метод выполняется при проверке состояния прогресса загрузки сцены.
-        /// </summary>
-        protected abstract void OnCheckingState();
+        private void CheckState()
+        {
+            Debug.Log($"КРЯ! Состояние: {GetType().Name}. Проверка актуальности.");
+            if (!IsThisState(_progressInfo)) FindAndSwitchState();
+        }
 
-        private IEnumerator CheckingStatus()
+        private IEnumerator CheckingState()
         {
             string logMessage = "";
 
             while (true)
             {
                 logMessage = PrintLoadingLog(logMessage, this);
-                OnCheckingState();
-                /* При выгрузке сцены удалится MonoBehaviour объект, а следовательно, и данный класс.
+                CheckState();
+                /* При выгрузке сцены удалится MonoBehaviour объект, а с ним данный класс.
                  * Все инструкции должны быть указанны и будут выполнены до yield return инструкции.
                  */
                 yield return null;

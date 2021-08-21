@@ -23,10 +23,10 @@ namespace Desdiene.UnityScenes.LoadingProcess
         }
         public float Progress => _loadingOperation.progress;
         public bool Equals90Percents => Mathf.Approximately(Progress, 0.9f);
-        public bool LessThan90Percents => Progress < 0.9f;
-        public bool MoreThan90Percents => Progress > 0.9f;
+        public bool LessThan90Percents => Progress < 0.9f && !Equals90Percents;
+        public bool MoreThan90Percents => Progress > 0.9f && !Equals90Percents;
         public bool Equals100Percents => Mathf.Approximately(Progress, 1f);
-        public bool LessThan100Percents => Progress < 1f;
+        public bool LessThan100Percents => Progress < 1f && !Equals100Percents;
         public bool LessOrEqualsThan90Percents => LessThan90Percents || Equals90Percents;
         public bool MoreOrEqualsThan90Percents => MoreThan90Percents || Equals90Percents;
         public bool LessOrEqualsThan100Percents => LessThan100Percents || Equals100Percents;
