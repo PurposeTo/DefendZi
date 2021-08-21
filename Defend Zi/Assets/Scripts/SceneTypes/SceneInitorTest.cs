@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
-using Desdiene.UnityScenes.LoadingProcess;
+using Desdiene.UnityScenes.LoadingOperationAsset;
 using UnityEngine;
 using Zenject;
 
@@ -19,7 +19,7 @@ public class SceneInitorTest : MonoBehaviourExt
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Loading loading = _sceneType.LoadAsSingle();
+            LoadingOperation loading = _sceneType.LoadAsSingle(SceneEnablingAfterLoading.Mode.Allow);
         }
     }
 }

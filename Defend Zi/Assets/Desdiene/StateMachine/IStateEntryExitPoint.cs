@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace Desdiene.StateMachine
+﻿namespace Desdiene.StateMachine
 {
-    public interface IState
+    public interface IStateEntryExitPoint
     {
         /// <summary>
         /// Метод, выполняющийся по входу в состояние.
         /// </summary>
-        Action OnEnter { get; }
+        void OnEnter();
 
         /// <summary>
         /// Метод, выполняющийся по выходу из состояния.
         /// </summary>
-        Action OnExit { get; }
+        void OnExit();
     }
 }

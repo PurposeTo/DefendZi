@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 {
-    internal class InitialState<T> : StorageDataLoaderState<T> where T : IData, new()
+    internal class Initial<T> : State<T> where T : IData, new()
     {
 
-        public InitialState(IStateSwitcher<StorageDataLoaderState<T>> stateSwitcher,
+        public Initial(IStateSwitcher<State<T>> stateSwitcher,
                             StorageJsonDataLoader<T> dataStorage)
             : base(stateSwitcher, dataStorage) { }
 
@@ -19,7 +19,7 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.States
             _dataStorage.Load(data =>
             {
                 dataCallback?.Invoke(data);
-                SwitchState<DataWasReceivedState<T>>();
+                SwitchState<DataWasReceived<T>>();
             });
         }
 

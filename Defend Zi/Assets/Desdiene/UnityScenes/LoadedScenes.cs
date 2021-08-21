@@ -14,7 +14,7 @@ namespace Desdiene.UnityScenes
     {
         /// <summary>
         /// Получить массив загруженных сцен.
-        /// Учитывает также сцены, которые загружены, но не включены (AsyncOperation async.allowSceneActivation = false)
+        /// Учитывает также сцены, которые загружены, но не включены (AsyncOperation loadingOperation.allowSceneActivation = false)
         /// </summary>
         public Scene[] Get()
         {

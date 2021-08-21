@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 {
-    internal class DataWasReceivedState<T> : StorageDataLoaderState<T> where T : IData, new()
+    internal class DataWasReceived<T> : State<T> where T : IData, new()
     {
-        public DataWasReceivedState(IStateSwitcher<StorageDataLoaderState<T>> stateSwitcher,
+        public DataWasReceived(IStateSwitcher<State<T>> stateSwitcher,
                             StorageJsonDataLoader<T> dataStorage)
             : base(stateSwitcher, dataStorage) { }
 
