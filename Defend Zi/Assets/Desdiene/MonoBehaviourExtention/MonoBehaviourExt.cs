@@ -176,7 +176,9 @@ namespace Desdiene.MonoBehaviourExtension
                 coroutine.OnStopped += () => activeCoroutines.Remove(coroutine);
                 activeCoroutines.Add(coroutine);
             }
-            else throw new ArgumentException("Добавить можно только выполняемую корутину!");
+            // Если была добавлена корутина, которая завершила своё выполнение за одну итерацию.
+            else return;
+            //else throw new ArgumentException("Добавить можно только выполняемую корутину!");
         }
 
         /// <summary>

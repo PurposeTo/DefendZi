@@ -16,7 +16,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
         protected AsyncOperation LoadingOperation { get; }
         private readonly string _sceneName;
         private readonly ProgressInfo _progressInfo;
-        private readonly ICoroutine _checkingStatus;
+        private readonly ICoroutine _checkingState;
 
         public State(MonoBehaviourExt mono,
                      IStateSwitcher<State> stateSwitcher,
@@ -33,7 +33,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
             LoadingOperation = loadingOperation ?? throw new ArgumentNullException(nameof(loadingOperation));
             _sceneName = sceneName;
             _progressInfo = new ProgressInfo(loadingOperation);
-            _checkingStatus = new CoroutineWrap(mono);
+            _checkingState = new CoroutineWrap(mono);
         }
 
         public float Progress => LoadingOperation.progress;
@@ -61,14 +61,12 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 
         public virtual void OnEnter()
         {
-            Debug.Log($"КРЯ! Вход в состояние {GetType().Name}");
-            _checkingStatus.StartContinuously(CheckingState());
+            _checkingState.StartContinuously(CheckingState());
         }
 
         public virtual void OnExit()
         {
-            Debug.Log($"КРЯ! Выход из состояния {GetType().Name}");
-            _checkingStatus.Break();
+            _checkingState.Break();
         }
 
         /// <summary>
@@ -80,7 +78,6 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
         {
             try
             {
-                Debug.Log($"Кря! Состояние изменилось. Текущее состояние: {GetType().Name}. Это ли состояние? -{IsThisState(_progressInfo)}.");
                 _stateSwitcher.Switch(state => state.IsThisState(_progressInfo));
             }
             catch (InvalidOperationException exception)
@@ -95,8 +92,12 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 
         private void CheckState()
         {
-            Debug.Log($"КРЯ! Состояние: {GetType().Name}. Проверка актуальности.");
-            if (!IsThisState(_progressInfo)) FindAndSwitchState();
+            Debug.Log($"КРЯ! Проверка актуальности состояния {GetType().Name}");
+            bool isNotThisState = !IsThisState(_progressInfo);
+            if (isNotThisState)
+            {
+                FindAndSwitchState();
+            }
         }
 
         private IEnumerator CheckingState()
@@ -105,7 +106,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 
             while (true)
             {
-                logMessage = PrintLoadingLog(logMessage, this);
+                logMessage = PrintLoadingLog(logMessage);
                 CheckState();
                 /* При выгрузке сцены удалится MonoBehaviour объект, а с ним данный класс.
                  * Все инструкции должны быть указанны и будут выполнены до yield return инструкции.
@@ -114,9 +115,9 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
             }
         }
 
-        private string PrintLoadingLog(string logMessage, State state)
+        private string PrintLoadingLog(string logMessage)
         {
-            string newLogMessage = $"Loading scene \"{_sceneName}\". Progress: {Progress * 100}%. State: {state.GetType().Name}";
+            string newLogMessage = $"Loading scene \"{_sceneName}\". Progress: {Progress * 100}%. State: {GetType().Name}";
             if (logMessage != newLogMessage)
             {
                 logMessage = newLogMessage;

@@ -25,8 +25,8 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
 
         protected override bool IsThisState(ProgressInfo progressInfo)
         {
-            if (progressInfo.Between90And100PercentsIncluding
-                && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
+            bool isEnablingAllow = progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow;
+            if ((progressInfo.Between90And100PercentsExcluding || progressInfo.Equals100Percents) && isEnablingAllow)
             {
                 return true;
             }

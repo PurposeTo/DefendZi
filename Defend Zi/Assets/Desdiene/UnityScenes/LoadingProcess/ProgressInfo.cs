@@ -30,8 +30,6 @@ namespace Desdiene.UnityScenes.LoadingProcess
         public bool LessOrEqualsThan90Percents => LessThan90Percents || Equals90Percents;
         public bool MoreOrEqualsThan90Percents => MoreThan90Percents || Equals90Percents;
         public bool LessOrEqualsThan100Percents => LessThan100Percents || Equals100Percents;
-        public bool Between90And100PercentsIncluding => Equals90Percents
-                                                        || (MoreThan90Percents && LessThan100Percents)
-                                                        || Equals100Percents;
+        public bool Between90And100PercentsExcluding => MoreThan90Percents && LessThan100Percents;
     }
 }

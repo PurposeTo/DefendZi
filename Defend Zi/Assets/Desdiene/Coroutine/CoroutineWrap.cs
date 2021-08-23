@@ -16,8 +16,9 @@ namespace Desdiene.Coroutine
         /// Событие о остановке корутины. Вызывается в случае Break-а или по окончанию выполнения.
         /// </summary>
         public event Action OnStopped;
-        public bool IsExecuting => coroutine != null;
-        private UnityEngine.Coroutine coroutine;
+        public bool IsExecuting { get; private set; }
+        public bool IsCoroutineNotNull => _coroutine != null;
+        private UnityEngine.Coroutine _coroutine;
 
         /// <summary>
         /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
@@ -53,7 +54,7 @@ namespace Desdiene.Coroutine
         {
             if (IsExecuting)
             {
-                monoBehaviourExt.StopCoroutine(coroutine);
+                monoBehaviourExt.StopCoroutine(_coroutine);
                 SetNullAndRemove();
             }
         }
@@ -64,7 +65,9 @@ namespace Desdiene.Coroutine
         private void Start(IEnumerator enumerator)
         {
             if (enumerator == null) throw new ArgumentNullException(nameof(enumerator));
-            coroutine = monoBehaviourExt.StartCoroutine(WrappedEnumerator(enumerator));
+            //т.к. во время первой итерации enumerator-а поле _coroutine еще не будет заполнено, выполняется установка флага вручную.
+            IsExecuting = true;
+            _coroutine = monoBehaviourExt.StartCoroutine(WrappedEnumerator(enumerator));
             monoBehaviourExt.AddCoroutine(this);
         }
 
@@ -77,10 +80,11 @@ namespace Desdiene.Coroutine
         private void SetNullAndRemove()
         {
             SetNull();
+            IsExecuting = IsCoroutineNotNull;
             OnStopped?.Invoke();
         }
 
-        private void SetNull() => coroutine = null;
+        private void SetNull() => _coroutine = null;
 
     }
 }

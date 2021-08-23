@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Desdiene.StateMachine.State;
 using Desdiene.Types.AtomicReference;
+using UnityEngine;
 
 namespace Desdiene.StateMachine.StateSwitching
 {

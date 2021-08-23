@@ -30,14 +30,13 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
             _sceneName = sceneName;
 
             StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
-            List<State> allStates = new List<State>();
-            allStates.AddRange(new State[]
+            List<State> allStates = new List<State>()
             {
                 new Loading(mono, stateSwitcher, loadingOperation, _sceneName),
                 new WaitingForAllowingToEnabling(mono, stateSwitcher, loadingOperation, _sceneName),
                 new Enabling(mono, stateSwitcher, loadingOperation, _sceneName),
                 new LoadedAndEnabled(mono, stateSwitcher, loadingOperation, _sceneName)
-            });
+            };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Loading>();
         }

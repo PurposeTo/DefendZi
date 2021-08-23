@@ -44,7 +44,6 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
         {
             if (progressInfo.Equals90Percents && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Forbid)
             {
-                Debug.Log($"КРЯ! Проверка внутри состояния WaitingForAllowingToEnabling. Equals90Percents={progressInfo.Equals90Percents}. SceneEnablingAfterLoading.Mode={progressInfo.SceneEnablindAfterLoading}. Это ли состояние? -{progressInfo.Equals90Percents && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Forbid}");
                 return true;
             }
             else return false;
