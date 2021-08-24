@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -13,11 +13,11 @@ using UnityEngine;
 namespace Desdiene.CoroutineWrapper
 {
     /*
-     * ��� ��������� �������� ����������� ���������� �� ���������� yield return. 
-     * ���� �������� ��������������� ������ yield return _innerEnumerator, �� ������ ��� ����������� �� �����.
-     * ������ ������� ������:
+     * При остановке корутины выполняться инструкции до следующего yield return. 
+     * Если корутина останавливается внутри yield return _innerEnumerator, то дальше она выполняться не будет.
+     * Пример неявной работы:
      * 
-     * [_routine = ���������� �������� TestProcess()]
+     * [_routine = запущенная корутина TestProcess()]
      * 
      * IEnumerator TestProcess() 
      * {
@@ -25,11 +25,11 @@ namespace Desdiene.CoroutineWrapper
      *     {
      *         yield return null;
      *         _routine.Stop();
-     *         Debug.Log("���");
+     *         Debug.Log("КРЯ");
      *     }
      * }
      *    
-     * ��� ����� �������, �.�. yield return ����� ���� � ��������� �������� ����� while.
+     * Лог будет выведен, т.к. yield return будет лишь в следующей итерации цикла while.
      */
     public class StoppableCoroutine : MonoBehaviourExtContainer
     {
@@ -41,7 +41,7 @@ namespace Desdiene.CoroutineWrapper
             if (initialCoroutine is null) throw new ArgumentNullException(nameof(initialCoroutine));
 
             NestableCoroutine nestableCoroutine = new NestableCoroutine(initialCoroutine);
-            StateSwitcher<State, DynamicData> stateSwitcher = new StateSwitcher<State, DynamicData>(_refCurrentState);
+            StateSwitcher<State, MutableData> stateSwitcher = new StateSwitcher<State, MutableData>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new Created(mono, stateSwitcher, nestableCoroutine),
@@ -55,10 +55,27 @@ namespace Desdiene.CoroutineWrapper
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
+        /// <summary>
+        /// Запустить выполнение корутины, если она не была запущена.
+        /// </summary>
         public void StartContinuously() => CurrentState.StartContinuously();
 
+        /// <summary>
+        /// Прервать выполнение корутины.
+        /// </summary>
         public void Terminate() => CurrentState.Terminate();
 
+        /// <summary>
+        /// Прервать выполнение корутины, если она была запущена.
+        /// </summary>
+        /// <returns>Была ли корутина запущена?</returns>
+        public bool TryTerminate() => CurrentState.TryTerminate();
+
+        /// <summary>
+        /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
+        /// </summary>
+        /// <param name="newCoroutine">Вложенная корутина.</param>
+        /// <returns>Енумератор для ожидания выполнения.</returns>
         public IEnumerator StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
     }
 }

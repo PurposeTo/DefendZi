@@ -27,11 +27,11 @@ namespace Desdiene.StateMachine.StateSwitching
     }
 
 
-    public class StateSwitcher<AbstractStateT, DynamicDataT> :
+    public class StateSwitcher<AbstractStateT, MutableDataT> :
         StateSwitcherBase<AbstractStateT>,
-        IStateSwitcher<AbstractStateT, DynamicDataT>
-        where AbstractStateT : IStateEntryExitPoint<DynamicDataT>
-        where DynamicDataT : class
+        IStateSwitcher<AbstractStateT, MutableDataT>
+        where AbstractStateT : IStateEntryExitPoint<MutableDataT>
+        where MutableDataT : class
     {
         public StateSwitcher(IRef<AbstractStateT> refCurrentState)
             : base(new List<AbstractStateT>(), refCurrentState) { }
@@ -41,15 +41,15 @@ namespace Desdiene.StateMachine.StateSwitching
 
         protected override void Switch(AbstractStateT newState)
         {
-            DynamicDataT dynamicData = null;
+            MutableDataT mutableData = null;
             if (IsStarted)
             {
-                dynamicData = CurrentState.OnExit();
+                mutableData = CurrentState.OnExit();
             }
             else IsStarted = true;
 
             CurrentState = newState;
-            CurrentState.OnEnter(dynamicData);
+            CurrentState.OnEnter(mutableData);
         }
     }
 }

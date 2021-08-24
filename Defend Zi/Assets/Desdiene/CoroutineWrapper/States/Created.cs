@@ -8,7 +8,7 @@ namespace Desdiene.CoroutineWrapper.States
     public class Created : State
     {
         public Created(MonoBehaviourExt mono,
-                       IStateSwitcher<State, DynamicData> stateSwitcher,
+                       IStateSwitcher<State, MutableData> stateSwitcher,
                        NestableCoroutine nestableCoroutine)
             : base(mono,
                    stateSwitcher,
@@ -20,12 +20,12 @@ namespace Desdiene.CoroutineWrapper.States
             SwitchState<Executing>();
         }
 
-        public override IEnumerator StartNested(IEnumerator newCoroutine)
+        public override void Terminate()
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Terminate()
+        public override IEnumerator StartNested(IEnumerator newCoroutine)
         {
             throw new System.NotImplementedException();
         }

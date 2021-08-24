@@ -13,19 +13,19 @@
         void OnExit();
     }
 
-    public interface IStateEntryExitPoint<DynamicDataT>
+    public interface IStateEntryExitPoint<MutableDataT>
     {
         /// <summary>
         /// Метод, выполняющийся по входу в состояние.
         /// </summary>
-        /// <param name="dynamicData">Объект с измененными состоянием данными. 
+        /// <param name="mutableData">Объект с измененными состоянием данными. 
         /// Может быть null, если не было предшествующего состояния.</param>
-        void OnEnter(DynamicDataT dynamicData);
+        void OnEnter(MutableDataT mutableData);
 
         /// <summary>
         /// Метод, выполняющийся по выходу из состояния.
         /// </summary>
         /// <returns>Объект с измененными состоянием данными.</returns>
-        DynamicDataT OnExit();
+        MutableDataT OnExit();
     }
 }

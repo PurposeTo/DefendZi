@@ -8,7 +8,7 @@ namespace Desdiene.CoroutineWrapper.States
     public class Executing : State
     {
         public Executing(MonoBehaviourExt mono,
-                       IStateSwitcher<State, DynamicData> stateSwitcher,
+                       IStateSwitcher<State, MutableData> stateSwitcher,
                          NestableCoroutine nestableCoroutine)
             : base(mono,
                    stateSwitcher,

@@ -2,11 +2,11 @@
 
 namespace Desdiene.CoroutineWrapper.States.Base
 {
-    public class DynamicData
+    public class MutableData
     {
         private readonly Coroutine coroutine;
 
-        public DynamicData(Coroutine coroutine)
+        public MutableData(Coroutine coroutine)
         {
             this.coroutine = coroutine;
         }

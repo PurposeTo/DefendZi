@@ -18,9 +18,9 @@ namespace Desdiene.StateMachine.StateSwitching
         void Switch(Predicate<AbstractStateT> predicate);
     }
 
-    public interface IStateSwitcher<AbstractStateT, DynamicDataT>
-        where AbstractStateT : IStateEntryExitPoint<DynamicDataT>
-        where DynamicDataT : class
+    public interface IStateSwitcher<AbstractStateT, MutableDataT>
+        where AbstractStateT : IStateEntryExitPoint<MutableDataT>
+        where MutableDataT : class
     {
         /// <summary>
         /// Сменить текущее состояние.
