@@ -2,7 +2,7 @@
 using System.Collections;
 using System.IO;
 using Desdiene.Container;
-using Desdiene.Coroutine;
+using Desdiene.CoroutineWrapper;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using UnityEngine.Networking;

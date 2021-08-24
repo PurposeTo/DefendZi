@@ -60,7 +60,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
             remove => CurrentState.OnLoadedAndEnabled -= value;
         }
 
-        private State CurrentState => _refCurrentState.Get() ?? throw new ArgumentNullException(nameof(CurrentState));
+        private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
         /* Используется слово "enable" для разделения понятий.
          * Согласно документации unity, может быть "active scene" - главная включенная сцена, при использовании LoadSceneMode.Additive

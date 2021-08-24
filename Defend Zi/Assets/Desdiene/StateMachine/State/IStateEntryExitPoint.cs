@@ -18,9 +18,9 @@
         /// <summary>
         /// Метод, выполняющийся по входу в состояние.
         /// </summary>
-        /// <param name="enterParams">Объект с измененными состоянием данными. 
+        /// <param name="dynamicData">Объект с измененными состоянием данными. 
         /// Может быть null, если не было предшествующего состояния.</param>
-        void OnEnter(DynamicDataT enterParams);
+        void OnEnter(DynamicDataT dynamicData);
 
         /// <summary>
         /// Метод, выполняющийся по выходу из состояния.

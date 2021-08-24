@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.Container;
-using Desdiene.Coroutine;
+using Desdiene.CoroutineWrapper;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.State;
 using Desdiene.StateMachine.StateSwitching;

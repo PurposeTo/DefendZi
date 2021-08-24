@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Desdiene.Coroutine;
+using Desdiene.CoroutineWrapper;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
 using Desdiene.UnityScenes.LoadingOperationAsset;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Desdiene.Coroutine
+namespace Desdiene.CoroutineWrapper
 {
     public interface ICoroutine
     {

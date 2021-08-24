@@ -3,7 +3,7 @@ using System.Collections;
 using Desdiene.Container;
 using Desdiene.MonoBehaviourExtension;
 
-namespace Desdiene.Coroutine
+namespace Desdiene.CoroutineWrapper
 {
     public class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {

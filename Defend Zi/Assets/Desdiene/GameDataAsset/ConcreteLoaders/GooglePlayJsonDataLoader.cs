@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
-using Desdiene.Coroutine;
+using Desdiene.CoroutineWrapper;
 using Desdiene.GameDataAsset.Data;
 using Desdiene.GameDataAsset.DataLoader;
 using Desdiene.GameDataAsset.DataLoader.FromStorage;

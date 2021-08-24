@@ -1,8 +1,9 @@
 using System.Collections;
+using Desdiene.CoroutineWrapper;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-public class CoroutineTest : MonoBehaviourExt
+public class Test_StoppableCoroutine : MonoBehaviourExt
 {
 
     private StoppableCoroutine stoppableCoroutine;
@@ -11,13 +12,14 @@ public class CoroutineTest : MonoBehaviourExt
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
+            Debug.Log(Time.time + " / S Pressed!");
             stoppableCoroutine = new StoppableCoroutine(this, Outer());
-            stoppableCoroutine.Start();
+            stoppableCoroutine.StartContinuously();
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log(Time.time + " / Q Pressed!");
-            stoppableCoroutine.Stop();
+            stoppableCoroutine.Terminate();
         }
     }
 
@@ -49,7 +51,7 @@ public class CoroutineTest : MonoBehaviourExt
 
             if (count == 9)
             {
-                stoppableCoroutine.Stop();
+               break;
             }
             count++;
             yield return new WaitForSeconds(0.5f);
