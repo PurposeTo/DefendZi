@@ -57,7 +57,11 @@ namespace Desdiene.TimeControl.Pausable
             UpdateTotalPause();
         }
 
-        private void UpdateTotalPause() => timeScaler.SetPause(CalculateTotalPause());
+        private void UpdateTotalPause()
+        {
+            timeScaler.SetPause(CalculateTotalPause());
+            LogAllPausers();
+        }
 
         private bool CalculateTotalPause()
         {

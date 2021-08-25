@@ -21,19 +21,7 @@ namespace Desdiene.TimeControl.Pausable
             pausable = new PausableTime(globalTimeScaler);
         }
 
-        private IEnumerator Start()
-        {
-            var wait = new WaitForSecondsRealtime(10f);
-            while (true)
-            {
-                LogAllPausers();
-                yield return wait;
-            }
-        }
-
         public bool IsPause => pausable.IsPause;
-
-        public void LogAllPausers() => pausable.LogAllPausers();
 
         public void Add(ITimePauser pauser) => pausable.Add(pauser);
 
