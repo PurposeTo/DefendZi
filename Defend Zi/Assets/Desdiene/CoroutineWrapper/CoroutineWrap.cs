@@ -79,6 +79,12 @@ namespace Desdiene.CoroutineWrapper
         /// <returns>Была ли корутина запущена?</returns>
         public bool TryTerminate() => CurrentState.TryTerminate();
 
+        /*
+         * метод monoBehaviour.StopCoroutine не может остановить выполнение вложенных корутин, 
+         * поэтому все вложенные корутины должны запускаться через yield return StartNested(enumerator).
+         * Под капотом реализации идёт ручное перелистывание MoveNext() IEnumerator-а, для возможности отслеживания
+         * прерывания корутины и последующего прерывания всех запущенных (вложенных) enumerator-ов.
+         */
         /// <summary>
         /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
         /// </summary>
