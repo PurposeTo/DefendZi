@@ -3,7 +3,7 @@ using Desdiene.CoroutineWrapper;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-public class Test_StoppableCoroutine : MonoBehaviourExt
+public class Test_CoroutineWrap : MonoBehaviourExt
 {
 
     private CoroutineWrap stoppableCoroutine;
