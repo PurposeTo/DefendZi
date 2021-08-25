@@ -9,13 +9,15 @@ namespace Desdiene.StateMachine.StateSwitching
         /// Сменить текущее состояние.
         /// </summary>
         /// <typeparam name="ConcreteStateT">Тип нового состояния.</typeparam>
-        void Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT;
+        /// <returns>Новое состояние.</returns>
+        AbstractStateT Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT;
 
         /// <summary>
         /// Сменить текущее состояние.
         /// </summary>
         /// <param name="predicate">Условие выбора нового состояния.</param>
-        void Switch(Predicate<AbstractStateT> predicate);
+        /// <returns>Новое состояние.</returns>
+        AbstractStateT Switch(Predicate<AbstractStateT> predicate);
     }
 
     public interface IStateSwitcher<AbstractStateT, MutableDataT>
@@ -26,12 +28,14 @@ namespace Desdiene.StateMachine.StateSwitching
         /// Сменить текущее состояние.
         /// </summary>
         /// <typeparam name="ConcreteStateT">Тип нового состояния.</typeparam>
-        void Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT;
+        /// <returns>Новое состояние.</returns>
+        AbstractStateT Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT;
 
         /// <summary>
         /// Сменить текущее состояние.
         /// </summary>
         /// <param name="predicate">Условие выбора нового состояния.</param>
-        void Switch(Predicate<AbstractStateT> predicate);
+        /// <returns>Новое состояние.</returns>
+        AbstractStateT Switch(Predicate<AbstractStateT> predicate);
     }
 }

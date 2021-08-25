@@ -16,13 +16,14 @@ namespace Desdiene.StateMachine.StateSwitching
         public StateSwitcher(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
             : base(allStates, refCurrentState) { }
 
-        protected override void Switch(AbstractStateT newState)
+        protected override AbstractStateT Switch(AbstractStateT newState)
         {
             if (IsStarted) CurrentState.OnExit();
             else IsStarted = true;
 
             CurrentState = newState;
             CurrentState.OnEnter();
+            return CurrentState;
         }
     }
 
@@ -39,7 +40,7 @@ namespace Desdiene.StateMachine.StateSwitching
         public StateSwitcher(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
             : base(allStates, refCurrentState) { }
 
-        protected override void Switch(AbstractStateT newState)
+        protected override AbstractStateT Switch(AbstractStateT newState)
         {
             MutableDataT mutableData = null;
             if (IsStarted)
@@ -50,6 +51,7 @@ namespace Desdiene.StateMachine.StateSwitching
 
             CurrentState = newState;
             CurrentState.OnEnter(mutableData);
+            return CurrentState;
         }
     }
 }

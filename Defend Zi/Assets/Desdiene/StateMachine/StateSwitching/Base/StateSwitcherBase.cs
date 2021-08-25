@@ -39,10 +39,11 @@ namespace Desdiene.StateMachine.StateSwitching.Base
         /// Сменить состояние на указанное по типу.
         /// </summary>
         /// <typeparam name="ConcreteStateT">Тип искомого состояния.</typeparam>
-        public void Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT
+        /// <returns>Новое состояние.</returns>
+        public AbstractStateT Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT
         {
             AbstractStateT newState = _allStates.Single(it => it is ConcreteStateT);
-            Switch(newState);
+            return Switch(newState);
         }
 
         /// <summary>
@@ -50,10 +51,11 @@ namespace Desdiene.StateMachine.StateSwitching.Base
         /// </summary>
         ///<exception cref="InvalidOperationException">Если найдено 0 или >1 элемента по указанным условиям</exception>
         /// <param name="predicate">Условие поиска состояния.</param>
-        public void Switch(Predicate<AbstractStateT> predicate)
+        /// <returns>Новое состояние.</returns>
+        public AbstractStateT Switch(Predicate<AbstractStateT> predicate)
         {
             AbstractStateT newState = _allStates.Single(state => predicate.Invoke(state));
-            Switch(newState);
+            return Switch(newState);
         }
 
         public void Add(IEnumerable<AbstractStateT> states) => _allStates.AddRange(states);
@@ -61,6 +63,6 @@ namespace Desdiene.StateMachine.StateSwitching.Base
         public void Remove(AbstractStateT state) => _allStates.Remove(state);
 
         // не делать public, т.к. вся информация об общих состояниях должна вноситься при создании экземпляра объекта (Подразумевается, что добавляться состояния будут также сразу после создания объекта)
-        protected abstract void Switch(AbstractStateT newState);
+        protected abstract AbstractStateT Switch(AbstractStateT newState);
     }
 }
