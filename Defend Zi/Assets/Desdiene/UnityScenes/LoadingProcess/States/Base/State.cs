@@ -36,15 +36,14 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
             _checkingState = new CoroutineWrap(mono);
         }
 
-        public float Progress => LoadingOperation.progress;
+        // Вызов осуществляется из дочерних классов
+        protected Action onWaitingForAllowingToEnabling;
 
         public event Action OnWaitingForAllowingToEnabling
         {
             add => onWaitingForAllowingToEnabling += value;
             remove => onWaitingForAllowingToEnabling -= value;
         }
-        // Вызов осуществляется из дочерних классов
-        protected Action onWaitingForAllowingToEnabling;
 
         // Не создавать своё промежуточное событие, так как при одиночной загрузке сцены невозможно дождаться статуса LoadedAndEnabled,
         // т.к. при выгрузке сцены удалится MonoBehaviour объект, а следовательно, и данный класс.
@@ -57,17 +56,24 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
             remove => LoadingOperation.completed -= (_) => value?.Invoke();
         }
 
+        public float Progress => LoadingOperation.progress;
+
         public abstract void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode enablingMode);
 
-        public virtual void OnEnter()
+        void IStateEntryExitPoint.OnEnter()
         {
             _checkingState.StartContinuously(CheckingState());
+            OnEnter();
         }
 
-        public virtual void OnExit()
+        void IStateEntryExitPoint.OnExit()
         {
             _checkingState.Break();
+            OnExit();
         }
+
+        public virtual void OnEnter() { }
+        public virtual void OnExit() { }
 
         /// <summary>
         /// Соответствует ли текущий процесс загрузки данному состоянию?

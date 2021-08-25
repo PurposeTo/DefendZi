@@ -15,9 +15,9 @@ namespace Desdiene.GameDataAsset.DataLoader.Safe.States
 
         public override void Load(Action<T> dataCallback)
         {
-            Debug.Log($"Данные с [{_dataStorage.StorageName}] уже были получены!");
+            Debug.Log($"Данные с [{DataStorage.StorageName}] уже были получены!");
         }
 
-        public override void Save(T data) => _dataStorage.Save(data);
+        public override void Save(T data) => DataStorage.Save(data);
     }
 }
