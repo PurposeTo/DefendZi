@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using Desdiene.CoroutineWrapper.Components;
 using Desdiene.CoroutineWrapper.States.Base;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
+using UnityEngine;
 
 namespace Desdiene.CoroutineWrapper.States
 {
@@ -9,10 +11,10 @@ namespace Desdiene.CoroutineWrapper.States
     {
         public Terminated(MonoBehaviourExt mono,
                        IStateSwitcher<State, MutableData> stateSwitcher,
-                       NestableCoroutine nestableCoroutine)
+                       CoroutinesStack coroutinesStack)
             : base(mono,
                    stateSwitcher,
-                   nestableCoroutine)
+                   coroutinesStack)
         { }
 
         protected override void OnEnter()
@@ -21,19 +23,20 @@ namespace Desdiene.CoroutineWrapper.States
             Coroutine = null;
         }
 
-        public override void StartContinuously()
+        public override void StartContinuously(IEnumerator enumerator)
         {
-            throw new System.NotImplementedException();
+            SwitchState<Created>().StartContinuously(enumerator);
         }
 
         public override void Terminate()
         {
-            throw new System.NotImplementedException();
+            Debug.LogError("You can't terminate coroutine, because it is already terminated");
         }
 
         public override IEnumerator StartNested(IEnumerator newCoroutine)
         {
-            throw new System.NotImplementedException();
+            Debug.LogError("You can't start nested coroutine, because coroutine is terminated");
+            yield break;
         }
     }
 }

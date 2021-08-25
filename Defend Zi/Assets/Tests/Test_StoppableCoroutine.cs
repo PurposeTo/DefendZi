@@ -6,15 +6,19 @@ using UnityEngine;
 public class Test_StoppableCoroutine : MonoBehaviourExt
 {
 
-    private StoppableCoroutine stoppableCoroutine;
+    private CoroutineWrap stoppableCoroutine;
+
+    protected override void AwakeExt()
+    {
+        stoppableCoroutine = new CoroutineWrap(this);
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
             Debug.Log(Time.time + " / S Pressed!");
-            stoppableCoroutine = new StoppableCoroutine(this, Outer());
-            stoppableCoroutine.StartContinuously();
+            stoppableCoroutine.StartContinuously(Outer());
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -39,15 +43,16 @@ public class Test_StoppableCoroutine : MonoBehaviourExt
             yield return new WaitForSeconds(0.5f);
             count++;
         }
-        yield return stoppableCoroutine.StartNested(InnerInner());
+        yield return stoppableCoroutine.StartNested(InnerInner(1));
+        yield return stoppableCoroutine.StartNested(InnerInner(2));
     }
 
-    private IEnumerator InnerInner()
+    private IEnumerator InnerInner(int number)
     {
         int count = 0;
         while (true)
         {
-            Debug.Log($"InnerInner running...");
+            Debug.Log($"InnerInner running... " + number);
 
             if (count == 9)
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Desdiene.Container;
+using Desdiene.CoroutineWrapper.Components;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.State;
 using Desdiene.StateMachine.StateSwitching;
@@ -13,15 +14,15 @@ namespace Desdiene.CoroutineWrapper.States.Base
 
         public State(MonoBehaviourExt mono,
                      IStateSwitcher<State, MutableData> stateSwitcher,
-                     NestableCoroutine nestableCoroutine) : base(mono)
+                     CoroutinesStack coroutinesStack) : base(mono)
         {
             _stateSwitcher = stateSwitcher;
-            NestableCoroutine = nestableCoroutine;
+            CoroutinesStack = coroutinesStack;
         }
 
         public bool IsExecuting { get; private set; }
 
-        protected NestableCoroutine NestableCoroutine { get; }
+        protected CoroutinesStack CoroutinesStack { get; }
         protected Coroutine Coroutine { get; set; }
 
         void IStateEntryExitPoint<MutableData>.OnEnter(MutableData mutableData)
@@ -49,7 +50,7 @@ namespace Desdiene.CoroutineWrapper.States.Base
         /// <summary>
         /// Запустить выполнение корутины, если она не была запущена.
         /// </summary>
-        public abstract void StartContinuously();
+        public abstract void StartContinuously(IEnumerator enumerator);
 
         /// <summary>
         /// Прервать выполнение корутины.
@@ -74,6 +75,6 @@ namespace Desdiene.CoroutineWrapper.States.Base
         /// <returns>Енумератор для ожидания выполнения.</returns>
         public abstract IEnumerator StartNested(IEnumerator newCoroutine);
 
-        protected void SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
+        protected State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
     }
 }

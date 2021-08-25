@@ -1,90 +1,89 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Desdiene.Container;
+using Desdiene.CoroutineWrapper.Components;
+using Desdiene.CoroutineWrapper.States;
+using Desdiene.CoroutineWrapper.States.Base;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.StateMachine.StateSwitching;
+using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.CoroutineWrapper
 {
+    /*
+     * При остановке корутины выполняться инструкции до следующего yield return. 
+     * Если корутина останавливается внутри yield return _innerEnumerator, то дальше она выполняться не будет.
+     * Пример неявной работы:
+     * 
+     * [_routine = запущенная корутина TestProcess()]
+     * 
+     * IEnumerator TestProcess() 
+     * {
+     *     while (true)
+     *     {
+     *         yield return null;
+     *         _routine.Stop();
+     *         Debug.Log("КРЯ");
+     *     }
+     * }
+     *    
+     * Лог будет выведен, т.к. yield return будет лишь в следующей итерации цикла while.
+     */
     public class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
+        private readonly IRef<State> _refCurrentState = new Ref<State>();
+
         public CoroutineWrap(MonoBehaviourExt mono) : base(mono)
         {
-            mono.OnDisabled += Break;
+            if (mono == null) throw new ArgumentNullException(nameof(mono));
+
+            CoroutinesStack coroutineStack = new CoroutinesStack();
+            StateSwitcher<State, MutableData> stateSwitcher = new StateSwitcher<State, MutableData>(_refCurrentState);
+            List<State> allStates = new List<State>()
+            {
+                new Created(mono, stateSwitcher, coroutineStack),
+                new Executing(mono, stateSwitcher, coroutineStack),
+                new Executed(mono, stateSwitcher, coroutineStack),
+                new Terminated(mono, stateSwitcher, coroutineStack),
+            };
+            stateSwitcher.Add(allStates);
+            stateSwitcher.Switch<Created>();
         }
 
-        /// <summary>
-        /// Событие о остановке корутины. Вызывается в случае Break-а или по окончанию выполнения.
-        /// </summary>
-        public event Action OnStopped;
-        public bool IsExecuting { get; private set; }
-        public bool IsCoroutineNotNull => _coroutine != null;
-        private UnityEngine.Coroutine _coroutine;
+        public bool IsExecuting => CurrentState.IsExecuting;
+        private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
         /// <summary>
-        /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
+        /// Запустить выполнение корутины, если она не была запущена.
         /// </summary>
-        /// <param name="enumerator">IEnumerator для выполнения</param>
-        public void StartContinuously(IEnumerator enumerator) => StartContinuously(enumerator, null);
+        public void StartContinuously(IEnumerator enumerator) => CurrentState.StartContinuously(enumerator);
 
         /// <summary>
-        /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
+        /// Если корутина была запущена, остановить её. Запустить выполнение корутины.
         /// </summary>
-        /// <param name="enumerator">IEnumerator для выполнения</param>
-        /// <param name="OnAlreadyStarted">Блок кода, выполняемый в том случае, если корутина уже была запущена.</param>
-        public void StartContinuously(IEnumerator enumerator, Action OnAlreadyStarted)
-        {
-            if (!IsExecuting) Start(enumerator);
-            else OnAlreadyStarted?.Invoke();
-        }
-
-        /// <summary>
-        /// Перед запуском корутины останавливает её, если она выполнялась на данный момент.
-        /// </summary>
-        /// <param name="enumerator">IEnumerator для выполнения</param>
         public void ReStart(IEnumerator enumerator)
         {
-            Break();
-            Start(enumerator);
+            TryTerminate();
+            StartContinuously(enumerator);
         }
 
         /// <summary>
-        /// Останавливает корутину, если она выполнялась.
+        /// Прервать выполнение корутины.
         /// </summary>
-        public void Break()
-        {
-            if (IsExecuting)
-            {
-                monoBehaviourExt.StopCoroutine(_coroutine);
-                SetNullAndRemove();
-            }
-        }
+        public void Terminate() => CurrentState.Terminate();
 
         /// <summary>
-        /// Начать выполнение корутины.
+        /// Прервать выполнение корутины, если она была запущена.
         /// </summary>
-        private void Start(IEnumerator enumerator)
-        {
-            if (enumerator == null) throw new ArgumentNullException(nameof(enumerator));
-            //т.к. во время первой итерации enumerator-а поле _coroutine еще не будет заполнено, выполняется установка флага вручную.
-            IsExecuting = true;
-            _coroutine = monoBehaviourExt.StartCoroutine(WrappedEnumerator(enumerator));
-            monoBehaviourExt.AddCoroutine(this);
-        }
+        /// <returns>Была ли корутина запущена?</returns>
+        public bool TryTerminate() => CurrentState.TryTerminate();
 
-        private IEnumerator WrappedEnumerator(IEnumerator enumerator)
-        {
-            yield return enumerator;
-            SetNullAndRemove();
-        }
-
-        private void SetNullAndRemove()
-        {
-            SetNull();
-            IsExecuting = IsCoroutineNotNull;
-            OnStopped?.Invoke();
-        }
-
-        private void SetNull() => _coroutine = null;
-
+        /// <summary>
+        /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
+        /// </summary>
+        /// <param name="newCoroutine">Вложенная корутина.</param>
+        /// <returns>Енумератор для ожидания выполнения.</returns>
+        public IEnumerator StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
     }
 }

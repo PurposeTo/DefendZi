@@ -56,7 +56,7 @@ namespace Desdiene.GameDataAsset.ConcreteLoaders
         private IEnumerator LoadDataEnumerator(Action<string> jsonDataCallback)
         {
             Debug.Log("Начало операции загрузки данных с облака. Ожидание аутентификации пользователя.");
-            yield return new WaitUntil(() => _authentication.IsAuthenticated);
+            yield return _loadDataRoutine.StartNested(new WaitUntil(() => _authentication.IsAuthenticated));
             Debug.Log("Операция загрузки данных с облака - пользователь аутентифицировался.");
 
             // Начать отсчет времени для текущей сессии игры

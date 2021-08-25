@@ -14,12 +14,12 @@ namespace Desdiene.Tools
         private readonly string filePath;
         private readonly int retryCount = 3;
 
-        private readonly ICoroutine loadDataRoutine;
+        private readonly ICoroutine _dataReading;
 
         public DeviceDataLoader(MonoBehaviourExt superMonoBehaviour, string filePath) : base(superMonoBehaviour)
         {
             this.filePath = filePath;
-            loadDataRoutine = new CoroutineWrap(superMonoBehaviour);
+            _dataReading = new CoroutineWrap(superMonoBehaviour);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Desdiene.Tools
         /// <returns></returns>
         public void ReadDataFromDevice(Action<string> stringDataCallback)
         {
-            loadDataRoutine.StartContinuously(ReadDataEnumerator(stringDataCallback.Invoke));
+            _dataReading.StartContinuously(ReadDataEnumerator(stringDataCallback.Invoke));
         }
 
         private IEnumerator ReadDataEnumerator(Action<string> stringDataCallback)
@@ -39,14 +39,14 @@ namespace Desdiene.Tools
             switch (platform)
             {
                 case RuntimePlatform.Android:
-                    yield return LoadViaAndroid(stringDataCallback);
+                    yield return _dataReading.StartNested(LoadViaAndroid(stringDataCallback));
                     break;
                 case RuntimePlatform.WindowsEditor:
                     stringDataCallback?.Invoke(LoadViaEditor());
                     break;
                 default:
                     Debug.LogError($"{platform} is unknown platform!");
-                    yield return LoadViaAndroid(stringDataCallback);
+                    yield return _dataReading.StartNested(LoadViaAndroid(stringDataCallback));
                     break;
             }
         }
@@ -66,7 +66,7 @@ namespace Desdiene.Tools
 
                 for (int i = 0; !dataWasLoaded || i < retryCount; i++)
                 {
-                    yield return request.SendWebRequest();
+                    yield return  request.SendWebRequest();
 
                     if (request.error != null || request.responseCode == 404)
                     {

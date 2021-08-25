@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using Desdiene.CoroutineWrapper.Components;
 using Desdiene.CoroutineWrapper.States.Base;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
+using UnityEngine;
 
 namespace Desdiene.CoroutineWrapper.States
 {
@@ -9,10 +11,10 @@ namespace Desdiene.CoroutineWrapper.States
     {
         public Executing(MonoBehaviourExt mono,
                        IStateSwitcher<State, MutableData> stateSwitcher,
-                         NestableCoroutine nestableCoroutine)
+                         CoroutinesStack coroutinesStack)
             : base(mono,
                    stateSwitcher,
-                   nestableCoroutine)
+                   coroutinesStack)
         { }
 
         protected override void OnEnter()
@@ -20,9 +22,9 @@ namespace Desdiene.CoroutineWrapper.States
             Coroutine = monoBehaviourExt.StartCoroutine(Run());
         }
 
-        public override void StartContinuously()
+        public override void StartContinuously(IEnumerator enumerator)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning("You can't start coroutine, because it is executing now");
         }
 
         public override void Terminate()
@@ -30,20 +32,21 @@ namespace Desdiene.CoroutineWrapper.States
             SwitchState<Terminated>();
         }
 
+        /// <summary>
+        /// Использование с "yield return" - запустить и дождаться выполнения корутины.
+        /// Если не использовать с "yield return", то корутина не будет запущена.
+        /// </summary>
         public override IEnumerator StartNested(IEnumerator newCoroutine)
         {
-            NestableCoroutine.Add(newCoroutine);
-            while (NestableCoroutine.IsCoroutineContains(newCoroutine) == false)
-            {
-                yield return null;
-            }
+            CoroutinesStack.Add(newCoroutine);
+            yield break;
         }
 
         private IEnumerator Run()
         {
-            while (IsExecuting && NestableCoroutine.MoveNext())
+            while (IsExecuting && CoroutinesStack.MoveNext())
             {
-                yield return NestableCoroutine.Current;
+                yield return CoroutinesStack.Current;
             }
             SwitchState<Executed>();
         }

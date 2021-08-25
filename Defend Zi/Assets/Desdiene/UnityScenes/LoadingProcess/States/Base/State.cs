@@ -16,7 +16,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
         protected AsyncOperation LoadingOperation { get; }
         private readonly string _sceneName;
         private readonly ProgressInfo _progressInfo;
-        private readonly ICoroutine _checkingState;
+        private readonly ICoroutine _stateChecking;
 
         public State(MonoBehaviourExt mono,
                      IStateSwitcher<State> stateSwitcher,
@@ -33,7 +33,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
             LoadingOperation = loadingOperation ?? throw new ArgumentNullException(nameof(loadingOperation));
             _sceneName = sceneName;
             _progressInfo = new ProgressInfo(loadingOperation);
-            _checkingState = new CoroutineWrap(mono);
+            _stateChecking = new CoroutineWrap(mono);
         }
 
         // Вызов осуществляется из дочерних классов
@@ -62,13 +62,13 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 
         void IStateEntryExitPoint.OnEnter()
         {
-            _checkingState.StartContinuously(CheckingState());
+            _stateChecking.StartContinuously(CheckingState());
             OnEnter();
         }
 
         void IStateEntryExitPoint.OnExit()
         {
-            _checkingState.Break();
+            _stateChecking.Terminate();
             OnExit();
         }
 
@@ -98,7 +98,6 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 
         private void CheckState()
         {
-            Debug.Log($"КРЯ! Проверка актуальности состояния {GetType().Name}");
             bool isNotThisState = !IsThisState(_progressInfo);
             if (isNotThisState)
             {

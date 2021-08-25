@@ -1,10 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Desdiene.CoroutineWrapper
+namespace Desdiene.CoroutineWrapper.Components
 {
-    public class NestableCoroutine : IEnumerator
+    /// <summary>
+    /// Класс позволяет добавлять хранить корутины и выполнять их в порядке, обратном добавлению - т.е. всегда сначала выполнится последняя добавленная.
+    /// </summary>
+    public class CoroutinesStack : IEnumerator
     {
         private readonly Stack<IEnumerator> _allNestedCoroutines = new Stack<IEnumerator>();
         private IEnumerator LatestCoroutine
@@ -21,19 +23,10 @@ namespace Desdiene.CoroutineWrapper
                 }
             }
         }
-        public NestableCoroutine(IEnumerator initialCoroutine)
-        {
-            Add(initialCoroutine);
-        }
 
-        public void Add(IEnumerator recent)
+        public void Add(IEnumerator enumerator)
         {
-            _allNestedCoroutines.Push(recent);
-        }
-
-        public bool IsCoroutineContains(IEnumerator coroutineToCheck)
-        {
-            return _allNestedCoroutines.Contains(coroutineToCheck);
+            _allNestedCoroutines.Push(enumerator);
         }
 
         public object Current
@@ -59,7 +52,8 @@ namespace Desdiene.CoroutineWrapper
             if (canMoveNext) return true;
 
             _allNestedCoroutines.Pop();
-            return _allNestedCoroutines.Count != 0;
+            return MoveNext();
+            //return _allNestedCoroutines.Count != 0;
         }
 
         public void Reset() => throw new System.NotImplementedException();

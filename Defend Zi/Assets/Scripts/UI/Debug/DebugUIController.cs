@@ -8,14 +8,15 @@ using Zenject;
 public class DebugUIController : MonoBehaviourExt
 {
     private GlobalTimeScaler globalTimeScaler;
+    private ICoroutine _updateDebug;
 
     [Inject]
     public void Constructor(GlobalTimeScaler globalTimeScaler)
     {
         this.globalTimeScaler = globalTimeScaler;
-        ICoroutine coroutine = new CoroutineWrap(this);
         globalTimeScaler.OnTimeScaleChanged += SetDebugText;
-        coroutine.StartContinuously(UpdateDebug());
+        _updateDebug = new CoroutineWrap(this);
+        _updateDebug.StartContinuously(UpdateDebug());
     }
 
     [SerializeField, NotNull] private DebugUIView debugUIView;

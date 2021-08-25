@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Desdiene.CoroutineWrapper
 {
@@ -7,20 +6,11 @@ namespace Desdiene.CoroutineWrapper
     {
         bool IsExecuting { get; }
 
-        event Action OnStopped;
-
         /// <summary>
-        /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
+        /// Запустить выполнение корутины, если она не была запущена.
         /// </summary>
         /// <param name="enumerator">IEnumerator для выполнения</param>
-        void StartContinuously(IEnumerator enumerator);
-
-        /// <summary>
-        /// Запускает корутину в том случае, если она НЕ выполняется в данный момент.
-        /// </summary>
-        /// <param name="enumerator">IEnumerator для выполнения</param>
-        /// <param name="OnAlreadyStarted">Блок кода, выполняемый в том случае, если корутина уже была запущена.</param>
-        void StartContinuously(IEnumerator enumerator, Action OnAlreadyStarted);
+        public void StartContinuously(IEnumerator enumerator);
 
         /// <summary>
         /// Перед запуском корутины останавливает её, если она выполнялась на данный момент.
@@ -29,8 +19,21 @@ namespace Desdiene.CoroutineWrapper
         void ReStart(IEnumerator enumerator);
 
         /// <summary>
-        /// Останавливает корутину, если она выполнялась.
+        /// Прервать выполнение корутины.
         /// </summary>
-        void Break();
+        public void Terminate();
+
+        /// <summary>
+        /// Прервать выполнение корутины, если она была запущена.
+        /// </summary>
+        /// <returns>Была ли корутина запущена?</returns>
+        public bool TryTerminate();
+
+        /// <summary>
+        /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
+        /// </summary>
+        /// <param name="newCoroutine">Вложенная корутина.</param>
+        /// <returns>Енумератор для ожидания выполнения.</returns>
+        public IEnumerator StartNested(IEnumerator newCoroutine);
     }
 }

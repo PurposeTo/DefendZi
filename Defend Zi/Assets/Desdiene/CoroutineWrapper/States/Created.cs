@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using Desdiene.CoroutineWrapper.Components;
 using Desdiene.CoroutineWrapper.States.Base;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
+using UnityEngine;
 
 namespace Desdiene.CoroutineWrapper.States
 {
@@ -9,25 +11,27 @@ namespace Desdiene.CoroutineWrapper.States
     {
         public Created(MonoBehaviourExt mono,
                        IStateSwitcher<State, MutableData> stateSwitcher,
-                       NestableCoroutine nestableCoroutine)
+                       CoroutinesStack coroutinesStack)
             : base(mono,
                    stateSwitcher,
-                   nestableCoroutine)
+                   coroutinesStack)
         { }
 
-        public override void StartContinuously()
+        public override void StartContinuously(IEnumerator enumerator)
         {
+            CoroutinesStack.Add(enumerator);
             SwitchState<Executing>();
         }
 
         public override void Terminate()
         {
-            throw new System.NotImplementedException();
+            Debug.LogError("You need to start coroutine, before terminate it");
         }
 
         public override IEnumerator StartNested(IEnumerator newCoroutine)
         {
-            throw new System.NotImplementedException();
+            Debug.LogError("You need to start coroutine, before start nested");
+            yield break;
         }
     }
 }

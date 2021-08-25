@@ -8,32 +8,26 @@ namespace Desdiene.ObjectPoolerAsset.Base
 {
     internal class FromPoolSpawner : MonoBehaviourContainer
     {
-        private readonly Pools pools;
-        private readonly ObjectToPoolCreator objectCreator;
-
-
+        private readonly Pools _pools;
+        private readonly ObjectToPoolCreator _objectCreator;
         public FromPoolSpawner(
             MonoBehaviour monoBehaviour,
             Pools pools,
             ObjectToPoolCreator objectCreator)
             : base(monoBehaviour)
         {
-            this.pools = pools;
-            this.objectCreator = objectCreator;
+            _pools = pools;
+            _objectCreator = objectCreator;
         }
-
-
 
         public void ReturnToPool(GameObject gameObject)
         {
-            RecycleGameObject(gameObject);
             gameObject.SetActive(false);
         }
 
-
         public GameObject SpawnFromPool(GameObject prefabKey)
         {
-            Pool pool = pools.Get(prefabKey);
+            Pool pool = _pools.Get(prefabKey);
 
             // Посмотреть на первый обьект в очереди.
             GameObject objectToSpawn = pool.ObjectPoolQueue.Peek();
@@ -45,7 +39,7 @@ namespace Desdiene.ObjectPoolerAsset.Base
                 if (pool.ShouldExpand)
                 {
                     //То сделать новый объект
-                    objectToSpawn = objectCreator.CreateNewObjectToPool(prefabKey, pool.PoolParent);
+                    objectToSpawn = _objectCreator.CreateNewObjectToPool(prefabKey, pool.PoolParent);
                 }
             }
             else
@@ -55,7 +49,6 @@ namespace Desdiene.ObjectPoolerAsset.Base
             }
 
             objectToSpawn.transform.SetDefault();
-            RecycleGameObject(objectToSpawn);
             objectToSpawn.SetActive(true);
             OnObjectSpawn(objectToSpawn);
 
@@ -74,17 +67,5 @@ namespace Desdiene.ObjectPoolerAsset.Base
                 pooled.OnObjectSpawn();
             });
         }
-
-
-        /// <summary>
-        /// Подготавливает игровой объект к новому спавну.
-        /// </summary>
-        /// <param name="gameObject"></param>
-        private void RecycleGameObject(GameObject gameObject)
-        {
-            var components = gameObject.GetComponentsInChildren<MonoBehaviourExt>();
-            Array.ForEach(components, component => component.BreakAllCoroutines());
-        }
-
     }
 }

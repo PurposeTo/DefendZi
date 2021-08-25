@@ -159,43 +159,6 @@ namespace Desdiene.MonoBehaviourExtension
 
         #endregion
 
-
-        #region CoroutineExecutor
-
-        private readonly List<ICoroutine> activeCoroutines = new List<ICoroutine>();
-
-        /// <summary>
-        /// Добавить выполняемую корутину в общий список для отслеживания.
-        /// Данный метод выполняется ТОЛЬКО CoroutineWrap-ом.
-        /// </summary>
-        /// <param name="coroutine"></param>
-        public void AddCoroutine(ICoroutine coroutine)
-        {
-            if (coroutine.IsExecuting)
-            {
-                coroutine.OnStopped += () => activeCoroutines.Remove(coroutine);
-                activeCoroutines.Add(coroutine);
-            }
-            // Если была добавлена корутина, которая завершила своё выполнение за одну итерацию.
-            else return;
-            //else throw new ArgumentException("Добавить можно только выполняемую корутину!");
-        }
-
-        /// <summary>
-        /// Остановить все корутины на объекте.
-        /// Архитектура и логика поведения взята из UnityEngine 
-        /// </summary>
-        public void BreakAllCoroutines()
-        {
-            for (int i = 0; i < activeCoroutines.Count; i++)
-            {
-                activeCoroutines[i].Break();
-            }
-        }
-
-        #endregion
-
-
         #region GetComponent
 
         public T GetInitedComponent<T>()
