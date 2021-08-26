@@ -1,9 +1,9 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.SceneTypes;
 using Desdiene.TimeControl.Pausable;
 using Desdiene.TimeControl.Pauser;
 using SceneTypes;
-using SceneTypes.Base;
 using Zenject;
 
 /// <summary>

@@ -5,9 +5,7 @@ using Desdiene.CoroutineWrapper;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.State;
 using Desdiene.StateMachine.StateSwitching;
-using Desdiene.UnityScenes.LoadingProcess.States.Base;
 using UnityEngine;
-using Desdiene.UnityScenes.LoadingProcess.Components;
 using Desdiene.UnityScenes.LoadingProcess.Components;
 
 namespace Desdiene.UnityScenes.LoadingProcess.States.Base

@@ -1,8 +1,8 @@
 ﻿using Desdiene.MonoBehaviourExtension;
+using Desdiene.SceneTypes;
 using Desdiene.UnityScenes.LoadingProcess;
 using Desdiene.UnityScenes.LoadingProcess.Components;
 using SceneTypes;
-using SceneTypes.Base;
 using UnityEngine;
 
 public class SceneInitorTest : MonoBehaviourExt
@@ -18,7 +18,7 @@ public class SceneInitorTest : MonoBehaviourExt
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            LoadingOperation loading = _sceneType.LoadAsSingle(SceneEnablingAfterLoading.Mode.Allow);
+            ILoading loading = _sceneType.LoadAsSingle(SceneEnablingAfterLoading.Mode.Allow);
             loading.OnWaitingForAllowingToEnabling += () => loading.SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode.Allow);
         }
     }

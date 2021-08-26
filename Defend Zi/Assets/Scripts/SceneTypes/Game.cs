@@ -1,5 +1,5 @@
 using Desdiene.MonoBehaviourExtension;
-using SceneTypes.Base;
+using Desdiene.SceneTypes;
 
 namespace SceneTypes
 {

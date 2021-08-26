@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Desdiene.UnityScenes.LoadingProcess.Components;
 
 namespace Desdiene.UnityScenes.LoadingProcess
 {
-    public interface ILoadingOperation
+    public interface ILoading
     {
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
@@ -17,5 +14,11 @@ namespace Desdiene.UnityScenes.LoadingProcess
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
         event Action OnLoadedAndEnabled;
+
+        /// <summary>
+        /// Установить разрешение на включение сцены после загрузки.
+        /// Внимание! Загруженная, но не включенная сцена все равно учитывается unity как загруженная.
+        /// </summary>
+        void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode mode);
     }
 }

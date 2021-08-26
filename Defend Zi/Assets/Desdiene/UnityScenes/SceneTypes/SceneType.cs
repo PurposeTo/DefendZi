@@ -4,10 +4,11 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.LoadingProcess;
 using Desdiene.UnityScenes.LoadingProcess.Components;
+using Desdiene.UnityScenes.UnloadingProcess;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SceneTypes.Base
+namespace Desdiene.SceneTypes
 {
     /// <summary>
     /// Дочернему классу необходимо дать название, соответствующему названию сцены.
@@ -36,6 +37,7 @@ namespace SceneTypes.Base
         }
 
         public event Action OnUnloading;
+        public event Action OnUnloaded;
         public event Action OnWaitingForAllowingToEnabling;
         public event Action OnLoadedAndEnabled;
 
@@ -46,12 +48,12 @@ namespace SceneTypes.Base
         /// </summary>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public LoadingOperation LoadAsSingle(SceneEnablingAfterLoading.Mode alowingEnableMode = SceneEnablingAfterLoading.Mode.Allow)
+        public ILoading LoadAsSingle(SceneEnablingAfterLoading.Mode alowingEnableMode = SceneEnablingAfterLoading.Mode.Allow)
         {
             return Load(LoadSceneMode.Single, alowingEnableMode);
         }
 
-        public LoadingOperation LoadAsAdditive(SceneEnablingAfterLoading.Mode alowingEnableMode)
+        public ILoading LoadAsAdditive(SceneEnablingAfterLoading.Mode alowingEnableMode)
         {
             return Load(LoadSceneMode.Additive, alowingEnableMode);
         }
@@ -62,7 +64,7 @@ namespace SceneTypes.Base
         /// <param name="loadSceneMode">Режим загрузки сцены.</param>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public LoadingOperation Load(LoadSceneMode loadSceneMode, SceneEnablingAfterLoading.Mode alowingEnableMode)
+        public ILoading Load(LoadSceneMode loadSceneMode, SceneEnablingAfterLoading.Mode alowingEnableMode)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
             LoadingOperation loading = new LoadingOperation(monoBehaviourExt, loadingOperation, _sceneName);
@@ -75,7 +77,7 @@ namespace SceneTypes.Base
         /// <summary>
         /// Выгрузить сцену.
         /// </summary>
-        public void Unload()
+        public IUnloading Unload()
         {
             if (!_loadedScenes.Contains(_sceneName))
             {
@@ -83,8 +85,12 @@ namespace SceneTypes.Base
             }
 
             throw new NotImplementedException("Не реализовано. Если будет загружено две одинаковых сцены, то не понятно, какую необходимо выгрузить. Реализовать через выгрузку не по имени, а по Scene scene.");
-            AsyncOperation loadingOperation = SceneManager.UnloadSceneAsync(_sceneName);
-            loadingOperation.completed += (_) => OnUnloading?.Invoke();
+            OnUnloading?.Invoke();
+            AsyncOperation unloadingOperation = SceneManager.UnloadSceneAsync(_sceneName);
+            UnloadingOperation unloading = new UnloadingOperation(unloadingOperation);
+
+            //todo: данный код не учитывает, что выгрузка сцены может произойти произвольно - например, при загрузке сцены с помощью Single мода.
+            unloading.OnUnloaded += OnUnloaded;
         }
     }
 }

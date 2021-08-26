@@ -14,7 +14,7 @@ namespace Desdiene.UnityScenes.LoadingProcess
     /// <summary>
     /// Данный класс описывает операцию асинхронной загрузки сцены.
     /// </summary>
-    public class LoadingOperation : MonoBehaviourExtContainer, ILoadingOperation
+    public class LoadingOperation : MonoBehaviourExtContainer, ILoading
     {
         private readonly string _sceneName;
         private readonly IRef<State> _refCurrentState = new Ref<State>();
