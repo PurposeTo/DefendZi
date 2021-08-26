@@ -4,13 +4,12 @@ using Desdiene.Container;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
 using Desdiene.Types.AtomicReference;
-using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
-using Desdiene.UnityScenes.LoadingProcess;
-using Desdiene.UnityScenes.LoadingProcess.States;
 using Desdiene.UnityScenes.LoadingProcess.States.Base;
+using Desdiene.UnityScenes.LoadingProcess.States;
 using UnityEngine;
+using Desdiene.UnityScenes.LoadingProcess.Components;
 
-namespace Desdiene.UnityScenes.LoadingOperationAsset
+namespace Desdiene.UnityScenes.LoadingProcess
 {
     /// <summary>
     /// Данный класс описывает операцию асинхронной загрузки сцены.

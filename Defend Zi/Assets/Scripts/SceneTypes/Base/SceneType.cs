@@ -2,7 +2,8 @@
 using Desdiene.Container;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
-using Desdiene.UnityScenes.LoadingOperationAsset;
+using Desdiene.UnityScenes.LoadingProcess;
+using Desdiene.UnityScenes.LoadingProcess.Components;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

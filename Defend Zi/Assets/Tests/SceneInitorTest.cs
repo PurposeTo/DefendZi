@@ -1,5 +1,6 @@
 ﻿using Desdiene.MonoBehaviourExtension;
-using Desdiene.UnityScenes.LoadingOperationAsset;
+using Desdiene.UnityScenes.LoadingProcess;
+using Desdiene.UnityScenes.LoadingProcess.Components;
 using SceneTypes;
 using SceneTypes.Base;
 using UnityEngine;

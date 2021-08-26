@@ -1,8 +1,7 @@
 ﻿using System;
-using Desdiene.UnityScenes.LoadingOperationAsset;
 using UnityEngine;
 
-namespace Desdiene.UnityScenes.LoadingProcess
+namespace Desdiene.UnityScenes.LoadingProcess.Components
 {
     public class ProgressInfo
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.UnityScenes.LoadingOperationAsset
+namespace Desdiene.UnityScenes.LoadingProcess.Components
 {
     public class SceneEnablingAfterLoading
     {

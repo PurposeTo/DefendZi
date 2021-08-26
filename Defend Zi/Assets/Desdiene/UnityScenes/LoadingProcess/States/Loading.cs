@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
-using Desdiene.UnityScenes.LoadingOperationAsset;
-using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
+using Desdiene.UnityScenes.LoadingProcess.Components;
+using Desdiene.UnityScenes.LoadingProcess.States.Base;
+using Desdiene.UnityScenes.LoadingProcess.Components;
 using Desdiene.UnityScenes.LoadingProcess.States.Base;
 using UnityEngine;
 
