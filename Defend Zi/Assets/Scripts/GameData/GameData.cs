@@ -1,4 +1,4 @@
-﻿using Desdiene.GameDataAsset.Combiner;
+﻿using Desdiene.DataStorageFactories.Combiner;
 using UnityEngine;
 
 /* 

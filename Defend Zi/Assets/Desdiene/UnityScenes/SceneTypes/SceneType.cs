@@ -1,10 +1,10 @@
 ﻿using System;
-using Desdiene.Container;
+using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
-using Desdiene.UnityScenes.LoadingProcess;
-using Desdiene.UnityScenes.LoadingProcess.Components;
-using Desdiene.UnityScenes.UnloadingProcess;
+using Desdiene.UnityScenes.Loadings;
+using Desdiene.UnityScenes.Loadings.Components;
+using Desdiene.UnityScenes.Unloadings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -67,7 +67,7 @@ namespace Desdiene.SceneTypes
         public ILoading Load(LoadSceneMode loadSceneMode, SceneEnablingAfterLoading.Mode alowingEnableMode)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
-            LoadingOperation loading = new LoadingOperation(monoBehaviourExt, loadingOperation, _sceneName);
+            Loading loading = new Loading(monoBehaviourExt, loadingOperation, _sceneName);
             loading.SetAllowSceneEnabling(alowingEnableMode);
             loading.OnWaitingForAllowingToEnabling += OnWaitingForAllowingToEnabling;
             loading.OnLoadedAndEnabled += OnLoadedAndEnabled;
@@ -87,7 +87,7 @@ namespace Desdiene.SceneTypes
             throw new NotImplementedException("Не реализовано. Если будет загружено две одинаковых сцены, то не понятно, какую необходимо выгрузить. Реализовать через выгрузку не по имени, а по Scene scene.");
             OnUnloading?.Invoke();
             AsyncOperation unloadingOperation = SceneManager.UnloadSceneAsync(_sceneName);
-            UnloadingOperation unloading = new UnloadingOperation(unloadingOperation);
+            Unloading unloading = new Unloading(unloadingOperation);
 
             //todo: данный код не учитывает, что выгрузка сцены может произойти произвольно - например, при загрузке сцены с помощью Single мода.
             unloading.OnUnloaded += OnUnloaded;

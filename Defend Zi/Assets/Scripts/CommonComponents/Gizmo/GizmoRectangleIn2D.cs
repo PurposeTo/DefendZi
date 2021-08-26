@@ -1,6 +1,6 @@
 ﻿using Desdiene;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.RectangleAsset;
+using Desdiene.Types.Rectangles;
 using UnityEngine;
 
 /// <summary>

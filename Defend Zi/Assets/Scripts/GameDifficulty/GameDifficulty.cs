@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.PercentAsset;
+using Desdiene.Types.Percents;
 using UnityEngine;
 
 public class GameDifficulty : MonoBehaviourExt, IPercentGetter, IPercentNotifier

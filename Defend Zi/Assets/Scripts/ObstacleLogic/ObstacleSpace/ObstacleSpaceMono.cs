@@ -1,7 +1,7 @@
 using System.Linq;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Random;
-using Desdiene.Types.Range.Positive;
+using Desdiene.Types.Ranges.Positive;
 using UnityEngine;
 using Zenject;
 
@@ -18,8 +18,8 @@ public class ObstacleSpaceMono : MonoBehaviourExt
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
-        IRandomlySelectableItem<Chunk>[] selectableChunks = _selectableChunks
-            .Select(it => it as IRandomlySelectableItem<Chunk>)
+        ISelectableItem<Chunk>[] selectableChunks = _selectableChunks
+            .Select(it => it as ISelectableItem<Chunk>)
             .ToArray();
         ObstaclesGenerationData obstaclesGenerationData = new ObstaclesGenerationData(selectableChunks,
                                                                                       _safeSpaceBetweenChunks,

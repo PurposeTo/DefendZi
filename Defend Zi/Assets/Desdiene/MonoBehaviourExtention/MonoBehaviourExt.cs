@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Desdiene.CoroutineWrapper;
+using Desdiene.Coroutines;
 using UnityEngine;
 
 namespace Desdiene.MonoBehaviourExtension

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.UserInputFactory;
+using Desdiene.UserInputFactories;
 using UnityEngine;
 
-public class UserInputCreator : IUserInputCreator<IUserInput>
+public class UserInputCreator : IUserInputFactory<IUserInput>
 {
-    private readonly UserInputCreator<IUserInput> creator;
+    private readonly UserInputFactory<IUserInput> creator;
 
     public UserInputCreator(MonoBehaviourExt mono)
     {
@@ -16,7 +16,7 @@ public class UserInputCreator : IUserInputCreator<IUserInput>
             { RuntimePlatform.WindowsEditor, () => new EditorInput(mono) }
         };
 
-        creator = new UserInputCreator<IUserInput>(userInputs);
+        creator = new UserInputFactory<IUserInput>(userInputs);
     }
 
     public IUserInput GetOrDefault() => creator.GetOrDefault();

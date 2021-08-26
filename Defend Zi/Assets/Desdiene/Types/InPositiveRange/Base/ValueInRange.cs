@@ -1,6 +1,6 @@
 ﻿using System;
-using Desdiene.Types.AtomicReference;
-using Desdiene.Types.Range.Positive;
+using Desdiene.Types.AtomicReferences;
+using Desdiene.Types.Ranges.Positive;
 
 namespace Desdiene.Types.InPositiveRange.Base
 {

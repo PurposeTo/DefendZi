@@ -1,9 +1,9 @@
 using System.Linq;
-using Desdiene.Container;
+using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Random;
-using Desdiene.Types.Range.Positive;
-using Desdiene.Types.RectangleAsset;
+using Desdiene.Types.Ranges.Positive;
+using Desdiene.Types.Rectangles;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +14,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     private IRectangleIn2DGetter _visibleGameSpace;
     private IPositionGetter _visibleGameSpacePosition;
 
-    private readonly IRandomlySelectableItem<Chunk>[] _selectableChunks;
+    private readonly ISelectableItem<Chunk>[] _selectableChunks;
     private readonly FloatRange _safeSpaceBetweenChunks;
     private readonly float _offsetGeneration;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Types.Range.Positive;
+using Desdiene.Types.Ranges.Positive;
 using UnityEngine;
 
 [Serializable]

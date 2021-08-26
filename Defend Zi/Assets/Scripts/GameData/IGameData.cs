@@ -1,4 +1,4 @@
-﻿using Desdiene.GameDataAsset.Data;
+﻿using Desdiene.DataStorageFactories.Data;
 
 public interface IGameData : IData
 {

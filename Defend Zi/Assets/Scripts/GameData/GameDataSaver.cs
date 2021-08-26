@@ -1,4 +1,4 @@
-﻿using Desdiene.GameDataAsset.Storage;
+﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
 

@@ -1,6 +1,6 @@
-﻿using Desdiene.GameDataAsset;
-using Desdiene.GameDataAsset.ConcreteLoaders;
-using Desdiene.GameDataAsset.Storage;
+﻿using Desdiene.DataStorageFactories;
+using Desdiene.DataStorageFactories.ConcreteLoaders;
+using Desdiene.DataStorageFactories.Storages;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 
@@ -15,7 +15,7 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
         IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>();
 
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
-        _storage = DataAssetIniter<GameData>.GetStorage(this, deviceLoader);
+        _storage = StorageFactory<GameData>.GetStorage(this, deviceLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.
         _storage.InvokeLoadingData();
     }

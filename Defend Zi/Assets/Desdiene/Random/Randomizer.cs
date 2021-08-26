@@ -53,7 +53,7 @@ namespace Desdiene.Random
             return GetRandomItem(Common.GetAllEnumValues<T>());
         }
 
-        public static T GetRandomItem<T>(IRandomlySelectableItem<T>[] selectableItems)
+        public static T GetRandomItem<T>(ISelectableItem<T>[] selectableItems)
         {
             int total = (int)selectableItems.Sum(selectableItem => selectableItem.ChanceMass);
             int randomChoice = UnityEngine.Random.Range(0, total + 1); //случайное число. Границы - включительно.

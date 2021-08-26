@@ -1,7 +1,7 @@
 using System;
-using Desdiene.Types.Percentable;
+using Desdiene.Types.Percentables;
 using Desdiene.Types.Percentale;
-using Desdiene.Types.Range.Positive;
+using Desdiene.Types.Ranges.Positive;
 
 public class PlayerHealth : IHealth
 {

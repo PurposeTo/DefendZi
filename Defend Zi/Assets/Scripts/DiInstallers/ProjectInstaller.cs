@@ -1,7 +1,7 @@
-﻿using Desdiene.GameDataAsset.Storage;
+﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
-using Desdiene.TimeControl.Pausable;
-using Desdiene.TimeControl.Scale;
+using Desdiene.TimeControls.Pausables;
+using Desdiene.TimeControls.Scales;
 using Desdiene.UnityScenes;
 using Zenject;
 

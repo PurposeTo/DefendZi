@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using Desdiene.Container;
-using Desdiene.CoroutineWrapper;
+using Desdiene.Containers;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using UnityEngine.Networking;

@@ -1,7 +1,7 @@
 using System.Collections;
-using Desdiene.CoroutineWrapper;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.TimeControl.Scale;
+using Desdiene.TimeControls.Scales;
 using UnityEngine;
 using Zenject;
 

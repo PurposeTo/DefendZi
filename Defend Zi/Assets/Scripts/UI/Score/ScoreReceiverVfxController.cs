@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Desdiene.CoroutineWrapper;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 

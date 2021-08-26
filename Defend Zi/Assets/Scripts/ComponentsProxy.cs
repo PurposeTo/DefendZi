@@ -1,4 +1,4 @@
-using Desdiene.Types.RectangleAsset;
+using Desdiene.Types.Rectangles;
 using UnityEngine;
 
 public class ComponentsProxy : MonoBehaviour

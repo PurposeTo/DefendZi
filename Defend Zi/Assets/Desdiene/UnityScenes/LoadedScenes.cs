@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Desdiene.Singleton.Unity;
+using Desdiene.Singletons.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
