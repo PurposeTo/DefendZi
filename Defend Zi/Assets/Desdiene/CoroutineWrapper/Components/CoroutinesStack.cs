@@ -24,6 +24,8 @@ namespace Desdiene.CoroutineWrapper.Components
             }
         }
 
+        public void Clear() => _allNestedCoroutines.Clear();
+
         public void Add(IEnumerator enumerator)
         {
             _allNestedCoroutines.Push(enumerator);

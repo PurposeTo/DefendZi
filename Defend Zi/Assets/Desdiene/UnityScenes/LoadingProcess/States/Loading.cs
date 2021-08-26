@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using Desdiene.CoroutineWrapper;
+﻿using System;
+using System.Linq;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
 using Desdiene.UnityScenes.LoadingOperationAsset;
 using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
+using Desdiene.UnityScenes.LoadingProcess.States.Base;
 using UnityEngine;
 
 namespace Desdiene.UnityScenes.LoadingProcess.States
@@ -11,7 +12,7 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
     public class Loading : State
     {
         public Loading(MonoBehaviourExt mono,
-                       IStateSwitcher<State> stateSwitcher,
+                       IStateSwitcher<State, MutableData> stateSwitcher,
                        AsyncOperation loadingOperation,
                        string sceneName)
             : base(mono,
@@ -22,14 +23,30 @@ namespace Desdiene.UnityScenes.LoadingProcess.States
 
         public override void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode enablingMode)
         {
-            bool isAllow = SceneEnablingAfterLoading.Check(enablingMode);
+            bool isAllow = SceneEnablingAfterLoading.IsAllow(enablingMode);
             LoadingOperation.allowSceneActivation = isAllow;
+        }
+
+        protected override void FindAndSwitchState(ProgressInfo progressInfo)
+        {
+            bool isEnablingForbid = SceneEnablingAfterLoading.IsForbid(progressInfo.SceneEnablindAfterLoading);
+            bool isEnablingAllow = !isEnablingForbid;
+            if (progressInfo.Equals90Percents && isEnablingForbid)
+            {
+                SwitchState<WaitingForAllowingToEnabling>();
+            }
+            else if (progressInfo.MoreOrEqualsThan90Percents && isEnablingAllow)
+            {
+                SwitchState<Enabling>();
+            }
+            else throw new InvalidOperationException();
         }
 
         protected override bool IsThisState(ProgressInfo progressInfo)
         {
+            bool isEnablingAllow = SceneEnablingAfterLoading.IsAllow(progressInfo.SceneEnablindAfterLoading);
             if (progressInfo.LessThan90Percents) return true;
-            else if (progressInfo.Equals90Percents && progressInfo.SceneEnablindAfterLoading == SceneEnablingAfterLoading.Mode.Allow)
+            else if (progressInfo.Equals90Percents && isEnablingAllow)
             {
                 return true;
             }

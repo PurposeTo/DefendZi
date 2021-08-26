@@ -43,16 +43,16 @@ namespace SceneTypes.Base
         /// Загрузить сцену в одиночном режиме.
         /// Если указать enablingMode = Forbid, то старая сцена не будет выгружена до тех пор, пока новая сцена не будет включена.
         /// </summary>
-        /// <param name="enablingMode">Режим разрешения на включение сцены после загрузки.</param>
+        /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public LoadingOperation LoadAsSingle(SceneEnablingAfterLoading.Mode enablingMode = SceneEnablingAfterLoading.Mode.Allow)
+        public LoadingOperation LoadAsSingle(SceneEnablingAfterLoading.Mode alowingEnableMode = SceneEnablingAfterLoading.Mode.Allow)
         {
-            return Load(LoadSceneMode.Single, enablingMode);
+            return Load(LoadSceneMode.Single, alowingEnableMode);
         }
 
-        public LoadingOperation LoadAsAdditive(SceneEnablingAfterLoading.Mode enablingMode)
+        public LoadingOperation LoadAsAdditive(SceneEnablingAfterLoading.Mode alowingEnableMode)
         {
-            return Load(LoadSceneMode.Additive, enablingMode);
+            return Load(LoadSceneMode.Additive, alowingEnableMode);
         }
 
         /// <summary>

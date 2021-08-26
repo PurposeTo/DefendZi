@@ -5,7 +5,7 @@ using Desdiene.Types.AtomicReference;
 
 namespace Desdiene.StateMachine.StateSwitching.Base
 {
-    public abstract class StateSwitcherBase<AbstractStateT>
+    public abstract class StateSwitcherBase<AbstractStateT> where AbstractStateT : class
     {
         private readonly List<AbstractStateT> _allStates;
         private readonly IRef<AbstractStateT> _refCurrentState;
@@ -22,7 +22,7 @@ namespace Desdiene.StateMachine.StateSwitching.Base
         /// Был ли первоначальное включение состояния?
         /// Не реализован паттерн состояния, т.к. контексты бы пересекались и код был бы нечитабельным.
         /// </summary>
-        protected bool IsStarted = false;
+        protected bool IsCurrentStateNotNull => _refCurrentState.Get() != null;
         protected AbstractStateT CurrentState
         {
             get
@@ -34,6 +34,8 @@ namespace Desdiene.StateMachine.StateSwitching.Base
                 _refCurrentState.Set(value);
             }
         }
+
+        protected bool IsStateContains(AbstractStateT state) => _allStates.Contains(state);
 
         /// <summary>
         /// Сменить состояние на указанное по типу.
@@ -58,11 +60,29 @@ namespace Desdiene.StateMachine.StateSwitching.Base
             return Switch(newState);
         }
 
+        public bool Any(Predicate<AbstractStateT> predicate) => _allStates.Exists(predicate);
+
         public void Add(IEnumerable<AbstractStateT> states) => _allStates.AddRange(states);
-        public void Add(AbstractStateT state) => _allStates.Add(state);
+        public void Add(AbstractStateT state, params AbstractStateT[] states)
+        {
+            _allStates.Add(state);
+            Add(states);
+        }
+
         public void Remove(AbstractStateT state) => _allStates.Remove(state);
 
-        // не делать public, т.к. вся информация об общих состояниях должна вноситься при создании экземпляра объекта (Подразумевается, что добавляться состояния будут также сразу после создания объекта)
-        protected abstract AbstractStateT Switch(AbstractStateT newState);
+        public virtual AbstractStateT Switch(AbstractStateT newState)
+        {
+            if (!IsStateContains(newState))
+            {
+                throw new InvalidOperationException("You need to add the state to all states, before switching");
+            }
+            else
+            {
+               return ExitSwitchEnter(newState);
+            }
+        }
+
+        protected abstract AbstractStateT ExitSwitchEnter(AbstractStateT newState);
     }
 }

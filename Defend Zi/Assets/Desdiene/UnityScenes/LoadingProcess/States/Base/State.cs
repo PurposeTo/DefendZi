@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using Desdiene.Container;
 using Desdiene.CoroutineWrapper;
@@ -6,20 +7,21 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.State;
 using Desdiene.StateMachine.StateSwitching;
 using Desdiene.UnityScenes.LoadingProcess;
+using Desdiene.UnityScenes.LoadingProcess.States.Base;
 using UnityEngine;
 
 namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
 {
-    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint
+    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<MutableData>
     {
-        private readonly IStateSwitcher<State> _stateSwitcher;
-        protected AsyncOperation LoadingOperation { get; }
+        private readonly IStateSwitcher<State, MutableData> _stateSwitcher;
         private readonly string _sceneName;
         private readonly ProgressInfo _progressInfo;
         private readonly ICoroutine _stateChecking;
+        private string _logMessage = "";
 
         public State(MonoBehaviourExt mono,
-                     IStateSwitcher<State> stateSwitcher,
+                     IStateSwitcher<State, MutableData> stateSwitcher,
                      AsyncOperation loadingOperation,
                      string sceneName) : base(mono)
         {
@@ -57,61 +59,75 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset.States.Base
         }
 
         public float Progress => LoadingOperation.progress;
+        protected AsyncOperation LoadingOperation { get; }
 
         public abstract void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode enablingMode);
 
-        void IStateEntryExitPoint.OnEnter()
+        void IStateEntryExitPoint<MutableData>.OnEnter(MutableData mutableData)
         {
+            if (mutableData != null)
+            {
+                onWaitingForAllowingToEnabling = mutableData.OnWaitingForAllowingToEnabling;
+            }
+
+            _logMessage = PrintLoadingLog(_logMessage);
             _stateChecking.StartContinuously(CheckingState());
             OnEnter();
         }
 
-        void IStateEntryExitPoint.OnExit()
+        MutableData IStateEntryExitPoint<MutableData>.OnExit()
         {
             _stateChecking.Terminate();
             OnExit();
+            return new MutableData(onWaitingForAllowingToEnabling);
         }
 
-        public virtual void OnEnter() { }
-        public virtual void OnExit() { }
+        protected virtual void OnEnter() { }
+        protected virtual void OnExit() { }
+
+        /// <summary>
+        /// Выключить стейт машину. Используется в OnEnter конечных состояний, из которых нельзя выйти.
+        /// </summary>
+        protected void DisableStateMachine()
+        {
+            _stateChecking.Terminate();
+        }
+
+        protected State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
 
         /// <summary>
         /// Соответствует ли текущий процесс загрузки данному состоянию?
         /// </summary>
         protected abstract bool IsThisState(ProgressInfo progressInfo);
 
-        private void FindAndSwitchState()
-        {
-            try
-            {
-                _stateSwitcher.Switch(state => state.IsThisState(_progressInfo));
-            }
-            catch (InvalidOperationException exception)
-            {
-                throw new InvalidOperationException($"Unknown loading operation state! "
-                                                + $"Progress: {Progress * 100}%, "
-                                                + $"allowSceneActivation = {_progressInfo.SceneEnablindAfterLoading}, "
-                                                + $"_loadingOperation.isDone = {_progressInfo.IsDone}",
-                                                exception);
-            }
-        }
+        protected abstract void FindAndSwitchState(ProgressInfo progressInfo);
 
         private void CheckState()
         {
-            bool isNotThisState = !IsThisState(_progressInfo);
-            if (isNotThisState)
+            bool isThisState = IsThisState(_progressInfo);
+            if (isThisState) _logMessage = PrintLoadingLog(_logMessage);
+            else
             {
-                FindAndSwitchState();
+                try
+                {
+                    FindAndSwitchState(_progressInfo);
+                }
+                catch (InvalidOperationException exception)
+                {
+                    throw new InvalidOperationException($"Unknown loading operation state! "
+                                    + $"Progress: {Progress * 100}%, "
+                                    + $"allowSceneActivation = {_progressInfo.SceneEnablindAfterLoading}, "
+                                    + $"_loadingOperation.isDone = {_progressInfo.IsDone}",
+                                      exception);
+                }
             }
         }
 
         private IEnumerator CheckingState()
         {
-            string logMessage = "";
-
             while (true)
             {
-                logMessage = PrintLoadingLog(logMessage);
+                Debug.Log($"КРЯ {GetType().Name}");
                 CheckState();
                 /* При выгрузке сцены удалится MonoBehaviour объект, а с ним данный класс.
                  * Все инструкции должны быть указанны и будут выполнены до yield return инструкции.

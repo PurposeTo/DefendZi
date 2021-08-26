@@ -4,13 +4,11 @@ namespace Desdiene.CoroutineWrapper.States.Base
 {
     public class MutableData
     {
-        private readonly Coroutine coroutine;
-
         public MutableData(Coroutine coroutine)
         {
-            this.coroutine = coroutine;
+            this.Coroutine = coroutine;
         }
 
-        public Coroutine Coroutine => coroutine;
+        public Coroutine Coroutine { get; }
     }
 }

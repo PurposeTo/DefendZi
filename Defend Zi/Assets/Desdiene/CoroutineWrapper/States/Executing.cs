@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Desdiene.CoroutineWrapper.Components;
 using Desdiene.CoroutineWrapper.States.Base;
 using Desdiene.MonoBehaviourExtension;
@@ -10,11 +11,13 @@ namespace Desdiene.CoroutineWrapper.States
     public class Executing : State
     {
         public Executing(MonoBehaviourExt mono,
-                       IStateSwitcher<State, MutableData> stateSwitcher,
-                         CoroutinesStack coroutinesStack)
+                        IStateSwitcher<State, MutableData> stateSwitcher,
+                        CoroutinesStack coroutinesStack,
+                        Func<bool> isExecutingRef)
             : base(mono,
                    stateSwitcher,
-                   coroutinesStack)
+                   coroutinesStack,
+                   isExecutingRef)
         { }
 
         protected override void OnEnter()

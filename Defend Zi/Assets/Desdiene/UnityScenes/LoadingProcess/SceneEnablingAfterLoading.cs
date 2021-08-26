@@ -10,8 +10,11 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
             Forbid
         }
 
+        /// <returns>IsForbid?</returns>
+        public static bool IsForbid(Mode mode) => !IsAllow(mode);
+
         /// <returns>IsAllow?</returns>
-        public static bool Check(Mode mode)
+        public static bool IsAllow(Mode mode)
         {
             switch (mode)
             {
@@ -25,7 +28,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
         }
 
         /// <returns>IsAllow mode</returns>
-        public static Mode Check(bool isAllow)
+        public static Mode GetMode(bool isAllow)
         {
             switch (isAllow)
             {

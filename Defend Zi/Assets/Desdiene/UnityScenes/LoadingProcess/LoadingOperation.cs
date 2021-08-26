@@ -5,7 +5,9 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachine.StateSwitching;
 using Desdiene.Types.AtomicReference;
 using Desdiene.UnityScenes.LoadingOperationAsset.States.Base;
+using Desdiene.UnityScenes.LoadingProcess;
 using Desdiene.UnityScenes.LoadingProcess.States;
+using Desdiene.UnityScenes.LoadingProcess.States.Base;
 using UnityEngine;
 
 namespace Desdiene.UnityScenes.LoadingOperationAsset
@@ -13,7 +15,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
     /// <summary>
     /// Данный класс описывает операцию асинхронной загрузки сцены.
     /// </summary>
-    public class LoadingOperation : MonoBehaviourExtContainer
+    public class LoadingOperation : MonoBehaviourExtContainer, ILoadingOperation
     {
         private readonly string _sceneName;
         private readonly IRef<State> _refCurrentState = new Ref<State>();
@@ -29,7 +31,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
 
             _sceneName = sceneName;
 
-            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+            StateSwitcher<State, MutableData> stateSwitcher = new StateSwitcher<State, MutableData>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new Loading(mono, stateSwitcher, loadingOperation, _sceneName),
@@ -42,8 +44,7 @@ namespace Desdiene.UnityScenes.LoadingOperationAsset
         }
 
         /// <summary>
-        /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены,
-        /// либо если данное состояние уже достигнуто.
+        /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
         /// </summary>
         public event Action OnWaitingForAllowingToEnabling
         {

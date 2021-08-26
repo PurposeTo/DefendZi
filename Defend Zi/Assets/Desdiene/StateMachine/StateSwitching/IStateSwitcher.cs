@@ -18,6 +18,11 @@ namespace Desdiene.StateMachine.StateSwitching
         /// <param name="predicate">Условие выбора нового состояния.</param>
         /// <returns>Новое состояние.</returns>
         AbstractStateT Switch(Predicate<AbstractStateT> predicate);
+
+        /// <summary>
+        /// Существует ли хотя бы одно состояние, удовлетворяющее условию?
+        /// </summary>
+        bool Any(Predicate<AbstractStateT> predicate);
     }
 
     public interface IStateSwitcher<AbstractStateT, MutableDataT>
@@ -37,5 +42,17 @@ namespace Desdiene.StateMachine.StateSwitching
         /// <param name="predicate">Условие выбора нового состояния.</param>
         /// <returns>Новое состояние.</returns>
         AbstractStateT Switch(Predicate<AbstractStateT> predicate);
+
+        /// <summary>
+        /// Сменить текущее состояние.
+        /// </summary>
+        /// <param name="newState">Новое состояние.</param>
+        /// <returns>Новое состояние.</returns>
+        AbstractStateT Switch(AbstractStateT newState);
+
+        /// <summary>
+        /// Существует ли хотя бы одно состояние, удовлетворяющее условию?
+        /// </summary>
+        bool Any(Predicate<AbstractStateT> predicate);
     }
 }

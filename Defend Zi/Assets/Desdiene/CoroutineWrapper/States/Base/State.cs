@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Desdiene.Container;
 using Desdiene.CoroutineWrapper.Components;
 using Desdiene.MonoBehaviourExtension;
@@ -11,24 +12,25 @@ namespace Desdiene.CoroutineWrapper.States.Base
     public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<MutableData>
     {
         private readonly IStateSwitcher<State, MutableData> _stateSwitcher;
+        private readonly Func<bool> _isExecutingRef;
 
         public State(MonoBehaviourExt mono,
                      IStateSwitcher<State, MutableData> stateSwitcher,
-                     CoroutinesStack coroutinesStack) : base(mono)
+                     CoroutinesStack coroutinesStack,
+                     Func<bool> isExecutingRef) : base(mono)
         {
-            _stateSwitcher = stateSwitcher;
-            CoroutinesStack = coroutinesStack;
+            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
+            CoroutinesStack = coroutinesStack ?? throw new ArgumentNullException(nameof(coroutinesStack));
+            _isExecutingRef = isExecutingRef ?? throw new ArgumentNullException(nameof(isExecutingRef));
         }
 
-        public bool IsExecuting { get; private set; }
+        public bool IsExecuting => _isExecutingRef.Invoke();
 
         protected CoroutinesStack CoroutinesStack { get; }
         protected Coroutine Coroutine { get; set; }
 
         void IStateEntryExitPoint<MutableData>.OnEnter(MutableData mutableData)
         {
-            IsExecuting = this is Executing;
-
             if (mutableData != null)
             {
                 Coroutine = mutableData.Coroutine;

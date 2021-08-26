@@ -38,14 +38,15 @@ namespace Desdiene.CoroutineWrapper
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
 
+            Func<bool> isExecutingRef = () => CurrentState is Executing;
             CoroutinesStack coroutineStack = new CoroutinesStack();
             StateSwitcher<State, MutableData> stateSwitcher = new StateSwitcher<State, MutableData>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new Created(mono, stateSwitcher, coroutineStack),
-                new Executing(mono, stateSwitcher, coroutineStack),
-                new Executed(mono, stateSwitcher, coroutineStack),
-                new Terminated(mono, stateSwitcher, coroutineStack),
+                new Created(mono, stateSwitcher, coroutineStack, isExecutingRef),
+                new Executing(mono, stateSwitcher, coroutineStack, isExecutingRef),
+                new Executed(mono, stateSwitcher, coroutineStack, isExecutingRef),
+                new Terminated(mono, stateSwitcher, coroutineStack, isExecutingRef),
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();

@@ -8,7 +8,7 @@ namespace Desdiene.StateMachine.StateSwitching
     public class StateSwitcher<AbstractStateT> :
         StateSwitcherBase<AbstractStateT>,
         IStateSwitcher<AbstractStateT>
-        where AbstractStateT : IStateEntryExitPoint
+        where AbstractStateT : class, IStateEntryExitPoint
     {
         public StateSwitcher(IRef<AbstractStateT> refCurrentState)
             : base(new List<AbstractStateT>(), refCurrentState) { }
@@ -16,10 +16,9 @@ namespace Desdiene.StateMachine.StateSwitching
         public StateSwitcher(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
             : base(allStates, refCurrentState) { }
 
-        protected override AbstractStateT Switch(AbstractStateT newState)
+        protected override AbstractStateT ExitSwitchEnter(AbstractStateT newState)
         {
-            if (IsStarted) CurrentState.OnExit();
-            else IsStarted = true;
+            if (IsCurrentStateNotNull) CurrentState.OnExit();
 
             CurrentState = newState;
             CurrentState.OnEnter();
@@ -31,7 +30,7 @@ namespace Desdiene.StateMachine.StateSwitching
     public class StateSwitcher<AbstractStateT, MutableDataT> :
         StateSwitcherBase<AbstractStateT>,
         IStateSwitcher<AbstractStateT, MutableDataT>
-        where AbstractStateT : IStateEntryExitPoint<MutableDataT>
+        where AbstractStateT : class, IStateEntryExitPoint<MutableDataT>
         where MutableDataT : class
     {
         public StateSwitcher(IRef<AbstractStateT> refCurrentState)
@@ -40,14 +39,16 @@ namespace Desdiene.StateMachine.StateSwitching
         public StateSwitcher(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
             : base(allStates, refCurrentState) { }
 
-        protected override AbstractStateT Switch(AbstractStateT newState)
+        protected override AbstractStateT ExitSwitchEnter(AbstractStateT newState)
         {
-            MutableDataT mutableData = null;
-            if (IsStarted)
+            if (!IsStateContains(newState))
             {
-                mutableData = CurrentState.OnExit();
+                throw new System.InvalidOperationException("You need to add the state to all states, before switching");
             }
-            else IsStarted = true;
+
+            MutableDataT mutableData = null;
+
+            if (IsCurrentStateNotNull) mutableData = CurrentState.OnExit();
 
             CurrentState = newState;
             CurrentState.OnEnter(mutableData);

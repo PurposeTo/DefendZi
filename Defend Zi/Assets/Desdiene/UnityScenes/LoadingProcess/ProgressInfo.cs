@@ -18,7 +18,7 @@ namespace Desdiene.UnityScenes.LoadingProcess
         {
             get
             {
-                return SceneEnablingAfterLoading.Check(_loadingOperation.allowSceneActivation);
+                return SceneEnablingAfterLoading.GetMode(_loadingOperation.allowSceneActivation);
             }
         }
         public float Progress => _loadingOperation.progress;
