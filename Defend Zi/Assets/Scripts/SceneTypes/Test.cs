@@ -3,7 +3,7 @@ using Desdiene.SceneTypes;
 
 namespace SceneTypes
 {
-    public class Test : SceneType
+    public class Test : SceneAsset
     {
         public Test(MonoBehaviourExt mono) : base(mono)
         {

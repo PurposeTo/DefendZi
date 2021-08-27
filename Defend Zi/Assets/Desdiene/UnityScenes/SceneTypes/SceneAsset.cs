@@ -13,12 +13,12 @@ namespace Desdiene.SceneTypes
     /// Описывает файл "юнити сцена". НЕ описывает загруженную сцену.
     /// Дочернему классу необходимо дать название, соответствующему названию сцены.
     /// </summary>
-    public abstract class SceneType : MonoBehaviourExtContainer
+    public abstract class SceneAsset : MonoBehaviourExtContainer
     {
         private readonly string _sceneName;
         private readonly LoadedScenes _loadedScenes;
 
-        public SceneType(MonoBehaviourExt mono) : base(mono)
+        public SceneAsset(MonoBehaviourExt mono) : base(mono)
         {
             ScenesInBuild scenesInBuild = ScenesInBuild.Instance;
             _loadedScenes = LoadedScenes.Instance;

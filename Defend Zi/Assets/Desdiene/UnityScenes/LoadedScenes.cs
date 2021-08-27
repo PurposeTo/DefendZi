@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Desdiene.Singletons.Unity;
+using Desdiene.UnityScenes.SceneTypes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +21,7 @@ namespace Desdiene.UnityScenes
         /// <summary>
         /// Получить массив загруженных сцен, без учета, включены ли они.
         /// </summary>
-        public Scene[] Get()
+        public SceneObject[] Get()
         {
             int countLoaded = SceneManager.sceneCount;
             Scene[] loadedScenes = new Scene[countLoaded];
@@ -31,15 +32,16 @@ namespace Desdiene.UnityScenes
             }
 
             Debug.Log($"Имена загруженных сцен:\n{string.Join("\n", loadedScenes.Select(it => it.name))}");
-            return loadedScenes;
+            return loadedScenes.Select(scene => new SceneObject(scene))
+                               .ToArray();
         }
 
-        public bool Contains(Scene scene) => Get().Contains(scene);
+        public bool Contains(SceneObject scene) => Get().Contains(scene);
 
         public bool Contains(string sceneName)
         {
-            Scene[] scenes = Get();
-            return Array.Exists(scenes, scene => scene.name == sceneName);
+            SceneObject[] scenes = Get();
+            return Array.Exists(scenes, scene => scene.Name == sceneName);
         }
     }
 }

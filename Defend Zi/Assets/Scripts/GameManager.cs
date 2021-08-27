@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviourExt
 {
     private GlobalTimePauser _isGameOver;
     private IDeath _playerDeath;
-    private SceneType _gameScene;
+    private SceneAsset _gameScene;
 
     public event Action OnGameStarted;
     public event Action OnGameOver;
