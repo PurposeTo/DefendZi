@@ -125,7 +125,6 @@ namespace Desdiene.UnityScenes.Loadings.States.Base
         {
             while (true)
             {
-                Debug.Log($"КРЯ {GetType().Name}");
                 CheckState();
                 /* При выгрузке сцены удалится MonoBehaviour объект, а с ним данный класс.
                  * Все инструкции должны быть указанны и будут выполнены до yield return инструкции.

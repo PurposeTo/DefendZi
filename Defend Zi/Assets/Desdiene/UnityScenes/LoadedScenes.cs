@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 namespace Desdiene.UnityScenes
 {
+    /*
+     * SceneManager.sceneCount считает все загруженные в данный момент сцены - без учитывания включены ли они.
+     * Scene scene.isLoaded - вернет true тогда, когда сцена И загружена, И включена.
+     * SceneManager.sceneLoaded - вызовет событие тогда, когда сцена будет И загружена, И включена.
+     */
     /// <summary>
     /// Класс содержит информацию о текущих загруженных сценах.
     /// Обращаться к SceneManager можно только из MonoBehaviour класса.
@@ -13,8 +18,7 @@ namespace Desdiene.UnityScenes
     public class LoadedScenes : GlobalSingleton<LoadedScenes>
     {
         /// <summary>
-        /// Получить массив загруженных сцен.
-        /// Учитывает также сцены, которые загружены, но не включены (AsyncOperation loadingOperation.allowSceneActivation = false)
+        /// Получить массив загруженных сцен, без учета, включены ли они.
         /// </summary>
         public Scene[] Get()
         {

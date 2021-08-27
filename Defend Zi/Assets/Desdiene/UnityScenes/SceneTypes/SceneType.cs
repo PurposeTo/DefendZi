@@ -4,13 +4,13 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Loadings;
 using Desdiene.UnityScenes.Loadings.Components;
-using Desdiene.UnityScenes.Unloadings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Desdiene.SceneTypes
 {
     /// <summary>
+    /// Описывает файл "юнити сцена". НЕ описывает загруженную сцену.
     /// Дочернему классу необходимо дать название, соответствующему названию сцены.
     /// </summary>
     public abstract class SceneType : MonoBehaviourExtContainer
@@ -35,12 +35,6 @@ namespace Desdiene.SceneTypes
 
             Debug.Log($"Scene with name \"{_sceneName}\" was found successfully");
         }
-
-        public event Action OnUnloading;
-        public event Action OnUnloaded;
-        public event Action OnWaitingForAllowingToEnabling;
-        public event Action OnLoadedAndEnabled;
-
 
         /// <summary>
         /// Загрузить сцену в одиночном режиме.
@@ -69,28 +63,7 @@ namespace Desdiene.SceneTypes
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
             Loading loading = new Loading(monoBehaviourExt, loadingOperation, _sceneName);
             loading.SetAllowSceneEnabling(alowingEnableMode);
-            loading.OnWaitingForAllowingToEnabling += OnWaitingForAllowingToEnabling;
-            loading.OnLoadedAndEnabled += OnLoadedAndEnabled;
             return loading;
-        }
-
-        /// <summary>
-        /// Выгрузить сцену.
-        /// </summary>
-        public IUnloading Unload()
-        {
-            if (!_loadedScenes.Contains(_sceneName))
-            {
-                Debug.LogError($"You can't unload the scene {_sceneName}, because it is not loaded");
-            }
-
-            throw new NotImplementedException("Не реализовано. Если будет загружено две одинаковых сцены, то не понятно, какую необходимо выгрузить. Реализовать через выгрузку не по имени, а по Scene scene.");
-            OnUnloading?.Invoke();
-            AsyncOperation unloadingOperation = SceneManager.UnloadSceneAsync(_sceneName);
-            Unloading unloading = new Unloading(unloadingOperation);
-
-            //todo: данный код не учитывает, что выгрузка сцены может произойти произвольно - например, при загрузке сцены с помощью Single мода.
-            unloading.OnUnloaded += OnUnloaded;
         }
     }
 }
