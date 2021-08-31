@@ -4,6 +4,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SelectableChunk", menuName = "ScriptableObjects/SelectableChunk")]
 public class SelectableChunk : ScriptableObject, ISelectableItem<Chunk>
 {
+    #region Property for editor drawer
+    
+    public static string ChanceMassFieldName => nameof(_chanceMass);
+    
+    #endregion
+
     [SerializeField, NotNull] private Chunk _chunk;
     [SerializeField] private uint _chanceMass;
 
