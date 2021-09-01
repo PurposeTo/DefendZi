@@ -7,6 +7,12 @@ using Zenject;
 
 public class ObstacleSpaceMono : MonoBehaviourExt
 {
+    #region Property for editor drawer
+
+    public static string SelectableChunkFieldName => nameof(_selectableChunks);
+
+    #endregion
+
     [SerializeField] private SelectableChunk[] _selectableChunks;
     [SerializeField] private float _startPoint = 40f;
     [SerializeField] private float _offsetGeneration = 30f; // —ейчас не учитывает размеры преп€тствий, поэтому поставить число побольше
