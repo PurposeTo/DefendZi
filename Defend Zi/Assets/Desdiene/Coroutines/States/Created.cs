@@ -11,7 +11,7 @@ namespace Desdiene.Coroutines.States
     public class Created : State
     {
         public Created(MonoBehaviourExt mono,
-                       IStateSwitcher<State, MutableData> stateSwitcher,
+                       IStateSwitcher<State, StateContext> stateSwitcher,
                        CoroutinesStack coroutinesStack,
                        Func<bool> isExecutingRef)
             : base(mono,

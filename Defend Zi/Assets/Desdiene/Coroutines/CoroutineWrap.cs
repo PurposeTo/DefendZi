@@ -40,7 +40,7 @@ namespace Desdiene.Coroutines
 
             Func<bool> isExecutingRef = () => CurrentState is Executing;
             CoroutinesStack coroutineStack = new CoroutinesStack();
-            StateSwitcher<State, MutableData> stateSwitcher = new StateSwitcher<State, MutableData>(_refCurrentState);
+            StateSwitcher<State, StateContext> stateSwitcher = new StateSwitcher<State, StateContext>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new Created(mono, stateSwitcher, coroutineStack, isExecutingRef),

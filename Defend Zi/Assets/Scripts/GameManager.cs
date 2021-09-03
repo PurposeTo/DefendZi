@@ -1,8 +1,8 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneTypes;
-using Desdiene.TimeControls.Pausables;
-using Desdiene.TimeControls.Pausers;
+using Desdiene.TimeControls.Pauses;
+using Desdiene.TimeControls.Scalers;
 using SceneTypes;
 using Zenject;
 
@@ -12,7 +12,7 @@ using Zenject;
 /// </summary>
 public class GameManager : MonoBehaviourExt
 {
-    private GlobalTimePauser _isGameOver;
+    private GlobalTimePause _isGameOver;
     private IDeath _playerDeath;
     private SceneAsset _gameScene;
 
@@ -20,10 +20,10 @@ public class GameManager : MonoBehaviourExt
     public event Action OnGameOver;
 
     [Inject]
-    private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy)
+    private void Constructor(GlobalTimeScaler timeScaler, ComponentsProxy componentsProxy)
     {
         _playerDeath = componentsProxy.PlayerDeath;
-        _isGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
+        _isGameOver = new GlobalTimePause(this, timeScaler, "Окончание игры");
         _gameScene = new Game(this);
         SubscribeEvents();
         OnGameStarted?.Invoke();
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviourExt
     /// </summary>
     private void EndGame()
     {
-        _isGameOver.SetPause(true);
+        _isGameOver.Set(true);
         OnGameOver?.Invoke();
     }
 
@@ -65,6 +65,6 @@ public class GameManager : MonoBehaviourExt
     /// </summary>
     private void ResumeEndedGame()
     {
-        _isGameOver.SetPause(false);
+        _isGameOver.Set(false);
     }
 }

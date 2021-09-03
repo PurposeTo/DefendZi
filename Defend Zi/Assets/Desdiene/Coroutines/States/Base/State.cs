@@ -9,13 +9,13 @@ using UnityEngine;
 
 namespace Desdiene.Coroutines.States.Base
 {
-    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<MutableData>
+    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<StateContext>
     {
-        private readonly IStateSwitcher<State, MutableData> _stateSwitcher;
+        private readonly IStateSwitcher<State, StateContext> _stateSwitcher;
         private readonly Func<bool> _isExecutingRef;
 
         public State(MonoBehaviourExt mono,
-                     IStateSwitcher<State, MutableData> stateSwitcher,
+                     IStateSwitcher<State, StateContext> stateSwitcher,
                      CoroutinesStack coroutinesStack,
                      Func<bool> isExecutingRef) : base(mono)
         {
@@ -29,20 +29,20 @@ namespace Desdiene.Coroutines.States.Base
         protected CoroutinesStack CoroutinesStack { get; }
         protected Coroutine Coroutine { get; set; }
 
-        void IStateEntryExitPoint<MutableData>.OnEnter(MutableData mutableData)
+        void IStateEntryExitPoint<StateContext>.OnEnter(StateContext stateContext)
         {
-            if (mutableData != null)
+            if (stateContext != null)
             {
-                Coroutine = mutableData.Coroutine;
+                Coroutine = stateContext.Coroutine;
             }
 
             OnEnter();
         }
 
-        MutableData IStateEntryExitPoint<MutableData>.OnExit()
+        StateContext IStateEntryExitPoint<StateContext>.OnExit()
         {
             OnExit();
-            return new MutableData(Coroutine);
+            return new StateContext(Coroutine);
         }
 
         protected virtual void OnEnter() { }

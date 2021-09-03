@@ -10,16 +10,16 @@ using Desdiene.UnityScenes.Loadings.Components;
 
 namespace Desdiene.UnityScenes.Loadings.States.Base
 {
-    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<MutableData>
+    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<StateContext>
     {
-        private readonly IStateSwitcher<State, MutableData> _stateSwitcher;
+        private readonly IStateSwitcher<State, StateContext> _stateSwitcher;
         private readonly string _sceneName;
         private readonly ProgressInfo _progressInfo;
         private readonly ICoroutine _stateChecking;
         private string _logMessage = "";
 
         public State(MonoBehaviourExt mono,
-                     IStateSwitcher<State, MutableData> stateSwitcher,
+                     IStateSwitcher<State, StateContext> stateSwitcher,
                      AsyncOperation loadingOperation,
                      string sceneName) : base(mono)
         {
@@ -61,11 +61,11 @@ namespace Desdiene.UnityScenes.Loadings.States.Base
 
         public abstract void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode enablingMode);
 
-        void IStateEntryExitPoint<MutableData>.OnEnter(MutableData mutableData)
+        void IStateEntryExitPoint<StateContext>.OnEnter(StateContext stateContext)
         {
-            if (mutableData != null)
+            if (stateContext != null)
             {
-                onWaitingForAllowingToEnabling = mutableData.OnWaitingForAllowingToEnabling;
+                onWaitingForAllowingToEnabling = stateContext.OnWaitingForAllowingToEnabling;
             }
 
             _logMessage = PrintLoadingLog(_logMessage);
@@ -73,11 +73,11 @@ namespace Desdiene.UnityScenes.Loadings.States.Base
             OnEnter();
         }
 
-        MutableData IStateEntryExitPoint<MutableData>.OnExit()
+        StateContext IStateEntryExitPoint<StateContext>.OnExit()
         {
             _stateChecking.Terminate();
             OnExit();
-            return new MutableData(onWaitingForAllowingToEnabling);
+            return new StateContext(onWaitingForAllowingToEnabling);
         }
 
         protected virtual void OnEnter() { }

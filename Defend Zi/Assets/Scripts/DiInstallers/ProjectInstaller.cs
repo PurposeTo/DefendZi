@@ -1,7 +1,7 @@
 ﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
-using Desdiene.TimeControls.Pausables;
-using Desdiene.TimeControls.Scales;
+using Desdiene.TimeControls.Adapters;
+using Desdiene.TimeControls.Scalers;
 using Desdiene.UnityScenes;
 using Zenject;
 
@@ -11,8 +11,8 @@ public class ProjectInstaller : MonoInstaller
     {
         BindScenesInBuild();
         BindLoadedScenes();
+        BindGlobalTimeRef();
         BindGlobalTimeScaler();
-        BindGlobalTimePauser();
         BindGPGSAuthentication();
         BindDataStorage();
     }
@@ -57,20 +57,20 @@ public class ProjectInstaller : MonoInstaller
             .NonLazy();
     }
 
-    private void BindGlobalTimeScaler()
+    private void BindGlobalTimeRef()
     {
         Container
-            .Bind<GlobalTimeScaler>()
+            .Bind<GlobalTimeScaleAdapter>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();
     }
 
-    private void BindGlobalTimePauser()
+    private void BindGlobalTimeScaler()
     {
         Container
-            .Bind<GlobalTimePausable>()
+            .Bind<GlobalTimeScaler>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

@@ -12,7 +12,7 @@ namespace Desdiene.Containers
 
         public MonoBehaviourExtContainer(MonoBehaviourExt monoBehaviourExt)
         {
-            this.monoBehaviourExt = monoBehaviourExt
+            this.monoBehaviourExt = monoBehaviourExt != null
                 ? monoBehaviourExt
                 : throw new ArgumentNullException(nameof(monoBehaviourExt));
         }

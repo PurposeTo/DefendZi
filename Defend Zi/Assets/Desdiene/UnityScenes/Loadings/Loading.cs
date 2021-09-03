@@ -30,7 +30,7 @@ namespace Desdiene.UnityScenes.Loadings
 
             _sceneName = sceneName;
 
-            StateSwitcher<State, MutableData> stateSwitcher = new StateSwitcher<State, MutableData>(_refCurrentState);
+            StateSwitcher<State, StateContext> stateSwitcher = new StateSwitcher<State, StateContext>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new States.Loading(mono, stateSwitcher, loadingOperation, _sceneName),
@@ -45,19 +45,19 @@ namespace Desdiene.UnityScenes.Loadings
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
         /// </summary>
-        public event Action OnWaitingForAllowingToEnabling
+        public event Action<ILoadingNotifier> OnLoaded
         {
-            add => CurrentState.OnWaitingForAllowingToEnabling += value;
-            remove => CurrentState.OnWaitingForAllowingToEnabling -= value;
+            add => CurrentState.OnWaitingForAllowingToEnabling += () => value?.Invoke(this);
+            remove => CurrentState.OnWaitingForAllowingToEnabling -= () => value?.Invoke(this);
         }
 
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
-        public event Action OnLoadedAndEnabled
+        public event Action<ILoadingNotifier> OnLoadedAndEnabled
         {
-            add => CurrentState.OnLoadedAndEnabled += value;
-            remove => CurrentState.OnLoadedAndEnabled -= value;
+            add => CurrentState.OnLoadedAndEnabled += () => value?.Invoke(this);
+            remove => CurrentState.OnLoadedAndEnabled -= () => value?.Invoke(this);
         }
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
@@ -68,7 +68,6 @@ namespace Desdiene.UnityScenes.Loadings
          */
         /// <summary>
         /// Установить разрешение на включение сцены после загрузки.
-        /// Внимание! Загруженная, но не включенная сцена все равно учитывается unity как загруженная.
         /// </summary>
         public void SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode mode) => CurrentState.SetAllowSceneEnabling(mode);
     }

@@ -10,7 +10,7 @@ namespace Desdiene.UnityScenes.Loadings.States
     public class LoadedAndEnabled : State
     {
         public LoadedAndEnabled(MonoBehaviourExt mono,
-                       IStateSwitcher<State, MutableData> stateSwitcher,
+                       IStateSwitcher<State, StateContext> stateSwitcher,
                        AsyncOperation loadingOperation,
                        string sceneName)
             : base(mono,
