@@ -1,5 +1,6 @@
 ﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
+using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls.Adapters;
 using Desdiene.TimeControls.Scalers;
 using Desdiene.UnityScenes;
@@ -13,8 +14,19 @@ public class ProjectInstaller : MonoInstaller
         BindLoadedScenes();
         BindGlobalTimeRef();
         BindGlobalTimeScaler();
+        BingSingleSceneLoader();
         BindGPGSAuthentication();
         BindDataStorage();
+    }
+
+    private void BingSingleSceneLoader()
+    {
+        Container
+            .Bind<SceneLoader>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindScenesInBuild()

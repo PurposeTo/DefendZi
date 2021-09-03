@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single.States.Base;
+using Desdiene.SceneLoaders.Single.States.Components;
 using Desdiene.SceneTypes;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.Processes;
@@ -29,43 +27,25 @@ namespace Desdiene.SceneLoaders.Single.States
 
         protected override void OnEnter()
         {
-            OnSceneLoading();
-            ILoading loading = SceneToLoad.LoadAsSingle(SceneEnablingAfterLoading.Mode.Forbid);
-            loading.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
+            IProcesses pastSceneUnloadingPreparation = new ProcessesContainer("Подготовка к выгрузке старой сцены");
+            OnSceneLoading(pastSceneUnloadingPreparation);
+            ILoadingAndEnabling loading = SceneToLoad.LoadAsSingle(SceneEnablingAfterLoading.Mode.Forbid);
 
-            IProcess nextSceneLoading = new Process("Загрузка новой сцены", true);
-            IProcess previousSceneUnloadingPreparation  = new Process("Подготовка к выгрузке старой сцены", true);
-
-            void OnSceneLoaded(ILoadingNotifier loadingNotifier)
+            new TransitionProcess(loading, pastSceneUnloadingPreparation).OnReadyToChangeScene += () =>
             {
-                nextSceneLoading.Set(false);
-                loadingNotifier.OnLoaded -= OnSceneLoaded;
-            }
-            loading.OnLoaded += OnSceneLoaded;
-
-            void OnPreviousScenePreparedToUnload(IMutableProcessGetter process)
-            {
-                if (!process.KeepWaiting)
-                {
-                    loading.SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode.Allow);
-                    process.OnChanged -= OnPreviousScenePreparedToUnload;
-                }
-            }
-            List<IProcess> processesList = new List<IProcess>()
-            {
-                nextSceneLoading,
-                previousSceneUnloadingPreparation
+                loading.SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode.Allow);
             };
-            new ProcessesContainer("Загрузка и подготовка сцены", processesList).OnChanged += OnPreviousScenePreparedToUnload;
+
+            loading.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
         }
 
-        private void OnSceneLoading()
+        private void OnSceneLoading(IProcessesSetter pastSceneUnloadingPreparation)
         {
             // Остановить время
             // Начать закрывать заслонку. Добавить закрытие заслонки в ожидание выполнения.
         }
 
-        private void OnSceneLoadedAndEnabled(ILoadingNotifier loadingNotifier)
+        private void OnSceneLoadedAndEnabled(ILoadingAndEnablingNotifier loadingNotifier)
         {
             // Включить время
             // Начать открывать заслонку, не дожидаясь окончания действия

@@ -12,14 +12,14 @@ using Desdiene.UnityScenes.Loadings.Components;
 namespace Desdiene.UnityScenes.Loadings
 {
     /// <summary>
-    /// Данный класс описывает операцию асинхронной загрузки сцены.
+    /// Данный класс описывает операцию асинхронной загрузки и включения сцены.
     /// </summary>
-    public class Loading : MonoBehaviourExtContainer, ILoading
+    public class LoadingAndEnabling : MonoBehaviourExtContainer, ILoadingAndEnabling
     {
         private readonly string _sceneName;
         private readonly IRef<State> _refCurrentState = new Ref<State>();
 
-        public Loading(MonoBehaviourExt mono, AsyncOperation loadingOperation, string sceneName) : base(mono)
+        public LoadingAndEnabling(MonoBehaviourExt mono, AsyncOperation loadingOperation, string sceneName) : base(mono)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
             if (loadingOperation == null) throw new ArgumentNullException(nameof(loadingOperation));
@@ -33,19 +33,19 @@ namespace Desdiene.UnityScenes.Loadings
             StateSwitcher<State, StateContext> stateSwitcher = new StateSwitcher<State, StateContext>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new States.Loading(mono, stateSwitcher, loadingOperation, _sceneName),
+                new Loading(mono, stateSwitcher, loadingOperation, _sceneName),
                 new WaitingForAllowingToEnabling(mono, stateSwitcher, loadingOperation, _sceneName),
                 new Enabling(mono, stateSwitcher, loadingOperation, _sceneName),
                 new LoadedAndEnabled(mono, stateSwitcher, loadingOperation, _sceneName)
             };
             stateSwitcher.Add(allStates);
-            stateSwitcher.Switch<States.Loading>();
+            stateSwitcher.Switch<Loading>();
         }
 
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
         /// </summary>
-        public event Action<ILoadingNotifier> OnLoaded
+        public event Action<IMutableLoadingAndEnablingGetter> OnLoaded
         {
             add => CurrentState.OnWaitingForAllowingToEnabling += () => value?.Invoke(this);
             remove => CurrentState.OnWaitingForAllowingToEnabling -= () => value?.Invoke(this);
@@ -54,7 +54,7 @@ namespace Desdiene.UnityScenes.Loadings
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
-        public event Action<ILoadingNotifier> OnLoadedAndEnabled
+        public event Action<IMutableLoadingAndEnablingGetter> OnLoadedAndEnabled
         {
             add => CurrentState.OnLoadedAndEnabled += () => value?.Invoke(this);
             remove => CurrentState.OnLoadedAndEnabled -= () => value?.Invoke(this);

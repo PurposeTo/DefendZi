@@ -12,7 +12,7 @@ namespace Desdiene.SceneLoaders.Single
     /// <summary>
     /// Need to be a global singleton!
     /// </summary>
-    public class SingleSceneLoader : MonoBehaviourExt
+    public class SceneLoader : MonoBehaviourExt
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
 
@@ -30,8 +30,8 @@ namespace Desdiene.SceneLoaders.Single
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void LoadScene(SceneAsset scene) => CurrentState.Load(scene);
+        public void Load(SceneAsset scene) => CurrentState.Load(scene);
 
-        public void ReloadScene() => CurrentState.Reload();
+        public void Reload() => CurrentState.Reload();
     }
 }

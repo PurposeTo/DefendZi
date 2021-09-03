@@ -28,7 +28,7 @@ public class SceneInitorTest : MonoBehaviourExt
         {
             SceneObject firstLoadedScene = LoadedScenes.Instance.Get()[0];
 
-            ILoading loading = _sceneType.LoadAsAdditive(SceneEnablingAfterLoading.Mode.Allow);
+            ILoadingAndEnabling loading = _sceneType.LoadAsAdditive(SceneEnablingAfterLoading.Mode.Allow);
             loading.OnLoadedAndEnabled += (_) =>
             {
                 SceneObject[] scenes = LoadedScenes.Instance.Get();

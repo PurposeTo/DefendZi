@@ -2,7 +2,7 @@
 
 namespace Desdiene.UnityScenes.Loadings
 {
-    public interface ILoadingSetter
+    public interface ILoadingAndEnablingSetter
     {
         /// <summary>
         /// Установить разрешение на включение сцены после загрузки.

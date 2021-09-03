@@ -7,11 +7,11 @@ namespace Desdiene.Types.Processes
 {
     public class ProcessesContainer : IProcesses
     {
-        private readonly List<IProcess> _processes;
+        private readonly List<IMutableProcessGetter> _processes = new List<IMutableProcessGetter>();
 
-        public ProcessesContainer(string name) : this(name, new List<IProcess>()) { }
+        public ProcessesContainer(string name) : this(name, new List<IMutableProcessGetter>()) { }
 
-        public ProcessesContainer(string name, List<IProcess> processes)
+        public ProcessesContainer(string name, List<IMutableProcessGetter> processes)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -19,8 +19,7 @@ namespace Desdiene.Types.Processes
             }
 
             Name = name;
-            _processes = processes;
-            Update(this);
+            processes.ForEach(process => Add(process));
         }
 
         public string Name { get; }
@@ -28,12 +27,12 @@ namespace Desdiene.Types.Processes
 
         public event Action<IMutableProcessGetter> OnChanged;
 
-        public void Add(IProcess process)
+        public void Add(IMutableProcessGetter process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (_processes.Contains(process))
             {
-                Debug.LogError($"{this.GetType().Name} is already contains {process} with name {process.Name} in list!");
+                Debug.LogError($"{Name} is already contains {process} with name {process.Name} in list!");
             }
             else if (_processes.Any(item => item.Name == process.Name))
             {
@@ -48,12 +47,12 @@ namespace Desdiene.Types.Processes
             }
         }
 
-        public void Remove(IProcess process)
+        public void Remove(IMutableProcessGetter process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (!_processes.Contains(process))
             {
-                Debug.LogWarning($"{this.GetType().Name} is NOT contains {process} with name {process.Name} in list!");
+                Debug.LogWarning($"{Name} is NOT contains {process} with name {process.Name} in list!");
             }
             else
             {
@@ -66,17 +65,15 @@ namespace Desdiene.Types.Processes
         private void Update(IMutableProcessGetter process)
         {
             bool keepWaiting = CalculateKeepWaiting();
-            if (KeepWaiting != keepWaiting)
-            {
-                KeepWaiting = keepWaiting;
-                LogAllProcesses();
-                OnChanged?.Invoke(this);
-            }
+            bool isChanged = KeepWaiting != keepWaiting;
+            KeepWaiting = keepWaiting;
+            LogAllProcesses();
+            if (isChanged) OnChanged?.Invoke(this);
         }
 
         public void LogAllProcesses()
         {
-            string logMessage = $"{nameof(ProcessesContainer)} list have {_processes.Count} items. KeepWaiting: {KeepWaiting}";
+            string logMessage = $"List in \"{Name}\" have {_processes.Count} items. KeepWaiting: {KeepWaiting}";
             _processes.ForEach(item => logMessage += $"\nName: {item.Name}. KeepWaiting: {item.KeepWaiting}");
             Debug.Log(logMessage);
         }

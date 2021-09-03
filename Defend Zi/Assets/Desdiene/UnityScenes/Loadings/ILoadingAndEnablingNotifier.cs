@@ -2,16 +2,16 @@
 
 namespace Desdiene.UnityScenes.Loadings
 {
-    public interface ILoadingNotifier
+    public interface ILoadingAndEnablingNotifier
     {
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
         /// </summary>
-        event Action<ILoadingNotifier> OnLoaded;
+        event Action<IMutableLoadingAndEnablingGetter> OnLoaded;
 
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
-        event Action<ILoadingNotifier> OnLoadedAndEnabled;
+        event Action<IMutableLoadingAndEnablingGetter> OnLoadedAndEnabled;
     }
 }

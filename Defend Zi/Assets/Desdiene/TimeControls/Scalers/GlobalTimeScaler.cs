@@ -38,9 +38,9 @@ namespace Desdiene.TimeControls.Scalers
 
         public bool KeepWaiting => _processes.KeepWaiting;
 
-        public void Add(IProcess process) => _processes.Add(process);
+        public void Add(IMutableProcessGetter process) => _processes.Add(process);
 
-        public void Remove(IProcess process) => _processes.Remove(process);
+        public void Remove(IMutableProcessGetter process) => _processes.Remove(process);
 
         private void UpdateTimeScaler(IMutableProcessGetter process)
         {

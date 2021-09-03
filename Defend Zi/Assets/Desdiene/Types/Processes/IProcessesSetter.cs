@@ -2,7 +2,7 @@
 {
     public interface IProcessesSetter
     {
-        public void Add(IProcess process);
-        public void Remove(IProcess process);
+        public void Add(IMutableProcessGetter process);
+        public void Remove(IMutableProcessGetter process);
     }
 }
