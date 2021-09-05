@@ -2,6 +2,7 @@
 {
     public interface IProcessSetter
     {
-        void Set(bool keepWaiting);
+        IProcess Start();
+        IProcess Complete();
     }
 }

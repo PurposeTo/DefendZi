@@ -13,7 +13,7 @@ using Zenject;
 /// </summary>
 public class GameManager : MonoBehaviourExt
 {
-    private GlobalTimePause _isGameOver;
+    private GlobalTimePause _gameOverPause;
     private IDeath _playerDeath;
     private SceneAsset _gameScene;
     private SceneLoader _singleSceneLoader;
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviourExt
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
         if (singleSceneLoader == null) throw new ArgumentNullException(nameof(singleSceneLoader));
 
-        _isGameOver = new GlobalTimePause(this, timeScaler, "Окончание игры");
+        _gameOverPause = new GlobalTimePause(this, timeScaler, "Окончание игры");
         _playerDeath = componentsProxy.PlayerDeath;
         _gameScene = new Game(this);
         _singleSceneLoader = singleSceneLoader;
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviourExt
     /// </summary>
     private void EndGame()
     {
-        _isGameOver.Set(true);
+        _gameOverPause.Start();
         OnGameOver?.Invoke();
     }
 
@@ -72,6 +72,6 @@ public class GameManager : MonoBehaviourExt
     /// </summary>
     private void ResumeEndedGame()
     {
-        _isGameOver.Set(false);
+        _gameOverPause.Complete();
     }
 }

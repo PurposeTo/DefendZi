@@ -9,7 +9,7 @@ using Desdiene.Types.Percents;
 
 namespace Desdiene.TimeControls.Scales
 {
-    public sealed class TimeScaler : ITimeScaler
+    public sealed class TimeScaler : IManualTimeController
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
 
@@ -27,8 +27,8 @@ namespace Desdiene.TimeControls.Scales
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void SetPause(bool pause) => CurrentState.SetPause(pause);
+        void ITimePauser.SetPause(bool pause) => CurrentState.SetPause(pause);
 
-        public void SetScale(float timeScale) => CurrentState.SetScale(timeScale);
+        void ITimeScaler.SetScale(float timeScale) => CurrentState.SetScale(timeScale);
     }
 }

@@ -13,7 +13,7 @@ namespace Desdiene.UnityScenes.Loadings.Components
         }
 
         public bool IsDone => _loadingOperation.isDone;
-        public SceneEnablingAfterLoading.Mode SceneEnablindAfterLoading
+        public SceneEnablingAfterLoading.Mode AlowingEnableMode
         {
             get
             {

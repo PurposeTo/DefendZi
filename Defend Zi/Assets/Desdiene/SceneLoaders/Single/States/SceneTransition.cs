@@ -1,6 +1,6 @@
-﻿using Desdiene.MonoBehaviourExtension;
+﻿using System.Collections.Generic;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single.States.Base;
-using Desdiene.SceneLoaders.Single.States.Components;
 using Desdiene.SceneTypes;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.Processes;
@@ -29,14 +29,22 @@ namespace Desdiene.SceneLoaders.Single.States
         {
             IProcesses pastSceneUnloadingPreparation = new ProcessesContainer("Подготовка к выгрузке старой сцены");
             OnSceneLoading(pastSceneUnloadingPreparation);
-            ILoadingAndEnabling loading = SceneToLoad.LoadAsSingle(SceneEnablingAfterLoading.Mode.Forbid);
+            ILoadingAndEnabling loadingAndEnabling = SceneToLoad.LoadAsSingle(SceneEnablingAfterLoading.Mode.Forbid);
+            IProcessGetterNotifier nextSceneLoadingProcess = loadingAndEnabling.Loading;
 
-            new TransitionProcess(loading, pastSceneUnloadingPreparation).OnReadyToChangeScene += () =>
+            List<IProcessGetterNotifier> processesList = new List<IProcessGetterNotifier>()
             {
-                loading.SetAllowSceneEnabling(SceneEnablingAfterLoading.Mode.Allow);
+                nextSceneLoadingProcess,
+                pastSceneUnloadingPreparation
+            };
+            IProcessGetterNotifier sceneTransition = new ProcessesContainer("Подготовка перехода на следующую сцену", processesList);
+
+            sceneTransition.OnCompleted += () =>
+            {
+                loadingAndEnabling.AllowSceneEnabling();
             };
 
-            loading.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
+            loadingAndEnabling.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
         }
 
         private void OnSceneLoading(IProcessesSetter pastSceneUnloadingPreparation)

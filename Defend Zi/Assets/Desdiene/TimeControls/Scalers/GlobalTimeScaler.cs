@@ -13,38 +13,48 @@ namespace Desdiene.TimeControls.Scalers
     /// </summary>
     public sealed class GlobalTimeScaler : MonoBehaviourExt, ITimeScaler, IProcesses
     {
-        private TimeScaler _timeScaler;
-        private ProcessesContainer _processes;
+        private IManualTimeController _timeScaler;
+        private IProcesses _processes;
 
         [Inject]
         private void Constructor(GlobalTimeScaleAdapter globalTimeScaleAdapter)
         {
             _timeScaler = new TimeScaler(globalTimeScaleAdapter);
             _processes = new ProcessesContainer("Остановка глобального времени");
-            OnChanged += UpdateTimeScaler;
+            _processes.OnChanged += UpdateTimeScaler;
         }
 
-        public event Action<IMutableProcessGetter> OnChanged
+        event Action IProcessNotifier.OnStarted
+        {
+            add => _processes.OnStarted += value;
+            remove => _processes.OnStarted -= value;
+        }
+
+        event Action IProcessNotifier.OnCompleted
+        {
+            add => _processes.OnCompleted += value;
+            remove => _processes.OnCompleted -= value;
+        }
+
+        event Action<IProcessGetter> IProcessNotifier.OnChanged
         {
             add => _processes.OnChanged += value;
             remove => _processes.OnChanged -= value;
         }
 
-        public void SetPause(bool pause) => _timeScaler.SetPause(pause);
+        void ITimeScaler.SetScale(float timeScale) => _timeScaler.SetScale(timeScale);
 
-        public void SetScale(float timeScale) => _timeScaler.SetScale(timeScale);
+        string IProcessGetter.Name => _processes.Name;
 
-        public string Name => _processes.Name;
+        bool IProcessGetter.KeepWaiting => _processes.KeepWaiting;
 
-        public bool KeepWaiting => _processes.KeepWaiting;
+        void IProcessesSetter.Add(IProcessGetterNotifier process) => _processes.Add(process);
 
-        public void Add(IMutableProcessGetter process) => _processes.Add(process);
+        void IProcessesSetter.Remove(IProcessGetterNotifier process) => _processes.Remove(process);
 
-        public void Remove(IMutableProcessGetter process) => _processes.Remove(process);
-
-        private void UpdateTimeScaler(IMutableProcessGetter process)
+        private void UpdateTimeScaler(IProcessGetter process)
         {
-            SetPause(process.KeepWaiting);
+            _timeScaler.SetPause(process.KeepWaiting);
         }
     }
 }

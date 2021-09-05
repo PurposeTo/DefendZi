@@ -3,9 +3,9 @@ using Desdiene.Types.Percents;
 
 namespace Desdiene.TimeControls.Scalers
 {
-    public sealed class LocalTimeScaler : ITimeScaler
+    public sealed class LocalTimeScaler : IManualTimeController
     {
-        private readonly TimeScaler _timeScaler;
+        private readonly IManualTimeController _timeScaler;
 
         public LocalTimeScaler()
         {

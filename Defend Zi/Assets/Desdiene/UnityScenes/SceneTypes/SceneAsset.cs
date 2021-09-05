@@ -61,8 +61,7 @@ namespace Desdiene.SceneTypes
         public ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, SceneEnablingAfterLoading.Mode alowingEnableMode)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
-            LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName);
-            loading.SetAllowSceneEnabling(alowingEnableMode);
+            LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName, alowingEnableMode);
             return loading;
         }
     }

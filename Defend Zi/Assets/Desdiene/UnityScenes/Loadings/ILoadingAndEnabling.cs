@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.UnityScenes.Loadings
 {
-    public interface ILoadingAndEnabling : IMutableLoadingAndEnablingGetter, ILoadingAndEnablingSetter
+    public interface ILoadingAndEnabling : ILoadingAndEnablingGetterNotifier, ILoadingAndEnablingSetter
     {
 
     }

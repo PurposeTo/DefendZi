@@ -7,27 +7,47 @@ namespace Desdiene.Types.Processes
 {
     public class ProcessesContainer : IProcesses
     {
-        private readonly List<IMutableProcessGetter> _processes = new List<IMutableProcessGetter>();
+        private readonly List<IProcessGetterNotifier> _processes = new List<IProcessGetterNotifier>();
+        private readonly IProcess _process;
 
-        public ProcessesContainer(string name) : this(name, new List<IMutableProcessGetter>()) { }
+        public ProcessesContainer(string name) : this(name, new List<IProcessGetterNotifier>()) { }
 
-        public ProcessesContainer(string name, List<IMutableProcessGetter> processes)
+        public ProcessesContainer(string name, List<IProcessGetterNotifier> processes)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException($"\"{nameof(name)}\" Can't be null or empty.", nameof(name));
             }
 
-            Name = name;
+            _process = new Process(name);
             processes.ForEach(process => Add(process));
         }
 
-        public string Name { get; }
-        public bool KeepWaiting { get; private set; }
+        event Action IProcessNotifier.OnStarted
+        {
+            add => _process.OnStarted += value;
+            remove => _process.OnStarted -= value;
+        }
 
-        public event Action<IMutableProcessGetter> OnChanged;
+        event Action IProcessNotifier.OnCompleted
+        {
+            add => _process.OnCompleted += value;
+            remove => _process.OnCompleted -= value;
+        }
 
-        public void Add(IMutableProcessGetter process)
+        event Action<IProcessGetter> IProcessNotifier.OnChanged
+        {
+            add => _process.OnChanged += value;
+            remove => _process.OnChanged -= value;
+        }
+
+        string IProcessGetter.Name => Name;
+        bool IProcessGetter.KeepWaiting => KeepWaiting;
+
+        private string Name => _process.Name;
+        private bool KeepWaiting => _process.KeepWaiting;
+
+        public void Add(IProcessGetterNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (_processes.Contains(process))
@@ -42,12 +62,13 @@ namespace Desdiene.Types.Processes
             else
             {
                 _processes.Add(process);
-                Update(process);
-                process.OnChanged += Update;
+                process.OnStarted += SetActualState;
+                process.OnCompleted += SetActualState;
+                SetActualState();
             }
         }
 
-        public void Remove(IMutableProcessGetter process)
+        public void Remove(IProcessGetterNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (!_processes.Contains(process))
@@ -57,30 +78,28 @@ namespace Desdiene.Types.Processes
             else
             {
                 _processes.Remove(process);
-                Update(process);
-                process.OnChanged -= Update;
+                process.OnStarted -= SetActualState;
+                process.OnCompleted -= SetActualState;
+                SetActualState();
             }
         }
 
-        private void Update(IMutableProcessGetter process)
+        private void SetActualState()
         {
-            bool keepWaiting = CalculateKeepWaiting();
-            bool isChanged = KeepWaiting != keepWaiting;
-            KeepWaiting = keepWaiting;
+            if (_processes.Any(process => process.KeepWaiting)) Start();
+            else Complete();
             LogAllProcesses();
-            if (isChanged) OnChanged?.Invoke(this);
         }
 
-        public void LogAllProcesses()
+        private void Start() => _process.Start();
+
+        private void Complete() => _process.Complete();
+
+        private void LogAllProcesses()
         {
-            string logMessage = $"List in \"{Name}\" have {_processes.Count} items. KeepWaiting: {KeepWaiting}";
-            _processes.ForEach(item => logMessage += $"\nName: {item.Name}. KeepWaiting: {item.KeepWaiting}");
+            string logMessage = $"List in \"{Name}\" have {_processes.Count} items. Pause: {KeepWaiting}";
+            _processes.ForEach(item => logMessage += $"\nName: {item.Name}. Pause: {item.KeepWaiting}");
             Debug.Log(logMessage);
-        }
-
-        private bool CalculateKeepWaiting()
-        {
-            return _processes.Any(process => process.KeepWaiting);
         }
     }
 }

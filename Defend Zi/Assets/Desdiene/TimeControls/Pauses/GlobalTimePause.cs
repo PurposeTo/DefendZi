@@ -25,9 +25,21 @@ namespace Desdiene.TimeControls.Pauses
             mono.OnDestroyed += _timePause.Destroy;
         }
 
-        public event Action<IMutableProcessGetter> OnChanged
+        public event Action OnStarted
         {
-            add =>_timePause.OnChanged += value;
+            add => _timePause.OnStarted += value;
+            remove => _timePause.OnStarted -= value;
+        }
+
+        public event Action OnCompleted
+        {
+            add => _timePause.OnCompleted += value;
+            remove => _timePause.OnCompleted -= value;
+        }
+
+        public event Action<IProcessGetter> OnChanged
+        {
+            add => _timePause.OnChanged += value;
             remove => _timePause.OnChanged -= value;
         }
 
@@ -35,6 +47,8 @@ namespace Desdiene.TimeControls.Pauses
 
         public bool KeepWaiting => _timePause.KeepWaiting;
 
-        public void Set(bool keepWaiting) => _timePause.Set(keepWaiting);
+        public IProcess Start() => _timePause.Start();
+
+        public IProcess Complete() => _timePause.Complete();
     }
 }

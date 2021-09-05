@@ -13,7 +13,7 @@ namespace Desdiene.UnityScenes
      * SceneManager.sceneLoaded - вызовет событие тогда, когда сцена будет И загружена, И включена.
      */
     /// <summary>
-    /// Класс содержит информацию о текущих загруженных сценах.
+    /// Класс содержит информацию о текущих загруженных (НЕ включенных!) сценах.
     /// Обращаться к SceneManager можно только из MonoBehaviour класса.
     /// </summary>
     public class LoadedScenes : GlobalSingleton<LoadedScenes>

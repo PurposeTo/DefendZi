@@ -45,7 +45,7 @@ namespace Desdiene.SceneLoaders
         public void LoadScene(string sceneName)
         {
             loadingSceneName = sceneName;
-            isSceneLoading.Set(true);
+            isSceneLoading.Start();
             loadingScreen.Close();
         }
 
@@ -63,7 +63,7 @@ namespace Desdiene.SceneLoaders
 
         private void AtOpeningEnd()
         {
-            isSceneLoading.Set(false);
+            isSceneLoading.Complete();
         }
 
         private void AtClosingEnd()

@@ -28,18 +28,9 @@ public class SceneInitorTest : MonoBehaviourExt
         {
             SceneObject firstLoadedScene = LoadedScenes.Instance.Get()[0];
 
-            ILoadingAndEnabling loading = _sceneType.LoadAsAdditive(SceneEnablingAfterLoading.Mode.Allow);
-            loading.OnLoadedAndEnabled += (_) =>
-            {
-                SceneObject[] scenes = LoadedScenes.Instance.Get();
+            ILoadingAndEnabling loading = _sceneType.LoadAsSingle(SceneEnablingAfterLoading.Mode.Forbid);
+            loading.OnLoaded += (_) => loading.AllowSceneEnabling();
 
-                IUnloading unloading = new Unloading(SceneManager.UnloadSceneAsync(firstLoadedScene.UnityScene));
-                unloading.OnUnloaded += () =>
-                {
-                    Debug.Log($"Сцена загружена - {scenes[0].IsLoadedAndEnabled}. Первое сравнение: {scenes[0] == firstLoadedScene}");
-                    Debug.Log($"Сцена загружена - {scenes[1].IsLoadedAndEnabled}. Второе сравнение: {scenes[1] == firstLoadedScene}");
-                };
-            };
         }
     }
 }
