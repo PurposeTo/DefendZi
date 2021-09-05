@@ -13,7 +13,7 @@ namespace Desdiene.SceneTypes
     /// Описывает файл "юнити сцена". НЕ описывает загруженную сцену.
     /// Дочернему классу необходимо дать название, соответствующему названию сцены.
     /// </summary>
-    public abstract class SceneAsset : MonoBehaviourExtContainer
+    public class SceneAsset : MonoBehaviourExtContainer
     {
         private readonly string _sceneName;
         private readonly LoadedScenes _loadedScenes;
@@ -21,19 +21,13 @@ namespace Desdiene.SceneTypes
         public SceneAsset(MonoBehaviourExt mono) : base(mono)
         {
             ScenesInBuild scenesInBuild = ScenesInBuild.Instance;
-            _loadedScenes = LoadedScenes.Instance;
+            _sceneName = AssertSceneName(scenesInBuild, GetType().Name);
+        }
 
-            string sceneName = GetType().Name;
-
-            if (!scenesInBuild.Contains(sceneName))
-            {
-                throw new TypeLoadException($"Scene with name {sceneName} not found in build! " +
-                    $"The class name must match the name of the existing scene and be unique");
-            }
-
-            _sceneName = sceneName;
-
-            Debug.Log($"Scene with name \"{_sceneName}\" was found successfully");
+        public SceneAsset(MonoBehaviourExt mono, string sceneName) : base(mono)
+        {
+            ScenesInBuild scenesInBuild = ScenesInBuild.Instance;
+            _sceneName = AssertSceneName(scenesInBuild, sceneName);
         }
 
         /// <summary>
@@ -63,6 +57,23 @@ namespace Desdiene.SceneTypes
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
             LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName, alowingEnableMode);
             return loading;
+        }
+
+        private string AssertSceneName(ScenesInBuild scenesInBuild, string sceneName)
+        {
+            if (string.IsNullOrWhiteSpace(sceneName))
+            {
+                throw new ArgumentException($"\"{nameof(sceneName)}\" can't be null or empty", nameof(sceneName));
+            }
+
+            if (!scenesInBuild.Contains(sceneName))
+            {
+                throw new TypeLoadException($"Scene with name {sceneName} not found in build! " +
+                    $"The class name must match the name of the existing scene and be unique");
+            }
+
+            Debug.Log($"Scene with name \"{sceneName}\" was found successfully");
+            return sceneName;
         }
     }
 }

@@ -32,7 +32,7 @@ public class GameUIController : MonoBehaviour
         _playerDeath.OnDied += _gameOverView.Enable;
         _playerDeath.OnDied += SetBestScore;
         _playerDeath.OnDied += SetScore;
-        _gameOverView.OnReloadLvlClicked += _gameManager.LoadGameLvl;
+        _gameOverView.OnReloadLvlClicked += _gameManager.ReloadLvl;
     }
 
     private void UnsubscribeEvents()
@@ -40,7 +40,7 @@ public class GameUIController : MonoBehaviour
         _playerDeath.OnDied -= _gameOverView.Enable;
         _playerDeath.OnDied -= SetBestScore;
         _playerDeath.OnDied -= SetScore;
-        _gameOverView.OnReloadLvlClicked -= _gameManager.LoadGameLvl;
+        _gameOverView.OnReloadLvlClicked -= _gameManager.ReloadLvl;
     }
 
     private void SetBestScore()

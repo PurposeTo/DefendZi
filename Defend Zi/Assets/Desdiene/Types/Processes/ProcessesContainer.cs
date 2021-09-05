@@ -47,7 +47,34 @@ namespace Desdiene.Types.Processes
         private string Name => _process.Name;
         private bool KeepWaiting => _process.KeepWaiting;
 
-        public void Add(IProcessGetterNotifier process)
+        void IProcessesSetter.Add(IProcessGetterNotifier[] processes)
+        {
+            if (processes is null)
+            {
+                throw new ArgumentNullException(nameof(processes));
+            }
+
+            Array.ForEach(processes, process => Add(process));
+        }
+
+        void IProcessesSetter.Add(IProcessGetterNotifier process) => Add(process);
+
+        void IProcessesSetter.Remove(IProcessGetterNotifier process)
+        {
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            if (!_processes.Contains(process))
+            {
+                Debug.LogWarning($"{Name} is NOT contains {process} with name {process.Name} in list!");
+            }
+            else
+            {
+                _processes.Remove(process);
+                process.OnChanged -= SetActualState;
+                SetActualState(process);
+            }
+        }
+
+        private void Add(IProcessGetterNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (_processes.Contains(process))
@@ -62,29 +89,12 @@ namespace Desdiene.Types.Processes
             else
             {
                 _processes.Add(process);
-                process.OnStarted += SetActualState;
-                process.OnCompleted += SetActualState;
-                SetActualState();
+                process.OnChanged += SetActualState;
+                SetActualState(process);
             }
         }
 
-        public void Remove(IProcessGetterNotifier process)
-        {
-            if (process == null) throw new ArgumentNullException(nameof(process));
-            if (!_processes.Contains(process))
-            {
-                Debug.LogWarning($"{Name} is NOT contains {process} with name {process.Name} in list!");
-            }
-            else
-            {
-                _processes.Remove(process);
-                process.OnStarted -= SetActualState;
-                process.OnCompleted -= SetActualState;
-                SetActualState();
-            }
-        }
-
-        private void SetActualState()
+        private void SetActualState(IProcessGetter _)
         {
             if (_processes.Any(process => process.KeepWaiting)) Start();
             else Complete();
@@ -97,8 +107,8 @@ namespace Desdiene.Types.Processes
 
         private void LogAllProcesses()
         {
-            string logMessage = $"List in \"{Name}\" have {_processes.Count} items. Pause: {KeepWaiting}";
-            _processes.ForEach(item => logMessage += $"\nName: {item.Name}. Pause: {item.KeepWaiting}");
+            string logMessage = $"List in \"{Name}\" have {_processes.Count} items. KeepWaiting: {KeepWaiting}";
+            _processes.ForEach(item => logMessage += $"\nName: {item.Name}. KeepWaiting: {item.KeepWaiting}");
             Debug.Log(logMessage);
         }
     }

@@ -60,7 +60,11 @@ namespace Desdiene.Types.Processes.States.Base
         StateContext IStateEntryExitPoint<StateContext>.OnExit()
         {
             OnExit();
-            return new StateContext(onStarted, onCompleted, _onChanged);
+            StateContext saved = new StateContext(onStarted, onCompleted, _onChanged);
+            onStarted = null;
+            onCompleted = null;
+            _onChanged = null;
+            return saved;
         }
 
         public string Name { get; }

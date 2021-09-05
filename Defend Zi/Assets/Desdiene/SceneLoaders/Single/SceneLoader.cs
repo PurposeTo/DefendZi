@@ -6,6 +6,8 @@ using Desdiene.SceneLoaders.Single.States.Base;
 using Desdiene.SceneTypes;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
+using Desdiene.Types.Processes;
+using UnityEngine.SceneManagement;
 
 namespace Desdiene.SceneLoaders.Single
 {
@@ -18,20 +20,31 @@ namespace Desdiene.SceneLoaders.Single
 
         protected override void AwakeExt()
         {
-            StateSwitcher<State, StateContext> stateSwitcher = new StateSwitcher<State, StateContext>(_refCurrentState);
+            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new Default(this, stateSwitcher),
+                new SceneLoadedAndEnabled(this, stateSwitcher),
                 new SceneTransition(this, stateSwitcher)
             };
             stateSwitcher.Add(allStates);
-            stateSwitcher.Switch<Default>();
+            stateSwitcher.Switch<SceneLoadedAndEnabled>();
         }
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void Load(SceneAsset scene) => CurrentState.Load(scene);
+        public void Load(SceneAsset scene) => Load(scene, null, null);
 
-        public void Reload() => CurrentState.Reload();
+        public void Load(SceneAsset scene, Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
+        {
+            CurrentState.Load(scene, beforeUnloading, afterEnabling);
+        }
+
+        public void Reload() => Reload(null, null);
+
+        public void Reload(Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
+        {
+            SceneAsset _sceneToLoad = new SceneAsset(this, SceneManager.GetActiveScene().name);
+            Load(_sceneToLoad, beforeUnloading, afterEnabling);
+        }
     }
 }

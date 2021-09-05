@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviourExt
 {
     private GlobalTimePause _gameOverPause;
     private IDeath _playerDeath;
-    private SceneAsset _gameScene;
     private SceneLoader _singleSceneLoader;
 
     public event Action OnGameStarted;
@@ -30,7 +29,6 @@ public class GameManager : MonoBehaviourExt
 
         _gameOverPause = new GlobalTimePause(this, timeScaler, "Окончание игры");
         _playerDeath = componentsProxy.PlayerDeath;
-        _gameScene = new Game(this);
         _singleSceneLoader = singleSceneLoader;
         SubscribeEvents();
         OnGameStarted?.Invoke();
@@ -41,9 +39,9 @@ public class GameManager : MonoBehaviourExt
         UnsubscribeEvents();
     }
 
-    public void LoadGameLvl()
+    public void ReloadLvl()
     {
-        _singleSceneLoader.Load(_gameScene);
+        _singleSceneLoader.Reload();
     }
 
     private void SubscribeEvents()

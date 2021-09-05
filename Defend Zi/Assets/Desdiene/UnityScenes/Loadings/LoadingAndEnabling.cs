@@ -53,19 +53,19 @@ namespace Desdiene.UnityScenes.Loadings
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
         /// </summary>
-        public event Action<ILoadingAndEnablingGetterNotifier> OnLoaded
+        public event Action OnLoaded
         {
-            add => _loading.OnCompleted += () => value?.Invoke(this);
-            remove => _loading.OnCompleted += () => value?.Invoke(this);
+            add => _loading.OnCompleted += value;
+            remove => _loading.OnCompleted -= value;
         }
 
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
-        public event Action<ILoadingAndEnablingGetterNotifier> OnLoadedAndEnabled
+        public event Action OnLoadedAndEnabled
         {
-            add => _enabling.OnCompleted += () => value?.Invoke(this);
-            remove => _enabling.OnCompleted += () => value?.Invoke(this);
+            add => _enabling.OnCompleted += value;
+            remove => _enabling.OnCompleted -= value;
         }
 
         public IProcessGetterNotifier Loading => _loading;

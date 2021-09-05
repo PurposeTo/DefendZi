@@ -29,6 +29,7 @@ namespace Desdiene.Types.Processes
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();
+            UnityEngine.Debug.Log($"КРЯ {_name} создание");
         }
 
         event Action IProcessNotifier.OnStarted

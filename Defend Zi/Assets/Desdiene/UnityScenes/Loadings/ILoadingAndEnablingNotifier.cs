@@ -7,11 +7,11 @@ namespace Desdiene.UnityScenes.Loadings
         /// <summary>
         /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
         /// </summary>
-        event Action<ILoadingAndEnablingGetterNotifier> OnLoaded;
+        event Action OnLoaded;
 
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
-        event Action<ILoadingAndEnablingGetterNotifier> OnLoadedAndEnabled;
+        event Action OnLoadedAndEnabled;
     }
 }
