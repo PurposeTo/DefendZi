@@ -16,15 +16,14 @@ namespace Desdiene.UnityScenes.Loadings
     {
         private readonly AsyncOperation _loadingByUnity;
         private readonly string _sceneName;
-        private readonly IProcess _loading;
-        private readonly IProcess _enabling;
+        private readonly IProcesses _beforeEnabling;
         private readonly ICoroutine _progressChecking;
         private string _logMessage = "";
 
         public LoadingAndEnabling(MonoBehaviourExt mono,
                                   AsyncOperation loadingByUnity,
                                   string sceneName,
-                                  SceneEnablingAfterLoading.Mode alowingEnableMode) : base(mono)
+                                  Action<IProcessesSetter> beforeEnablingAction) : base(mono)
         {
             if (string.IsNullOrEmpty(sceneName))
             {
@@ -32,31 +31,14 @@ namespace Desdiene.UnityScenes.Loadings
             }
 
             _sceneName = sceneName;
+            _beforeEnabling = new ProcessesContainer($"Перед загрузкой сцены \"{_sceneName}\"");
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
-            bool isAllow = SceneEnablingAfterLoading.IsAllow(alowingEnableMode);
-            _loadingByUnity.allowSceneActivation = isAllow;
-
-            // проверка текущего состояния
-            _loading = new Process($"Загрузка сцены \"{_sceneName}\"");
-            SetActualLoadingState();
-
-            _enabling = new Process($"Включение сцены \"{_sceneName}\"");
-            SetActualEnablingState();
-            _loadingByUnity.completed += (_) => _enabling.Complete();
+            ForbidSceneEnabling();
+            beforeEnablingAction?.Invoke(_beforeEnabling);
 
             _progressChecking = new CoroutineWrap(mono);
             _progressChecking.StartContinuously(ProgressChecking());
-
-        }
-
-        /// <summary>
-        /// Событие вызывается при включении состояния ожидания разрешения на активацию сцены
-        /// </summary>
-        public event Action OnLoaded
-        {
-            add => _loading.OnCompleted += value;
-            remove => _loading.OnCompleted -= value;
         }
 
         /// <summary>
@@ -64,12 +46,9 @@ namespace Desdiene.UnityScenes.Loadings
         /// </summary>
         public event Action OnLoadedAndEnabled
         {
-            add => _enabling.OnCompleted += value;
-            remove => _enabling.OnCompleted -= value;
+            add => _loadingByUnity.completed += (_) => value?.Invoke();
+            remove => _loadingByUnity.completed -= (_) => value?.Invoke();
         }
-
-        public IProcessGetterNotifier Loading => _loading;
-        public IProcessGetterNotifier Enabling => _enabling;
 
         private ProgressInfo ProgressInfo { get; }
         private float LoadingProgress => ProgressInfo.Progress / 0.9f;
@@ -82,42 +61,28 @@ namespace Desdiene.UnityScenes.Loadings
         /// Установить разрешение на включение сцены после загрузки.
         /// </summary>
         /// 
-        public void AllowSceneEnabling()
-        {
-            _loadingByUnity.allowSceneActivation = true;
-        }
+        private void AllowSceneEnabling() => _loadingByUnity.allowSceneActivation = true;
+
+        private void ForbidSceneEnabling() => _loadingByUnity.allowSceneActivation = false;
 
         private IEnumerator ProgressChecking()
         {
             while (!ProgressInfo.IsDone)
             {
-                SetActualLoadingState();
-                SetActualEnablingState();
+                if (ProgressInfo.Equals90Percents && !_beforeEnabling.KeepWaiting)
+                {
+                    AllowSceneEnabling();
+                    break;
+                }
 
                 _logMessage = PrintLoadingLog(_logMessage);
                 yield return null;
             }
         }
 
-        private void SetActualLoadingState()
-        {
-            IProcess _ = ProgressInfo.LessThan90Percents
-                ? _loading.Start()
-                : _loading.Complete();
-        }
-
-        private void SetActualEnablingState()
-        {
-            IProcess _ = ProgressInfo.Between90And100PercentsExcluding
-                ? _enabling.Start()
-                : ProgressInfo.Equals100Percents
-                ? _enabling.Complete()
-                : _enabling;
-        }
-
         private string PrintLoadingLog(string logMessage)
         {
-            string newLogMessage = $"Loading scene \"{_sceneName}\". Loading progress: {LoadingProgress * 100}%. Loading progress by unity: {_loadingByUnity.progress * 100}%. IsLoading: {_loading.KeepWaiting}. IsEnabling: {_enabling.KeepWaiting}";
+            string newLogMessage = $"Loading scene \"{_sceneName}\". Loading progress: {LoadingProgress * 100}%. Loading progress by unity: {_loadingByUnity.progress * 100}%.";
             if (logMessage != newLogMessage)
             {
                 logMessage = newLogMessage;

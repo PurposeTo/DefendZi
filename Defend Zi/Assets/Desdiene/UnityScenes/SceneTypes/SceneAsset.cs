@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.Types.Processes;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Loadings;
 using Desdiene.UnityScenes.Loadings.Components;
@@ -36,14 +37,14 @@ namespace Desdiene.SceneTypes
         /// </summary>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling LoadAsSingle(SceneEnablingAfterLoading.Mode alowingEnableMode = SceneEnablingAfterLoading.Mode.Allow)
+        public ILoadingAndEnabling LoadAsSingle(Action<IProcessesSetter> beforeEnabling = null)
         {
-            return Load(LoadSceneMode.Single, alowingEnableMode);
+            return Load(LoadSceneMode.Single, beforeEnabling);
         }
 
-        public ILoadingAndEnabling LoadAsAdditive(SceneEnablingAfterLoading.Mode alowingEnableMode)
+        public ILoadingAndEnabling LoadAsAdditive(Action<IProcessesSetter> beforeEnabling)
         {
-            return Load(LoadSceneMode.Additive, alowingEnableMode);
+            return Load(LoadSceneMode.Additive, beforeEnabling);
         }
 
         /// <summary>
@@ -52,10 +53,10 @@ namespace Desdiene.SceneTypes
         /// <param name="loadSceneMode">Режим загрузки сцены.</param>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, SceneEnablingAfterLoading.Mode alowingEnableMode)
+        public ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<IProcessesSetter> beforeEnabling)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
-            LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName, alowingEnableMode);
+            LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName, beforeEnabling);
             return loading;
         }
 
