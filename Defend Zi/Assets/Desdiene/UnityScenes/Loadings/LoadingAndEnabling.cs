@@ -34,6 +34,8 @@ namespace Desdiene.UnityScenes.Loadings
             _beforeEnabling = new ProcessesContainer($"Перед загрузкой сцены \"{_sceneName}\"");
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
+
+            SubscribeEvents();
             ForbidSceneEnabling();
             beforeEnablingAction?.Invoke(_beforeEnabling);
 
@@ -41,13 +43,15 @@ namespace Desdiene.UnityScenes.Loadings
             _progressChecking.StartContinuously(ProgressChecking());
         }
 
+        private Action onLoadedAndEnabled;
+
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
         public event Action OnLoadedAndEnabled
         {
-            add => _loadingByUnity.completed += (_) => value?.Invoke();
-            remove => _loadingByUnity.completed -= (_) => value?.Invoke();
+            add { lock (this) { onLoadedAndEnabled += value; } }
+            remove { lock (this) { onLoadedAndEnabled -= value; } }
         }
 
         private ProgressInfo ProgressInfo { get; }
@@ -78,6 +82,20 @@ namespace Desdiene.UnityScenes.Loadings
                 _logMessage = PrintLoadingLog(_logMessage);
                 yield return null;
             }
+        }
+
+        private void InvokeOnLoadedAndEnabled(AsyncOperation unloadingByUnity) => onLoadedAndEnabled?.Invoke();
+
+        private void SubscribeEvents()
+        {
+            _loadingByUnity.completed += InvokeOnLoadedAndEnabled;
+            monoBehaviourExt.OnDestroyed += UnsubscribeEvents;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            _loadingByUnity.completed -= InvokeOnLoadedAndEnabled;
+            monoBehaviourExt.OnDestroyed -= UnsubscribeEvents;
         }
 
         private string PrintLoadingLog(string logMessage)

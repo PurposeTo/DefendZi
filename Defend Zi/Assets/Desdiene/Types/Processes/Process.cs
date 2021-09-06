@@ -29,8 +29,11 @@ namespace Desdiene.Types.Processes
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();
-            UnityEngine.Debug.Log($"КРЯ {_name} создание");
+
+            SubscribeEvents();
         }
+
+        private event Action<IProcessGetter> OnChanged;
 
         event Action IProcessNotifier.OnStarted
         {
@@ -46,8 +49,8 @@ namespace Desdiene.Types.Processes
 
         event Action<IProcessGetter> IProcessNotifier.OnChanged
         {
-            add => CurrentState.OnChanged += () => value?.Invoke(this);
-            remove => CurrentState.OnChanged -= () => value?.Invoke(this);
+            add => OnChanged += value;
+            remove => OnChanged -= value;
         }
 
         string IProcessGetter.Name => _name;
@@ -66,5 +69,12 @@ namespace Desdiene.Types.Processes
         }
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
+
+        private void SubscribeEvents()
+        {
+            CurrentState.OnChanged += InvokeOnChanged;
+        }
+
+        private void InvokeOnChanged() => OnChanged?.Invoke(this);
     }
 }

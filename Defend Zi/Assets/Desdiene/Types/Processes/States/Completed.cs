@@ -20,8 +20,8 @@ namespace Desdiene.Types.Processes.States
             onCompleted?.Invoke();
         }
 
-        protected override void SubscribeToOnStarted(Action value) => value?.Invoke();
+        protected override void SubscribeToOnStarted(Action action) => action?.Invoke();
 
-        protected override void SubscribeToOnCompleted(Action value) => value?.Invoke();
+        protected override void SubscribeToOnCompleted(Action action) => action?.Invoke();
     }
 }
