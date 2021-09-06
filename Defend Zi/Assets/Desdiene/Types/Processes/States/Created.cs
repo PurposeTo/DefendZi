@@ -1,6 +1,5 @@
 ﻿using System;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.Processes.States.Base;
 
 namespace Desdiene.Types.Processes.States
 {

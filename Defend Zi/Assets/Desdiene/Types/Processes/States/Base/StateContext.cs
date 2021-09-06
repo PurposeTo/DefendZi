@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.Types.Processes.States.Base
+namespace Desdiene.Types.Processes.States
 {
     public class StateContext
     {

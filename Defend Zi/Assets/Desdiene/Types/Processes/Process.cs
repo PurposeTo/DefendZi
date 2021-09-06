@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.Processes.States;
-using Desdiene.Types.Processes.States.Base;
 
 namespace Desdiene.Types.Processes
 {

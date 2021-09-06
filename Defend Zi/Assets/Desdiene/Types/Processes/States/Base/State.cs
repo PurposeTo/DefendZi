@@ -2,7 +2,7 @@
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
 
-namespace Desdiene.Types.Processes.States.Base
+namespace Desdiene.Types.Processes.States
 {
     public abstract class State : IStateEntryExitPoint<StateContext>
     {
