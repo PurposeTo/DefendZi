@@ -4,7 +4,7 @@ using Zenject;
 
 /// <summary>
 /// Класс отвечает за сохранение данных с игровой сцены. (не относится к сценам main menu и тп.)
-/// Need to be a singleton!
+/// Need to be a scene singleton!
 /// </summary>
 public class GameDataSaver : MonoBehaviourExt
 {

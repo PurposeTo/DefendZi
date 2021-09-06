@@ -17,7 +17,7 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
         _storage = StorageFactory<GameData>.GetStorage(this, deviceLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.
-        _storage.InvokeLoadingData();
+        InvokeLoadingData();
     }
 
     public IGameData GetData() => _storage.GetData();
