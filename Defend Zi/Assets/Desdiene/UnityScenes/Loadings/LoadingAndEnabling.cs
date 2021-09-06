@@ -35,7 +35,7 @@ namespace Desdiene.UnityScenes.Loadings
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
 
-            SubscribeEvents(_loadingByUnity);
+            SubscribeEvents();
             ForbidSceneEnabling();
 
             beforeEnablingAction?.Invoke(_beforeEnabling);
@@ -87,23 +87,23 @@ namespace Desdiene.UnityScenes.Loadings
 
         private void InvokeOnLoadedAndEnabled(AsyncOperation unloadingByUnity) => onLoadedAndEnabled?.Invoke();
 
-        private void SubscribeEvents(AsyncOperation asyncOperation)
+        private void SubscribeEvents()
         {
-            asyncOperation.completed += InvokeOnLoadedAndEnabled;
-            asyncOperation.completed += Destroy;
+            _loadingByUnity.completed += InvokeOnLoadedAndEnabled;
+            OnLoadedAndEnabled += Destroy;
         }
 
-        private void Destroy(AsyncOperation asyncOperation)
+        private void Destroy()
         {
             _progressChecking.TryTerminate();
             _beforeEnabling.Clear();
-            UnsubscribeEvents(asyncOperation);
+            UnsubscribeEvents();
         }
 
-        private void UnsubscribeEvents(AsyncOperation asyncOperation)
+        private void UnsubscribeEvents()
         {
-            asyncOperation.completed -= InvokeOnLoadedAndEnabled;
-            asyncOperation.completed -= UnsubscribeEvents;
+            _loadingByUnity.completed -= InvokeOnLoadedAndEnabled;
+            OnLoadedAndEnabled -= Destroy;
         }
 
         private string PrintLoadingLog(string logMessage)
