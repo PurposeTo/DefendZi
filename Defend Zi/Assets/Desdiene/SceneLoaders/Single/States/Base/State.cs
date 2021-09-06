@@ -14,7 +14,7 @@ namespace Desdiene.SceneLoaders.Single.States.Base
 
         public State(MonoBehaviourExt mono, IStateSwitcher<State> stateSwitcher) : base(mono)
         {
-            _stateSwitcher = stateSwitcher;
+            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
         }
 
         void IStateEntryExitPoint.OnEnter()

@@ -17,7 +17,6 @@ namespace Desdiene.SceneLoaders.Single.States
         {
             if (scene is null) throw new ArgumentNullException(nameof(scene));
 
-            SwitchState<SceneTransition>();
             IProcesses beforePastSceneUnloading = new ProcessesContainer("Подготовка к выгрузке старой сцены");
             ILoadingAndEnabling loadingAndEnabling = scene.LoadAsSingle(beforeUnloading);
 
@@ -28,6 +27,7 @@ namespace Desdiene.SceneLoaders.Single.States
                 loadingAndEnabling.OnLoadedAndEnabled -= OnSceneLoadedAndEnabled;
             }
 
+            SwitchState<SceneTransition>();
             loadingAndEnabling.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
         }
     }
