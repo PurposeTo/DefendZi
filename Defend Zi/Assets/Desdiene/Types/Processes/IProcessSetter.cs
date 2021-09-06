@@ -2,7 +2,7 @@
 {
     public interface IProcessSetter
     {
-        IProcess Start();
-        IProcess Complete();
+        void Start();
+        void Complete();
     }
 }

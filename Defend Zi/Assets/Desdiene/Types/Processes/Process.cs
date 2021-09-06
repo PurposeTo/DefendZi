@@ -55,17 +55,9 @@ namespace Desdiene.Types.Processes
         string IProcessGetter.Name => _name;
         bool IProcessGetter.KeepWaiting => CurrentState.KeepWaiting;
 
-        IProcess IProcessSetter.Start()
-        {
-            CurrentState.Start();
-            return this;
-        }
+        void IProcessSetter.Start() => CurrentState.Start();
 
-        IProcess IProcessSetter.Complete()
-        {
-            CurrentState.Complete();
-            return this;
-        }
+        void IProcessSetter.Complete() => CurrentState.Complete();
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 

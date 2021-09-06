@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Desdiene.Types.Processes
 {
-    public class ProcessesContainer : IProcesses
+    public class ParallelProcesses : IProcesses
     {
         private readonly List<IProcessGetterNotifier> _processes = new List<IProcessGetterNotifier>();
         private readonly IProcess _process;
 
-        public ProcessesContainer(string name) : this(name, new List<IProcessGetterNotifier>()) { }
+        public ParallelProcesses(string name) : this(name, new List<IProcessGetterNotifier>()) { }
 
-        public ProcessesContainer(string name, List<IProcessGetterNotifier> processes)
+        public ParallelProcesses(string name, List<IProcessGetterNotifier> processes)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -59,19 +59,13 @@ namespace Desdiene.Types.Processes
 
         void IProcessesSetter.Add(IProcessGetterNotifier process) => Add(process);
 
-        void IProcessesSetter.Remove(IProcessGetterNotifier process)
+        void IProcessesSetter.Remove(IProcessGetterNotifier process) => Remove(process);
+
+        void IProcesses.Clear()
         {
-            if (process == null) throw new ArgumentNullException(nameof(process));
-            if (!_processes.Contains(process))
-            {
-                Debug.LogWarning($"{Name} is NOT contains {process} with name {process.Name} in list!");
-            }
-            else
-            {
-                _processes.Remove(process);
-                process.OnChanged -= SetActualState;
-                SetActualState(process);
-            }
+            List<IProcessGetterNotifier> processes = new List<IProcessGetterNotifier>(_processes);
+            processes.ForEach(process => Remove(process));
+            Debug.Assert(_processes.Count == 0);
         }
 
         private void Add(IProcessGetterNotifier process)
@@ -90,6 +84,21 @@ namespace Desdiene.Types.Processes
             {
                 _processes.Add(process);
                 process.OnChanged += SetActualState;
+                SetActualState(process);
+            }
+        }
+
+        private void Remove(IProcessGetterNotifier process)
+        {
+            if (process == null) throw new ArgumentNullException(nameof(process));
+            if (!_processes.Contains(process))
+            {
+                Debug.LogWarning($"{Name} is NOT contains {process} with name {process.Name} in list!");
+            }
+            else
+            {
+                _processes.Remove(process);
+                process.OnChanged -= SetActualState;
                 SetActualState(process);
             }
         }

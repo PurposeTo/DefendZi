@@ -6,7 +6,7 @@ namespace Desdiene.Coroutines.States.Base
     {
         public StateContext(Coroutine coroutine)
         {
-            this.Coroutine = coroutine;
+            Coroutine = coroutine;
         }
 
         public Coroutine Coroutine { get; }

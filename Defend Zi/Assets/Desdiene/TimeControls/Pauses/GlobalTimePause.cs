@@ -47,8 +47,8 @@ namespace Desdiene.TimeControls.Pauses
 
         public bool KeepWaiting => _timePause.KeepWaiting;
 
-        public IProcess Start() => _timePause.Start();
+        public void Start() => _timePause.Start();
 
-        public IProcess Complete() => _timePause.Complete();
+        public void Complete() => _timePause.Complete();
     }
 }

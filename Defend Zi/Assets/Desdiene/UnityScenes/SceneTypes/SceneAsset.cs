@@ -37,7 +37,7 @@ namespace Desdiene.SceneTypes
         /// </summary>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling LoadAsSingle(Action<IProcessesSetter> beforeEnabling = null)
+        public ILoadingAndEnabling LoadAsSingle(Action<IProcessesSetter> beforeEnabling)
         {
             return Load(LoadSceneMode.Single, beforeEnabling);
         }

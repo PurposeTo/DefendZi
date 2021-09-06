@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class SceneInitorTest : MonoBehaviourExt
+public class Test_SceneLoading : MonoBehaviourExt
 {
     private SceneAsset _sceneType;
     private SceneLoader _sceneLoader;
@@ -29,6 +29,8 @@ public class SceneInitorTest : MonoBehaviourExt
         };
         _sceneType = new Test(this);
         _sceneLoader = sceneLoader;
+        _sceneLoader.BeforeUnloading += BeforeUnloading;
+        _sceneLoader.AfterEnabling += AfterEnabling;
     }
 
     private void Update()
@@ -36,7 +38,7 @@ public class SceneInitorTest : MonoBehaviourExt
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SceneObject firstLoadedScene = LoadedScenes.Instance.Get()[0];
-            _sceneLoader.Reload(BeforeUnloading, AfterEnabling);
+            _sceneLoader.Reload();
         }
 
         if (Input.GetKeyDown(KeyCode.G)) _testWait.Complete();
@@ -44,7 +46,8 @@ public class SceneInitorTest : MonoBehaviourExt
 
     private void BeforeUnloading(IProcessesSetter processes)
     {
-        processes.Add(_testWait.Start());
+        _testWait.Start();
+        processes.Add(_testWait);
     }
 
     private void AfterEnabling()

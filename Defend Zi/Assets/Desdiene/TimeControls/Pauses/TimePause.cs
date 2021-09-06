@@ -48,8 +48,8 @@ namespace Desdiene.TimeControls.Pauses
             _timePauses.Remove(this);
         }
 
-        public IProcess Start() => _itSelf.Start();
+        public void Start() => _itSelf.Start();
 
-        public IProcess Complete() => _itSelf.Complete();
+        public void Complete() => _itSelf.Complete();
     }
 }

@@ -31,12 +31,13 @@ namespace Desdiene.UnityScenes.Loadings
             }
 
             _sceneName = sceneName;
-            _beforeEnabling = new ProcessesContainer($"Перед загрузкой сцены \"{_sceneName}\"");
+            _beforeEnabling = new ParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
 
-            SubscribeEvents();
+            SubscribeEvents(_loadingByUnity);
             ForbidSceneEnabling();
+
             beforeEnablingAction?.Invoke(_beforeEnabling);
 
             _progressChecking = new CoroutineWrap(mono);
@@ -86,16 +87,23 @@ namespace Desdiene.UnityScenes.Loadings
 
         private void InvokeOnLoadedAndEnabled(AsyncOperation unloadingByUnity) => onLoadedAndEnabled?.Invoke();
 
-        private void SubscribeEvents()
+        private void SubscribeEvents(AsyncOperation asyncOperation)
         {
-            _loadingByUnity.completed += InvokeOnLoadedAndEnabled;
-            monoBehaviourExt.OnDestroyed += UnsubscribeEvents;
+            asyncOperation.completed += InvokeOnLoadedAndEnabled;
+            asyncOperation.completed += Destroy;
         }
 
-        private void UnsubscribeEvents()
+        private void Destroy(AsyncOperation asyncOperation)
         {
-            _loadingByUnity.completed -= InvokeOnLoadedAndEnabled;
-            monoBehaviourExt.OnDestroyed -= UnsubscribeEvents;
+            _progressChecking.TryTerminate();
+            _beforeEnabling.Clear();
+            UnsubscribeEvents(asyncOperation);
+        }
+
+        private void UnsubscribeEvents(AsyncOperation asyncOperation)
+        {
+            asyncOperation.completed -= InvokeOnLoadedAndEnabled;
+            asyncOperation.completed -= UnsubscribeEvents;
         }
 
         private string PrintLoadingLog(string logMessage)

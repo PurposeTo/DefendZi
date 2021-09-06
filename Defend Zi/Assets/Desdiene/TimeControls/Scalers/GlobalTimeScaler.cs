@@ -9,7 +9,7 @@ namespace Desdiene.TimeControls.Scalers
 {
     /// Позволяет корректно взаимодействовать с изменением скорости игрового времени.
     /// Взаимодействовать с UnityEngine.Time можно только внутри ЖЦ monoBehaviour
-    /// Need to be a singleton!
+    /// Need to be a global singleton!
     /// </summary>
     public sealed class GlobalTimeScaler : MonoBehaviourExt, ITimeScaler, IProcesses
     {
@@ -20,7 +20,7 @@ namespace Desdiene.TimeControls.Scalers
         private void Constructor(GlobalTimeScaleAdapter globalTimeScaleAdapter)
         {
             _timeScaler = new TimeScaler(globalTimeScaleAdapter);
-            _processes = new ProcessesContainer("Остановка глобального времени");
+            _processes = new ParallelProcesses("Остановка глобального времени");
             _processes.OnChanged += UpdateTimeScaler;
         }
 
@@ -53,6 +53,8 @@ namespace Desdiene.TimeControls.Scalers
         void IProcessesSetter.Add(IProcessGetterNotifier process) => _processes.Add(process);
 
         void IProcessesSetter.Remove(IProcessGetterNotifier process) => _processes.Remove(process);
+
+        public void Clear() => _processes.Clear();
 
         private void UpdateTimeScaler(IProcessGetter process)
         {

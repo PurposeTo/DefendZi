@@ -26,7 +26,10 @@ namespace Desdiene.Types.Processes.States
         // microsoft docs: don't use abstract/virtual events!
         public event Action OnStarted
         {
-            add => SubscribeToOnStarted(value);
+            add
+            {
+                SubscribeToOnStarted(value);
+            }
             remove => onStarted -= value;
         }
 
@@ -86,8 +89,10 @@ namespace Desdiene.Types.Processes.States
             bool pastKeepWaiting = KeepWaiting;
             State nextState = _stateSwitcher.Switch<stateT>();
             bool nextKeepWaiting = nextState.KeepWaiting;
-            if (pastKeepWaiting != nextKeepWaiting) nextState._onChanged?.Invoke();
+            if (pastKeepWaiting != nextKeepWaiting) nextState.InvokeOnChanged();
             return nextState;
         }
+
+        private void InvokeOnChanged() => _onChanged?.Invoke();
     }
 }

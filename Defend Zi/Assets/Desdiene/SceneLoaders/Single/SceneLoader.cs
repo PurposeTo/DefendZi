@@ -30,18 +30,24 @@ namespace Desdiene.SceneLoaders.Single
             stateSwitcher.Switch<SceneLoadedAndEnabled>();
         }
 
+        public event Action<IProcessesSetter> BeforeUnloading;
+        public event Action AfterEnabling;
+
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void Load(SceneAsset scene) => Load(scene, null, null);
+        public void Load(SceneAsset scene) => Load(scene, BeforeUnloading, AfterEnabling);
 
-        public void Load(SceneAsset scene, Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
+        private void Load(SceneAsset scene, Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
         {
             CurrentState.Load(scene, beforeUnloading, afterEnabling);
         }
 
-        public void Reload() => Reload(null, null);
+        public void Reload()
+        {
+            Reload(BeforeUnloading, AfterEnabling);
+        }
 
-        public void Reload(Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
+        private void Reload(Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
         {
             SceneAsset _sceneToLoad = new SceneAsset(this, SceneManager.GetActiveScene().name);
             Load(_sceneToLoad, beforeUnloading, afterEnabling);

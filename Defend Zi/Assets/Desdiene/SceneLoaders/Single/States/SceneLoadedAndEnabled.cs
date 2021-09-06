@@ -17,7 +17,7 @@ namespace Desdiene.SceneLoaders.Single.States
         {
             if (scene is null) throw new ArgumentNullException(nameof(scene));
 
-            IProcesses beforePastSceneUnloading = new ProcessesContainer("Подготовка к выгрузке старой сцены");
+            IProcesses beforePastSceneUnloading = new ParallelProcesses("Подготовка к выгрузке старой сцены");
             ILoadingAndEnabling loadingAndEnabling = scene.LoadAsSingle(beforeUnloading);
 
             void OnSceneLoadedAndEnabled()
