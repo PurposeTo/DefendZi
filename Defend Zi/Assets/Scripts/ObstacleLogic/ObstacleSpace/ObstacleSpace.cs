@@ -1,4 +1,4 @@
-using System.Linq;
+п»їusing System.Linq;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Random;
@@ -7,7 +7,7 @@ using Desdiene.Types.Rectangles;
 using UnityEngine;
 
 /// <summary>
-/// Область, заполненная препятствиями.
+/// РћР±Р»Р°СЃС‚СЊ, Р·Р°РїРѕР»РЅРµРЅРЅР°СЏ РїСЂРµРїСЏС‚СЃС‚РІРёСЏРјРё.
 /// </summary>
 public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 {
@@ -17,9 +17,6 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     private readonly ISelectableItem<Chunk>[] _selectableChunks;
     private readonly FloatRange _safeSpaceBetweenChunks;
     private readonly float _offsetGeneration;
-
-    // Длина пространства препятствий. Значение эквивалентно местоположению правой границе chunkSpawn.width
-    public float Width { get; private set; }
 
     public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DGetter visibleGameSpace) : base(mono)
     {
@@ -33,6 +30,8 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         _visibleGameSpacePosition = visibleGameSpace;
     }
 
+    // Р”Р»РёРЅР° РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР° РїСЂРµРїСЏС‚СЃС‚РІРёР№. Р—РЅР°С‡РµРЅРёРµ СЌРєРІРёРІР°Р»РµРЅС‚РЅРѕ РјРµСЃС‚РѕРїРѕР»РѕР¶РµРЅРёСЋ РїСЂР°РІРѕР№ РіСЂР°РЅРёС†Рµ chunkSpawn.width
+    public float Width { get; private set; }
     private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
 
     void IUpdate.Invoke(float deltaTime)
@@ -47,6 +46,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     {
         Chunk originalChunk = Randomizer.GetRandomItem(_selectableChunks);
 
+        // СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ С‡Р°РЅРєР°РјРё
         float safeSpace = Random.Range(_safeSpaceBetweenChunks.Min, _safeSpaceBetweenChunks.Max);
         float spawnPointOx = Width + safeSpace + (originalChunk.SpawnPlaceWidth / 2);
 
@@ -56,15 +56,15 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     }
 
     /// <summary>
-    /// Сейчас генератор не учитывает ширину создаваемого чанка.
-    /// Поэтому может произойти такой случай, когда чанк сгенерируется, а триггер зоны, к примеру, останутся сзади игрока.
+    /// РЎРµР№С‡Р°СЃ РіРµРЅРµСЂР°С‚РѕСЂ РЅРµ СѓС‡РёС‚С‹РІР°РµС‚ С€РёСЂРёРЅСѓ СЃРѕР·РґР°РІР°РµРјРѕРіРѕ С‡Р°РЅРєР°.
+    /// РџРѕСЌС‚РѕРјСѓ РјРѕР¶РµС‚ РїСЂРѕРёР·РѕР№С‚Рё С‚Р°РєРѕР№ СЃР»СѓС‡Р°Р№, РєРѕРіРґР° С‡Р°РЅРє СЃРіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ, Р° С‚СЂРёРіРіРµСЂ Р·РѕРЅС‹, Рє РїСЂРёРјРµСЂСѓ, РѕСЃС‚Р°РЅСѓС‚СЃСЏ СЃР·Р°РґРё РёРіСЂРѕРєР°.
     /// </summary>
     private float ValidateOffsetGeneration(float offsetGeneration)
     {
         float maxChunkSpawnPlaceWidth = _selectableChunks.Select(chunk => chunk.Item.Width).Max();
         if (offsetGeneration < maxChunkSpawnPlaceWidth)
         {
-            Debug.LogWarning($"offsetGeneration не может быть меньше ширины самого большого чанка - {maxChunkSpawnPlaceWidth}!");
+            Debug.LogWarning($"offsetGeneration РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ С€РёСЂРёРЅС‹ СЃР°РјРѕРіРѕ Р±РѕР»СЊС€РѕРіРѕ С‡Р°РЅРєР° - {maxChunkSpawnPlaceWidth}!");
             return maxChunkSpawnPlaceWidth;
         }
         else return offsetGeneration;
