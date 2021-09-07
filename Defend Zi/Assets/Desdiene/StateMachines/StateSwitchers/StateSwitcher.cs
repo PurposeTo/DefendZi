@@ -27,11 +27,11 @@ namespace Desdiene.StateMachines.StateSwitchers
     }
 
 
-    public class StateSwitcher<AbstractStateT, MutableDataT> :
+    public class StateSwitcher<AbstractStateT, StateContextT> :
         StateSwitcherBase<AbstractStateT>,
-        IStateSwitcher<AbstractStateT, MutableDataT>
-        where AbstractStateT : class, IStateEntryExitPoint<MutableDataT>
-        where MutableDataT : class
+        IStateSwitcher<AbstractStateT, StateContextT>
+        where AbstractStateT : class, IStateEntryExitPoint<StateContextT>
+        where StateContextT : class
     {
         public StateSwitcher(IRef<AbstractStateT> refCurrentState)
             : base(new List<AbstractStateT>(), refCurrentState) { }
@@ -46,12 +46,12 @@ namespace Desdiene.StateMachines.StateSwitchers
                 throw new System.InvalidOperationException("You need to add the state to all states, before switching");
             }
 
-            MutableDataT mutableData = null;
+            StateContextT stateContext = null;
 
-            if (IsCurrentStateNotNull) mutableData = CurrentState.OnExit();
+            if (IsCurrentStateNotNull) stateContext = CurrentState.OnExit();
 
             CurrentState = newState;
-            CurrentState.OnEnter(mutableData);
+            CurrentState.OnEnter(stateContext);
             return CurrentState;
         }
     }

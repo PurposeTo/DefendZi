@@ -27,7 +27,7 @@ namespace Desdiene.StateMachines.StateSwitchers.Base
         {
             get
             {
-                return _refCurrentState.Get() ?? throw new ArgumentNullException(nameof(CurrentState));
+                return _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
             }
             set
             {
