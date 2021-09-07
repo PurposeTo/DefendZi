@@ -8,7 +8,6 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
-
     GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
     {
         GameData gameData = new GameData();
@@ -30,15 +29,11 @@ public class GameData : IGameData, IDataCombiner<GameData>
         return gameData;
     }
 
-    bool IDataValidator.IsValid()
-    {
-        Debug.LogWarning("NotImplementedException");
-        return true;
-    }
+    bool IDataValidator.IsValid() => IsValid();
 
     void IDataValidator.TryToRepair()
     {
-        Debug.LogWarning("NotImplementedException");
+        if (!IsValid()) Repair();
     }
 
     public int GamesNumber { get; set; } = 0;
@@ -79,5 +74,16 @@ public class GameData : IGameData, IDataCombiner<GameData>
              + $"\nBestScore={BestScore}"
              + $"\nAverageLifeTimeSec={AverageLifeTimeSec}"
              + $"\nBestLifeTimeSec={BestLifeTimeSec}";
+    }
+
+    private bool IsValid()
+    {
+        // сейчас нельзя сломать данные, т.к. нет nullable полей.
+        return true;
+    }
+
+    private void Repair()
+    {
+        // сейчас нельзя сломать данные, т.к. нет nullable полей.
     }
 }
