@@ -1,4 +1,4 @@
-﻿namespace Desdiene.DataStorageFactories.Data
+﻿namespace Desdiene.DataStorageFactories.Datas
 {
     public interface IDataSetter
     {

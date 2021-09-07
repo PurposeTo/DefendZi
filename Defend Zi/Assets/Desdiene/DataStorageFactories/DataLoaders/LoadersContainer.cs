@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Datas;
 
 namespace Desdiene.DataStorageFactories.DataLoaders
 {

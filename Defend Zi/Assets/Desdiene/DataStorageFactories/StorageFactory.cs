@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Desdiene.DataStorageFactories.Combiner;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Combiners;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders;
 using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
 using Desdiene.DataStorageFactories.DataLoaders.Safe;

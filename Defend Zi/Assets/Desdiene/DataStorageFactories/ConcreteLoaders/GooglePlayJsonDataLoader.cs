@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 using Desdiene.Coroutines;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders;
 using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
 using Desdiene.GooglePlayApi;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
 using Desdiene.DataStorageFactories.DataLoaders.Safe.States;
 using Desdiene.DataStorageFactories.DataLoaders.Safe.States.Base;

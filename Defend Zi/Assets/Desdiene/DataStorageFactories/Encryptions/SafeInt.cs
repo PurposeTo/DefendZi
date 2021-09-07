@@ -1,4 +1,4 @@
-﻿namespace Desdiene.DataStorageFactories.Encryption
+﻿namespace Desdiene.DataStorageFactories.Encryptions
 {
     public struct SafeInt
     {

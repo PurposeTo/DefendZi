@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.DataStorageFactories.Encryption
+namespace Desdiene.DataStorageFactories.Encryptions
 {
     public struct SafeFloat
     {

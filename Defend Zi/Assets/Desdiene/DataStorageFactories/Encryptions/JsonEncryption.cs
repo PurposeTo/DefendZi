@@ -5,7 +5,7 @@ using System.Text;
 using Desdiene.Tools;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.Encryption
+namespace Desdiene.DataStorageFactories.Encryptions
 {
     public class JsonEncryption
     {

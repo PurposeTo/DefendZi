@@ -1,6 +1,6 @@
-﻿using Desdiene.DataStorageFactories.Data;
+﻿using Desdiene.DataStorageFactories.Datas;
 
-namespace Desdiene.DataStorageFactories.Combiner
+namespace Desdiene.DataStorageFactories.Combiners
 {
     public interface IDataCombiner<T> where T : IData
     {

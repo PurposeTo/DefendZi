@@ -1,6 +1,6 @@
 ﻿using System;
 using Desdiene.Containers;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Tools;
@@ -15,7 +15,6 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
     /// <typeparam name="T"></typeparam>
     public abstract class StorageJsonDataLoader<T> : MonoBehaviourExtContainer, IStorageDataLoader<T> where T : IData, new()
     {
-        private readonly Validator _validator = new Validator();
         private readonly IJsonConvertor<T> _jsonConvertor;
 
         /// <param name="storageName">Имя хранилища</param>
@@ -67,7 +66,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
                 {
                     Debug.Log($"Данные с [{StorageName}] загружены\nДанные:\n{jsonData}");
                     T data = DeserializeData(jsonData);
-                    data = TryToRepairNullFields(data);
+                    data.TryToRepair();
                     dataCallback?.Invoke(data);
                 }
             });
@@ -76,12 +75,12 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
         public void Save(T data)
         {
             Debug.Log($"Начато сохранение данных на [{StorageName}]");
-            string jsonData = SerializeData(data);
-            if (_validator.HasJsonNullValues(jsonData)) return;
-            else
+            if (data.IsValid())
             {
+                string jsonData = SerializeData(data);
                 WriteToStorage(jsonData);
             }
+            else Debug.LogError($"Data is not valid!\n{data}");
         }
 
         protected abstract void ReadFromStorage(Action<string> jsonDataCallback);
@@ -107,15 +106,6 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
         /// <param name="jsonData">json, который необходимо починить</param>
         /// <returns>корректный json</returns>
         protected virtual string RepairJson(string jsonData) => "{}";
-
-        private T TryToRepairNullFields(T data)
-        {
-            if (new Validator().HasJsonNullValues(SerializeData(data)))
-            {
-                return RepairNullFields(data);
-            }
-            else return data;
-        }
 
         private string SerializeData(T data)
         {

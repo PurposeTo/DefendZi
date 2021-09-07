@@ -1,7 +1,7 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.DataStorageFactories.Encryption;
+using Desdiene.DataStorageFactories.Encryptions;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 

@@ -1,4 +1,5 @@
-﻿using Desdiene.DataStorageFactories.Combiner;
+﻿using Desdiene.DataStorageFactories.Combiners;
+using Desdiene.DataStorageFactories.Validators;
 using UnityEngine;
 
 /* 
@@ -7,6 +8,39 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
+
+    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
+    {
+        GameData gameData = new GameData();
+
+        //combine GamesNumber
+        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
+        gameData.GamesNumber = fullGamesNumber;
+
+        //combine BestScore
+        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+
+        //combine AverageLifeTimeSec
+        if (fullGamesNumber != 0)
+        {
+            int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
+            gameData.AverageLifeTimeSec = fullLifeTime / fullGamesNumber;
+        }
+
+        return gameData;
+    }
+
+    bool IDataValidator.IsValid()
+    {
+        Debug.LogWarning("NotImplementedException");
+        return true;
+    }
+
+    void IDataValidator.TryToRepair()
+    {
+        Debug.LogWarning("NotImplementedException");
+    }
+
     public int GamesNumber { get; set; } = 0;
 
     public int BestScore { get; set; } = 0;
@@ -45,26 +79,5 @@ public class GameData : IGameData, IDataCombiner<GameData>
              + $"\nBestScore={BestScore}"
              + $"\nAverageLifeTimeSec={AverageLifeTimeSec}"
              + $"\nBestLifeTimeSec={BestLifeTimeSec}";
-    }
-
-    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
-    {
-        GameData gameData = new GameData();
-
-        //combine GamesNumber
-        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
-        gameData.GamesNumber = fullGamesNumber;
-
-        //combine BestScore
-        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
-
-        //combine AverageLifeTimeSec
-        if (fullGamesNumber != 0)
-        {
-            int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
-            gameData.AverageLifeTimeSec = fullLifeTime / fullGamesNumber;
-        }
-
-        return gameData;
     }
 }

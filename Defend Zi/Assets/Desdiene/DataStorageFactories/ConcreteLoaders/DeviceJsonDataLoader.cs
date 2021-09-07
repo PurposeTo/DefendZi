@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders;
 using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
 using Desdiene.JsonConvertorWrapper;
