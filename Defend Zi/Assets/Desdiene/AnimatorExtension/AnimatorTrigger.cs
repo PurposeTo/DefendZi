@@ -26,6 +26,24 @@ namespace Desdiene.AnimatorExtension
             }
         }
 
-        public void Trigger() => _animator.SetTrigger(_paramName);
+        public void Trigger()
+        {
+            
+            throw new NotImplementedException();
+
+            //todo проверить реализацию на практике.
+
+            /* Это надо сделать так:
+             * 
+             * _animator.SetTrigger(_paramName);
+             * _animator.ResetTrigger(_paramName);
+             */
+
+            /* или так:
+             * 
+             * _parameters.ResetAllTriggers();
+             * _animator.SetTrigger(_paramName);
+             */
+        }
     }
 }
