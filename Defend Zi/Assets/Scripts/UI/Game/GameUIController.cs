@@ -4,6 +4,7 @@ using Zenject;
 
 public class GameUIController : MonoBehaviour
 {
+    [SerializeField, NotNull] private GameOverView _gameOverView;
     private GameManager _gameManager;
     private IStorage<IGameData> _storage;
     private IDeath _playerDeath;
@@ -20,7 +21,6 @@ public class GameUIController : MonoBehaviour
         SubscribeEvents();
     }
 
-    [SerializeField, NotNull] private GameOverView _gameOverView;
 
     private void OnDestroy()
     {
