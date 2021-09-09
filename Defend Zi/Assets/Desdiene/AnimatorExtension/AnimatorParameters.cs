@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Desdiene.AnimatorExtension
@@ -10,59 +7,39 @@ namespace Desdiene.AnimatorExtension
     public class AnimatorParameters
     {
         private readonly Animator _unityAnimator;
-        private readonly AnimatorControllerParameter[] _parameters;
-        private readonly Dictionary<string, AnimatorControllerParameter> _floats;
-        private readonly Dictionary<string, AnimatorControllerParameter> _ints;
-        private readonly Dictionary<string, AnimatorControllerParameter> _bools;
-        private readonly Dictionary<string, AnimatorControllerParameter> _triggers;
+        private readonly Dictionary<AnimatorControllerParameterType, Dictionary<string, AnimatorControllerParameter>> _parameters;
 
         public AnimatorParameters(Animator unityAnimator)
         {
             _unityAnimator = unityAnimator ?? throw new ArgumentNullException(nameof(unityAnimator));
-            _parameters = _unityAnimator.parameters;
 
-            foreach (AnimatorControllerParameter param in _parameters)
+            _parameters = new Dictionary<AnimatorControllerParameterType, Dictionary<string, AnimatorControllerParameter>>();
+            Array.ForEach(Common.GetAllEnumValues<AnimatorControllerParameterType>(), (type) =>
             {
-                switch (param.type)
-                {
-                    case AnimatorControllerParameterType.Float:
-                        _floats.Add(param.name, param);
-                        break;
-                    case AnimatorControllerParameterType.Int:
-                        _ints.Add(param.name, param);
-                        break;
-                    case AnimatorControllerParameterType.Bool:
-                        _bools.Add(param.name, param);
-                        break;
-                    case AnimatorControllerParameterType.Trigger:
-                        _triggers.Add(param.name, param);
-                        break;
-                    default:
-                        break;
-                }
+                _parameters.Add(type, new Dictionary<string, AnimatorControllerParameter>());
+            });
+
+            foreach (AnimatorControllerParameter param in _unityAnimator.parameters)
+            {
+                Dictionary<string, AnimatorControllerParameter> typedParameters = _parameters[param.type];
+                typedParameters.Add(param.name, param);
             }
         }
 
-        public bool Has(string paramName, AnimatorControllerParameterType paramType)
+        public bool Has(string paramName, AnimatorControllerParameterType paramType, out AnimatorControllerParameter parameter)
         {
-            switch (paramType)
-            {
-                case AnimatorControllerParameterType.Float:
-                    return _floats.ContainsKey(paramName);
-                case AnimatorControllerParameterType.Int:
-                    return _ints.ContainsKey(paramName);
-                case AnimatorControllerParameterType.Bool:
-                    return _bools.ContainsKey(paramName);
-                case AnimatorControllerParameterType.Trigger:
-                    return _triggers.ContainsKey(paramName);
-                default:
-                    return false;
-            }
+            Dictionary<string, AnimatorControllerParameter> typedParameters = _parameters[paramType];
+            bool has = typedParameters.ContainsKey(paramName);
+            parameter = has
+                ? typedParameters[paramName]
+                : null;
+            return has;
         }
 
         public void ResetAllTriggers()
         {
-            foreach (KeyValuePair<string, AnimatorControllerParameter> entry in _triggers)
+            Dictionary<string, AnimatorControllerParameter> triggers = _parameters[AnimatorControllerParameterType.Trigger];
+            foreach (KeyValuePair<string, AnimatorControllerParameter> entry in triggers)
             {
                 string fieldName = entry.Key;
                 _unityAnimator.ResetTrigger(fieldName);

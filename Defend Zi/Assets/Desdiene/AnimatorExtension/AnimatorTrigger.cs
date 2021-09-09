@@ -8,6 +8,7 @@ namespace Desdiene.AnimatorExtension
         private readonly Animator _animator;
         private readonly AnimatorParameters _parameters;
         private readonly string _paramName;
+        private readonly AnimatorControllerParameter _parameter;
 
         public AnimatorTrigger(Animator animator, AnimatorParameters parameters, string paramName)
         {
@@ -20,10 +21,11 @@ namespace Desdiene.AnimatorExtension
             _parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
             _paramName = paramName;
 
-            if (!_parameters.Has(_paramName, AnimatorControllerParameterType.Trigger))
+            if (_parameters.Has(_paramName, AnimatorControllerParameterType.Trigger, out AnimatorControllerParameter param))
             {
-                throw new ArgumentNullException(nameof(_paramName), $"Trigger param was not found in animator {_animator.name}");
+                _parameter = param;
             }
+            else throw new ArgumentNullException(nameof(_paramName), $"Trigger param was not found in animator \"{_animator.name}\"");
         }
 
         public void Trigger()
