@@ -4,70 +4,58 @@ using Desdiene.StateMachines.StateSwitchers;
 
 namespace Desdiene.Types.Processes.States
 {
-    public abstract class State : IStateEntryExitPoint<StateContext>
+    public abstract class State : IStateEntryExitPoint
     {
-        private readonly IStateSwitcher<State, StateContext> _stateSwitcher;
+        private readonly IStateSwitcher<State> _stateSwitcher;
+        private readonly StateContext _stateContext;
 
-        public State(IStateSwitcher<State, StateContext> stateSwitcher, string name)
+        public State(IStateSwitcher<State> stateSwitcher, StateContext stateContext, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException($"\"{nameof(name)}\" Can't be null or empty.", nameof(name));
             }
 
+            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
+            _stateContext = stateContext ?? throw new ArgumentNullException(nameof(stateContext));
             Name = name;
-            _stateSwitcher = stateSwitcher;
         }
 
         protected Action onStarted;
         protected Action onCompleted;
-        private Action _onChanged;
 
         // microsoft docs: don't use abstract/virtual events!
         public event Action OnStarted
         {
             add
             {
-                SubscribeToOnStarted(value);
+                _stateContext.OnStarted = SubscribeToOnStarted(_stateContext.OnStarted, value);
             }
-            remove => onStarted -= value;
+            remove => _stateContext.OnStarted -= value;
         }
 
         // microsoft docs: don't use abstract/virtual events!
         public event Action OnCompleted
         {
-            add => SubscribeToOnCompleted(value);
-            remove => onCompleted -= value;
+            add => _stateContext.OnCompleted = SubscribeToOnCompleted(_stateContext.OnCompleted, value);
+            remove => _stateContext.OnCompleted -= value;
         }
 
         public event Action OnChanged
         {
-            add => _onChanged += value;
-            remove => _onChanged -= value;
+            add => _stateContext.OnChanged += value;
+            remove => _stateContext.OnChanged -= value;
         }
 
-        void IStateEntryExitPoint<StateContext>.OnEnter(StateContext stateContext)
+        void IStateEntryExitPoint.OnEnter()
         {
             KeepWaiting = this is Running;
-
-            if (stateContext != null)
-            {
-                onStarted = stateContext.OnStarted;
-                onCompleted = stateContext.OnCompleted;
-                _onChanged = stateContext.OnChanged;
-            }
-
             OnEnter();
         }
 
-        StateContext IStateEntryExitPoint<StateContext>.OnExit()
+        void IStateEntryExitPoint.OnExit()
         {
             OnExit();
-            StateContext saved = new StateContext(onStarted, onCompleted, _onChanged);
-            onStarted = null;
-            onCompleted = null;
-            _onChanged = null;
-            return saved;
         }
 
         public string Name { get; }
@@ -81,8 +69,8 @@ namespace Desdiene.Types.Processes.States
 
         protected virtual void OnExit() { }
 
-        protected abstract void SubscribeToOnStarted(Action value);
-        protected abstract void SubscribeToOnCompleted(Action value);
+        protected abstract Action SubscribeToOnStarted(Action onStarted, Action value);
+        protected abstract Action SubscribeToOnCompleted(Action onCompleted, Action value);
 
         protected State SwitchState<stateT>() where stateT : State
         {
@@ -93,6 +81,6 @@ namespace Desdiene.Types.Processes.States
             return nextState;
         }
 
-        private void InvokeOnChanged() => _onChanged?.Invoke();
+        private void InvokeOnChanged() => _stateContext.OnChanged?.Invoke();
     }
 }

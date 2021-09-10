@@ -7,19 +7,22 @@ using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.Coroutines.States.Base
+namespace Desdiene.Coroutines.States
 {
-    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<StateContext>
+    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint
     {
-        private readonly IStateSwitcher<State, StateContext> _stateSwitcher;
+        private readonly IStateSwitcher<State> _stateSwitcher;
+        private readonly StateContext _stateContext;
         private readonly Func<bool> _isExecutingRef;
 
         public State(MonoBehaviourExt mono,
-                     IStateSwitcher<State, StateContext> stateSwitcher,
+                     IStateSwitcher<State> stateSwitcher,
+                     StateContext stateContext,
                      CoroutinesStack coroutinesStack,
                      Func<bool> isExecutingRef) : base(mono)
         {
             _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
+            _stateContext = stateContext ?? throw new ArgumentNullException(nameof(stateContext));
             CoroutinesStack = coroutinesStack ?? throw new ArgumentNullException(nameof(coroutinesStack));
             _isExecutingRef = isExecutingRef ?? throw new ArgumentNullException(nameof(isExecutingRef));
         }
@@ -27,22 +30,16 @@ namespace Desdiene.Coroutines.States.Base
         public bool IsExecuting => _isExecutingRef.Invoke();
 
         protected CoroutinesStack CoroutinesStack { get; }
-        protected Coroutine Coroutine { get; set; }
+        protected Coroutine Coroutine { get => _stateContext.Coroutine; set => _stateContext.Coroutine = value; }
 
-        void IStateEntryExitPoint<StateContext>.OnEnter(StateContext stateContext)
+        void IStateEntryExitPoint.OnEnter()
         {
-            if (stateContext != null)
-            {
-                Coroutine = stateContext.Coroutine;
-            }
-
             OnEnter();
         }
 
-        StateContext IStateEntryExitPoint<StateContext>.OnExit()
+        void IStateEntryExitPoint.OnExit()
         {
             OnExit();
-            return new StateContext(Coroutine);
         }
 
         protected virtual void OnEnter() { }

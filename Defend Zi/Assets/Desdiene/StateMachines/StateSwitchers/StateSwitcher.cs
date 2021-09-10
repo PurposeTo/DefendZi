@@ -25,34 +25,4 @@ namespace Desdiene.StateMachines.StateSwitchers
             return CurrentState;
         }
     }
-
-
-    public class StateSwitcher<AbstractStateT, StateContextT> :
-        StateSwitcherBase<AbstractStateT>,
-        IStateSwitcher<AbstractStateT, StateContextT>
-        where AbstractStateT : class, IStateEntryExitPoint<StateContextT>
-        where StateContextT : class
-    {
-        public StateSwitcher(IRef<AbstractStateT> refCurrentState)
-            : base(new List<AbstractStateT>(), refCurrentState) { }
-
-        public StateSwitcher(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
-            : base(allStates, refCurrentState) { }
-
-        protected override AbstractStateT ExitSwitchEnter(AbstractStateT newState)
-        {
-            if (!IsStateContains(newState))
-            {
-                throw new System.InvalidOperationException("You need to add the state to all states, before switching");
-            }
-
-            StateContextT stateContext = null;
-
-            if (IsCurrentStateNotNull) stateContext = CurrentState.OnExit();
-
-            CurrentState = newState;
-            CurrentState.OnEnter(stateContext);
-            return CurrentState;
-        }
-    }
 }

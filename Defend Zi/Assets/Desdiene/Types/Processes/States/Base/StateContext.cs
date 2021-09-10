@@ -4,15 +4,8 @@ namespace Desdiene.Types.Processes.States
 {
     public class StateContext
     {
-        public StateContext(Action onStarted, Action onComplited, Action onChanged)
-        {
-            OnStarted = onStarted;
-            OnCompleted = onComplited;
-            OnChanged = onChanged;
-        }
-
-        public Action OnStarted { get; }
-        public Action OnCompleted { get; }
-        public Action OnChanged { get; }
+        public Action OnStarted { get; set; }
+        public Action OnCompleted { get; set; }
+        public Action OnChanged { get; set; }
     }
 }

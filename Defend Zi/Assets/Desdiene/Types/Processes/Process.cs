@@ -19,12 +19,13 @@ namespace Desdiene.Types.Processes
             }
 
             _name = name;
-            StateSwitcher<State, StateContext> stateSwitcher = new StateSwitcher<State, StateContext>(_refCurrentState);
+            StateContext stateContext = new StateContext();
+            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new Created(stateSwitcher, _name),
-                new Running(stateSwitcher, _name),
-                new Completed(stateSwitcher, _name)
+                new Created(stateSwitcher, stateContext, _name),
+                new Running(stateSwitcher, stateContext, _name),
+                new Completed(stateSwitcher, stateContext, _name)
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.Coroutines.Components;
-using Desdiene.Coroutines.States.Base;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
@@ -11,11 +10,13 @@ namespace Desdiene.Coroutines.States
     public class Created : State
     {
         public Created(MonoBehaviourExt mono,
-                       IStateSwitcher<State, StateContext> stateSwitcher,
+                       IStateSwitcher<State> stateSwitcher,
+                       StateContext stateContext,
                        CoroutinesStack coroutinesStack,
                        Func<bool> isExecutingRef)
             : base(mono,
                    stateSwitcher,
+                   stateContext,
                    coroutinesStack,
                    isExecutingRef)
         { }

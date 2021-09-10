@@ -5,7 +5,13 @@ namespace Desdiene.Types.Processes.States
 {
     public class Running : State
     {
-        public Running(IStateSwitcher<State, StateContext> stateSwitcher, string name) : base(stateSwitcher, name) { }
+        public Running(IStateSwitcher<State> stateSwitcher,
+                       StateContext stateContext,
+                       string name)
+            : base(stateSwitcher,
+                   stateContext,
+                   name)
+        { }
 
         public override void Start() { }
 
@@ -19,12 +25,12 @@ namespace Desdiene.Types.Processes.States
             onStarted?.Invoke();
         }
 
-        protected override void SubscribeToOnStarted(Action action)
+        protected override Action SubscribeToOnStarted(Action onStarted, Action value)
         {
-            onStarted += action;
-            action?.Invoke();
+            value?.Invoke();
+            return onStarted += value;
         }
 
-        protected override void SubscribeToOnCompleted(Action action) => onCompleted += action;
+        protected override Action SubscribeToOnCompleted(Action onCompleted, Action value) => onCompleted += value;
     }
 }

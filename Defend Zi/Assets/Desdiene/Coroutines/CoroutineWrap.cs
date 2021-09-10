@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Desdiene.Containers;
 using Desdiene.Coroutines.Components;
 using Desdiene.Coroutines.States;
-using Desdiene.Coroutines.States.Base;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
@@ -38,15 +37,16 @@ namespace Desdiene.Coroutines
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
 
-            Func<bool> isExecutingRef = () => CurrentState is Executing;
+            StateContext stateContext = new StateContext();
             CoroutinesStack coroutineStack = new CoroutinesStack();
-            StateSwitcher<State, StateContext> stateSwitcher = new StateSwitcher<State, StateContext>(_refCurrentState);
+            Func<bool> isExecutingRef = () => CurrentState is Executing;
+            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new Created(mono, stateSwitcher, coroutineStack, isExecutingRef),
-                new Executing(mono, stateSwitcher, coroutineStack, isExecutingRef),
-                new Executed(mono, stateSwitcher, coroutineStack, isExecutingRef),
-                new Terminated(mono, stateSwitcher, coroutineStack, isExecutingRef),
+                new Created(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef),
+                new Executing(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef),
+                new Executed(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef),
+                new Terminated(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef)
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();

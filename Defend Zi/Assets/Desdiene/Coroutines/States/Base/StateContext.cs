@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Desdiene.Coroutines.States.Base
+namespace Desdiene.Coroutines.States
 {
     public class StateContext
     {
-        public StateContext(Coroutine coroutine)
-        {
-            Coroutine = coroutine;
-        }
-
-        public Coroutine Coroutine { get; }
+        public Coroutine Coroutine { get; set; }
     }
 }
