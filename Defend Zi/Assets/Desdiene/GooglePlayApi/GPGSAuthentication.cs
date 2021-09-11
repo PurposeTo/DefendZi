@@ -3,9 +3,9 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 
-namespace Assets.Desdiene.GooglePlayApi
+namespace Desdiene.GooglePlayApi
 {
-   public class GPGSAuthentication : MonoBehaviourExt, IGPGSAuthentication
+    public class GPGSAuthentication : MonoBehaviourExt, IGPGSAuthentication
     {
         public static PlayGamesPlatform Platform { get; private set; }
         public SignInStatus SignInStatus { get; private set; } = SignInStatus.NotAuthenticated;

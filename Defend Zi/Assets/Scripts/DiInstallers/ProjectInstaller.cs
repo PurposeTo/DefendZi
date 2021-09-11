@@ -1,17 +1,52 @@
-using Assets.Desdiene.GooglePlayApi;
-using Desdiene.GameDataAsset.Storage;
-using Desdiene.TimeControl.Pausable;
-using Desdiene.TimeControl.Scale;
+﻿using Desdiene.DataStorageFactories.Storages;
+using Desdiene.GooglePlayApi;
+using Desdiene.SceneLoaders.Single;
+using Desdiene.TimeControls.Adapters;
+using Desdiene.TimeControls.Scalers;
+using Desdiene.UnityScenes;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        BindScenesInBuild();
+        BindLoadedScenes();
+        BindGlobalTimeRef();
         BindGlobalTimeScaler();
-        BindGlobalTimePauser();
+        BingSingleSceneLoader();
         BindGPGSAuthentication();
         BindDataStorage();
+    }
+
+    private void BingSingleSceneLoader()
+    {
+        Container
+            .Bind<SceneLoader>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindScenesInBuild()
+    {
+        Container
+            .Bind<ScenesInBuild>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindLoadedScenes()
+    {
+        Container
+            .Bind<LoadedScenes>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindDataStorage()
@@ -34,20 +69,20 @@ public class ProjectInstaller : MonoInstaller
             .NonLazy();
     }
 
-    private void BindGlobalTimeScaler()
+    private void BindGlobalTimeRef()
     {
         Container
-            .Bind<GlobalTimeScaler>()
+            .Bind<GlobalTimeScaleAdapter>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();
     }
 
-    private void BindGlobalTimePauser()
+    private void BindGlobalTimeScaler()
     {
         Container
-            .Bind<GlobalTimePausable>()
+            .Bind<GlobalTimeScaler>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

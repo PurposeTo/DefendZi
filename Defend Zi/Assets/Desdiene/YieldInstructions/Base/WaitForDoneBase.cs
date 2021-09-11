@@ -26,8 +26,8 @@ namespace Desdiene.YieldInstructions.Base
 
         public override bool keepWaiting => !WaitForDoneProcess();
     }
-    /*Пример использования
-     * yield return new WaitForDone(timeOut, () => condition);
+    /* Пример использования
+     * yield return _coroutine.StartNested(new WaitForDone(timeOut, () => condition));
      * 
      */
 }

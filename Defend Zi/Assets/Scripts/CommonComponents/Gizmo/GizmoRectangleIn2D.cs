@@ -1,6 +1,6 @@
 ﻿using Desdiene;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.RectangleAsset;
+using Desdiene.Types.Rectangles;
 using UnityEngine;
 
 /// <summary>
@@ -26,6 +26,6 @@ public class GizmoRectangleIn2D : MonoBehaviourExt
             _rect2DPointsPosition = GetComponent<IRectangleIn2DGetter>();
         }
 
-       GizmoDrawing.Draw(_color, _rect2DPointsPosition, transform.lossyScale);
+        GizmoDrawing.Draw(_color, _rect2DPointsPosition, transform.lossyScale);
     }
 }

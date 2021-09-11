@@ -16,10 +16,10 @@ public class Player :
     private readonly IPosition _position;
     private readonly IScore _score = new PlayerScore();
 
-    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementControlData)
+    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementView movementView)
     {
         _position = new Rigidbody2DPosition(rigidbody2D);
-        _controlFixedUpdate = new PlayerControl(input, _position, movementControlData);
+        _controlFixedUpdate = new PlayerControl(input, _position, movementView);
     }
 
     Vector2 IPositionGetter.Value => _position.Value;
@@ -27,6 +27,8 @@ public class Player :
     IPercentable<int> IHealthGetter.Value => _health.Value;
 
     int IScoreGetter.Value => _score.Value;
+
+    bool IDeath.IsDeath => _health.IsDeath;
 
     event Action IScoreNotification.OnChanged
     {
@@ -38,6 +40,12 @@ public class Player :
     {
         add => _health.OnDied += value;
         remove => _health.OnDied -= value;
+    }
+
+    event Action IDeath.OnReborn
+    {
+        add => _health.OnReborn += value;
+        remove => _health.OnReborn -= value;
     }
 
     event Action IPositionNotification.OnChanged

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Desdiene.Coroutine;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
@@ -15,26 +15,28 @@ public class ScoreAdderByDistance : MonoBehaviourExt
     private IScoreCollector _collector;
     private IPositionGetter _position;
 
+    private ICoroutine _scoreAdding;
+
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
         _collector = GetInitedComponent<IScoreCollector>();
         _position = componentsProxy.PlayerPosition;
-        ICoroutine routine = new CoroutineWrap(this);
-        routine.StartContinuously(Adder());
+        _scoreAdding = new CoroutineWrap(this);
+        _scoreAdding.StartContinuously(Adding());
     }
 
-    private IEnumerator Adder()
+    private IEnumerator Adding()
     {
         yield return new WaitForSeconds(_delayBeforeStart);
 
         float nextOxPosition = 0f;
-        var wait = new WaitUntil(() => _position.Value.x >= nextOxPosition);
+        IEnumerator wait = new WaitUntil(() => _position.Value.x >= nextOxPosition);
 
         while (true)
         {
             nextOxPosition = _position.Value.x + _distancePerScore;
-            yield return wait;
+            yield return _scoreAdding.StartNested(wait);
             _collector.Add(1);
         }
     }

@@ -1,10 +1,10 @@
 ﻿using System;
-using Desdiene.Types.AtomicReference;
-using Desdiene.Types.Range.Positive;
+using Desdiene.Types.AtomicReferences;
+using Desdiene.Types.Ranges.Positive;
 
 namespace Desdiene.Types.InPositiveRange.Base
 {
-    public class ValueInRange<T> : IRef<T> where T : struct, IComparable<T>
+    public abstract class ValueInRange<T> : IRef<T> where T : struct, IComparable<T>
     {
         protected readonly IRange<T> range;
         private readonly Ref<T> valueRef;
@@ -20,6 +20,11 @@ namespace Desdiene.Types.InPositiveRange.Base
             add => valueRef.OnValueChanged += value;
             remove => valueRef.OnValueChanged -= value;
         }
+
+        public abstract bool IsMin { get; }
+        public abstract bool IsMax { get; }
+
+        public T Value => valueRef.Get();
 
         public T SetAndGet(T value)
         {

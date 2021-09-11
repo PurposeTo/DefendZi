@@ -1,9 +1,10 @@
-﻿using Desdiene.GameDataAsset.Storage;
+﻿using Desdiene.DataStorageFactories.Storages;
 using UnityEngine;
 using Zenject;
 
 public class GameUIController : MonoBehaviour
 {
+    [SerializeField, NotNull] private GameOverView _gameOverView;
     private GameManager _gameManager;
     private IStorage<IGameData> _storage;
     private IDeath _playerDeath;
@@ -20,7 +21,6 @@ public class GameUIController : MonoBehaviour
         SubscribeEvents();
     }
 
-    [SerializeField, NotNull] private GameOverView _gameOverView;
 
     private void OnDestroy()
     {
@@ -39,7 +39,7 @@ public class GameUIController : MonoBehaviour
     {
         _playerDeath.OnDied -= _gameOverView.Enable;
         _playerDeath.OnDied -= SetBestScore;
-        _playerDeath.OnDied -= SetScore; 
+        _playerDeath.OnDied -= SetScore;
         _gameOverView.OnReloadLvlClicked -= _gameManager.ReloadLvl;
     }
 

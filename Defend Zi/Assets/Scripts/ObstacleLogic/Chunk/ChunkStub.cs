@@ -4,7 +4,7 @@
 /// </summary>
 public class ChunkStub : Chunk
 {
-    protected override void OnSpawn() 
+    protected override void OnSpawn()
     {
         Debug.LogError($"{GetType().Name} используется только для создания prefab variant! GameObject: {gameObject.name}");
     }

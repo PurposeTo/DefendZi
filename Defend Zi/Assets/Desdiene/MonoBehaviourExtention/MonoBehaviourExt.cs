@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Desdiene.Coroutine;
+using Desdiene.Coroutines;
 using UnityEngine;
 
 namespace Desdiene.MonoBehaviourExtension
@@ -158,41 +158,6 @@ namespace Desdiene.MonoBehaviourExtension
         }
 
         #endregion
-
-
-        #region CoroutineExecutor
-
-        private readonly List<ICoroutine> activeCoroutines = new List<ICoroutine>();
-
-        /// <summary>
-        /// Добавить выполняемую корутину в общий список для отслеживания.
-        /// Данный метод выполняется ТОЛЬКО CoroutineWrap-ом.
-        /// </summary>
-        /// <param name="coroutine"></param>
-        public void AddCoroutine(ICoroutine coroutine)
-        {
-            if (coroutine.IsExecuting)
-            {
-                coroutine.OnStopped += () => activeCoroutines.Remove(coroutine);
-                activeCoroutines.Add(coroutine);
-            }
-            else throw new ArgumentException("Добавить можно только выполняемую корутину!");
-        }
-
-        /// <summary>
-        /// Остановить все корутины на объекте.
-        /// Архитектура и логика поведения взята из UnityEngine 
-        /// </summary>
-        public void BreakAllCoroutines()
-        {
-            for (int i = 0; i < activeCoroutines.Count; i++)
-            {
-                activeCoroutines[i].Break();
-            }
-        }
-
-        #endregion
-
 
         #region GetComponent
 

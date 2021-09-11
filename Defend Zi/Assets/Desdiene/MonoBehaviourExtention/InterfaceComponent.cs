@@ -1,4 +1,4 @@
-﻿using Desdiene.Types.AtomicReference.RefRuntimeInit;
+﻿using Desdiene.Types.AtomicReferences.RuntimeInit;
 
 namespace Desdiene.MonoBehaviourExtension
 {

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blinking Sprite
+  m_Controller: {fileID: 9100000, guid: c155f954ca3341243be6cb72595b6e4a, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: eaa4a4ecd33a91d4095ad309b79b6f0e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: eaa4a4ecd33a91d4095ad309b79b6f0e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a1f6e4e0681d6cf41b922fd88ba63cd3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a1f6e4e0681d6cf41b922fd88ba63cd3, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b094a94ccece8fb45ae3a341378ddcf0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b094a94ccece8fb45ae3a341378ddcf0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 205591dacc5097946817153067b6de46, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 205591dacc5097946817153067b6de46, type: 2}

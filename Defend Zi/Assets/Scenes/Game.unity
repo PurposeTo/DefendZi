@@ -538,11 +538,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementData:
-    speed: 12
-    amplitude: 6
-    defaultFrequency: 0.1
-    controlledFrequency: 0.5
-    frequencyChangeRate: 1.5
+    _speed:
+      _min: 12
+      _max: 18
+    _amplitude: 6
+    _defaultFrequency: 0.1
+    _controlledFrequency: 0.5
+    _frequencyChangeRate: 1.5
 --- !u!50 &274676709
 Rigidbody2D:
   serializedVersion: 4
@@ -2035,7 +2037,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

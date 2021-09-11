@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Types.RectangleAsset;
+using Desdiene.Types.Rectangles;
 using UnityEngine;
 
 namespace Desdiene

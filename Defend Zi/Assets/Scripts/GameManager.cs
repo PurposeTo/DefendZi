@@ -1,9 +1,10 @@
 ﻿using System;
-using Desdiene.GameDataAsset.Storage;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.TimeControl.Pausable;
-using Desdiene.TimeControl.Pauser;
-using UnityEngine.SceneManagement;
+using Desdiene.SceneLoaders.Single;
+using Desdiene.SceneTypes;
+using Desdiene.TimeControls.Pauses;
+using Desdiene.TimeControls.Scalers;
+using SceneTypes;
 using Zenject;
 
 /// <summary>
@@ -12,75 +13,63 @@ using Zenject;
 /// </summary>
 public class GameManager : MonoBehaviourExt
 {
-    private GlobalTimePauser _isGameOver;
-
+    private GlobalTimePause _gameOverPause;
     private IDeath _playerDeath;
-    private IScoreGetter _playerScore;
+    private SceneLoader _singleSceneLoader;
 
-    private IStorage<IGameData> _dataStorage;
-
-    [Inject]
-    private void Constructor(GlobalTimePausable globalTimePausable, ComponentsProxy componentsProxy, IStorage<IGameData> dataStorage)
-    {
-        _playerDeath = componentsProxy.PlayerDeath;
-        _playerScore = componentsProxy.PlayerScore;
-
-        _dataStorage = dataStorage;
-
-        _isGameOver = new GlobalTimePauser(this, globalTimePausable, "Окончание игры");
-        SubscribeEvents();
-    }
-
+    public event Action OnGameStarted;
     public event Action OnGameOver;
 
+    [Inject]
+    private void Constructor(GlobalTimeScaler timeScaler, ComponentsProxy componentsProxy, SceneLoader singleSceneLoader)
+    {
+        if (timeScaler == null) throw new ArgumentNullException(nameof(timeScaler));
+        if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
+        if (singleSceneLoader == null) throw new ArgumentNullException(nameof(singleSceneLoader));
+
+        _gameOverPause = new GlobalTimePause(this, timeScaler, "Окончание игры");
+        _playerDeath = componentsProxy.PlayerDeath;
+        _singleSceneLoader = singleSceneLoader;
+        SubscribeEvents();
+        OnGameStarted?.Invoke();
+    }
 
     protected override void OnDestroyExt()
     {
         UnsubscribeEvents();
     }
 
+    public void ReloadLvl()
+    {
+        _singleSceneLoader.Reload();
+    }
+
     private void SubscribeEvents()
     {
-        _playerDeath.OnDied += SavePlayerScore;
         _playerDeath.OnDied += EndGame;
-        _playerDeath.OnDied += SaveGameData;
+        _playerDeath.OnReborn += ResumeEndedGame;
     }
 
     private void UnsubscribeEvents()
     {
-        _playerDeath.OnDied -= SavePlayerScore;
         _playerDeath.OnDied -= EndGame;
-        _playerDeath.OnDied -= SaveGameData;
+        _playerDeath.OnReborn -= ResumeEndedGame;
     }
 
     /// <summary>
     /// Закончить игру
     /// </summary>
-    public void EndGame()
+    private void EndGame()
     {
+        _gameOverPause.Start();
         OnGameOver?.Invoke();
-        _isGameOver.SetPause(true);
     }
 
     /// <summary>
     /// Продолжить законченную игру (Например, после возрождения игрока).
     /// </summary>
-    public void ResumeEndedGame()
+    private void ResumeEndedGame()
     {
-        _isGameOver.SetPause(false);
+        _gameOverPause.Complete();
     }
-
-    public void ReloadLvl()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private void SavePlayerScore()
-    {
-        _dataStorage
-            .GetData()
-            .SetBestScore((uint)_playerScore.Value);
-    }
-
-    private void SaveGameData() => _dataStorage.InvokeSavingData();
 }

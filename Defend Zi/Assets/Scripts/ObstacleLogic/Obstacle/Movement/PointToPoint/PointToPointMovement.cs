@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using Desdiene.Container;
-using Desdiene.Coroutine;
+using Desdiene.Containers;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 

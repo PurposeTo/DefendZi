@@ -1,14 +1,14 @@
 ﻿using System;
 using Desdiene.Random;
-using Desdiene.Types.Range.Positive;
+using Desdiene.Types.Ranges.Positive;
 
 public class ObstaclesGenerationData
 {
-    public IRandomlySelectableItem<Chunk>[] SelectableChunks { get; }
+    public ISelectableItem<Chunk>[] SelectableChunks { get; }
     public FloatRange SafeSpaceBetweenChunks { get; }
     public float OffsetGeneration { get; }
 
-    public ObstaclesGenerationData(IRandomlySelectableItem<Chunk>[] selectableChunks,
+    public ObstaclesGenerationData(ISelectableItem<Chunk>[] selectableChunks,
                                    FloatRange safeSpaceBetweenChunks,
                                    float offsetGeneration)
     {
