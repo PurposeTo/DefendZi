@@ -54,7 +54,7 @@ namespace Desdiene.TimeControls.Scalers
 
         void IProcessesSetter.Remove(IProcessGetterNotifier process) => _processes.Remove(process);
 
-        public void Clear() => _processes.Clear();
+        void IProcesses.Clear() => _processes.Clear();
 
         private void UpdateTimeScaler(IProcessGetter process)
         {
