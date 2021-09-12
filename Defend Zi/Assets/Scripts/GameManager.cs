@@ -21,13 +21,13 @@ public class GameManager : MonoBehaviourExt
     public event Action OnGameOver;
 
     [Inject]
-    private void Constructor(GlobalTimeScaler timeScaler, ComponentsProxy componentsProxy, SceneLoader singleSceneLoader)
+    private void Constructor(GlobalTimeScaler globalTimeScaler, ComponentsProxy componentsProxy, SceneLoader singleSceneLoader)
     {
-        if (timeScaler == null) throw new ArgumentNullException(nameof(timeScaler));
+        if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
         if (singleSceneLoader == null) throw new ArgumentNullException(nameof(singleSceneLoader));
 
-        _gameOverPause = new GlobalTimePause(this, timeScaler, "Окончание игры");
+        _gameOverPause = new GlobalTimePause(this, globalTimeScaler, "Окончание игры");
         _playerDeath = componentsProxy.PlayerDeath;
         _singleSceneLoader = singleSceneLoader;
         SubscribeEvents();
