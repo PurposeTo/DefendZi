@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Desdiene.AnimatorExtension
 {
-    public struct AnimatorTrigger
+    public class AnimatorTrigger
     {
         private readonly Animator _animator;
         private readonly AnimatorParameters _parameters;

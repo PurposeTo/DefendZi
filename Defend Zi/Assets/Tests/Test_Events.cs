@@ -31,6 +31,6 @@ public class Test_Events : MonoBehaviourExt
 
     private void LoggNumber(int number)
     {
-        Debug.Log($"ÊÐß! The number is {number}");
+        Debug.Log($"The number is {number}");
     }
 }
