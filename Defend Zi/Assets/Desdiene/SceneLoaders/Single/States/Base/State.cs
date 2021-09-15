@@ -27,7 +27,7 @@ namespace Desdiene.SceneLoaders.Single.States.Base
             OnExit();
         }
 
-        public abstract void Load(SceneAsset scene, Action<IProcessesSetter> beforeUnloading, Action afterEnabling);
+        public abstract void Load(SceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling);
 
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }

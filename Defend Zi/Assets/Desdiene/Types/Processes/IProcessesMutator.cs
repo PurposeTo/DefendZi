@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Processes
 {
-    public interface IProcessesSetter
+    public interface IProcessesMutator
     {
         public void Add(IProcessGetterNotifier[] processes);
         public void Add(IProcessGetterNotifier process);

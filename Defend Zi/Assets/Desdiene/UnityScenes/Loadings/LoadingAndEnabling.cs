@@ -23,7 +23,7 @@ namespace Desdiene.UnityScenes.Loadings
         public LoadingAndEnabling(MonoBehaviourExt mono,
                                   AsyncOperation loadingByUnity,
                                   string sceneName,
-                                  Action<IProcessesSetter> beforeEnablingAction) : base(mono)
+                                  Action<IProcessesMutator> beforeEnablingAction) : base(mono)
         {
             if (string.IsNullOrEmpty(sceneName))
             {

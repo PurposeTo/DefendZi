@@ -21,16 +21,16 @@ namespace Desdiene.Types.Percentables
         /// Получить процентное значение.
         /// </summary>
         /// <returns></returns>
-        float IPercentGetter.Value => Percent;
+        float IPercentAccessor.Value => Percent;
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
         /// Значение округляется до ближайшего целочисленноого.
         /// </summary>
         /// <param name="percent"></param>
-        void IPercentSetter.Set(float percent) => SetByPercent(percent);
+        void IPercentMutator.Set(float percent) => SetByPercent(percent);
 
-        float IPercentSetter.SetAndGet(float percent)
+        float IPercentMutator.SetAndGet(float percent)
         {
             SetByPercent(percent);
             return Percent;

@@ -27,14 +27,14 @@ namespace Desdiene.Types.AtomicReferences.Init
             remove => valueRef.OnValueChanged -= value;
         }
 
-        T IRefGetter<T>.Get() => GetOrInit(); // Lazy get
+        T IRefAccessor<T>.Get() => GetOrInit(); // Lazy get
         public T GetOrInit() => InitState.GetOrInit();
 
         public void Set(T value) => InitState.Set(value);
 
         public T SetAndGet(T value) => InitState.SetAndGet(value);
 
-        void IRefSetter<T>.Set(T value)
+        void IRefMutator<T>.Set(T value)
         {
             throw new NotImplementedException();
         }

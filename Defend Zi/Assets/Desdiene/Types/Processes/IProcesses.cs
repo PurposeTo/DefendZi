@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Processes
 {
-    public interface IProcesses : IProcessGetterNotifier, IProcessesSetter
+    public interface IProcesses : IProcessGetterNotifier, IProcessesMutator
     {
         /// <summary>
         /// Очистить список от всех процессов.

@@ -20,15 +20,15 @@ namespace Desdiene.TimeControls.Adapters
             remove => OnChanged -= value;
         }
 
-        bool IPercentGetter.IsMin => Mathf.Approximately(TimeScale, 0);
+        bool IPercentAccessor.IsMin => Mathf.Approximately(TimeScale, 0);
 
-        bool IPercentGetter.IsMax => Mathf.Approximately(TimeScale, 1);
+        bool IPercentAccessor.IsMax => Mathf.Approximately(TimeScale, 1);
 
-        float IPercentGetter.Value => TimeScale;
+        float IPercentAccessor.Value => TimeScale;
 
-        void IPercentSetter.Set(float percent) => SetTimeRefScale(percent);
+        void IPercentMutator.Set(float percent) => SetTimeRefScale(percent);
 
-        float IPercentSetter.SetAndGet(float percent)
+        float IPercentMutator.SetAndGet(float percent)
         {
             SetTimeRefScale(percent);
             return TimeScale;

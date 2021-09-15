@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.DataStorageFactories.Datas
 {
-    public interface IDataGetter
+    public interface IDataAccessor
     {
         //Методы или свойства по получению данных
     }

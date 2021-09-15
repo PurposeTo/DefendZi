@@ -1,7 +1,7 @@
 ﻿
 namespace Desdiene.Types.AtomicReferences
 {
-    public interface IRefSetter<T>
+    public interface IRefMutator<T>
     {
         public void Set(T value);
     }

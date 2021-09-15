@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.DataStorageFactories.Datas
 {
-    public interface IDataSetter
+    public interface IDataMutator
     {
         //Методы или свойства по установке данных
     }

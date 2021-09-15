@@ -9,7 +9,7 @@ namespace Desdiene.Types.AtomicReferences.RuntimeInit
     /// Инициализация данного поля произойдет либо при его получении, либо при вызове соответстующего метода.
     /// </summary>
     /// <typeparam name="T">Тип поля в данном классе.</typeparam>
-    public class RefRuntimeInit<T> : IRefSetter<T>
+    public class RefRuntimeInit<T> : IRefMutator<T>
     {
         private readonly Ref<State<T>> initStateRef = new Ref<State<T>>();
         private State<T> InitState => initStateRef.Get();

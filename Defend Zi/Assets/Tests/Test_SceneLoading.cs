@@ -44,7 +44,7 @@ public class Test_SceneLoading : MonoBehaviourExt
         if (Input.GetKeyDown(KeyCode.G)) _testWait.Complete();
     }
 
-    private void BeforeUnloading(IProcessesSetter processes)
+    private void BeforeUnloading(IProcessesMutator processes)
     {
         _testWait.Start();
         processes.Add(_testWait);

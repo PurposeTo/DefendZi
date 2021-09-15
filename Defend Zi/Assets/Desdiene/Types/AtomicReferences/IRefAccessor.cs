@@ -4,7 +4,7 @@
     /// Интерфейс для чтения значения и получении уведомления о его изменении.
     /// </summary>
     /// <typeparam name="T">Тип значения.</typeparam>
-    public interface IRefGetter<T>
+    public interface IRefAccessor<T>
     {
         T Get();
     }

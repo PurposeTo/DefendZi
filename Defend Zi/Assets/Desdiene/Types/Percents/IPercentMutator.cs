@@ -3,7 +3,7 @@
     /// <summary>
     /// Сущность, которой можно записать процентное значние.
     /// </summary>
-    public interface IPercentSetter
+    public interface IPercentMutator
     {
         void Set(float percent);
         float SetAndGet(float percent);

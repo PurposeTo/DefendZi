@@ -3,7 +3,7 @@
     /// <summary>
     /// Сущность, у которой можно взять процентное значение.
     /// </summary>
-    public interface IPercentGetter
+    public interface IPercentAccessor
     {
         bool IsMin { get; }
         bool IsMax { get; }

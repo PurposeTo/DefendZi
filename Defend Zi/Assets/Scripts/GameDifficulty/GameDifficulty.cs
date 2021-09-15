@@ -3,7 +3,7 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.Percents;
 using UnityEngine;
 
-public class GameDifficulty : MonoBehaviourExt, IPercentGetter, IPercentNotifier
+public class GameDifficulty : MonoBehaviourExt, IPercentAccessor, IPercentNotifier
 {
     [SerializeField] private float _gainPerSec = 0.01f;
     private Percent _difficulty = new Percent();

@@ -13,7 +13,7 @@ namespace Desdiene.SceneLoaders.Single.States
         public SceneLoadedAndEnabled(MonoBehaviourExt mono, IStateSwitcher<State> stateSwitcher)
             : base(mono, stateSwitcher) { }
 
-        public override void Load(SceneAsset scene, Action<IProcessesSetter> beforeUnloading, Action afterEnabling)
+        public override void Load(SceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             if (scene is null) throw new ArgumentNullException(nameof(scene));
 

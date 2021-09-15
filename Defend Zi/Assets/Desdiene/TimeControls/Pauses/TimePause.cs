@@ -11,9 +11,9 @@ namespace Desdiene.TimeControls.Pauses
     public class TimePause : IProcess
     {
         private readonly IProcess _itSelf;
-        private readonly IProcessesSetter _timePauses;
+        private readonly IProcessesMutator _timePauses;
 
-        public TimePause(IProcessesSetter timePauses, string name)
+        public TimePause(IProcessesMutator timePauses, string name)
         {
             _itSelf = new Process(name);
             _timePauses = timePauses;

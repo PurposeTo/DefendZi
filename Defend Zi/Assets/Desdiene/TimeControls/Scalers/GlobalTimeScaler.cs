@@ -48,11 +48,11 @@ namespace Desdiene.TimeControls.Scalers
 
         bool IProcessGetter.KeepWaiting => _processes.KeepWaiting;
 
-        void IProcessesSetter.Add(IProcessGetterNotifier[] processes) => _processes.Add(processes);
+        void IProcessesMutator.Add(IProcessGetterNotifier[] processes) => _processes.Add(processes);
         
-        void IProcessesSetter.Add(IProcessGetterNotifier process) => _processes.Add(process);
+        void IProcessesMutator.Add(IProcessGetterNotifier process) => _processes.Add(process);
 
-        void IProcessesSetter.Remove(IProcessGetterNotifier process) => _processes.Remove(process);
+        void IProcessesMutator.Remove(IProcessGetterNotifier process) => _processes.Remove(process);
 
         void IProcesses.Clear() => _processes.Clear();
 
