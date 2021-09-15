@@ -21,6 +21,7 @@ namespace Desdiene.MonoBehaviourExtension
 
         /// <summary>
         /// Необходимо использовать данный метод в дочернем классе взамен Awake()
+        /// Внутри данного метода и следующих, которые соотносятся с ЖЦ gameObject-а можно безопасно обращаться к SerializeField полям данного класса
         /// </summary>
         protected virtual void AwakeExt() { }
 
