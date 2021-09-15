@@ -5,6 +5,7 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.SceneTypes;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
+using SceneTypes;
 using UnityEngine;
 using Zenject;
 
@@ -29,11 +30,12 @@ public class GameUIController : MonoBehaviourExt
                              GameManager gameManager)
     {
         if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
-        if (sceneLoader == null) throw new ArgumentNullException(nameof(sceneLoader));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
+        _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
         _gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+        _mainMenu = new MainMenu(this);
         _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
         _playerDeath = componentsProxy.PlayerDeath;
         _playerScore = componentsProxy.PlayerScore;
@@ -112,5 +114,6 @@ public class GameUIController : MonoBehaviourExt
     {
         EnableGameView();
         DisableGameOverView();
+        DisableGamePauseView();
     }
 }

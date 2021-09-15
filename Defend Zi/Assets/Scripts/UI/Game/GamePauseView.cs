@@ -20,8 +20,8 @@ public class GamePauseView : MonoBehaviourExt
     }
 
     // вызывается при нажатии на кнопку движком юнити
-    private void InvokeOnResumeClicked() => OnResumeClicked?.Invoke();
+    public void InvokeOnResumeClicked() => OnResumeClicked?.Invoke();
 
     // вызывается при нажатии на кнопку движком юнити
-    private void InvokeOnMainMenuClicked() => OnMainMenuClicked?.Invoke();
+    public void InvokeOnMainMenuClicked() => OnMainMenuClicked?.Invoke();
 }

@@ -19,5 +19,5 @@ public class GameView : MonoBehaviourExt
     }
 
     // вызывается при нажатии на кнопку движком юнити
-    private void InvokeOnPauseClicked() => OnPauseClicked?.Invoke();
+    public void InvokeOnPauseClicked() => OnPauseClicked?.Invoke();
 }

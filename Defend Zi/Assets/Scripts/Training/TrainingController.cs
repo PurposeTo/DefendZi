@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Desdiene.Coroutines;
 using Desdiene.DataStorageFactories.Storages;
 using Desdiene.MonoBehaviourExtension;

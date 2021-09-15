@@ -25,7 +25,7 @@ namespace Desdiene.AnimatorExtension
             {
                 _parameter = param;
             }
-            else throw new ArgumentNullException(nameof(_paramName), $"Trigger param was not found in animator \"{_animator.name}\"");
+            else throw new ArgumentNullException(_paramName, $"Trigger param was not found in animator \"{_animator.name}\"");
         }
 
         public void Trigger()
