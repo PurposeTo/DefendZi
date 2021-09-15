@@ -40,8 +40,8 @@
 .gradle/
 
 # Images
-*.jpg
-*.jpeg
+#*.jpg
+#*.jpeg
 #*.png
 *.gif
 *.psd
