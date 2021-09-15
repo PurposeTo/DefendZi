@@ -9,9 +9,11 @@ public class GameOverView : MonoBehaviour
 
     public event Action OnReloadLvlClicked;
 
-    public void Enable()
+    public void Enable(int score, int bestScore)
     {
         _gameOverScreen.SetActive(true);
+        SetScore(score);
+        SetBestScore(bestScore);
     }
 
     public void Disable()
@@ -19,12 +21,12 @@ public class GameOverView : MonoBehaviour
         _gameOverScreen.SetActive(false);
     }
 
-    public void SetBestScore(int bestScore)
+    private void SetBestScore(int bestScore)
     {
         _bestScoreText.SetText($"Best score: {bestScore}");
     }
 
-    public void SetScore(int score)
+    private void SetScore(int score)
     {
         _scoreText.SetText($"Score: {score}");
     }
