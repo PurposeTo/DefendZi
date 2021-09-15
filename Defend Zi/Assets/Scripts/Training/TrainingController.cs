@@ -16,9 +16,13 @@ public class TrainingController : MonoBehaviourExt
     [Inject]
     private void Constructor(IStorage<IGameData> storage)
     {
-        TryAwake();
         _storage = storage ?? throw new System.ArgumentNullException(nameof(storage));
         _training = new CoroutineWrap(this);
+
+    }
+
+    protected override void AwakeExt()
+    {
         SetDefaultState();
         TryToEnable();
     }

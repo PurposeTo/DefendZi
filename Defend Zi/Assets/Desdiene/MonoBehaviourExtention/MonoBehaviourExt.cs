@@ -59,7 +59,7 @@ namespace Desdiene.MonoBehaviourExtension
         /// <summary>
         /// Вызвать Awake у данного компонента, если он еще не был вызван.
         /// </summary>
-        private protected void TryAwake()
+        private void TryAwake()
         {
             if (_isAwaking)
             {
