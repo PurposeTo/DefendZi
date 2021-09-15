@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Blinking sprite
+  m_Name: Blinking Sprite
   m_Controller: {fileID: 9100000, guid: c155f954ca3341243be6cb72595b6e4a, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: a1f6e4e0681d6cf41b922fd88ba63cd3, type: 2}
