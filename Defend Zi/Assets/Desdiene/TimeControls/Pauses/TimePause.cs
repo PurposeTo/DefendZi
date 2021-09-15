@@ -33,7 +33,7 @@ namespace Desdiene.TimeControls.Pauses
             remove => _itSelf.OnCompleted -= value;
         }
 
-        public event Action<IProcessGetter> OnChanged
+        public event Action<IProcessAccessor> OnChanged
         {
             add => _itSelf.OnChanged += value;
             remove => _itSelf.OnChanged -= value;

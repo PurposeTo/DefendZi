@@ -17,6 +17,6 @@ namespace Desdiene.Types.Processes
         /// <summary>
         /// Событие о изменении состоянии процесса.
         /// </summary>
-        event Action<IProcessGetter> OnChanged;
+        event Action<IProcessAccessor> OnChanged;
     }
 }

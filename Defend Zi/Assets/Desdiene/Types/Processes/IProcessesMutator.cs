@@ -2,8 +2,8 @@
 {
     public interface IProcessesMutator
     {
-        public void Add(IProcessGetterNotifier[] processes);
-        public void Add(IProcessGetterNotifier process);
-        public void Remove(IProcessGetterNotifier process);
+        public void Add(IProcessAccessorNotifier[] processes);
+        public void Add(IProcessAccessorNotifier process);
+        public void Remove(IProcessAccessorNotifier process);
     }
 }

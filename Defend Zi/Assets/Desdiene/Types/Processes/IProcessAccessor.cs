@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Processes
 {
-    public interface IProcessGetter
+    public interface IProcessAccessor
     {
         /// <summary>
         /// Название процесса

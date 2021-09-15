@@ -33,7 +33,7 @@ namespace Desdiene.Types.Processes
             SubscribeEvents();
         }
 
-        private event Action<IProcessGetter> OnChanged;
+        private event Action<IProcessAccessor> OnChanged;
 
         event Action IProcessNotifier.OnStarted
         {
@@ -47,14 +47,14 @@ namespace Desdiene.Types.Processes
             remove => CurrentState.OnCompleted -= value;
         }
 
-        event Action<IProcessGetter> IProcessNotifier.OnChanged
+        event Action<IProcessAccessor> IProcessNotifier.OnChanged
         {
             add => OnChanged += value;
             remove => OnChanged -= value;
         }
 
-        string IProcessGetter.Name => _name;
-        bool IProcessGetter.KeepWaiting => CurrentState.KeepWaiting;
+        string IProcessAccessor.Name => _name;
+        bool IProcessAccessor.KeepWaiting => CurrentState.KeepWaiting;
 
         void IProcessMutator.Start() => CurrentState.Start();
 

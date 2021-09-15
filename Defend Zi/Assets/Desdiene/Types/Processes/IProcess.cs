@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Processes
 {
-    public interface IProcess : IProcessGetterNotifier, IProcessMutator
+    public interface IProcess : IProcessAccessorNotifier, IProcessMutator
     {
 
     }

@@ -36,7 +36,7 @@ namespace Desdiene.TimeControls.Scalers
             remove => _processes.OnCompleted -= value;
         }
 
-        event Action<IProcessGetter> IProcessNotifier.OnChanged
+        event Action<IProcessAccessor> IProcessNotifier.OnChanged
         {
             add => _processes.OnChanged += value;
             remove => _processes.OnChanged -= value;
@@ -44,19 +44,19 @@ namespace Desdiene.TimeControls.Scalers
 
         void ITimeScaler.SetScale(float timeScale) => _timeScaler.SetScale(timeScale);
 
-        string IProcessGetter.Name => _processes.Name;
+        string IProcessAccessor.Name => _processes.Name;
 
-        bool IProcessGetter.KeepWaiting => _processes.KeepWaiting;
+        bool IProcessAccessor.KeepWaiting => _processes.KeepWaiting;
 
-        void IProcessesMutator.Add(IProcessGetterNotifier[] processes) => _processes.Add(processes);
+        void IProcessesMutator.Add(IProcessAccessorNotifier[] processes) => _processes.Add(processes);
         
-        void IProcessesMutator.Add(IProcessGetterNotifier process) => _processes.Add(process);
+        void IProcessesMutator.Add(IProcessAccessorNotifier process) => _processes.Add(process);
 
-        void IProcessesMutator.Remove(IProcessGetterNotifier process) => _processes.Remove(process);
+        void IProcessesMutator.Remove(IProcessAccessorNotifier process) => _processes.Remove(process);
 
         void IProcesses.Clear() => _processes.Clear();
 
-        private void UpdateTimeScaler(IProcessGetter process)
+        private void UpdateTimeScaler(IProcessAccessor process)
         {
             _timeScaler.SetPause(process.KeepWaiting);
         }

@@ -7,12 +7,12 @@ namespace Desdiene.Types.Processes
 {
     public class ParallelProcesses : IProcesses
     {
-        private readonly List<IProcessGetterNotifier> _processes = new List<IProcessGetterNotifier>();
+        private readonly List<IProcessAccessorNotifier> _processes = new List<IProcessAccessorNotifier>();
         private readonly IProcess _process;
 
-        public ParallelProcesses(string name) : this(name, new List<IProcessGetterNotifier>()) { }
+        public ParallelProcesses(string name) : this(name, new List<IProcessAccessorNotifier>()) { }
 
-        public ParallelProcesses(string name, List<IProcessGetterNotifier> processes)
+        public ParallelProcesses(string name, List<IProcessAccessorNotifier> processes)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -35,19 +35,19 @@ namespace Desdiene.Types.Processes
             remove => _process.OnCompleted -= value;
         }
 
-        event Action<IProcessGetter> IProcessNotifier.OnChanged
+        event Action<IProcessAccessor> IProcessNotifier.OnChanged
         {
             add => _process.OnChanged += value;
             remove => _process.OnChanged -= value;
         }
 
-        string IProcessGetter.Name => Name;
-        bool IProcessGetter.KeepWaiting => KeepWaiting;
+        string IProcessAccessor.Name => Name;
+        bool IProcessAccessor.KeepWaiting => KeepWaiting;
 
         private string Name => _process.Name;
         private bool KeepWaiting => _process.KeepWaiting;
 
-        void IProcessesMutator.Add(IProcessGetterNotifier[] processes)
+        void IProcessesMutator.Add(IProcessAccessorNotifier[] processes)
         {
             if (processes is null)
             {
@@ -57,18 +57,18 @@ namespace Desdiene.Types.Processes
             Array.ForEach(processes, process => Add(process));
         }
 
-        void IProcessesMutator.Add(IProcessGetterNotifier process) => Add(process);
+        void IProcessesMutator.Add(IProcessAccessorNotifier process) => Add(process);
 
-        void IProcessesMutator.Remove(IProcessGetterNotifier process) => Remove(process);
+        void IProcessesMutator.Remove(IProcessAccessorNotifier process) => Remove(process);
 
         void IProcesses.Clear()
         {
-            List<IProcessGetterNotifier> processes = new List<IProcessGetterNotifier>(_processes);
+            List<IProcessAccessorNotifier> processes = new List<IProcessAccessorNotifier>(_processes);
             processes.ForEach(process => Remove(process));
             Debug.Assert(_processes.Count == 0);
         }
 
-        private void Add(IProcessGetterNotifier process)
+        private void Add(IProcessAccessorNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (_processes.Contains(process))
@@ -88,7 +88,7 @@ namespace Desdiene.Types.Processes
             }
         }
 
-        private void Remove(IProcessGetterNotifier process)
+        private void Remove(IProcessAccessorNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (!_processes.Contains(process))
@@ -103,7 +103,7 @@ namespace Desdiene.Types.Processes
             }
         }
 
-        private void SetActualState(IProcessGetter _)
+        private void SetActualState(IProcessAccessor _)
         {
             if (_processes.Any(process => process.KeepWaiting)) Start();
             else Complete();
