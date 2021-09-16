@@ -11,7 +11,7 @@ public class GameDataSaver : MonoBehaviourExt
     private IStorage<IGameData> _dataStorage;
     private GameManager _gameManager;
 
-    private IScoreGetter _playerScore;
+    private IScoreAccessor _playerScore;
     private GameStatisticsCollector _statisticsCollector;
     private GameStatistics Statistics => _statisticsCollector.GetStatistics();
 

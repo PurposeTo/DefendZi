@@ -20,7 +20,7 @@ public class GameUIController : MonoBehaviourExt
     private GameManager _gameManager;
     private IStorage<IGameData> _storage;
     private IDeath _playerDeath;
-    private IScoreGetter _playerScore;
+    private IScoreAccessor _playerScore;
 
     [Inject]
     private void Constructor(GlobalTimeScaler globalTimeScaler,

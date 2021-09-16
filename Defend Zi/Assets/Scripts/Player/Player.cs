@@ -26,14 +26,14 @@ public class Player :
 
     IPercentable<int> IHealthGetter.Value => _health.Value;
 
-    int IScoreGetter.Value => _score.Value;
+    int IScoreAccessor.Value => _score.Value;
 
     bool IDeath.IsDeath => _health.IsDeath;
 
-    event Action IScoreNotification.OnChanged
+    event Action IScoreNotification.OnReceived
     {
-        add => _score.OnChanged += value;
-        remove => _score.OnChanged -= value;
+        add => _score.OnReceived += value;
+        remove => _score.OnReceived -= value;
     }
 
     event Action IDeath.OnDied

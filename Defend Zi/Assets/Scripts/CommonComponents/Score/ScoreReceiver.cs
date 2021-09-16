@@ -19,7 +19,7 @@ public class ScoreReceiver : MonoBehaviourExt
     // Начисление очков за близкое огибание препятствий происходит через триггер выхода из коллайдера
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IScoreGetter score))
+        if (collision.TryGetComponent(out IScoreAccessor score))
         {
             int value = score.Value;
 

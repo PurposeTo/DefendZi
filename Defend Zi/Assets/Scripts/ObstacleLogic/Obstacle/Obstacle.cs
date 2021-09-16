@@ -3,25 +3,25 @@ using UnityEngine;
 
 public class Obstacle :
     IDamageDealer,
-    IScoreGetter,
+    IScoreAccessor,
     IPosition,
     IRotation
 {
     private readonly IDamageDealer _damage = new Damage();
-    private readonly IScoreGetter _score;
+    private readonly IScoreAccessor _score;
     private readonly IPosition _position;
     private readonly IRotation _rotation;
 
     public Obstacle(int scoreByAvoding, Rigidbody2D rigidbody2D)
     {
-        _score = new ScoreGetter(scoreByAvoding);
+        _score = new ScorePoints(scoreByAvoding);
         _position = new Rigidbody2DPosition(rigidbody2D);
         _rotation = new Rotation(rigidbody2D);
     }
 
     uint IDamageDealer.Value => _damage.Value;
 
-    int IScoreGetter.Value => _score.Value;
+    int IScoreAccessor.Value => _score.Value;
 
     Vector2 IPositionGetter.Value => _position.Value;
 

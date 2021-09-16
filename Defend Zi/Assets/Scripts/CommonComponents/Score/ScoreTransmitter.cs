@@ -2,15 +2,15 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ScoreTransmitter : MonoBehaviourExt, IScoreGetter
+public class ScoreTransmitter : MonoBehaviourExt, IScoreAccessor
 {
-    private IScoreGetter score;
+    private IScoreAccessor score;
 
     protected override void AwakeExt()
     {
         //todo: верное ли использование?
-        score = GetInitedComponentOnlyInParent<IScoreGetter>();
+        score = GetInitedComponentOnlyInParent<IScoreAccessor>();
     }
 
-    int IScoreGetter.Value => score.Value;
+    int IScoreAccessor.Value => score.Value;
 }
