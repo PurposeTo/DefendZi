@@ -13,7 +13,7 @@ namespace Desdiene.Types.Rectangles
     /// Pivot по умолчанию находится в центре.
     /// </summary>
     [Serializable]
-    public struct RectangleIn2D : IRectangleIn2DGetter
+    public struct RectangleIn2D : IRectangleIn2DAccessor
     {
         [SerializeField] private Ufloat _height;
         [SerializeField] private Ufloat _width;
@@ -38,12 +38,12 @@ namespace Desdiene.Types.Rectangles
 
         #region реализация интерфейсов через прокидывание ссылок на поле/свойство/метод
 
-        float IRectangleGetter.Height => _height;
-        float IRectangleGetter.Width => _width;
-        Vector2 IPositionGetter.Value => _position;
-        Vector2 IPivotOffset2DGetter.Value => _pivotOffset;
-        float IRotationGetter.Angle => _rotation.eulerAngles.z;
-        Quaternion IRotationGetter.Quaternion => _rotation;
+        float IRectangleAccessor.Height => _height;
+        float IRectangleAccessor.Width => _width;
+        Vector2 IPositionAccessor.Value => _position;
+        Vector2 IPivotOffset2DAccessor.Value => _pivotOffset;
+        float IRotationAccessor.Angle => _rotation.eulerAngles.z;
+        Quaternion IRotationAccessor.Quaternion => _rotation;
         #endregion
 
         public float Height { get => _height; set => _height = value; }

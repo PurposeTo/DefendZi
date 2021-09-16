@@ -11,14 +11,14 @@ using UnityEngine;
 /// </summary>
 public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 {
-    private IRectangleIn2DGetter _visibleGameSpace;
-    private IPositionGetter _visibleGameSpacePosition;
+    private IRectangleIn2DAccessor _visibleGameSpace;
+    private IPositionAccessor _visibleGameSpacePosition;
 
     private readonly ISelectableItem<Chunk>[] _selectableChunks;
     private readonly FloatRange _safeSpaceBetweenChunks;
     private readonly float _offsetGeneration;
 
-    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DGetter visibleGameSpace) : base(mono)
+    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DAccessor visibleGameSpace) : base(mono)
     {
         Width = data.Width;
 

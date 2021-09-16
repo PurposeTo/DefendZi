@@ -13,7 +13,7 @@ public class ScoreAdderByDistance : MonoBehaviourExt
     [SerializeField] private float _distancePerScore = 17.5f;
 
     private IScoreCollector _collector;
-    private IPositionGetter _position;
+    private IPositionAccessor _position;
 
     private ICoroutine _scoreAdding;
 

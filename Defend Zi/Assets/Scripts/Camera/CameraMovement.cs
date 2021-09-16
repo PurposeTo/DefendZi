@@ -4,7 +4,7 @@ using Zenject;
 public class CameraMovement : MonoBehaviour
 {
     private float offsetOx;
-    private IPositionGetter playerPosition;
+    private IPositionAccessor playerPosition;
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)

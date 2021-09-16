@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player :
     IFixedUpdate,
-    IPositionGetter,
+    IPositionAccessor,
     IPositionNotification,
     IHealth,
     IScore
@@ -22,9 +22,9 @@ public class Player :
         _controlFixedUpdate = new PlayerControl(input, _position, movementView);
     }
 
-    Vector2 IPositionGetter.Value => _position.Value;
+    Vector2 IPositionAccessor.Value => _position.Value;
 
-    IPercentable<int> IHealthGetter.Value => _health.Value;
+    IPercentable<int> IHealthAccessor.Value => _health.Value;
 
     int IScoreAccessor.Value => _score.Value;
 

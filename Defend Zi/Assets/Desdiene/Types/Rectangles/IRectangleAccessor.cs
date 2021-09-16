@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Rectangles
 {
-    public interface IRectangleGetter
+    public interface IRectangleAccessor
     {
         // ufloat
         float Height { get; }

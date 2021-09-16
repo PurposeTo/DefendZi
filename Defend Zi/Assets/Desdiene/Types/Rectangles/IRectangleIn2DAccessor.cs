@@ -6,7 +6,7 @@
 /// </summary>
 namespace Desdiene.Types.Rectangles
 {
-    public interface IRectangleIn2DGetter : IRectangleGetter, IPositionGetter, IPivotOffset2DGetter, IRotationGetter
+    public interface IRectangleIn2DAccessor : IRectangleAccessor, IPositionAccessor, IPivotOffset2DAccessor, IRotationAccessor
     {
 
     }

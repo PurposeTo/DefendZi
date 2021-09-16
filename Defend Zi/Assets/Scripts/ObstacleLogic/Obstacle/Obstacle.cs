@@ -23,7 +23,7 @@ public class Obstacle :
 
     int IScoreAccessor.Value => _score.Value;
 
-    Vector2 IPositionGetter.Value => _position.Value;
+    Vector2 IPositionAccessor.Value => _position.Value;
 
     public float Angle => _rotation.Angle;
 

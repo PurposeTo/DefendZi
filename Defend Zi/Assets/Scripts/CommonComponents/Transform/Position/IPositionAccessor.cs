@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IPositionGetter
+public interface IPositionAccessor
 {
     Vector2 Value { get; }
 }

@@ -8,7 +8,7 @@ using Zenject;
 [DisallowMultipleComponent]
 public class PlayerMono :
     MonoBehaviourExt,
-    IPositionGetter,
+    IPositionAccessor,
     IPositionNotification,
     IHealth,
     IScore
@@ -17,7 +17,7 @@ public class PlayerMono :
 
     private IFixedUpdate _fixedUpdate;
     private IHealth _health;
-    private IPositionGetter _positionGetter;
+    private IPositionAccessor _positionAccessor;
     private IPositionNotification _positionNotification;
     private IScore _score;
 
@@ -32,7 +32,7 @@ public class PlayerMono :
         Player _player = new Player(input, rb2d, movementView);
 
         _fixedUpdate = _player;
-        _positionGetter = _player;
+        _positionAccessor = _player;
         _positionNotification = _player;
         _health = _player;
         _score = _player;
@@ -40,9 +40,9 @@ public class PlayerMono :
 
     private void FixedUpdate() => _fixedUpdate.Invoke(Time.fixedDeltaTime);
 
-    Vector2 IPositionGetter.Value => _positionGetter.Value;
+    Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 
-    IPercentable<int> IHealthGetter.Value => _health.Value;
+    IPercentable<int> IHealthAccessor.Value => _health.Value;
 
     int IScoreAccessor.Value => _score.Value;
 

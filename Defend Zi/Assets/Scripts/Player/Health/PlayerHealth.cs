@@ -31,7 +31,7 @@ public class PlayerHealth : IHealth
     }
 
     bool IDeath.IsDeath => IsDeath;
-    IPercentable<int> IHealthGetter.Value => _healthData;
+    IPercentable<int> IHealthAccessor.Value => _healthData;
 
     void IDamageTaker.TakeDamage(uint damage)
     {
