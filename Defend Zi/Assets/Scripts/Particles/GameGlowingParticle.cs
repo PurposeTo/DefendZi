@@ -29,25 +29,23 @@ public class GameGlowingParticle : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _globalPause.OnStarted += StartGlowingMotion;
-        _globalPause.OnCompleted += StopGlowingMotion;
+        _globalPause.OnStarted += StopGlowingMotion;
+        _globalPause.OnCompleted += StartGlowingMotion;
     }
 
     private void UnsubscribeEvents()
     {
-        _globalPause.OnStarted -= StartGlowingMotion;
-        _globalPause.OnCompleted -= StopGlowingMotion;
+        _globalPause.OnStarted -= StopGlowingMotion;
+        _globalPause.OnCompleted -= StartGlowingMotion;
     }
 
     private void StartGlowingMotion()
     {
-        Debug.Log("КРЯ Start");
         _glowing.SetConstantSpeedOx(GlowingSpeedOx);
     }
 
     private void StopGlowingMotion()
     {
-        Debug.Log("КРЯ Stop");
         _glowing.SetConstantSpeedOx(0f);
     }
 }
