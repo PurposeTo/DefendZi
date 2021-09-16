@@ -30,7 +30,9 @@ namespace Desdiene.AnimatorExtension
 
         public void Trigger()
         {
-            Debug.LogWarning("NotImplementedException");
+            _animator.SetTrigger(_paramName);
+            //_animator.ResetTrigger(_paramName);
+           // Debug.LogWarning("NotImplementedException");
             //todo проверить реализацию на практике.
 
             /* Это надо сделать так:
