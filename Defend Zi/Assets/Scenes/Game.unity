@@ -1437,8 +1437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e3d3d65316dbf42926d9b09b43b9a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreReceiver: {fileID: 607196009}
-  creatingScoreView: {fileID: 4946509735067544134, guid: d9fbf43a623c80745bc49490ec5581f7, type: 3}
+  _scoreReceiver: {fileID: 607196009}
+  _creatingPopUpScore: {fileID: -4977647576863948715, guid: d9fbf43a623c80745bc49490ec5581f7, type: 3}
 --- !u!1 &926270124
 GameObject:
   m_ObjectHideFlags: 0
@@ -2137,7 +2137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1141616257
 Transform:
   m_ObjectHideFlags: 0
