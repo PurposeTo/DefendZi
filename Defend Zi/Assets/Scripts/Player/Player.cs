@@ -30,7 +30,7 @@ public class Player :
 
     bool IDeath.IsDeath => _health.IsDeath;
 
-    event Action IScoreNotification.OnReceived
+    event Action<int> IScoreNotification.OnReceived
     {
         add => _score.OnReceived += value;
         remove => _score.OnReceived -= value;

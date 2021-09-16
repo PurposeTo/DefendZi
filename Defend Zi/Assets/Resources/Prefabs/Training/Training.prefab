@@ -57,10 +57,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8929241796385502331}
     m_Modifications:
-    - target: {fileID: 1522285064521169035, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
-      propertyPath: m_UpdateMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1642003011564043764, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
       propertyPath: m_Name
       value: Training animator
@@ -108,18 +104,6 @@ PrefabInstance:
     - target: {fileID: 1642003011564043771, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1946403213746872209, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
-      propertyPath: m_UpdateMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3054548770477784306, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 3054548770477784306, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 6514556669786300311, guid: 4ef8527c504743b49b50e76595f55050, type: 3}
       propertyPath: m_AnchoredPosition.x

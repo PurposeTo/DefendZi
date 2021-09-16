@@ -3,7 +3,7 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ScoreReceiver : MonoBehaviourExt
+public class ScoreReceiver : MonoBehaviourExt, IScoreNotification
 {
     private readonly Desdiene.Logger logger = new Desdiene.Logger(typeof(ScoreReceiver));
 

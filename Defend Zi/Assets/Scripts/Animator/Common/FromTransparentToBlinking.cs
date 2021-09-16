@@ -16,7 +16,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class FromTransparentToBlinking : AnimatorModel
 {
-    private readonly string isEnabledField = "isBlinking";
+    private readonly string isBlinkingField = "isBlinking";
     private AnimatorBool _isBlinking;
 
     public event Action OnAnimationEnabling;
@@ -24,7 +24,7 @@ public class FromTransparentToBlinking : AnimatorModel
 
     protected override void AwakeAnimator()
     {
-        _isBlinking = GetAnimatorBool(isEnabledField, false);
+        _isBlinking = GetAnimatorBool(isBlinkingField, false);
     }
 
     public void Enable() => _isBlinking.Value = true;

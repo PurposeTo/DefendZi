@@ -30,9 +30,7 @@ namespace Desdiene.AnimatorExtension
 
         public void Trigger()
         {
-            
-            throw new NotImplementedException();
-
+            Debug.LogWarning("NotImplementedException");
             //todo проверить реализацию на практике.
 
             /* Это надо сделать так:

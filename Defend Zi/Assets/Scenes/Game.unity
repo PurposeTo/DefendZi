@@ -483,7 +483,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 26.73171, y: 15.01109}
+  m_Size: {x: 26.677532, y: 15.01109}
   m_EdgeRadius: 0
 --- !u!50 &195388662
 Rigidbody2D:
@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: 607196007}
   - component: {fileID: 607196008}
   - component: {fileID: 607196009}
+  - component: {fileID: 607196010}
   m_Layer: 0
   m_Name: Score receiver
   m_TagString: Untagged
@@ -1002,6 +1003,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6dccbc869efae5245880a5c0c8abef89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &607196010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607196006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5111ac52af54e47b254dd53ad55e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &668012056
@@ -1324,6 +1337,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871154218}
+  - component: {fileID: 871154219}
+  - component: {fileID: 871154220}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -1347,6 +1362,33 @@ Transform:
   m_Father: {fileID: 274676711}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &871154219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871154217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c3d542e9d5ac74aaa1ae489632cb53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerAura: {fileID: 1392049082}
+--- !u!114 &871154220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871154217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43c16be9c9236bc4d98f57cfc8e3e06d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreNotificationComponent: {fileID: 607196010}
+  _playerAnimator: {fileID: 871154219}
 --- !u!1 &912748134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2873,6 +2915,7 @@ GameObject:
   - component: {fileID: 1392049079}
   - component: {fileID: 1392049081}
   - component: {fileID: 1392049080}
+  - component: {fileID: 1392049082}
   m_Layer: 0
   m_Name: Aura
   m_TagString: Untagged
@@ -2964,6 +3007,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1392049082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392049078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e2252477f343248aa191a839a0d60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1427742820
 GameObject:
   m_ObjectHideFlags: 0
