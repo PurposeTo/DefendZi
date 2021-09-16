@@ -21,9 +21,6 @@ namespace Desdiene.Types.Processes.States
             Name = name;
         }
 
-        protected Action onStarted;
-        protected Action onCompleted;
-
         // microsoft docs: don't use abstract/virtual events!
         public event Action OnStarted
         {
@@ -60,6 +57,7 @@ namespace Desdiene.Types.Processes.States
 
         public string Name { get; }
         public bool KeepWaiting { get; private set; }
+        protected StateContext StateContext => _stateContext;
 
         public abstract void Start();
 

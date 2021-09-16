@@ -22,7 +22,7 @@ namespace Desdiene.Types.Processes.States
 
         protected override void OnEnter()
         {
-            onCompleted?.Invoke();
+            StateContext.OnCompleted?.Invoke();
         }
 
         protected override Action SubscribeToOnStarted(Action onStarted, Action value)

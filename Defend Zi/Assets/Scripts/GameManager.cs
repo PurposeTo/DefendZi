@@ -1,10 +1,8 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
-using Desdiene.SceneTypes;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
-using SceneTypes;
 using Zenject;
 
 /// <summary>
