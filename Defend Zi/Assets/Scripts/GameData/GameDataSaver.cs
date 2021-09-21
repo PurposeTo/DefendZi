@@ -1,4 +1,5 @@
-﻿using Desdiene.DataStorageFactories.Storages;
+﻿using System;
+using Desdiene.DataStorageFactories.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
 
@@ -9,7 +10,6 @@ using Zenject;
 public class GameDataSaver : MonoBehaviourExt
 {
     private IStorage<IGameData> _dataStorage;
-    private GameManager _gameManager;
 
     private IScoreAccessor _playerScore;
     private GameStatisticsCollector _statisticsCollector;
@@ -17,35 +17,18 @@ public class GameDataSaver : MonoBehaviourExt
 
     [Inject]
     private void Constructor(IStorage<IGameData> dataStorage,
-                             GameManager gameManager,
                              ComponentsProxy componentsProxy,
                              GameStatisticsCollector statisticsCollector)
     {
-        _dataStorage = dataStorage;
-        _gameManager = gameManager;
+        if (componentsProxy is null) throw new ArgumentNullException(nameof(componentsProxy));
+
+        _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 
         _playerScore = componentsProxy.PlayerScore;
-        _statisticsCollector = statisticsCollector;
-
-        SubscribeEvents();
+        _statisticsCollector = statisticsCollector ?? throw new ArgumentNullException(nameof(statisticsCollector));
     }
 
-    protected override void OnDestroyExt()
-    {
-        UnsubscribeEvents();
-    }
-
-    private void SubscribeEvents()
-    {
-        _gameManager.OnGameOver += SaveGameData;
-    }
-
-    private void UnsubscribeEvents()
-    {
-        _gameManager.OnGameOver -= SaveGameData;
-    }
-
-    private void SaveGameData()
+    public void SaveGameData()
     {
         SaveGamesNumber();
         SavePlayerScore();

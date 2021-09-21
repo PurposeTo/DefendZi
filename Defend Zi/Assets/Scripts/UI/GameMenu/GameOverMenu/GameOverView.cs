@@ -1,7 +1,8 @@
 ﻿using System;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-public class GameOverView : MonoBehaviour
+public class GameOverView : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GameObject _gameOverScreen;
     [SerializeField, NotNull] private TextView _bestScoreText;

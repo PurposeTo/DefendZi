@@ -10,16 +10,18 @@ using Zenject;
 
 public class GameMenu : MonoBehaviourExt
 {
-   // [SerializeField, NotNull] private PlayerDeathView _playerDeathView;
     [SerializeField, NotNull] private GameOverView _gameOverView;
     [SerializeField, NotNull] private GameView _gameView;
     [SerializeField, NotNull] private GamePauseView _gamePauseView;
     private GlobalTimePause _gamePause;
+    private GlobalTimePause _playerDeathPause;
     private SceneLoader _sceneLoader;
-    private SceneAsset _mainMenu;
-    private GameManager _gameManager;
+    private SceneAsset _gameScene;
+    private SceneAsset _mainMenuScene;
+    private GameDataSaver _gameDataSaver;
     private IStorage<IGameData> _storage;
     private IRewardedAd _rewardedAd;
+    private IDeath _playerDeath;
     private IReincarnation _playerReincarnation;
     private IScoreAccessor _playerScore;
 
@@ -27,8 +29,8 @@ public class GameMenu : MonoBehaviourExt
     private void Constructor(GlobalTimeScaler globalTimeScaler,
                              IStorage<IGameData> storage,
                              SceneLoader sceneLoader,
-                             ComponentsProxy componentsProxy,
-                             GameManager gameManager)
+                             GameDataSaver gameDataSaver,
+                             ComponentsProxy componentsProxy)
     {
         IRewardedAd rewardedAd = new SuccessRewardedAd(); // todo убрать заглушку
 
@@ -36,52 +38,60 @@ public class GameMenu : MonoBehaviourExt
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
-        _gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
-        _gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
+        _gameDataSaver = gameDataSaver ?? throw new ArgumentNullException(nameof(gameDataSaver));
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-        _mainMenu = new SceneTypes.MainMenu(this);
         _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
+        _playerDeathPause = new GlobalTimePause(this, globalTimeScaler, "Смерть игрока");
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
+
+        _gameScene = new SceneTypes.Game(this);
+        _mainMenuScene = new SceneTypes.MainMenu(this);
+
+        _playerDeath = componentsProxy.PlayerDeath;
         _playerReincarnation = componentsProxy.PlayerReincarnation;
         _playerScore = componentsProxy.PlayerScore;
+    }
+
+    protected override void AwakeExt()
+    {
         SetDefaultState();
         SubscribeEvents();
     }
-
-    private IGameData GameData => _storage.GetData();
 
     protected override void OnDestroyExt()
     {
         UnsubscribeEvents();
     }
 
+    private IGameData GameData => _storage.GetData();
+
     private void SubscribeEvents()
     {
-        _gameManager.OnGameOver += EnableGameOverView;
+        _playerDeath.OnDied += _playerDeathPause.Start;
+        _playerDeath.OnDied += EnableGameOverView;
+        _playerReincarnation.OnRevived += _playerDeathPause.Complete;
+
         _gameView.OnPauseClicked += EnableGamePauseView;
         _gamePauseView.OnResumeClicked += DisableGamePauseView;
         _gamePauseView.OnMainMenuClicked += LoadMainMenu;
-        _gameOverView.OnReloadLvlClicked += ReloadLvl;
+        _gameOverView.OnReloadLvlClicked += LoadGameScene;
     }
 
     private void UnsubscribeEvents()
     {
-        _gameManager.OnGameOver -= EnableGameOverView;
+        _playerDeath.OnDied -= _playerDeathPause.Start;
+        _playerDeath.OnDied -= EnableGameOverView;
+        _playerReincarnation.OnRevived -= _playerDeathPause.Complete;
+
         _gameView.OnPauseClicked -= EnableGamePauseView;
         _gamePauseView.OnResumeClicked -= DisableGamePauseView;
         _gamePauseView.OnMainMenuClicked -= LoadMainMenu;
-        _gameOverView.OnReloadLvlClicked -= ReloadLvl;
+        _gameOverView.OnReloadLvlClicked -= LoadGameScene;
     }
 
-    private void EnableGameView()
-    {
-        _gameView.Enable();
-    }
+    private void EnableGameView() => _gameView.Enable();
 
-    private void DisableGameView()
-    {
-        _gameView.Disable();
-    }
+    private void DisableGameView() => _gameView.Disable();
 
     private void EnableGamePauseView()
     {
@@ -95,50 +105,27 @@ public class GameMenu : MonoBehaviourExt
         _gamePause.Complete();
     }
 
-    private void EnablePlayerDeathView()
-    {
-     //   _playerDeathView.Enable(_playerScore.Value);
-    }
+    private void RevivePlayer() => _playerReincarnation.Revive();
 
-    private void DisablePlayerDeathView()
-    {
-       // _playerDeathView.Disable();
-    }
-
-    private void RevivePlayer()
-    {
-        _playerReincarnation.Revive();
-    }
+    private void CollectRewards() => _gameDataSaver.SaveGameData();
 
     private void EnableGameOverView()
     {
         _gameOverView.Enable(_playerScore.Value, GameData.BestScore);
+        CollectRewards(); // данный метод должен вызываться здесь?
     }
 
-    private void DisableGameOverView()
-    {
-        _gameOverView.Disable();
-    }
+    private void DisableGameOverView() => _gameOverView.Disable();
 
-    private void ShowAd()
-    {
-        _rewardedAd.Show();
-    }
+    private void ShowAd() => _rewardedAd.Show();
 
-    private void LoadMainMenu()
-    {
-        _sceneLoader.Load(_mainMenu);
-    }
+    private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);
 
-    private void ReloadLvl()
-    {
-        _gameManager.ReloadLvl();
-    }
+    private void LoadGameScene() => _sceneLoader.Load(_gameScene);
 
     private void SetDefaultState()
     {
         EnableGameView();
-        DisablePlayerDeathView();
         DisableGameOverView();
         DisableGamePauseView();
     }

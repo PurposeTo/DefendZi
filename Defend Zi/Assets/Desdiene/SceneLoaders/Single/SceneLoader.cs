@@ -39,6 +39,8 @@ namespace Desdiene.SceneLoaders.Single
 
         private void Load(SceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
         {
+            if (scene == null) throw new ArgumentNullException(nameof(scene));
+
             CurrentState.Load(scene, beforeUnloading, afterEnabling);
         }
 
