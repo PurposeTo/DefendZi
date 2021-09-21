@@ -3,11 +3,11 @@ using Desdiene.Types.Percentables;
 using Desdiene.Types.Percentale;
 using Desdiene.Types.Ranges.Positive;
 
-public class PlayerHealth : IHealth
+public class PlayerHealth : IHealthReincarnation
 {
     private IntPercentable _healthData;
     private event Action OnDied;
-    private event Action OnReborn;
+    private event Action OnRevived;
     private bool IsDeath;
 
     public PlayerHealth()
@@ -15,7 +15,7 @@ public class PlayerHealth : IHealth
         int defaultHealth = 1;
         _healthData = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
         OnDied += () => IsDeath = true;
-        OnReborn += () => IsDeath = false;
+        OnRevived += () => IsDeath = false;
     }
 
     event Action IDeath.OnDied
@@ -24,10 +24,10 @@ public class PlayerHealth : IHealth
         remove => OnDied -= value;
     }
 
-    event Action IDeath.OnReborn
+    event Action IReincarnation.OnRevived
     {
-        add => OnReborn += value;
-        remove => OnReborn -= value;
+        add => OnRevived += value;
+        remove => OnRevived -= value;
     }
 
     bool IDeath.IsDeath => IsDeath;
@@ -36,7 +36,12 @@ public class PlayerHealth : IHealth
     void IDamageTaker.TakeDamage(uint damage)
     {
         _healthData -= damage;
-        if (_healthData == 0) Die();
+        if (_healthData.IsMin) Die();
+    }
+
+    void IReincarnation.Revive()
+    {
+        throw new NotImplementedException();
     }
 
     private void Die() => OnDied?.Invoke();

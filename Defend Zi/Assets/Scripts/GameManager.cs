@@ -44,20 +44,18 @@ public class GameManager : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _playerDeath.OnDied += EndGame;
-        _playerDeath.OnReborn += ResumeEndedGame;
+        _playerDeath.OnDied += GameOver;
     }
 
     private void UnsubscribeEvents()
     {
-        _playerDeath.OnDied -= EndGame;
-        _playerDeath.OnReborn -= ResumeEndedGame;
+        _playerDeath.OnDied -= GameOver;
     }
 
     /// <summary>
     /// Закончить игру
     /// </summary>
-    private void EndGame()
+    private void GameOver()
     {
         _gameOverPause.Start();
         OnGameOver?.Invoke();
@@ -66,7 +64,7 @@ public class GameManager : MonoBehaviourExt
     /// <summary>
     /// Продолжить законченную игру (Например, после возрождения игрока).
     /// </summary>
-    private void ResumeEndedGame()
+    private void ResumeGame()
     {
         _gameOverPause.Complete();
     }

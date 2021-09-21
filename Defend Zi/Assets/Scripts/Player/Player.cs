@@ -8,11 +8,11 @@ public class Player :
     IFixedUpdate,
     IPositionAccessor,
     IPositionNotification,
-    IHealth,
+    IHealthReincarnation,
     IScore
 {
     private readonly IFixedUpdate _controlFixedUpdate;
-    private readonly IHealth _health = new PlayerHealth();
+    private readonly IHealthReincarnation _health = new PlayerHealth();
     private readonly IPosition _position;
     private readonly IScore _score = new PlayerScore();
 
@@ -42,10 +42,10 @@ public class Player :
         remove => _health.OnDied -= value;
     }
 
-    event Action IDeath.OnReborn
+    event Action IReincarnation.OnRevived
     {
-        add => _health.OnReborn += value;
-        remove => _health.OnReborn -= value;
+        add => _health.OnRevived += value;
+        remove => _health.OnRevived -= value;
     }
 
     event Action IPositionNotification.OnChanged
@@ -60,6 +60,7 @@ public class Player :
     }
 
     void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);
+    void IReincarnation.Revive() => _health.Revive();
 
     void IScoreCollector.Add(int amount) => _score.Add(amount);
 }

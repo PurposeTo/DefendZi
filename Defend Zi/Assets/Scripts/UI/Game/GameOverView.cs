@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class GameOverView : MonoBehaviour
@@ -31,6 +31,7 @@ public class GameOverView : MonoBehaviour
         _scoreText.SetText($"Score: {score}");
     }
 
+    // вызывается при нажатии на кнопку движком unity
     public void ReloadLvlButton()
     {
         OnReloadLvlClicked?.Invoke();

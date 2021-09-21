@@ -10,13 +10,13 @@ public class PlayerMono :
     MonoBehaviourExt,
     IPositionAccessor,
     IPositionNotification,
-    IHealth,
+    IHealthReincarnation,
     IScore
 {
     [SerializeField] private PlayerMovementData _movementData;
 
     private IFixedUpdate _fixedUpdate;
-    private IHealth _health;
+    private IHealthReincarnation _health;
     private IPositionAccessor _positionAccessor;
     private IPositionNotification _positionNotification;
     private IScore _score;
@@ -60,10 +60,10 @@ public class PlayerMono :
         remove => _health.OnDied -= value;
     }
 
-    event Action IDeath.OnReborn
+    event Action IReincarnation.OnRevived
     {
-        add => _health.OnReborn += value;
-        remove => _health.OnReborn -= value;
+        add => _health.OnRevived += value;
+        remove => _health.OnRevived -= value;
     }
 
     event Action IPositionNotification.OnChanged
@@ -72,7 +72,8 @@ public class PlayerMono :
         remove => _positionNotification.OnChanged -= value;
     }
 
-    void IScoreCollector.Add(int amount) => _score.Add(amount);
-
+    void IReincarnation.Revive() => _health.Revive();
     void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);
+
+    void IScoreCollector.Add(int amount) => _score.Add(amount);
 }
