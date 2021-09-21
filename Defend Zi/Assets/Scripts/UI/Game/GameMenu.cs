@@ -5,11 +5,10 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.SceneTypes;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
-using SceneTypes;
 using UnityEngine;
 using Zenject;
 
-public class GameUIController : MonoBehaviourExt
+public class GameMenu : MonoBehaviourExt
 {
    // [SerializeField, NotNull] private PlayerDeathView _playerDeathView;
     [SerializeField, NotNull] private GameOverView _gameOverView;
@@ -40,7 +39,7 @@ public class GameUIController : MonoBehaviourExt
         _gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
         _gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-        _mainMenu = new MainMenu(this);
+        _mainMenu = new SceneTypes.MainMenu(this);
         _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
         _playerReincarnation = componentsProxy.PlayerReincarnation;

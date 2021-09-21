@@ -6,17 +6,17 @@ using SceneTypes;
 using UnityEngine;
 using Zenject;
 
-public class MainMenuUIController : MonoBehaviourExt
+public class MainMenu : MonoBehaviourExt
 {
     [SerializeField, NotNull] private MainMenuView _mainMenuView;
-    private SceneAsset _game;
+    private SceneAsset _gameScene;
     private SceneLoader _sceneLoader;
 
     [Inject]
     private void Constructor(SceneLoader sceneLoader)
     {
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
-        _game = new Game(this);
+        _gameScene = new Game(this);
         SubscribeEvents();
     }
 
@@ -37,6 +37,6 @@ public class MainMenuUIController : MonoBehaviourExt
 
     private void LoadGame()
     {
-        _sceneLoader.Load(_game);
+        _sceneLoader.Load(_gameScene);
     }
 }
