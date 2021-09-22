@@ -9,13 +9,13 @@ public class PlayerDeathView
     public event Action OnCollectRewardsClicked;
     public event Action OnRevivePlayerClicked;
 
-    public void Enable(int score)
+    public void Show(int score)
     {
         _playerDeathScreen.SetActive(true);
         SetScore(score);
     }
 
-    public void Disable()
+    public void Hide()
     {
         _playerDeathScreen.SetActive(false);
     }

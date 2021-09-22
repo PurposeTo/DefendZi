@@ -68,11 +68,11 @@ public class GameMenu : MonoBehaviourExt
     private void SubscribeEvents()
     {
         _playerDeath.OnDied += _playerDeathPause.Start;
-        _playerDeath.OnDied += EnableGameOverView;
+        _playerDeath.OnDied += ShowGameOverView;
         _playerReincarnation.OnRevived += _playerDeathPause.Complete;
 
-        _gameView.OnPauseClicked += EnableGamePauseView;
-        _gamePauseView.OnResumeClicked += DisableGamePauseView;
+        _gameView.OnPauseClicked += ShowGamePauseView;
+        _gamePauseView.OnResumeClicked += HideGamePauseView;
         _gamePauseView.OnMainMenuClicked += LoadMainMenu;
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
     }
@@ -80,28 +80,28 @@ public class GameMenu : MonoBehaviourExt
     private void UnsubscribeEvents()
     {
         _playerDeath.OnDied -= _playerDeathPause.Start;
-        _playerDeath.OnDied -= EnableGameOverView;
+        _playerDeath.OnDied -= ShowGameOverView;
         _playerReincarnation.OnRevived -= _playerDeathPause.Complete;
 
-        _gameView.OnPauseClicked -= EnableGamePauseView;
-        _gamePauseView.OnResumeClicked -= DisableGamePauseView;
+        _gameView.OnPauseClicked -= ShowGamePauseView;
+        _gamePauseView.OnResumeClicked -= HideGamePauseView;
         _gamePauseView.OnMainMenuClicked -= LoadMainMenu;
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;
     }
 
-    private void EnableGameView() => _gameView.Enable();
+    private void ShowGameView() => _gameView.Show();
 
-    private void DisableGameView() => _gameView.Disable();
+    private void HideGameView() => _gameView.Hide();
 
-    private void EnableGamePauseView()
+    private void ShowGamePauseView()
     {
         _gamePause.Start();
-        _gamePauseView.Enable();
+        _gamePauseView.Show();
     }
 
-    private void DisableGamePauseView()
+    private void HideGamePauseView()
     {
-        _gamePauseView.Disable();
+        _gamePauseView.Hide();
         _gamePause.Complete();
     }
 
@@ -109,13 +109,13 @@ public class GameMenu : MonoBehaviourExt
 
     private void CollectRewards() => _gameDataSaver.SaveGameData();
 
-    private void EnableGameOverView()
+    private void ShowGameOverView()
     {
-        _gameOverView.Enable(_playerScore.Value, GameData.BestScore);
+        _gameOverView.Show(_playerScore.Value, GameData.BestScore);
         CollectRewards(); // данный метод должен вызываться здесь?
     }
 
-    private void DisableGameOverView() => _gameOverView.Disable();
+    private void HideGameOverView() => _gameOverView.Hide();
 
     private void ShowAd() => _rewardedAd.Show();
 
@@ -125,8 +125,8 @@ public class GameMenu : MonoBehaviourExt
 
     private void SetDefaultState()
     {
-        EnableGameView();
-        DisableGameOverView();
-        DisableGamePauseView();
+        ShowGameView();
+        HideGameOverView();
+        HideGamePauseView();
     }
 }

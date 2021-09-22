@@ -10,14 +10,14 @@ public class GameOverView : MonoBehaviourExt
 
     public event Action OnReloadLvlClicked;
 
-    public void Enable(int score, int bestScore)
+    public void Show(int score, int bestScore)
     {
         _gameOverScreen.SetActive(true);
         SetScore(score);
         SetBestScore(bestScore);
     }
 
-    public void Disable()
+    public void Hide()
     {
         _gameOverScreen.SetActive(false);
     }

@@ -8,12 +8,12 @@ public class GameView : MonoBehaviourExt
 
     public event Action OnPauseClicked;
 
-    public void Enable()
+    public void Show()
     {
         _gameScreen.SetActive(true);
     }
 
-    public void Disable()
+    public void Hide()
     {
         _gameScreen.SetActive(false);
     }

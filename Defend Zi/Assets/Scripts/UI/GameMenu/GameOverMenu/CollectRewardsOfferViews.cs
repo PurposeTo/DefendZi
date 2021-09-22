@@ -7,13 +7,13 @@ public class CollectRewardsOfferView : MonoBehaviourExt
     [SerializeField, NotNull] private GameObject _gameOverScreen;
     [SerializeField, NotNull] private TextView _scoreText;
 
-    public void Enable(int score)
+    public void Show(int score)
     {
         _gameOverScreen.SetActive(true);
         SetScore(score);
     }
 
-    public void Disable()
+    public void Hide()
     {
         _gameOverScreen.SetActive(false);
     }

@@ -71,9 +71,9 @@ public class GameOverMenu : MonoBehaviourExt
     private void SubscribeEvents()
     {
         _playerDeath.OnDied += _playerDeathPause.Start;
-        _playerDeath.OnDied += EnableGameOverView;
+        _playerDeath.OnDied += ShowGameOverView;
         _playerReincarnation.OnRevived += _playerDeathPause.Complete;
-        _playerReincarnation.OnRevived += DisableGameOverView;
+        _playerReincarnation.OnRevived += HideGameOverView;
 
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
     }
@@ -81,40 +81,40 @@ public class GameOverMenu : MonoBehaviourExt
     private void UnsubscribeEvents()
     {
         _playerDeath.OnDied -= _playerDeathPause.Start;
-        _playerDeath.OnDied -= EnableGameOverView;
+        _playerDeath.OnDied -= ShowGameOverView;
         _playerReincarnation.OnRevived -= _playerDeathPause.Complete;
-        _playerReincarnation.OnRevived -= DisableGameOverView;
+        _playerReincarnation.OnRevived -= HideGameOverView;
 
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;
     }
 
-    private void EnableGameOverView()
+    private void ShowGameOverView()
     {
-        _gameOverView.Enable(PlayerScore, PlayerBestScore);
-        CollectRewards(); // данный метод должен вызываться здесь?
+        _gameOverView.Show(PlayerScore, PlayerBestScore);
+        CollectRewards();
     }
 
-    private void DisableGameOverView() => _gameOverView.Disable();
+    private void HideGameOverView() => _gameOverView.Hide();
 
 
-    private void EnableCollectRewardsOfferView()
+    private void ShowCollectRewardsOfferView()
     {
-        _collectRewardsOfferView.Enable(PlayerScore);
+        _collectRewardsOfferView.Show(PlayerScore);
     }
 
-    private void DisableCollectRewardsOfferView()
+    private void HideCollectRewardsOfferView()
     {
-        _collectRewardsOfferView.Disable();
+        _collectRewardsOfferView.Hide();
     }
 
-    private void EnableReviveOfferView()
+    private void ShowReviveOfferView()
     {
-        _reviveOfferView.Enable(PlayerScore);
+        _reviveOfferView.Show(PlayerScore);
     }
 
-    private void DisableReviveOfferView()
+    private void HideReviveOfferView()
     {
-        _reviveOfferView.Disable();
+        _reviveOfferView.Hide();
     }
 
     private void LoadGameScene() => _sceneLoader.Load(_gameScene);

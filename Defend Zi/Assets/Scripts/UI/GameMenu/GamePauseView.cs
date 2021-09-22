@@ -9,12 +9,12 @@ public class GamePauseView : MonoBehaviourExt
     public event Action OnResumeClicked;
     public event Action OnMainMenuClicked;
 
-    public void Enable()
+    public void Show()
     {
         _pauseScreen.SetActive(true);
     }
 
-    public void Disable()
+    public void Hide()
     {
         _pauseScreen.SetActive(false);
     }
