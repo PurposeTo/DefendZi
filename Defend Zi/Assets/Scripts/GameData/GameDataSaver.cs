@@ -28,24 +28,29 @@ public class GameDataSaver : MonoBehaviourExt
         _statisticsCollector = statisticsCollector ?? throw new ArgumentNullException(nameof(statisticsCollector));
     }
 
-    public void SaveGameData()
+    public void CollectAndSaveGameData()
     {
-        SaveGamesNumber();
-        SavePlayerScore();
-        SavePlayerLifeTime();
+        CollectGameData();
         InvokeSavingData();
     }
 
-    private void SaveGamesNumber() => _dataStorage.GetData().IncreaseGamesNumber();
+    private void CollectGameData()
+    {
+        CollectGamesNumber();
+        CollectPlayerScore();
+        CollectPlayerLifeTime();
+    }
 
-    private void SavePlayerScore()
+    private void CollectGamesNumber() => _dataStorage.GetData().IncreaseGamesNumber();
+
+    private void CollectPlayerScore()
     {
         _dataStorage
             .GetData()
             .SetBestScore((uint)_playerScore.Value);
     }
 
-    private void SavePlayerLifeTime()
+    private void CollectPlayerLifeTime()
     {
         uint lifeTimeSec = (uint)Statistics.LifeTimeSec;
 

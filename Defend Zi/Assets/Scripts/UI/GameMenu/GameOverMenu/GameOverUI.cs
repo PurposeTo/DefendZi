@@ -91,8 +91,8 @@ public class GameOverUI : MonoBehaviourExt
 
     private void ShowGameOverViewAndCollectRewards()
     {
-        _gameOverView.Show(PlayerScore, PlayerBestScore);
         CollectRewards();
+        _gameOverView.Show(PlayerScore, PlayerBestScore);
     }
 
     private void HideGameOverView() => _gameOverView.Hide();
@@ -120,7 +120,7 @@ public class GameOverUI : MonoBehaviourExt
 
     private void LoadGameScene() => _sceneLoader.Load(_gameScene);
 
-    private void CollectRewards() => _gameDataSaver.SaveGameData();
+    private void CollectRewards() => _gameDataSaver.CollectAndSaveGameData();
 
     private void ShowAd() => _rewardedAd.Show();
 
