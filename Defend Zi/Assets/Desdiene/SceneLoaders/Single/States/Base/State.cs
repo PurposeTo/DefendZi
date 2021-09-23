@@ -4,7 +4,7 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneTypes;
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.Processes;
+using Desdiene.Types.ProcessContainers;
 
 namespace Desdiene.SceneLoaders.Single.States.Base
 {
@@ -27,7 +27,7 @@ namespace Desdiene.SceneLoaders.Single.States.Base
             OnExit();
         }
 
-        public abstract void Load(SceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling);
+        public abstract void Load(SceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling);
 
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }

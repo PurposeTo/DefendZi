@@ -10,7 +10,7 @@ namespace Desdiene.TimeControls.Pauses
     /// Создаваемый объект дает возможность поставить на паузу глобальное время.
     /// </summary>
     //Работать с UnityEngine.Time только внутри ЖЦ monoBehaviour.
-    public class GlobalTimePause : MonoBehaviourExtContainer, IProcess
+    public class GlobalTimePause : MonoBehaviourExtContainer, ICyclicalProcess
     {
         private readonly TimePause _timePause;
 
@@ -31,10 +31,10 @@ namespace Desdiene.TimeControls.Pauses
             remove => _timePause.OnStarted -= value;
         }
 
-        public event Action OnCompleted
+        public event Action OnStopped
         {
-            add => _timePause.OnCompleted += value;
-            remove => _timePause.OnCompleted -= value;
+            add => _timePause.OnStopped += value;
+            remove => _timePause.OnStopped -= value;
         }
 
         public event Action<IProcessAccessor> OnChanged
@@ -49,6 +49,6 @@ namespace Desdiene.TimeControls.Pauses
 
         public void Start() => _timePause.Start();
 
-        public void Complete() => _timePause.Complete();
+        public void Stop() => _timePause.Stop();
     }
 }

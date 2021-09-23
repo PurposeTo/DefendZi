@@ -63,7 +63,7 @@ namespace Desdiene.SceneLoaders
 
         private void AtOpeningEnd()
         {
-            isSceneLoading.Complete();
+            isSceneLoading.Stop();
         }
 
         private void AtClosingEnd()

@@ -3,9 +3,9 @@ using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Desdiene.UnityScenes.Loadings.Components;
-using Desdiene.Types.Processes;
 using Desdiene.Coroutines;
 using System.Collections;
+using Desdiene.Types.ProcessContainers;
 
 namespace Desdiene.UnityScenes.Loadings
 {
@@ -16,14 +16,14 @@ namespace Desdiene.UnityScenes.Loadings
     {
         private readonly AsyncOperation _loadingByUnity;
         private readonly string _sceneName;
-        private readonly IProcesses _beforeEnabling;
+        private readonly ILinearProcesses _beforeEnabling;
         private readonly ICoroutine _progressChecking;
         private string _logMessage = "";
 
         public LoadingAndEnabling(MonoBehaviourExt mono,
                                   AsyncOperation loadingByUnity,
                                   string sceneName,
-                                  Action<IProcessesMutator> beforeEnablingAction) : base(mono)
+                                  Action<ILinearProcessesMutator> beforeEnablingAction) : base(mono)
         {
             if (string.IsNullOrEmpty(sceneName))
             {
@@ -31,7 +31,7 @@ namespace Desdiene.UnityScenes.Loadings
             }
 
             _sceneName = sceneName;
-            _beforeEnabling = new ParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
+            _beforeEnabling = new LinearParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
 
@@ -74,6 +74,9 @@ namespace Desdiene.UnityScenes.Loadings
         {
             while (!ProgressInfo.IsDone)
             {
+                Debug.Log($"КРЯ! Equals90Percents={ProgressInfo.Equals90Percents}; KeepWaiting={_beforeEnabling.KeepWaiting}");
+                ((LinearParallelProcesses)_beforeEnabling).LogAllProcesses();
+
                 if (ProgressInfo.Equals90Percents && !_beforeEnabling.KeepWaiting)
                 {
                     AllowSceneEnabling();

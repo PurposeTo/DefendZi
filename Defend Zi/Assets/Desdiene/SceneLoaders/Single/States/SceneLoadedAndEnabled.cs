@@ -3,6 +3,7 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single.States.Base;
 using Desdiene.SceneTypes;
 using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Desdiene.UnityScenes.Loadings;
 
@@ -13,11 +14,11 @@ namespace Desdiene.SceneLoaders.Single.States
         public SceneLoadedAndEnabled(MonoBehaviourExt mono, IStateSwitcher<State> stateSwitcher)
             : base(mono, stateSwitcher) { }
 
-        public override void Load(SceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
+        public override void Load(SceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             if (scene is null) throw new ArgumentNullException(nameof(scene));
 
-            IProcesses beforePastSceneUnloading = new ParallelProcesses("Подготовка к выгрузке старой сцены");
+            ILinearProcessesMutator beforePastSceneUnloading = new LinearParallelProcesses("Подготовка к выгрузке старой сцены");
             ILoadingAndEnabling loadingAndEnabling = scene.LoadAsSingle(beforeUnloading);
 
             void OnSceneLoadedAndEnabled()

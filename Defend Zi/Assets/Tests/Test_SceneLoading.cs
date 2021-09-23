@@ -2,6 +2,7 @@
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.SceneTypes;
+using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Loadings;
@@ -18,7 +19,7 @@ public class Test_SceneLoading : MonoBehaviourExt
     private SceneAsset _sceneType;
     private SceneLoader _sceneLoader;
 
-    private readonly IProcess _testWait = new Process("Тестовое ожидание");
+    private readonly ILinearProcess _testWait = new LinearProcess("Тестовое ожидание");
 
     [Inject]
     private void Constructor(SceneLoader sceneLoader)
@@ -41,10 +42,10 @@ public class Test_SceneLoading : MonoBehaviourExt
             _sceneLoader.Reload();
         }
 
-        if (Input.GetKeyDown(KeyCode.G)) _testWait.Complete();
+        if (Input.GetKeyDown(KeyCode.G)) _testWait.Stop();
     }
 
-    private void BeforeUnloading(IProcessesMutator processes)
+    private void BeforeUnloading(ILinearProcessesMutator processes)
     {
         _testWait.Start();
         processes.Add(_testWait);

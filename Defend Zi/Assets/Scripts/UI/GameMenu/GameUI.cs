@@ -67,7 +67,7 @@ public class GameUI : MonoBehaviourExt
     private void HideGamePauseView()
     {
         _gamePauseView.Hide();
-        _gamePause.Complete();
+        _gamePause.Stop();
     }
 
     private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);

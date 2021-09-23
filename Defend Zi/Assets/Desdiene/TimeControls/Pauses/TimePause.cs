@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using UnityEngine;
 
@@ -8,14 +9,14 @@ namespace Desdiene.TimeControls.Pauses
     /// Объект, позволяющий поставить время на паузу.
     /// При создании сам добавляется в нужный список.
     /// </summary>
-    public class TimePause : IProcess
+    public class TimePause : ICyclicalProcess
     {
-        private readonly IProcess _itSelf;
-        private readonly IProcessesMutator _timePauses;
+        private readonly ICyclicalProcess _itSelf;
+        private readonly ICyclicalProcessesMutator _timePauses;
 
-        public TimePause(IProcessesMutator timePauses, string name)
+        public TimePause(ICyclicalProcessesMutator timePauses, string name)
         {
-            _itSelf = new Process(name);
+            _itSelf = new CyclicalProcess(name);
             _timePauses = timePauses;
             Debug.Log($"Create timePause with name: {Name}. Time: {timePauses.GetType().Name}");
             _timePauses.Add(this);
@@ -27,10 +28,10 @@ namespace Desdiene.TimeControls.Pauses
             remove => _itSelf.OnStarted -= value;
         }
 
-        public event Action OnCompleted
+        public event Action OnStopped
         {
-            add => _itSelf.OnCompleted += value;
-            remove => _itSelf.OnCompleted -= value;
+            add => _itSelf.OnStopped += value;
+            remove => _itSelf.OnStopped -= value;
         }
 
         public event Action<IProcessAccessor> OnChanged
@@ -50,6 +51,6 @@ namespace Desdiene.TimeControls.Pauses
 
         public void Start() => _itSelf.Start();
 
-        public void Complete() => _itSelf.Complete();
+        public void Stop() => _itSelf.Stop();
     }
 }

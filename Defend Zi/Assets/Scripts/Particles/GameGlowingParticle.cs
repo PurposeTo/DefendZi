@@ -7,7 +7,7 @@ using Zenject;
 public class GameGlowingParticle : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GlowingParticle _glowing;
-    private IProcessAccessorNotifier _globalPause;
+    private ICyclicalProcessAccessorNotifier _globalPause;
 
     [Inject]
     private void Constructor(GlobalTimeScaler globalTimeScaler)
@@ -30,13 +30,13 @@ public class GameGlowingParticle : MonoBehaviourExt
     private void SubscribeEvents()
     {
         _globalPause.OnStarted += StopGlowingMotion;
-        _globalPause.OnCompleted += StartGlowingMotion;
+        _globalPause.OnStopped += StartGlowingMotion;
     }
 
     private void UnsubscribeEvents()
     {
         _globalPause.OnStarted -= StopGlowingMotion;
-        _globalPause.OnCompleted -= StartGlowingMotion;
+        _globalPause.OnStopped -= StartGlowingMotion;
     }
 
     private void StartGlowingMotion()

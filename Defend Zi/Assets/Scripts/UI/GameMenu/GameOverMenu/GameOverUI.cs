@@ -73,7 +73,7 @@ public class GameOverUI : MonoBehaviourExt
     {
         _playerDeath.OnDied += _playerDeathPause.Start;
         _playerDeath.OnDied += ShowGameOverViewAndCollectRewards;
-        _playerReincarnation.OnRevived += _playerDeathPause.Complete;
+        _playerReincarnation.OnRevived += _playerDeathPause.Stop;
         _playerReincarnation.OnRevived += HideGameOverView;
 
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
@@ -83,7 +83,7 @@ public class GameOverUI : MonoBehaviourExt
     {
         _playerDeath.OnDied -= _playerDeathPause.Start;
         _playerDeath.OnDied -= ShowGameOverViewAndCollectRewards;
-        _playerReincarnation.OnRevived -= _playerDeathPause.Complete;
+        _playerReincarnation.OnRevived -= _playerDeathPause.Stop;
         _playerReincarnation.OnRevived -= HideGameOverView;
 
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;

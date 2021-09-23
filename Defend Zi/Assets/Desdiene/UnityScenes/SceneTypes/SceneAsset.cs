@@ -1,10 +1,9 @@
 ﻿using System;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.Processes;
+using Desdiene.Types.ProcessContainers;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Loadings;
-using Desdiene.UnityScenes.Loadings.Components;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,12 +36,12 @@ namespace Desdiene.SceneTypes
         /// </summary>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling LoadAsSingle(Action<IProcessesMutator> beforeEnabling)
+        public ILoadingAndEnabling LoadAsSingle(Action<ILinearProcessesMutator> beforeEnabling)
         {
             return Load(LoadSceneMode.Single, beforeEnabling);
         }
 
-        public ILoadingAndEnabling LoadAsAdditive(Action<IProcessesMutator> beforeEnabling)
+        public ILoadingAndEnabling LoadAsAdditive(Action<ILinearProcessesMutator> beforeEnabling)
         {
             return Load(LoadSceneMode.Additive, beforeEnabling);
         }
@@ -53,7 +52,7 @@ namespace Desdiene.SceneTypes
         /// <param name="loadSceneMode">Режим загрузки сцены.</param>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<IProcessesMutator> beforeEnabling)
+        public ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
             LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName, beforeEnabling);

@@ -6,7 +6,7 @@ using Desdiene.SceneLoaders.Single.States.Base;
 using Desdiene.SceneTypes;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
-using Desdiene.Types.Processes;
+using Desdiene.Types.ProcessContainers;
 using UnityEngine.SceneManagement;
 
 namespace Desdiene.SceneLoaders.Single
@@ -30,14 +30,14 @@ namespace Desdiene.SceneLoaders.Single
             stateSwitcher.Switch<SceneLoadedAndEnabled>();
         }
 
-        public event Action<IProcessesMutator> BeforeUnloading;
+        public event Action<ILinearProcessesMutator> BeforeUnloading;
         public event Action AfterEnabling;
 
         private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
 
         public void Load(SceneAsset scene) => Load(scene, BeforeUnloading, AfterEnabling);
 
-        private void Load(SceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
+        private void Load(SceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             if (scene == null) throw new ArgumentNullException(nameof(scene));
 
@@ -49,7 +49,7 @@ namespace Desdiene.SceneLoaders.Single
             Reload(BeforeUnloading, AfterEnabling);
         }
 
-        private void Reload(Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
+        private void Reload(Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             SceneAsset _sceneToLoad = new SceneAsset(this, SceneManager.GetActiveScene().name);
             Load(_sceneToLoad, beforeUnloading, afterEnabling);

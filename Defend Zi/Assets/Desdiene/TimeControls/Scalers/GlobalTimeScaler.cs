@@ -2,6 +2,7 @@
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControls.Adapters;
 using Desdiene.TimeControls.Scales;
+using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Zenject;
 
@@ -11,29 +12,29 @@ namespace Desdiene.TimeControls.Scalers
     /// Взаимодействовать с UnityEngine.Time можно только внутри ЖЦ monoBehaviour
     /// Need to be a global singleton!
     /// </summary>
-    public sealed class GlobalTimeScaler : MonoBehaviourExt, ITimeScaler, IProcesses
+    public sealed class GlobalTimeScaler : MonoBehaviourExt, ITimeScaler, ICyclicalProcesses
     {
         private IManualTimeController _timeScaler;
-        private IProcesses _processes;
+        private ICyclicalProcesses _processes;
 
         [Inject]
         private void Constructor(GlobalTimeScaleAdapter globalTimeScaleAdapter)
         {
             _timeScaler = new TimeScaler(globalTimeScaleAdapter);
-            _processes = new ParallelProcesses("Остановка глобального времени");
+            _processes = new CyclicalParallelProcesses("Остановка глобального времени");
             _processes.OnChanged += UpdateTimeScaler;
         }
 
-        event Action IProcessNotifier.OnStarted
+        event Action ICyclicalProcessNotifier.OnStarted
         {
             add => _processes.OnStarted += value;
             remove => _processes.OnStarted -= value;
         }
 
-        event Action IProcessNotifier.OnCompleted
+        event Action ICyclicalProcessNotifier.OnStopped
         {
-            add => _processes.OnCompleted += value;
-            remove => _processes.OnCompleted -= value;
+            add => _processes.OnStopped += value;
+            remove => _processes.OnStopped -= value;
         }
 
         event Action<IProcessAccessor> IProcessNotifier.OnChanged
@@ -48,13 +49,13 @@ namespace Desdiene.TimeControls.Scalers
 
         bool IProcessAccessor.KeepWaiting => _processes.KeepWaiting;
 
-        void IProcessesMutator.Add(IProcessAccessorNotifier[] processes) => _processes.Add(processes);
+        void ICyclicalProcessesMutator.Add(IProcessAccessorNotifier[] processes) => _processes.Add(processes);
         
-        void IProcessesMutator.Add(IProcessAccessorNotifier process) => _processes.Add(process);
+        void ICyclicalProcessesMutator.Add(IProcessAccessorNotifier process) => _processes.Add(process);
 
-        void IProcessesMutator.Remove(IProcessAccessorNotifier process) => _processes.Remove(process);
+        void ICyclicalProcessesMutator.Remove(IProcessAccessorNotifier process) => _processes.Remove(process);
 
-        void IProcesses.Clear() => _processes.Clear();
+        void ICyclicalProcesses.Clear() => _processes.Clear();
 
         private void UpdateTimeScaler(IProcessAccessor process)
         {
