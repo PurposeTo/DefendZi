@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class ReviveOfferView : MonoBehaviourExt
 {
-    [SerializeField, NotNull] private GameObject _gameOverScreen;
+    [SerializeField, NotNull] private GameObject _screen;
     [SerializeField, NotNull] private TextView _scoreText;
 
     public void Show(int score)
     {
-        _gameOverScreen.SetActive(true);
+        _screen.SetActive(true);
         SetScore(score);
     }
 
     public void Hide()
     {
-        _gameOverScreen.SetActive(false);
+        _screen.SetActive(false);
     }
 
     private void SetScore(int score)

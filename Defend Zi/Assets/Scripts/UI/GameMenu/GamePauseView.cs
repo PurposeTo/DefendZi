@@ -1,10 +1,19 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePauseView : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GameObject _pauseScreen;
+    [SerializeField, NotNull] private Button _resumeButton;
+    [SerializeField, NotNull] private Button _mainMenuButton;
+
+    protected override void AwakeExt()
+    {
+        _resumeButton.onClick.AddListener(() => OnResumeClicked?.Invoke());
+        _mainMenuButton.onClick.AddListener(() => OnMainMenuClicked?.Invoke());
+    }
 
     public event Action OnResumeClicked;
     public event Action OnMainMenuClicked;
@@ -18,10 +27,4 @@ public class GamePauseView : MonoBehaviourExt
     {
         _pauseScreen.SetActive(false);
     }
-
-    // вызывается при нажатии на кнопку движком юнити
-    public void InvokeOnResumeClicked() => OnResumeClicked?.Invoke();
-
-    // вызывается при нажатии на кнопку движком юнити
-    public void InvokeOnMainMenuClicked() => OnMainMenuClicked?.Invoke();
 }

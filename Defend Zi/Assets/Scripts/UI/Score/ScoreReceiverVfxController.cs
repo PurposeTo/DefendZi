@@ -6,7 +6,7 @@ using UnityEngine;
 public class ScoreReceiverVfxController : MonoBehaviourExt
 {
     [SerializeField, NotNull] private ScoreReceiver _scoreReceiver;
-    [SerializeField, NotNull] private PopUpScore _creatingPopUpScore;
+    [SerializeField, NotNull] private PopUpScore _popUpScorePrefab;
 
     protected override void AwakeExt()
     {
@@ -20,7 +20,7 @@ public class ScoreReceiverVfxController : MonoBehaviourExt
 
     private void CreatePopUp(int score)
     {
-        PopUpScore popUpScore = Instantiate(_creatingPopUpScore, transform);
+        PopUpScore popUpScore = Instantiate(_popUpScorePrefab, transform);
         popUpScore.SetText($"+{score}");
     }
 

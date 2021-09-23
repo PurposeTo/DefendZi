@@ -8,29 +8,33 @@ using Desdiene.TimeControls.Scalers;
 using UnityEngine;
 using Zenject;
 
-public class GameMenu : MonoBehaviourExt
+public class GameOverUI : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GameOverView _gameOverView;
-    [SerializeField, NotNull] private GameView _gameView;
-    [SerializeField, NotNull] private GamePauseView _gamePauseView;
-    private GlobalTimePause _gamePause;
-    private GlobalTimePause _playerDeathPause;
+    [SerializeField, NotNull] private CollectRewardsOfferView _collectRewardsOfferView;
+    [SerializeField, NotNull] private ReviveOfferView _reviveOfferView;
+
     private SceneLoader _sceneLoader;
     private SceneAsset _gameScene;
-    private SceneAsset _mainMenuScene;
-    private GameDataSaver _gameDataSaver;
+
+    private IScoreAccessor _playerScore;
     private IStorage<IGameData> _storage;
-    private IRewardedAd _rewardedAd;
+
+    private GameDataSaver _gameDataSaver;
+
     private IDeath _playerDeath;
     private IReincarnation _playerReincarnation;
-    private IScoreAccessor _playerScore;
+
+    private GlobalTimePause _playerDeathPause;
+
+    private IRewardedAd _rewardedAd;
 
     [Inject]
     private void Constructor(GlobalTimeScaler globalTimeScaler,
-                             IStorage<IGameData> storage,
-                             SceneLoader sceneLoader,
-                             GameDataSaver gameDataSaver,
-                             ComponentsProxy componentsProxy)
+                         IStorage<IGameData> storage,
+                         SceneLoader sceneLoader,
+                         GameDataSaver gameDataSaver,
+                         ComponentsProxy componentsProxy)
     {
         IRewardedAd rewardedAd = new SuccessRewardedAd(); // todo убрать заглушку
 
@@ -40,12 +44,10 @@ public class GameMenu : MonoBehaviourExt
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
         _gameDataSaver = gameDataSaver ?? throw new ArgumentNullException(nameof(gameDataSaver));
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-        _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
         _playerDeathPause = new GlobalTimePause(this, globalTimeScaler, "Смерть игрока");
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
 
         _gameScene = new SceneTypes.Game(this);
-        _mainMenuScene = new SceneTypes.MainMenu(this);
 
         _playerDeath = componentsProxy.PlayerDeath;
         _playerReincarnation = componentsProxy.PlayerReincarnation;
@@ -54,8 +56,8 @@ public class GameMenu : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        SetDefaultState();
         SubscribeEvents();
+        SetDefaultState();
     }
 
     protected override void OnDestroyExt()
@@ -64,69 +66,68 @@ public class GameMenu : MonoBehaviourExt
     }
 
     private IGameData GameData => _storage.GetData();
+    private int PlayerScore => _playerScore.Value;
+    private int PlayerBestScore => GameData.BestScore;
 
     private void SubscribeEvents()
     {
         _playerDeath.OnDied += _playerDeathPause.Start;
-        _playerDeath.OnDied += ShowGameOverView;
+        _playerDeath.OnDied += ShowGameOverViewAndCollectRewards;
         _playerReincarnation.OnRevived += _playerDeathPause.Complete;
+        _playerReincarnation.OnRevived += HideGameOverView;
 
-        _gameView.OnPauseClicked += ShowGamePauseView;
-        _gamePauseView.OnResumeClicked += HideGamePauseView;
-        _gamePauseView.OnMainMenuClicked += LoadMainMenu;
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
     }
 
     private void UnsubscribeEvents()
     {
         _playerDeath.OnDied -= _playerDeathPause.Start;
-        _playerDeath.OnDied -= ShowGameOverView;
+        _playerDeath.OnDied -= ShowGameOverViewAndCollectRewards;
         _playerReincarnation.OnRevived -= _playerDeathPause.Complete;
+        _playerReincarnation.OnRevived -= HideGameOverView;
 
-        _gameView.OnPauseClicked -= ShowGamePauseView;
-        _gamePauseView.OnResumeClicked -= HideGamePauseView;
-        _gamePauseView.OnMainMenuClicked -= LoadMainMenu;
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;
     }
 
-    private void ShowGameView() => _gameView.Show();
-
-    private void HideGameView() => _gameView.Hide();
-
-    private void ShowGamePauseView()
+    private void ShowGameOverViewAndCollectRewards()
     {
-        _gamePause.Start();
-        _gamePauseView.Show();
-    }
-
-    private void HideGamePauseView()
-    {
-        _gamePauseView.Hide();
-        _gamePause.Complete();
-    }
-
-    private void RevivePlayer() => _playerReincarnation.Revive();
-
-    private void CollectRewards() => _gameDataSaver.SaveGameData();
-
-    private void ShowGameOverView()
-    {
-        _gameOverView.Show(_playerScore.Value, GameData.BestScore);
-        CollectRewards(); // данный метод должен вызываться здесь?
+        _gameOverView.Show(PlayerScore, PlayerBestScore);
+        CollectRewards();
     }
 
     private void HideGameOverView() => _gameOverView.Hide();
 
-    private void ShowAd() => _rewardedAd.Show();
 
-    private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);
+    private void ShowCollectRewardsOfferView()
+    {
+        _collectRewardsOfferView.Show(PlayerScore);
+    }
+
+    private void HideCollectRewardsOfferView()
+    {
+        _collectRewardsOfferView.Hide();
+    }
+
+    private void ShowReviveOfferView()
+    {
+        _reviveOfferView.Show(PlayerScore);
+    }
+
+    private void HideReviveOfferView()
+    {
+        _reviveOfferView.Hide();
+    }
 
     private void LoadGameScene() => _sceneLoader.Load(_gameScene);
 
+    private void CollectRewards() => _gameDataSaver.SaveGameData();
+
+    private void ShowAd() => _rewardedAd.Show();
+
     private void SetDefaultState()
     {
-        ShowGameView();
         HideGameOverView();
-        HideGamePauseView();
+        HideCollectRewardsOfferView();
+        HideReviveOfferView();
     }
 }
