@@ -1,39 +1,30 @@
 ﻿using System;
+using Desdiene.UI.Elements;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerDeathView
+public class PlayerDeathView : FullScreenWindow
 {
-    [SerializeField, NotNull] private GameObject _playerDeathScreen;
     [SerializeField, NotNull] private TextView _scoreText;
+    [SerializeField, NotNull] private Button _collectRewardsButton;
+    [SerializeField, NotNull] private Button _revivePlayerButton;
 
     public event Action OnCollectRewardsClicked;
     public event Action OnRevivePlayerClicked;
 
-    public void Show(int score)
+    protected override void AwakeWindow()
     {
-        _playerDeathScreen.SetActive(true);
-        SetScore(score);
+        _collectRewardsButton.onClick.AddListener(() => OnCollectRewardsClicked?.Invoke());
+        _revivePlayerButton.onClick.AddListener(() => OnRevivePlayerClicked?.Invoke());
     }
 
-    public void Hide()
+    public void Init(int score)
     {
-        _playerDeathScreen.SetActive(false);
+        SetScore(score);
     }
 
     private void SetScore(int score)
     {
         _scoreText.SetText($"Score: {score}");
-    }
-
-    // вызывается при нажатии на кнопку движком unity
-    public void CollectRewardsButton()
-    {
-        OnCollectRewardsClicked?.Invoke();
-    }
-
-    // вызывается при нажатии на кнопку движком unity
-    public void RevivePlayerButton()
-    {
-        OnRevivePlayerClicked?.Invoke();
     }
 }

@@ -1,20 +1,13 @@
-﻿using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.UI.Elements;
 using UnityEngine;
 
-public class CollectRewardsOfferView : MonoBehaviourExt
+public class CollectRewardsOfferView : FullScreenWindow
 {
-    [SerializeField, NotNull] private GameObject _screen;
     [SerializeField, NotNull] private TextView _scoreText;
 
-    public void Show(int score)
+    public void Init(int score)
     {
-        _screen.SetActive(true);
         SetScore(score);
-    }
-
-    public void Hide()
-    {
-        _screen.SetActive(false);
     }
 
     private void SetScore(int score)

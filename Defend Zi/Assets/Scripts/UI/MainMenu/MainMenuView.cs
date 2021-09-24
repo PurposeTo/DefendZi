@@ -1,14 +1,13 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtension;
+using Desdiene.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuView : MonoBehaviourExt
+public class MainMenuView : FullScreenWindow
 {
-    [SerializeField, NotNull] private GameObject _mainMenuScreen;
     [SerializeField, NotNull] private Button _playButton;
 
-    protected override void AwakeExt()
+    protected override void AwakeWindow()
     {
         _playButton.onClick.AddListener(() => OnGameClicked?.Invoke());
     }

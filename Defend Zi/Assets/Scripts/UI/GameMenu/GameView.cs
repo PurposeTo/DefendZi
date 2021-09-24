@@ -1,27 +1,17 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtension;
+using Desdiene.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameView : MonoBehaviourExt
+public class GameView : FullScreenWindow
 {
-    [SerializeField, NotNull] private GameObject _gameScreen;
     [SerializeField, NotNull] private Button _pauseButton;
 
-    protected override void AwakeExt()
+    protected override void AwakeWindow()
     {
         _pauseButton.onClick.AddListener(() => OnPauseClicked?.Invoke());
     }
 
     public event Action OnPauseClicked;
 
-    public void Show()
-    {
-        _gameScreen.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        _gameScreen.SetActive(false);
-    }
 }

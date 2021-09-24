@@ -1,32 +1,25 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtension;
+using Desdiene.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverView : MonoBehaviourExt
+public class GameOverView : FullScreenWindow
 {
-    [SerializeField, NotNull] private GameObject _screen;
     [SerializeField, NotNull] private TextView _bestScoreText;
     [SerializeField, NotNull] private TextView _scoreText;
     [SerializeField, NotNull] private Button _reloadLvlButton;
 
-    protected override void AwakeExt()
+    protected override void AwakeWindow()
     {
         _reloadLvlButton.onClick.AddListener(() => OnReloadLvlClicked?.Invoke());
     }
 
     public event Action OnReloadLvlClicked;
 
-    public void Show(int score, int bestScore)
+    public void Init(int score, int bestScore)
     {
-        _screen.SetActive(true);
         SetScore(score);
         SetBestScore(bestScore);
-    }
-
-    public void Hide()
-    {
-        _screen.SetActive(false);
     }
 
     private void SetBestScore(int bestScore)

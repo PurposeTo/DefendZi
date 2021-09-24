@@ -57,7 +57,6 @@ public class GameOverUI : MonoBehaviourExt
     protected override void AwakeExt()
     {
         SubscribeEvents();
-        SetDefaultState();
     }
 
     protected override void OnDestroyExt()
@@ -92,7 +91,8 @@ public class GameOverUI : MonoBehaviourExt
     private void ShowGameOverViewAndCollectRewards()
     {
         CollectRewards();
-        _gameOverView.Show(PlayerScore, PlayerBestScore);
+        _gameOverView.Init(PlayerScore, PlayerBestScore);
+        _gameOverView.Show();
     }
 
     private void HideGameOverView() => _gameOverView.Hide();
@@ -100,7 +100,8 @@ public class GameOverUI : MonoBehaviourExt
 
     private void ShowCollectRewardsOfferView()
     {
-        _collectRewardsOfferView.Show(PlayerScore);
+        _collectRewardsOfferView.Init(PlayerScore);
+        _collectRewardsOfferView.Show();
     }
 
     private void HideCollectRewardsOfferView()
@@ -110,7 +111,8 @@ public class GameOverUI : MonoBehaviourExt
 
     private void ShowReviveOfferView()
     {
-        _reviveOfferView.Show(PlayerScore);
+        _reviveOfferView.Init(PlayerScore);
+        _reviveOfferView.Show();
     }
 
     private void HideReviveOfferView()
@@ -123,11 +125,4 @@ public class GameOverUI : MonoBehaviourExt
     private void CollectRewards() => _gameDataSaver.CollectAndSaveGameData();
 
     private void ShowAd() => _rewardedAd.Show();
-
-    private void SetDefaultState()
-    {
-        HideGameOverView();
-        HideCollectRewardsOfferView();
-        HideReviveOfferView();
-    }
 }
