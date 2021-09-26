@@ -40,13 +40,13 @@ namespace Desdiene.Types.Processes
 
         private event Action<IProcessAccessor> OnChanged;
 
-        event Action ILinearProcessNotifier.OnStarted
+        event Action ILinearProcessNotifier.WhenStarted
         {
             add => CurrentState.OnStarted += value;
             remove => CurrentState.OnStarted -= value;
         }
 
-        event Action ILinearProcessNotifier.OnCompleted
+        event Action ILinearProcessNotifier.WhenCompleted
         {
             add => CurrentState.OnCompleted += value;
             remove => CurrentState.OnCompleted -= value;

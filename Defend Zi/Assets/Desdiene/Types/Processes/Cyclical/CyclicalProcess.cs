@@ -38,13 +38,13 @@ namespace Desdiene.Types.Processes
 
         private event Action<IProcessAccessor> OnChanged;
 
-        event Action ICyclicalProcessNotifier.OnStarted
+        event Action ICyclicalProcessNotifier.WhenStarted
         {
             add => CurrentState.OnStarted += value;
             remove => CurrentState.OnStarted -= value;
         }
 
-        event Action ICyclicalProcessNotifier.OnStopped
+        event Action ICyclicalProcessNotifier.WhenStopped
         {
             add => CurrentState.OnStopped += value;
             remove => CurrentState.OnStopped -= value;

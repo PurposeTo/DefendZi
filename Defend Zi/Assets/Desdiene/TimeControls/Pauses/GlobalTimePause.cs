@@ -25,16 +25,16 @@ namespace Desdiene.TimeControls.Pauses
             mono.OnDestroyed += _timePause.Destroy;
         }
 
-        public event Action OnStarted
+        public event Action WhenStarted
         {
-            add => _timePause.OnStarted += value;
-            remove => _timePause.OnStarted -= value;
+            add => _timePause.WhenStarted += value;
+            remove => _timePause.WhenStarted -= value;
         }
 
-        public event Action OnStopped
+        public event Action WhenStopped
         {
-            add => _timePause.OnStopped += value;
-            remove => _timePause.OnStopped -= value;
+            add => _timePause.WhenStopped += value;
+            remove => _timePause.WhenStopped -= value;
         }
 
         public event Action<IProcessAccessor> OnChanged

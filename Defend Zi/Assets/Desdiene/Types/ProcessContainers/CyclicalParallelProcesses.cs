@@ -27,16 +27,16 @@ namespace Desdiene.Types.ProcessContainers
             processes.ForEach(process => Add(process));
         }
 
-        event Action ICyclicalProcessNotifier.OnStarted
+        event Action ICyclicalProcessNotifier.WhenStarted
         {
-            add => _process.OnStarted += value;
-            remove => _process.OnStarted -= value;
+            add => _process.WhenStarted += value;
+            remove => _process.WhenStarted -= value;
         }
 
-        event Action ICyclicalProcessNotifier.OnStopped
+        event Action ICyclicalProcessNotifier.WhenStopped
         {
-            add => _process.OnStopped += value;
-            remove => _process.OnStopped -= value;
+            add => _process.WhenStopped += value;
+            remove => _process.WhenStopped -= value;
         }
 
         event Action<IProcessAccessor> IProcessNotifier.OnChanged

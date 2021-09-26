@@ -22,16 +22,16 @@ namespace Desdiene.TimeControls.Pauses
             _timePauses.Add(this);
         }
 
-        public event Action OnStarted
+        public event Action WhenStarted
         {
-            add => _itSelf.OnStarted += value;
-            remove => _itSelf.OnStarted -= value;
+            add => _itSelf.WhenStarted += value;
+            remove => _itSelf.WhenStarted -= value;
         }
 
-        public event Action OnStopped
+        public event Action WhenStopped
         {
-            add => _itSelf.OnStopped += value;
-            remove => _itSelf.OnStopped -= value;
+            add => _itSelf.WhenStopped += value;
+            remove => _itSelf.WhenStopped -= value;
         }
 
         public event Action<IProcessAccessor> OnChanged

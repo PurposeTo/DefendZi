@@ -25,16 +25,16 @@ namespace Desdiene.TimeControls.Scalers
             _processes.OnChanged += UpdateTimeScaler;
         }
 
-        event Action ICyclicalProcessNotifier.OnStarted
+        event Action ICyclicalProcessNotifier.WhenStarted
         {
-            add => _processes.OnStarted += value;
-            remove => _processes.OnStarted -= value;
+            add => _processes.WhenStarted += value;
+            remove => _processes.WhenStarted -= value;
         }
 
-        event Action ICyclicalProcessNotifier.OnStopped
+        event Action ICyclicalProcessNotifier.WhenStopped
         {
-            add => _processes.OnStopped += value;
-            remove => _processes.OnStopped -= value;
+            add => _processes.WhenStopped += value;
+            remove => _processes.WhenStopped -= value;
         }
 
         event Action<IProcessAccessor> IProcessNotifier.OnChanged

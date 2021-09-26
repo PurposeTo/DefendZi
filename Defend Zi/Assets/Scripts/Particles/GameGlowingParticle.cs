@@ -29,14 +29,14 @@ public class GameGlowingParticle : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _globalPause.OnStarted += StopGlowingMotion;
-        _globalPause.OnStopped += StartGlowingMotion;
+        _globalPause.WhenStarted += StopGlowingMotion;
+        _globalPause.WhenStopped += StartGlowingMotion;
     }
 
     private void UnsubscribeEvents()
     {
-        _globalPause.OnStarted -= StopGlowingMotion;
-        _globalPause.OnStopped -= StartGlowingMotion;
+        _globalPause.WhenStarted -= StopGlowingMotion;
+        _globalPause.WhenStopped -= StartGlowingMotion;
     }
 
     private void StartGlowingMotion()
