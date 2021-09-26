@@ -4,7 +4,7 @@ namespace Desdiene.Types.AtomicReferences
 {
     public interface IRefNotifier
     {
-        event Action OnValueChanged;
+        event Action OnChanged;
     }
 
     public interface IRefNotifier<T>

@@ -22,7 +22,7 @@ public class GameOverUI : MonoBehaviourExt
 
     private GameDataSaver _gameDataSaver;
 
-    private IDeath _playerDeath;
+    private IHealthNotification _playerDeath;
     private IReincarnation _playerReincarnation;
 
     private GlobalTimePause _playerDeathPause;
@@ -70,20 +70,20 @@ public class GameOverUI : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _playerDeath.OnDied += _playerDeathPause.Start;
-        _playerDeath.OnDied += ShowGameOverViewAndCollectRewards;
-        _playerReincarnation.OnRevived += _playerDeathPause.Stop;
-        _playerReincarnation.OnRevived += HideGameOverView;
+        _playerDeath.OnDeath += _playerDeathPause.Start;
+        _playerDeath.OnDeath += ShowGameOverViewAndCollectRewards;
+        _playerReincarnation.OnReviving += _playerDeathPause.Stop;
+        _playerReincarnation.OnReviving += HideGameOverView;
 
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
     }
 
     private void UnsubscribeEvents()
     {
-        _playerDeath.OnDied -= _playerDeathPause.Start;
-        _playerDeath.OnDied -= ShowGameOverViewAndCollectRewards;
-        _playerReincarnation.OnRevived -= _playerDeathPause.Stop;
-        _playerReincarnation.OnRevived -= HideGameOverView;
+        _playerDeath.OnDeath -= _playerDeathPause.Start;
+        _playerDeath.OnDeath -= ShowGameOverViewAndCollectRewards;
+        _playerReincarnation.OnReviving -= _playerDeathPause.Stop;
+        _playerReincarnation.OnReviving -= HideGameOverView;
 
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;
     }

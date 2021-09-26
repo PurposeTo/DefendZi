@@ -11,11 +11,9 @@ namespace Desdiene.Types.AtomicReferences.RuntimeInit
     /// <typeparam name="T">Тип поля в данном классе.</typeparam>
     public class RefRuntimeInit<T> : IRefMutator<T>
     {
-        private readonly Ref<State<T>> initStateRef = new Ref<State<T>>();
-        private State<T> InitState => initStateRef.Get();
-
-        private readonly Ref<T> valueRef = new Ref<T>();
-
+        private readonly IRef<State<T>> initStateRef = new Ref<State<T>>();
+        private readonly IRef<T> valueRef = new Ref<T>();
+        
         public RefRuntimeInit()
         {
             initStateRef.Set(new NotInited<T>(initStateRef,
@@ -25,9 +23,11 @@ namespace Desdiene.Types.AtomicReferences.RuntimeInit
 
         public event Action OnValueChanged
         {
-            add => valueRef.OnValueChanged += value;
-            remove => valueRef.OnValueChanged -= value;
+            add => valueRef.OnChanged += value;
+            remove => valueRef.OnChanged -= value;
         }
+
+        private State<T> InitState => initStateRef.Value;
 
         /// <summary>
         /// Если поле не было проинициализированно, сделать это. 

@@ -53,7 +53,7 @@ namespace Desdiene.Coroutines
         }
 
         public bool IsExecuting => CurrentState.IsExecuting;
-        private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
         /// <summary>
         /// Запустить выполнение корутины, если она не была запущена.

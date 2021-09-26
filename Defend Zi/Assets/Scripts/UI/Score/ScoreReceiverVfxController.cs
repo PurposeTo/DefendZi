@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using Desdiene.Coroutines;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 public class ScoreReceiverVfxController : MonoBehaviourExt
 {
-    [SerializeField, NotNull] private ScoreReceiver _scoreReceiver;
+    [SerializeField, NotNull] private InterfaceComponent<IScoreNotification> _scoreNotification;
     [SerializeField, NotNull] private PopUpScore _popUpScorePrefab;
 
     protected override void AwakeExt()
@@ -18,6 +16,8 @@ public class ScoreReceiverVfxController : MonoBehaviourExt
         UnsubcribeEvents();
     }
 
+    private IScoreNotification ScoreNotification => _scoreNotification.Implementation;
+
     private void CreatePopUp(int score)
     {
         PopUpScore popUpScore = Instantiate(_popUpScorePrefab, transform);
@@ -26,11 +26,11 @@ public class ScoreReceiverVfxController : MonoBehaviourExt
 
     private void SubcribeEvents()
     {
-        _scoreReceiver.OnReceived += CreatePopUp;
+        ScoreNotification.OnReceived += CreatePopUp;
     }
 
     private void UnsubcribeEvents()
     {
-        _scoreReceiver.OnReceived -= CreatePopUp;
+        ScoreNotification.OnReceived -= CreatePopUp;
     }
 }

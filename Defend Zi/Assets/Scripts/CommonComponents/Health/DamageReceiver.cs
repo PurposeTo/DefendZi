@@ -4,19 +4,15 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class DamageReceiver : MonoBehaviourExt
 {
-    private IDamageTaker _damageTaker;
+    [SerializeField, NotNull] private InterfaceComponent<IDamageTaker> _damageTaker;
 
-    protected override void AwakeExt()
-    {
-        //todo: верное ли использование?
-        _damageTaker = GetInitedComponentOnlyInParent<IDamageTaker>();
-    }
+    private IDamageTaker DamageTaker => _damageTaker.Implementation;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageDealer damageDealer))
+        if (collision.TryGetComponent(out IDamage damageDealer))
         {
-            _damageTaker.TakeDamage(damageDealer.Value);
+            DamageTaker.TakeDamage(damageDealer);
             Debug.Log($"Receive by {gameObject.name} {damageDealer.Value} damage.");
         }
     }

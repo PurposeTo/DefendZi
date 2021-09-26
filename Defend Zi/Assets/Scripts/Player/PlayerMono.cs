@@ -1,6 +1,5 @@
 using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.Percentale;
 using UnityEngine;
 using Zenject;
 
@@ -42,11 +41,11 @@ public class PlayerMono :
 
     Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 
-    IPercentable<int> IHealthAccessor.Value => _health.Value;
-
     int IScoreAccessor.Value => _score.Value;
 
-    bool IDeath.IsDeath => _health.IsDeath;
+    int IHealthAccessor.Value => _health.Value;
+
+    float IHealthAccessor.Percent => _health.Percent;
 
     event Action<int> IScoreNotification.OnReceived
     {
@@ -54,16 +53,34 @@ public class PlayerMono :
         remove => _score.OnReceived -= value;
     }
 
-    event Action IDeath.OnDied
+    event Action IHealthNotification.WhenAlive
     {
-        add => _health.OnDied += value;
-        remove => _health.OnDied -= value;
+        add => _health.WhenAlive += value;
+        remove => _health.WhenAlive -= value;
     }
 
-    event Action IReincarnation.OnRevived
+    event Action IHealthNotification.OnDamaged
     {
-        add => _health.OnRevived += value;
-        remove => _health.OnRevived -= value;
+        add => _health.OnDamaged += value;
+        remove => _health.OnDamaged -= value;
+    }
+
+    event Action IHealthNotification.OnDeath
+    {
+        add => _health.OnDeath += value;
+        remove => _health.OnDeath -= value;
+    }
+
+    event Action IHealthNotification.WhenDead
+    {
+        add => _health.WhenDead += value;
+        remove => _health.WhenDead -= value;
+    }
+
+    event Action IReincarnation.OnReviving
+    {
+        add => _health.OnReviving += value;
+        remove => _health.OnReviving -= value;
     }
 
     event Action IPositionNotification.OnChanged
@@ -73,7 +90,7 @@ public class PlayerMono :
     }
 
     void IReincarnation.Revive() => _health.Revive();
-    void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);
+    void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);
 
     void IScoreCollector.Add(int amount) => _score.Add(amount);
 }

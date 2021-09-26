@@ -1,6 +1,9 @@
-﻿namespace Desdiene.Types.Percentale
+﻿using Desdiene.Types.AtomicReferences;
+using Desdiene.Types.Percents;
+
+namespace Desdiene.Types.Percentale
 {
-    public interface IPercentable<T> : IPercentableAccessor<T>, IPercentableMutator<T>, IPercentableNotifier
+    public interface IPercentable<T> : IRef<T>, IPercent, IPercentableAccessor<T>, IPercentableMutator<T>, IPercentableNotifier
     {
 
     }

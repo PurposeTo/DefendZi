@@ -6,12 +6,12 @@ using Desdiene.Types.AtomicReferences;
 /// </summary>
 public class UserInputData : IUserInput
 {
-    public bool IsActive => isActiveRef.Get();
+    public bool IsActive => isActiveRef.Value;
 
     public event Action<IUserInput> OnInputChange
     {
-        add => isActiveRef.OnValueChanged += () => value(this);
-        remove => isActiveRef.OnValueChanged -= () => value(this);
+        add => isActiveRef.OnChanged += () => value(this);
+        remove => isActiveRef.OnChanged -= () => value(this);
     }
 
     private readonly IRef<bool> isActiveRef = new Ref<bool>();

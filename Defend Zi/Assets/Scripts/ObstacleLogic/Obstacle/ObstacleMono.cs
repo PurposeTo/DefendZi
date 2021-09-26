@@ -6,7 +6,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class ObstacleMono :
     MonoBehaviourExt,
-    IDamageDealer,
+    IDamage,
     IScoreAccessor,
     IPosition,
     IRotation
@@ -14,7 +14,7 @@ public class ObstacleMono :
     [SerializeField] private int _scoreByAvoding = 5;
 
     private IScoreAccessor _scoreAccessor;
-    private IDamageDealer _damageDealer;
+    private IDamage _damageDealer;
     private IPosition _position;
     private IRotation _rotation;
 
@@ -28,7 +28,7 @@ public class ObstacleMono :
         _rotation = obstacle;
     }
 
-    uint IDamageDealer.Value => _damageDealer.Value;
+    uint IDamage.Value => _damageDealer.Value;
 
     int IScoreAccessor.Value => _scoreAccessor.Value;
 

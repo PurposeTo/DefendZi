@@ -63,7 +63,7 @@ namespace Desdiene.Types.Processes
 
         void ICyclicalProcessMutator.Stop() => CurrentState.Stop();
 
-        private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
         private void SubscribeEvents()
         {

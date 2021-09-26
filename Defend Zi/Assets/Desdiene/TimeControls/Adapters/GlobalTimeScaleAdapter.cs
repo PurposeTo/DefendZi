@@ -14,7 +14,7 @@ namespace Desdiene.TimeControls.Adapters
     {
         private event Action OnChanged;
 
-        event Action IPercentNotifier.OnValueChanged
+        event Action IPercentNotifier.OnChanged
         {
             add => OnChanged += value;
             remove => OnChanged -= value;
@@ -33,6 +33,10 @@ namespace Desdiene.TimeControls.Adapters
             SetTimeRefScale(percent);
             return TimeScale;
         }
+
+        void IPercentMutator.SetMin() => SetTimeRefScale(0f);
+
+        void IPercentMutator.SetMax() => SetTimeRefScale(1f);
 
         private float TimeScale => Time.timeScale;
 

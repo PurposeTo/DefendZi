@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Desdiene.StateMachines.States;
 using Desdiene.Types.AtomicReferences;
 
-namespace Desdiene.StateMachines.StateSwitchers.Base
+namespace Desdiene.StateMachines.StateSwitchers
 {
-    public abstract class StateSwitcherBase<AbstractStateT> where AbstractStateT : class
+    public class StateSwitcherWithContext<AbstractStateT, StateContextT> :
+        IStateSwitcher<AbstractStateT, StateContextT>
+        where AbstractStateT : class, IStateEntryExitPoint<StateContextT>
     {
+        private readonly StateContextT _it;
         private readonly List<AbstractStateT> _allStates;
         private readonly IRef<AbstractStateT> _refCurrentState;
 
-        public StateSwitcherBase(IRef<AbstractStateT> refCurrentState) : this(new List<AbstractStateT>(), refCurrentState) { }
+        public StateSwitcherWithContext(StateContextT it, IRef<AbstractStateT> refCurrentState)
+            : this(it, new List<AbstractStateT>(), refCurrentState)
+        { }
 
-        public StateSwitcherBase(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
+        public StateSwitcherWithContext(StateContextT it, List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
         {
+            _it = it ?? throw new ArgumentNullException(nameof(it));
             _allStates = allStates ?? throw new ArgumentNullException(nameof(allStates));
             _refCurrentState = refCurrentState ?? throw new ArgumentNullException(nameof(refCurrentState));
         }
@@ -22,12 +29,12 @@ namespace Desdiene.StateMachines.StateSwitchers.Base
         /// Был ли первоначальное включение состояния?
         /// Не реализован паттерн состояния, т.к. контексты бы пересекались и код был бы нечитабельным.
         /// </summary>
-        protected bool IsCurrentStateNotNull => _refCurrentState.Get() != null;
+        protected bool IsCurrentStateNotNull => _refCurrentState.Value != null;
         protected AbstractStateT CurrentState
         {
             get
             {
-                return _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
+                return _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
             }
             set
             {
@@ -77,12 +84,12 @@ namespace Desdiene.StateMachines.StateSwitchers.Base
             {
                 throw new InvalidOperationException("You need to add the state to all states, before switching");
             }
-            else
-            {
-               return ExitSwitchEnter(newState);
-            }
-        }
 
-        protected abstract AbstractStateT ExitSwitchEnter(AbstractStateT newState);
+            if (IsCurrentStateNotNull) CurrentState.OnExit(_it);
+
+            CurrentState = newState;
+            CurrentState.OnEnter(_it);
+            return CurrentState;
+        }
     }
 }

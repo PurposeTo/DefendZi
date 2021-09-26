@@ -4,7 +4,7 @@ namespace Desdiene.Types.Percents
 {
     public interface IPercentNotifier
     {
-        event Action OnValueChanged;
+        event Action OnChanged;
     }
 
     public interface IPercentOnChanged<T>

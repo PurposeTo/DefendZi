@@ -1,4 +1,4 @@
-﻿public interface IHealth : IHealthAccessor, IDamageTaker, IDeath
+﻿public interface IHealth : IHealthAccessor, IDamageTaker, IHealthNotification
 {
 
 }

@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 
 public class Obstacle :
-    IDamageDealer,
+    IDamage,
     IScoreAccessor,
     IPosition,
     IRotation
 {
-    private readonly IDamageDealer _damage = new Damage();
+    private readonly IDamage _damage = new Damage();
     private readonly IScoreAccessor _score;
     private readonly IPosition _position;
     private readonly IRotation _rotation;
@@ -19,7 +19,7 @@ public class Obstacle :
         _rotation = new Rotation(rigidbody2D);
     }
 
-    uint IDamageDealer.Value => _damage.Value;
+    uint IDamage.Value => _damage.Value;
 
     int IScoreAccessor.Value => _score.Value;
 

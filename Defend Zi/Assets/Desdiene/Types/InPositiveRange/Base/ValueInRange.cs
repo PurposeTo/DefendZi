@@ -7,7 +7,7 @@ namespace Desdiene.Types.InPositiveRange.Base
     public abstract class ValueInRange<T> : IRef<T> where T : struct, IComparable<T>
     {
         protected readonly IRange<T> range;
-        private readonly Ref<T> valueRef;
+        protected readonly IRef<T> valueRef;
         public ValueInRange(T value, IRange<T> range)
         {
             this.range = range;
@@ -15,26 +15,27 @@ namespace Desdiene.Types.InPositiveRange.Base
             Set(value);
         }
 
-        public event Action OnValueChanged
+        event Action IRefNotifier.OnChanged
         {
-            add => valueRef.OnValueChanged += value;
-            remove => valueRef.OnValueChanged -= value;
+            add => valueRef.OnChanged += value;
+            remove => valueRef.OnChanged -= value;
         }
 
-        public abstract bool IsMin { get; }
-        public abstract bool IsMax { get; }
+        T IRefAccessor<T>.Value => Value;
 
-        public T Value => valueRef.Get();
+        void IRefMutator<T>.Set(T value) => Set(value);
 
-        public T SetAndGet(T value)
+        T IRef<T>.SetAndGet(T value)
         {
             Set(value);
-            return Get();
+            return Value;
         }
 
-        public T Get() => valueRef.Get();
+        protected abstract bool IsMin { get; }
+        protected abstract bool IsMax { get; }
+        protected T Value => valueRef.Value;
 
-        public void Set(T value)
+        protected void Set(T value)
         {
             value = range.Clamp(value);
             valueRef.Set(value);

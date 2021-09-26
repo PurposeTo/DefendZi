@@ -1,3 +1,4 @@
+using System;
 using Desdiene.Types.InPositiveRange;
 using Desdiene.Types.Percentale;
 using Desdiene.Types.Percents;
@@ -10,11 +11,21 @@ namespace Desdiene.Types.Percentables
     {
         public FloatPercentable(float value, FloatRange range) : base(value, range) { }
 
+        event Action IPercentNotifier.OnChanged
+        {
+            add => valueRef.OnChanged += value;
+            remove => valueRef.OnChanged -= value;
+        }
+
         /// <summary>
         /// Получить процентное значение.
         /// </summary>
         /// <returns></returns>
         float IPercentAccessor.Value => Percent;
+
+        bool IPercentAccessor.IsMin => IsMin;
+
+        bool IPercentAccessor.IsMax => IsMax;
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
@@ -29,14 +40,18 @@ namespace Desdiene.Types.Percentables
             return Percent;
         }
 
-        public float Percent => Mathf.InverseLerp(range.Min, range.Max, Get());
+        void IPercentMutator.SetMax() => SetByPercent(1f);
+
+        void IPercentMutator.SetMin() => SetByPercent(0f);
+
+        private float Percent => Mathf.InverseLerp(range.Min, range.Max, Value);
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
         /// Значение округляется до ближайшего целочисленноого.
         /// </summary>
         /// <param name="percent"></param>s
-        public void SetByPercent(float percent)
+        private void SetByPercent(float percent)
         {
             float value = Mathf.Lerp(range.Min, range.Max, percent);
             Set(value);
@@ -44,13 +59,13 @@ namespace Desdiene.Types.Percentables
 
         public static FloatPercentable operator -(FloatPercentable value, float delta)
         {
-            value.Set(value.Get() - delta);
+            value.Set(value.Value - delta);
             return value;
         }
 
         public static FloatPercentable operator +(FloatPercentable value, float delta)
         {
-            value.Set(value.Get() + delta);
+            value.Set(value.Value + delta);
             return value;
         }
     }

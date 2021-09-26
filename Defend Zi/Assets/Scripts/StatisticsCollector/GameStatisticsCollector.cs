@@ -1,16 +1,24 @@
-﻿using Desdiene.MonoBehaviourExtension;
+﻿using System.Collections;
+using Desdiene.Coroutines;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
 
 public class GameStatisticsCollector : MonoBehaviourExt
 {
-    private IDeath _playerDeath;
+    private IHealthNotification _playerDeath;
     private GameStatistics _statistics = new GameStatistics();
+    private ICoroutine _lifeTimeCounting;
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
         _playerDeath = componentsProxy.PlayerDeath;
+        _lifeTimeCounting = new CoroutineWrap(this);
+    }
+
+    protected override void AwakeExt()
+    {
         SubscribeEvents();
     }
 
@@ -19,21 +27,29 @@ public class GameStatisticsCollector : MonoBehaviourExt
         UnsubscribeEvents();
     }
 
-    private void Update()
-    {
-        float deltaTime = Time.deltaTime;
-        if (!_playerDeath.IsDeath) _statistics.LifeTimeSec += deltaTime;
-    }
-
     public GameStatistics GetStatistics() => _statistics;
 
     private void SubscribeEvents()
     {
-        //todo: понадобиться позже
+        _playerDeath.WhenAlive += StartLifeTimeCounter;
+        _playerDeath.WhenDead += _lifeTimeCounting.Terminate;
     }
 
     private void UnsubscribeEvents()
     {
-        //todo: понадобиться позже
+        _playerDeath.WhenAlive -= StartLifeTimeCounter;
+        _playerDeath.WhenDead -= _lifeTimeCounting.Terminate;
+    }
+
+    private void StartLifeTimeCounter() => _lifeTimeCounting.StartContinuously(LifeTimeCounting());
+
+    private IEnumerator LifeTimeCounting()
+    {
+        while (true)
+        {
+            float deltaTime = Time.deltaTime;
+            _statistics.LifeTimeSec += deltaTime;
+            yield return null;
+        }
     }
 }

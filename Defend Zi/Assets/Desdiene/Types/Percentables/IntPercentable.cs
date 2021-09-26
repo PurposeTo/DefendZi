@@ -11,10 +11,10 @@ namespace Desdiene.Types.Percentables
     {
         public IntPercentable(int value, IntRange range) : base(value, range) { }
 
-        event Action IPercentNotifier.OnValueChanged
+        event Action IPercentNotifier.OnChanged
         {
-            add => OnValueChanged += value;
-            remove => OnValueChanged -= value;
+            add => valueRef.OnChanged += value;
+            remove => valueRef.OnChanged -= value;
         }
 
         /// <summary>
@@ -35,8 +35,16 @@ namespace Desdiene.Types.Percentables
             SetByPercent(percent);
             return Percent;
         }
+        
+        bool IPercentAccessor.IsMin => IsMin;
 
-        public float Percent => Mathf.InverseLerp(range.Min, range.Max, Get());
+        bool IPercentAccessor.IsMax => IsMax;
+
+        void IPercentMutator.SetMax() => SetByPercent(range.Max);
+
+        void IPercentMutator.SetMin() => SetByPercent(range.Min);
+
+        private float Percent => Mathf.InverseLerp(range.Min, range.Max, Value);
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
@@ -51,25 +59,25 @@ namespace Desdiene.Types.Percentables
 
         public static IntPercentable operator -(IntPercentable value, int delta)
         {
-            value.Set(value.Get() - delta);
+            value.Set(value.Value - delta);
             return value;
         }
 
         public static IntPercentable operator -(IntPercentable value, uint delta)
         {
-            value.Set((int)(value.Get() - delta));
+            value.Set((int)(value.Value - delta));
             return value;
         }
 
         public static IntPercentable operator +(IntPercentable value, int delta)
         {
-            value.Set(value.Get() + delta);
+            value.Set(value.Value + delta);
             return value;
         }
 
         public static IntPercentable operator +(IntPercentable value, uint delta)
         {
-            value.Set((int)(value.Get() + delta));
+            value.Set((int)(value.Value + delta));
             return value;
         }
     }

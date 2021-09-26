@@ -6,6 +6,8 @@
     public interface IPercentMutator
     {
         void Set(float percent);
+        void SetMax();
+        void SetMin();
         float SetAndGet(float percent);
     }
 }

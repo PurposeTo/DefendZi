@@ -4,13 +4,13 @@ namespace Desdiene.Types.AtomicReferences.Init.States.Base
 {
     internal abstract class State<T>
     {
+        private readonly IRef<State<T>> _state;
         protected readonly Func<T> initFunc;
-        protected readonly Ref<T> valueRef;
-        private readonly Ref<State<T>> state;
+        protected readonly IRef<T> valueRef;
 
-        protected State(in Ref<State<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
+        protected State(in IRef<State<T>> state, in Func<T> initFunc, in IRef<T> valueRef)
         {
-            this.state = state ?? throw new ArgumentNullException(nameof(state));
+            this._state = state ?? throw new ArgumentNullException(nameof(state));
             this.initFunc = initFunc ?? throw new ArgumentNullException(nameof(initFunc));
             this.valueRef = valueRef ?? throw new ArgumentNullException(nameof(valueRef));
         }
@@ -19,9 +19,9 @@ namespace Desdiene.Types.AtomicReferences.Init.States.Base
         public abstract void Set(T value);
         public abstract T SetAndGet(T value);
 
-        protected State<T> SetState(Func<Ref<State<T>>, State<T>> newState)
+        protected State<T> SetState(Func<IRef<State<T>>, State<T>> newState)
         {
-            return state.SetAndGet(newState.Invoke(state));
+            return _state.SetAndGet(newState.Invoke(_state));
         }
     }
 }

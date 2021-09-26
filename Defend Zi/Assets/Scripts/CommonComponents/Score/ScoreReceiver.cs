@@ -5,16 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ScoreReceiver : MonoBehaviourExt, IScoreNotification
 {
-    private readonly Desdiene.Logger logger = new Desdiene.Logger(typeof(ScoreReceiver));
+    [SerializeField, NotNull] private InterfaceComponent<IScoreCollector> _scoreCollector;
 
-    public event Action<int> OnReceived;
-    private IScoreCollector scoreCollector;
+    private event Action<int> OnReceived;
 
-    protected override void AwakeExt()
+    event Action<int> IScoreNotification.OnReceived
     {
-        //todo: верное ли использование?
-        scoreCollector = GetInitedComponentInParent<IScoreCollector>();
+        add => OnReceived += value;
+        remove => OnReceived -= value;
     }
+
+    private IScoreCollector ScoreCollector => _scoreCollector.Implementation;
 
     // Начисление очков за близкое огибание препятствий происходит через триггер выхода из коллайдера
     private void OnTriggerExit2D(Collider2D collision)
@@ -23,9 +24,9 @@ public class ScoreReceiver : MonoBehaviourExt, IScoreNotification
         {
             int value = score.Value;
 
-            scoreCollector.Add(value);
+            ScoreCollector.Add(value);
             OnReceived?.Invoke(value);
-            logger.Log($"Добавлено очков: {value}");
+            Debug.Log($"Добавлено очков: {value}");
         }
     }
 }

@@ -2,6 +2,6 @@
 
 public interface IReincarnation
 {
-    event Action OnRevived;
+    event Action OnReviving;
     void Revive();
 }

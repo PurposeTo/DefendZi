@@ -1,4 +1,4 @@
-﻿public class Damage : IDamageDealer
+﻿public class Damage : IDamage
 {
     private readonly uint _damageData;
 
@@ -9,5 +9,5 @@
         _damageData = damageData;
     }
 
-    uint IDamageDealer.Value => _damageData;
+    uint IDamage.Value => _damageData;
 }

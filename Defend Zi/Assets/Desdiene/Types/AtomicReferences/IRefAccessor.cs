@@ -6,6 +6,6 @@
     /// <typeparam name="T">Тип значения.</typeparam>
     public interface IRefAccessor<T>
     {
-        T Get();
+        T Value { get; }
     }
 }
