@@ -12,7 +12,7 @@ public class PlayerMono :
     IHealthReincarnation,
     IScore
 {
-    [SerializeField] private PlayerMovementData _movementData;
+    [SerializeField] private PlayerMovementDataMono _movementData;
 
     private IFixedUpdate _fixedUpdate;
     private IHealthReincarnation _health;
@@ -27,7 +27,7 @@ public class PlayerMono :
         if (gameDifficulty == null) throw new ArgumentNullException(nameof(gameDifficulty));
 
         Rigidbody2D rb2d = GetInitedComponent<Rigidbody2D>();
-        PlayerMovementView movementView = new PlayerMovementView(gameDifficulty, _movementData);
+        PlayerMovementData movementView = new PlayerMovementData(gameDifficulty, _movementData);
         Player _player = new Player(input, rb2d, movementView);
 
         _fixedUpdate = _player;

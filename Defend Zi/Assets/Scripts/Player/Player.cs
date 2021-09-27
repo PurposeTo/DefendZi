@@ -11,17 +11,22 @@ public class Player :
     IScore
 {
     private readonly IFixedUpdate _controlFixedUpdate;
-    private readonly IHealthReincarnation _health = new PlayerHealth();
-    private readonly IPosition _position;
-    private readonly IScore _score = new PlayerScore();
+    private readonly IHealthReincarnation _health;
+    private readonly IPositionAccessor _positionAccessor;
+    private readonly IPositionNotification _positionNotification;
+    private readonly IScore _score;
 
-    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementView movementView)
+    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementView)
     {
-        _position = new Rigidbody2DPosition(rigidbody2D);
-        _controlFixedUpdate = new PlayerControl(input, _position, movementView);
+        IPosition position = new Rigidbody2DPosition(rigidbody2D);
+        _controlFixedUpdate = new PlayerControl(input, position, movementView);
+        _health = new PlayerHealth();
+        _score = new PlayerScore();
+        _positionAccessor = position;
+        _positionNotification = position;
     }
 
-    Vector2 IPositionAccessor.Value => _position.Value;
+    Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 
     int IScoreAccessor.Value => _score.Value;
 
@@ -67,8 +72,8 @@ public class Player :
 
     event Action IPositionNotification.OnChanged
     {
-        add => _position.OnChanged += value;
-        remove => _position.OnChanged -= value;
+        add => _positionNotification.OnChanged += value;
+        remove => _positionNotification.OnChanged -= value;
     }
 
     void IFixedUpdate.Invoke(float deltaTime)
