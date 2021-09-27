@@ -10,7 +10,7 @@ namespace Desdiene.UI.Elements
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(Image))]
-    public class ModalWindow : OverlayUiElement
+    public abstract class ModalWindow : OverlayUiElement
     {
         private RectTransform _rectTransform;
         private Image _image;

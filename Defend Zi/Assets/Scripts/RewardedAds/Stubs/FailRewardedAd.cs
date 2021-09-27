@@ -16,6 +16,8 @@ public class FailRewardedAd : IRewardedAd
         remove { }
     }
 
+    bool IRewardedAd.CanBeShown => true;
+
     void IRewardedAd.Show()
     {
         OnFailedToShow?.Invoke();

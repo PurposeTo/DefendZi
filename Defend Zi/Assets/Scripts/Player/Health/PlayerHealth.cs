@@ -67,7 +67,7 @@ public partial class PlayerHealth : IHealthReincarnation
         remove => WhenDead -= value;
     }
 
-    event Action IReincarnation.OnReviving
+    event Action IReincarnationNotification.OnReviving
     {
         add => OnReviving += value;
         remove => OnReviving -= value;

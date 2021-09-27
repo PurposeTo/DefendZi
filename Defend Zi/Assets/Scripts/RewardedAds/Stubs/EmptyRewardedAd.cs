@@ -2,6 +2,8 @@ using System;
 
 public class EmptyRewardedAd : IRewardedAd
 {
+    bool IRewardedAd.CanBeShown => false;
+    
     event Action IRewardedAd.OnFailedToShow
     {
         add { }

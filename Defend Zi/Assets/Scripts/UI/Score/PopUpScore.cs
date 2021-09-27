@@ -1,4 +1,3 @@
-using System;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
@@ -14,5 +13,6 @@ public class PopUpScore : MonoBehaviourExt
 
     public void SetText(string text) => _textView.SetText(text);
 
+    // Ìועמה גûחûגאועסÿ unity animator-מל
     private void Destroy() => Destroy(gameObject);
 }

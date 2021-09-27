@@ -10,12 +10,13 @@ using Zenject;
 
 public class GameOverUI : MonoBehaviourExt
 {
-    [SerializeField, NotNull] private GameOverView _gameOverView;
-    [SerializeField, NotNull] private CollectRewardsOfferView _collectRewardsOfferView;
     [SerializeField, NotNull] private ReviveOfferView _reviveOfferView;
+    [SerializeField, NotNull] private CollectRewardsOfferView _collectRewardsOfferView;
+    [SerializeField, NotNull] private GameOverView _gameOverView;
 
     private SceneLoader _sceneLoader;
     private SceneAsset _gameScene;
+    private SceneAsset _mainMenuScene;
 
     private IScoreAccessor _playerScore;
     private IStorage<IGameData> _storage;
@@ -28,6 +29,8 @@ public class GameOverUI : MonoBehaviourExt
     private GlobalTimePause _playerDeathPause;
 
     private IRewardedAd _rewardedAd;
+
+    private bool doesPlayerBoughtRevival = false; // покупал ли игрок возрождение?
 
     [Inject]
     private void Constructor(GlobalTimeScaler globalTimeScaler,
@@ -48,6 +51,7 @@ public class GameOverUI : MonoBehaviourExt
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
 
         _gameScene = new SceneTypes.Game(this);
+        _mainMenuScene = new SceneTypes.MainMenu(this);
 
         _playerDeath = componentsProxy.PlayerDeath;
         _playerReincarnation = componentsProxy.PlayerReincarnation;
@@ -71,9 +75,18 @@ public class GameOverUI : MonoBehaviourExt
     private void SubscribeEvents()
     {
         _playerDeath.OnDeath += _playerDeathPause.Start;
-        _playerDeath.OnDeath += ShowGameOverViewAndCollectRewards;
+        _playerDeath.OnDeath += ChooseAndShowGameOverView;
         _playerReincarnation.OnReviving += _playerDeathPause.Stop;
-        _playerReincarnation.OnReviving += HideGameOverView;
+
+        _rewardedAd.OnRewarded += ShowGameOverViewAndCollectRewards;
+        _rewardedAd.OnFailedToShow += OnFailedToShowAd;
+
+        _reviveOfferView.OnReviveForAdClicked += RevivePlayer;
+        _reviveOfferView.OnRefuseToRevivingClicked += ShowGameOverViewAndCollectRewards;
+        _reviveOfferView.OnMainMenuClicked += LoadMainMenuScene;
+
+        _collectRewardsOfferView.OnCollectRewards += ShowAd;
+        _collectRewardsOfferView.OnMainMenuClicked += LoadMainMenuScene;
 
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
     }
@@ -81,11 +94,32 @@ public class GameOverUI : MonoBehaviourExt
     private void UnsubscribeEvents()
     {
         _playerDeath.OnDeath -= _playerDeathPause.Start;
-        _playerDeath.OnDeath -= ShowGameOverViewAndCollectRewards;
+        _playerDeath.OnDeath -= ChooseAndShowGameOverView;
         _playerReincarnation.OnReviving -= _playerDeathPause.Stop;
-        _playerReincarnation.OnReviving -= HideGameOverView;
+
+        _rewardedAd.OnRewarded -= ShowGameOverViewAndCollectRewards;
+        _rewardedAd.OnFailedToShow -= OnFailedToShowAd;
+
+        _reviveOfferView.OnReviveForAdClicked -= RevivePlayer;
+        _reviveOfferView.OnRefuseToRevivingClicked -= ShowGameOverViewAndCollectRewards;
+        _reviveOfferView.OnMainMenuClicked -= LoadMainMenuScene;
+
+        _collectRewardsOfferView.OnCollectRewards -= ShowAd;
+        _collectRewardsOfferView.OnMainMenuClicked -= LoadMainMenuScene;
 
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;
+    }
+
+    private void ChooseAndShowGameOverView()
+    {
+        if (doesPlayerBoughtRevival) ShowCollectRewardsOfferView();
+        else TryToShowReviveOfferView();
+    }
+
+    private void TryToShowReviveOfferView()
+    {
+        if (_rewardedAd.CanBeShown) ShowReviveOfferView();
+        else ShowGameOverViewAndCollectRewards();
     }
 
     private void ShowGameOverViewAndCollectRewards()
@@ -95,18 +129,10 @@ public class GameOverUI : MonoBehaviourExt
         _gameOverView.Show();
     }
 
-    private void HideGameOverView() => _gameOverView.Hide();
-
-
     private void ShowCollectRewardsOfferView()
     {
         _collectRewardsOfferView.Init(PlayerScore);
         _collectRewardsOfferView.Show();
-    }
-
-    private void HideCollectRewardsOfferView()
-    {
-        _collectRewardsOfferView.Hide();
     }
 
     private void ShowReviveOfferView()
@@ -115,14 +141,22 @@ public class GameOverUI : MonoBehaviourExt
         _reviveOfferView.Show();
     }
 
-    private void HideReviveOfferView()
-    {
-        _reviveOfferView.Hide();
-    }
-
     private void LoadGameScene() => _sceneLoader.Load(_gameScene);
+    private void LoadMainMenuScene() => _sceneLoader.Load(_mainMenuScene);
 
     private void CollectRewards() => _gameDataSaver.CollectAndSaveGameData();
 
     private void ShowAd() => _rewardedAd.Show();
+
+    private void OnFailedToShowAd()
+    {
+        // todo выводить popUp окошко с причиной ошибки
+        Debug.LogWarning("Failed to show ad!");
+    }
+
+    private void RevivePlayer()
+    {
+        doesPlayerBoughtRevival = true;
+        _playerReincarnation.Revive();
+    }
 }

@@ -77,7 +77,7 @@ public class PlayerMono :
         remove => _health.WhenDead -= value;
     }
 
-    event Action IReincarnation.OnReviving
+    event Action IReincarnationNotification.OnReviving
     {
         add => _health.OnReviving += value;
         remove => _health.OnReviving -= value;

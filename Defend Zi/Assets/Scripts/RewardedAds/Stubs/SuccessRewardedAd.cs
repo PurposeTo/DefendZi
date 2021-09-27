@@ -4,6 +4,8 @@ public class SuccessRewardedAd : IRewardedAd
 {
     private event Action OnRewarded;
 
+    bool IRewardedAd.CanBeShown => true;
+    
     event Action IRewardedAd.OnFailedToShow
     {
         add { }

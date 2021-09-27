@@ -1,7 +1,6 @@
 ﻿using System;
 
-public interface IReincarnation
+public interface IReincarnationNotification
 {
     event Action OnReviving;
-    void Revive();
 }

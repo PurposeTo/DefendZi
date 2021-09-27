@@ -15,6 +15,8 @@ public class GameUI : MonoBehaviourExt
     private SceneLoader _sceneLoader;
     private SceneAsset _mainMenuScene;
 
+    private IReincarnationNotification _playerReincarnation;
+
     [Inject]
     private void Constructor(GlobalTimeScaler globalTimeScaler,
                              SceneLoader sceneLoader,
@@ -27,6 +29,8 @@ public class GameUI : MonoBehaviourExt
         _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
 
         _mainMenuScene = new SceneTypes.MainMenu(this);
+
+        _playerReincarnation = componentsProxy.PlayerReincarnation;
     }
 
     protected override void AwakeExt()
@@ -45,6 +49,7 @@ public class GameUI : MonoBehaviourExt
         _gameView.OnPauseClicked += ShowGamePauseView;
         _gamePauseView.OnResumeClicked += HideGamePauseView;
         _gamePauseView.OnMainMenuClicked += LoadMainMenu;
+        _playerReincarnation.OnReviving += ShowGameView;
     }
 
     private void UnsubscribeEvents()
@@ -52,6 +57,7 @@ public class GameUI : MonoBehaviourExt
         _gameView.OnPauseClicked -= ShowGamePauseView;
         _gamePauseView.OnResumeClicked -= HideGamePauseView;
         _gamePauseView.OnMainMenuClicked -= LoadMainMenu;
+        _playerReincarnation.OnReviving -= ShowGameView;
     }
 
     private void ShowGameView() => _gameView.Show();
