@@ -11,7 +11,6 @@ public class ProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        BindRewardedAd();
         BindFullScreenWindowsContainer();
         BindScenesInBuild();
         BindLoadedScenes();
@@ -20,16 +19,6 @@ public class ProjectInstaller : MonoInstaller
         BingSingleSceneLoader();
         BindGPGSAuthentication();
         BindDataStorage();
-    }
-
-    private void BindRewardedAd()
-    {
-        Container
-            .Bind<IRewardedAd>()
-            .To<GoogleAdMob>()
-            .FromNewComponentOnNewGameObject()
-            .AsSingle()
-            .NonLazy();
     }
 
     private void BindFullScreenWindowsContainer()

@@ -36,10 +36,11 @@ public class GameOverUI : MonoBehaviourExt
     private void Constructor(GlobalTimeScaler globalTimeScaler,
                          IStorage<IGameData> storage,
                          SceneLoader sceneLoader,
-                         IRewardedAd rewardedAd,
                          GameDataSaver gameDataSaver,
                          ComponentsProxy componentsProxy)
     {
+        IRewardedAd rewardedAd = new SuccessRewardedAd(); // todo убрать заглушку
+
         if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
