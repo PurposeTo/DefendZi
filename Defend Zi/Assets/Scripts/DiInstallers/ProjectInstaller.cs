@@ -3,7 +3,7 @@ using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls.Adapters;
 using Desdiene.TimeControls.Scalers;
-using Desdiene.UI;
+using Desdiene.UI.Components;
 using Desdiene.UnityScenes;
 using Zenject;
 

@@ -1,8 +1,7 @@
 namespace Desdiene.UI.Elements
 {
-    public interface IFullScreenWindow
+    public interface IFullScreenWindow : IOverlayUiElement
     {
-        void Show();
-        void Hide();
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Desdiene.UI.Elements;
 
-namespace Desdiene.UI
+namespace Desdiene.UI.Components
 {
     public class FullScreenWindowsContainer
     {

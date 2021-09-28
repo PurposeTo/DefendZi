@@ -8,7 +8,6 @@ namespace Desdiene.UI.Elements
     /// На том же объекте, что и данный скрипт, должен висеть полноэкранный Image, блокирующий raycast других окон.
     /// Само тело модального окна (т.к. вероятно оно будет меньше, чем во весь экран) должно быть дочерним элементом.
     /// </summary>
-    [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(Image))]
     public abstract class ModalWindow : OverlayUiElement
     {
@@ -25,6 +24,7 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDisableElement() => OnDisableWindow();
 
+        protected sealed override void ShowElement() => ShowWindow();
         protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }

@@ -9,7 +9,8 @@ namespace Desdiene.UI.Elements
     /// </summary>
     // todo добавить валидацию, что самый родительский Canvas имеет свойство overlay
     [RequireComponent(typeof(Canvas))]
-    public class OverlayUiElement : MonoBehaviourExt
+    [RequireComponent(typeof(RectTransform))]
+    public class OverlayUiElement : MonoBehaviourExt, IOverlayUiElement
     {
         private Canvas _canvas;
 
