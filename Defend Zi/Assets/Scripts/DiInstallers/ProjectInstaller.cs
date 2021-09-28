@@ -26,9 +26,8 @@ public class ProjectInstaller : MonoInstaller
     {
         Container
             .Bind<IRewardedAd>()
-            .To<SuccessRewardedAd>()
-            //.To<GoogleAdMob>()
-            //.FromNewComponentOnNewGameObject()
+            .To<GoogleAdMob>()
+            .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();
     }
