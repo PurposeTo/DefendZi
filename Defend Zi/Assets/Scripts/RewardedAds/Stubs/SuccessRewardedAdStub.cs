@@ -18,6 +18,12 @@ public class SuccessRewardedAdStub : IRewardedAd
         remove => OnRewarded -= value;
     }
 
+    event Action IRewardedAd.OnClosed
+    {
+        add => OnRewarded += value;
+        remove => OnRewarded -= value;
+    }
+
     void IRewardedAd.Show()
     {
         OnRewarded?.Invoke();

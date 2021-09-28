@@ -5,6 +5,7 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.SceneTypes;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
+using Desdiene.UI.Elements;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,7 @@ public class GameOverUI : MonoBehaviourExt
     [SerializeField, NotNull] private ReviveOfferView _reviveOfferView;
     [SerializeField, NotNull] private CollectRewardsOfferView _collectRewardsOfferView;
     [SerializeField, NotNull] private GameOverView _gameOverView;
+    [SerializeField, NotNull] private ModalWindow _waitingView;
 
     private SceneLoader _sceneLoader;
     private SceneAsset _gameScene;
@@ -77,8 +79,10 @@ public class GameOverUI : MonoBehaviourExt
         _playerDeath.OnDeath += ChooseAndShowGameOverView;
         _playerReincarnation.OnReviving += _playerDeathPause.Stop;
 
-        _rewardedAd.OnRewarded += ShowGameOverViewAndCollectRewards;
         _rewardedAd.OnFailedToShow += OnFailedToShowAd;
+        _rewardedAd.OnFailedToShow += HideWaitingAndShowError;
+        _rewardedAd.OnRewarded += ShowGameOverViewAndCollectRewards;
+        _rewardedAd.OnClosed += HideWaitingView;
 
         _reviveOfferView.OnReviveForAdClicked += RevivePlayer;
         _reviveOfferView.OnRefuseToRevivingClicked += ShowGameOverViewAndCollectRewards;
@@ -96,8 +100,10 @@ public class GameOverUI : MonoBehaviourExt
         _playerDeath.OnDeath -= ChooseAndShowGameOverView;
         _playerReincarnation.OnReviving -= _playerDeathPause.Stop;
 
-        _rewardedAd.OnRewarded -= ShowGameOverViewAndCollectRewards;
         _rewardedAd.OnFailedToShow -= OnFailedToShowAd;
+        _rewardedAd.OnFailedToShow -= HideWaitingAndShowError;
+        _rewardedAd.OnRewarded -= ShowGameOverViewAndCollectRewards;
+        _rewardedAd.OnClosed -= HideWaitingView;
 
         _reviveOfferView.OnReviveForAdClicked -= RevivePlayer;
         _reviveOfferView.OnRefuseToRevivingClicked -= ShowGameOverViewAndCollectRewards;
@@ -140,12 +146,26 @@ public class GameOverUI : MonoBehaviourExt
         _reviveOfferView.Show();
     }
 
+    private void ShowWaitingView() => _waitingView.Show();
+
+    private void HideWaitingView() => _waitingView.Hide();
+
+    private void HideWaitingAndShowError(string error)
+    {
+        _waitingView.Hide();
+        //todo показать popUp с логом об ошибке
+    }
+
     private void LoadGameScene() => _sceneLoader.Load(_gameScene);
     private void LoadMainMenuScene() => _sceneLoader.Load(_mainMenuScene);
 
     private void CollectRewards() => _gameDataSaver.CollectAndSaveGameData();
 
-    private void ShowAd() => _rewardedAd.Show();
+    private void ShowAd()
+    {
+        ShowWaitingView();
+        _rewardedAd.Show();
+    }
 
     private void OnFailedToShowAd(string error)
     {

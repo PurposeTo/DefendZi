@@ -23,6 +23,7 @@ public class IronSourceAd : MonoBehaviourExt, IRewardedAd
 
     private event Action<string> OnFailedToShow;
     private event Action OnRewarded;
+    private event Action OnClosed;
 
     bool IRewardedAd.CanBeShown => IronSource.Agent.isRewardedVideoAvailable();
 
@@ -36,6 +37,12 @@ public class IronSourceAd : MonoBehaviourExt, IRewardedAd
     {
         add => OnRewarded += value;
         remove => OnRewarded -= value;
+    }
+
+    event Action IRewardedAd.OnClosed
+    {
+        add => OnClosed += value;
+        remove => OnClosed -= value;
     }
 
     void IRewardedAd.Show()
@@ -80,6 +87,7 @@ public class IronSourceAd : MonoBehaviourExt, IRewardedAd
     void RewardedVideoAdClosedEvent()
     {
         Debug.Log($"Iron Source rewarded ad event: Closed");
+        OnClosed?.Invoke();
     }
 
     //Invoked when there is a change in the ad availability status.

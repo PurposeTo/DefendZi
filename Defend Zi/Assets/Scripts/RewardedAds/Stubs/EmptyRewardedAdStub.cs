@@ -16,5 +16,11 @@ public class EmptyRewardedAdStub : IRewardedAd
         remove { }
     }
 
+    event Action IRewardedAd.OnClosed
+    {
+        add { }
+        remove { }
+    }
+
     void IRewardedAd.Show() { }
 }

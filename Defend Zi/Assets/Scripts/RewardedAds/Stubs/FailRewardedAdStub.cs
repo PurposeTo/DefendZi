@@ -16,6 +16,12 @@ public class FailRewardedAdStub : IRewardedAd
         remove { }
     }
 
+    event Action IRewardedAd.OnClosed
+    {
+        add { }
+        remove { }
+    }
+
     bool IRewardedAd.CanBeShown => true;
 
     void IRewardedAd.Show()
