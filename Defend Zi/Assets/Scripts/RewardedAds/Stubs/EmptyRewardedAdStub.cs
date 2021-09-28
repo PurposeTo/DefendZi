@@ -1,6 +1,6 @@
 using System;
 
-public class EmptyRewardedAd : IRewardedAd
+public class EmptyRewardedAdStub : IRewardedAd
 {
     bool IRewardedAd.CanBeShown => false;
     

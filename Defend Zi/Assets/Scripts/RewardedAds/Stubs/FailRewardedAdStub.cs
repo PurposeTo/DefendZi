@@ -1,6 +1,6 @@
 using System;
 
-public class FailRewardedAd : IRewardedAd
+public class FailRewardedAdStub : IRewardedAd
 {
     private event Action<string> OnFailedToShow;
 

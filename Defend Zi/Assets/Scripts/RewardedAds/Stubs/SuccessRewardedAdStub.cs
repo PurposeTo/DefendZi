@@ -1,6 +1,6 @@
 using System;
 
-public class SuccessRewardedAd : IRewardedAd
+public class SuccessRewardedAdStub : IRewardedAd
 {
     private event Action OnRewarded;
 
