@@ -4,7 +4,7 @@ public class EmptyRewardedAd : IRewardedAd
 {
     bool IRewardedAd.CanBeShown => false;
     
-    event Action IRewardedAd.OnFailedToShow
+    event Action<string> IRewardedAd.OnFailedToShow
     {
         add { }
         remove { }

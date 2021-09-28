@@ -6,7 +6,7 @@ public class SuccessRewardedAd : IRewardedAd
 
     bool IRewardedAd.CanBeShown => true;
     
-    event Action IRewardedAd.OnFailedToShow
+    event Action<string> IRewardedAd.OnFailedToShow
     {
         add { }
         remove { }

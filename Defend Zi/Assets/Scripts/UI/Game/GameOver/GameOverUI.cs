@@ -147,10 +147,10 @@ public class GameOverUI : MonoBehaviourExt
 
     private void ShowAd() => _rewardedAd.Show();
 
-    private void OnFailedToShowAd()
+    private void OnFailedToShowAd(string error)
     {
         // todo выводить popUp окошко с причиной ошибки
-        Debug.LogWarning("Failed to show ad!");
+        Debug.LogWarning("Failed to show ad! " + error);
     }
 
     private void RevivePlayer()

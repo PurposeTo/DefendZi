@@ -26,7 +26,9 @@ public class ProjectInstaller : MonoInstaller
     {
         Container
             .Bind<IRewardedAd>()
-            .To<SuccessRewardedAd>()
+            //.To<SuccessRewardedAd>()
+            .To<IronSourceAd>()
+            .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();
     }

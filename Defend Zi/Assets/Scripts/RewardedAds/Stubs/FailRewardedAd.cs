@@ -2,9 +2,9 @@ using System;
 
 public class FailRewardedAd : IRewardedAd
 {
-    private event Action OnFailedToShow;
+    private event Action<string> OnFailedToShow;
 
-    event Action IRewardedAd.OnFailedToShow
+    event Action<string> IRewardedAd.OnFailedToShow
     {
         add => OnFailedToShow += value;
         remove => OnFailedToShow -= value;
@@ -20,6 +20,6 @@ public class FailRewardedAd : IRewardedAd
 
     void IRewardedAd.Show()
     {
-        OnFailedToShow?.Invoke();
+        OnFailedToShow?.Invoke("Stub error");
     }
 }
