@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 7533496599317125765}
   - component: {fileID: 7533496599317125764}
   - component: {fileID: 7533496599317125883}
+  - component: {fileID: 8988125982957278290}
   m_Layer: 5
   m_Name: FullScreen window view
   m_TagString: Untagged
@@ -310,3 +311,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8988125982957278290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7533496599317125881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03cc01daffb40a844b3a802e258165fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,45 +1,78 @@
-using Desdiene.MonoBehaviourExtension;
+п»їusing Desdiene.MonoBehaviourExtension;
+using Desdiene.Types.ProcessContainers;
+using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
 {
 
     /// <summary>
-    /// Класс описывает UI элемент, находящийся на Canvas overlay
+    /// РљР»Р°СЃСЃ РѕРїРёСЃС‹РІР°РµС‚ UI СЌР»РµРјРµРЅС‚, РЅР°С…РѕРґСЏС‰РёР№СЃСЏ РЅР° Canvas overlay
     /// </summary>
-    // todo добавить валидацию, что самый родительский Canvas имеет свойство overlay
+    // todo РґРѕР±Р°РІРёС‚СЊ РІР°Р»РёРґР°С†РёСЋ, С‡С‚Рѕ СЃР°РјС‹Р№ СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ Canvas РёРјРµРµС‚ СЃРІРѕР№СЃС‚РІРѕ overlay
     [RequireComponent(typeof(Canvas))]
     [RequireComponent(typeof(RectTransform))]
-    public class OverlayUiElement : MonoBehaviourExt, IOverlayUiElement
+    [DisallowMultipleComponent]
+    public abstract class OverlayUiElement : MonoBehaviourExt, IOverlayUiElement
     {
+        private string _typeName;
+        private string _gameObjectName;
+        private ICyclicalProcesses _beforeHide;
         private Canvas _canvas;
 
         protected sealed override void AwakeExt()
         {
+            _typeName = GetType().Name;
+            _gameObjectName = gameObject.name;
+            _beforeHide = new CyclicalParallelProcesses($"Before hide {_typeName} on \"{_gameObjectName}\"");
             _canvas = GetComponent<Canvas>();
             AwakeElement();
         }
 
-        protected sealed override void OnDisableExt()
+        protected sealed override void OnDestroyExt()
         {
-            OnDisableElement();
+            _beforeHide.Clear();
+            OnDestroyElement();
         }
+
+        private bool IsShowing => _canvas.enabled;
+        private bool IsHidden => !_canvas.enabled;
 
         public void Show()
         {
-            _canvas.enabled = true;
-            ShowElement();
+            if (IsHidden)
+            {
+                Debug.Log($"Show {_typeName} on \"{_gameObjectName}\"");
+                EnableCanvas();
+                ShowElement();
+            }
         }
 
         public void Hide()
         {
-            HideElement();
-            _canvas.enabled = false;
+            if (IsShowing)
+            {
+                Debug.Log($"Hide {_typeName} on \"{_gameObjectName}\"");
+                BeforeHidingElement(_beforeHide);
+                _beforeHide.WhenStopped += DisableCanvasAndHideElement;
+            }
         }
 
-        protected virtual void AwakeElement() { }
-        protected virtual void OnDisableElement() { }
-        protected virtual void ShowElement() { }
-        protected virtual void HideElement() { }
+        protected abstract void AwakeElement();
+        protected abstract void OnDestroyElement();
+        protected abstract void ShowElement();
+        protected abstract void BeforeHidingElement(ICyclicalProcessesMutator beforeHide);
+        protected abstract void HideElement();
+
+        private void DisableCanvasAndHideElement()
+        {
+            _beforeHide.WhenStopped -= DisableCanvasAndHideElement;
+            _beforeHide.Clear();
+            DisableCanvas();
+            HideElement();
+        }
+
+        private void DisableCanvas() => _canvas.enabled = false;
+        private void EnableCanvas() => _canvas.enabled = true;
     }
 }

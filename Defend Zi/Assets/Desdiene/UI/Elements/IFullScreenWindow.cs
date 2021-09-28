@@ -1,4 +1,4 @@
-namespace Desdiene.UI.Elements
+﻿namespace Desdiene.UI.Elements
 {
     public interface IFullScreenWindow : IOverlayUiElement
     {

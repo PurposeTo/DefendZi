@@ -1,3 +1,4 @@
+п»їusing Desdiene.Types.ProcessContainers;
 using Desdiene.UI.Components;
 using UnityEngine;
 using Zenject;
@@ -5,8 +6,10 @@ using Zenject;
 namespace Desdiene.UI.Elements
 {
     /// <summary>
-    /// Описывает полноэкранное overlay окно.
-    /// При открытии остальные полноэкранные окна сворачиваются.
+    /// РћРїРёСЃС‹РІР°РµС‚ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅРѕРµ overlay РѕРєРЅРѕ.
+    /// РџСЂРё РѕС‚РєСЂС‹С‚РёРё РѕСЃС‚Р°Р»СЊРЅС‹Рµ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅС‹Рµ РѕРєРЅР° СЃРІРѕСЂР°С‡РёРІР°СЋС‚СЃСЏ.
+    /// 
+    /// РЎРєСЂРёРїС‚ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїРѕРІРµС€Р°РЅ РЅР° РѕР±СЉРµРєС‚ РґР»СЏ Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕР±РѕР·РЅР°С‡РµРЅРёСЏ.
     /// </summary>
     [RequireComponent(typeof(Canvas))]
     public class FullScreenWindow : OverlayUiElement, IFullScreenWindow
@@ -27,9 +30,9 @@ namespace Desdiene.UI.Elements
             AwakeWindow();
         }
 
-        protected sealed override void OnDisableElement()
+        protected sealed override void OnDestroyElement()
         {
-            OnDisableWindow();
+            OnDestroyWindow();
             _fullScreenWindowsContainer.Remove(this);
         }
 
@@ -39,15 +42,16 @@ namespace Desdiene.UI.Elements
             ShowWindow();
         }
 
-        protected sealed override void HideElement() 
-        {
-            HideWindow();
-        }
+        protected sealed override void BeforeHidingElement(ICyclicalProcessesMutator beforeHide) => BeforeHidingWindow(beforeHide);
+
+        protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
-        protected virtual void OnDisableWindow() { }
+        protected virtual void OnDestroyWindow() { }
 
         protected virtual void ShowWindow() { }
+        protected virtual void BeforeHidingWindow(ICyclicalProcessesMutator beforeHide) { }
         protected virtual void HideWindow() { }
+
     }
 }

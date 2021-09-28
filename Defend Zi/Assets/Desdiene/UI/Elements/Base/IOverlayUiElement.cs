@@ -1,7 +1,7 @@
-namespace Desdiene.UI.Elements
+п»їnamespace Desdiene.UI.Elements
 {
     /// <summary>
-    /// интерфейс описывает UI элемент, находящийся на Canvas overlay
+    /// РёРЅС‚РµСЂС„РµР№СЃ РѕРїРёСЃС‹РІР°РµС‚ UI СЌР»РµРјРµРЅС‚, РЅР°С…РѕРґСЏС‰РёР№СЃСЏ РЅР° Canvas overlay
     /// </summary>
     public interface IOverlayUiElement
     {

@@ -1,15 +1,18 @@
+п»їusing Desdiene.Types.ProcessContainers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Desdiene.UI.Elements
 {
     /// <summary>
-    /// Описывает модальное overlay окно.
-    /// На том же объекте, что и данный скрипт, должен висеть полноэкранный Image, блокирующий raycast других окон.
-    /// Само тело модального окна (т.к. вероятно оно будет меньше, чем во весь экран) должно быть дочерним элементом.
+    /// РћРїРёСЃС‹РІР°РµС‚ РјРѕРґР°Р»СЊРЅРѕРµ overlay РѕРєРЅРѕ.
+    /// РќР° С‚РѕРј Р¶Рµ РѕР±СЉРµРєС‚Рµ, С‡С‚Рѕ Рё РґР°РЅРЅС‹Р№ СЃРєСЂРёРїС‚, РґРѕР»Р¶РµРЅ РІРёСЃРµС‚СЊ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅС‹Р№ Image, Р±Р»РѕРєРёСЂСѓСЋС‰РёР№ raycast РґСЂСѓРіРёС… РѕРєРѕРЅ.
+    /// РЎР°РјРѕ С‚РµР»Рѕ РјРѕРґР°Р»СЊРЅРѕРіРѕ РѕРєРЅР° (С‚.Рє. РІРµСЂРѕСЏС‚РЅРѕ РѕРЅРѕ Р±СѓРґРµС‚ РјРµРЅСЊС€Рµ, С‡РµРј РІРѕ РІРµСЃСЊ СЌРєСЂР°РЅ) РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РґРѕС‡РµСЂРЅРёРј СЌР»РµРјРµРЅС‚РѕРј.
+    /// 
+    /// РЎРєСЂРёРїС‚ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїРѕРІРµС€Р°РЅ РЅР° РѕР±СЉРµРєС‚ РґР»СЏ Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕР±РѕР·РЅР°С‡РµРЅРёСЏ.
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public abstract class ModalWindow : OverlayUiElement
+    public class ModalWindow : OverlayUiElement
     {
         private RectTransform _rectTransform;
         private Image _image;
@@ -22,15 +25,17 @@ namespace Desdiene.UI.Elements
             AwakeWindow();
         }
 
-        protected sealed override void OnDisableElement() => OnDisableWindow();
+        protected sealed override void OnDestroyElement() => OnDestroyWindow();
 
         protected sealed override void ShowElement() => ShowWindow();
+        protected sealed override void BeforeHidingElement(ICyclicalProcessesMutator beforeHide) => BeforeHidingWindow(beforeHide);
         protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
-        protected virtual void OnDisableWindow() { }
+        protected virtual void OnDestroyWindow() { }
 
         protected virtual void ShowWindow() { }
+        protected virtual void BeforeHidingWindow(ICyclicalProcessesMutator beforeHide) { }
         protected virtual void HideWindow() { }
 
         private void ValidateRaycastBlocker()
