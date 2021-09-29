@@ -26,14 +26,6 @@ namespace Desdiene.GooglePlayApi
             TryAuthenticate();
         }
 
-        private void OnApplicationPause(bool pause)
-        {
-            if (!pause)
-            {
-                TryAuthenticate();
-            }
-        }
-
         private void OnApplicationQuit()
         {
             SignOut();
