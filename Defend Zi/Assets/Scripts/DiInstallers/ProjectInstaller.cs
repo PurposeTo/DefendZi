@@ -19,6 +19,7 @@ public class ProjectInstaller : MonoInstaller
         BindGlobalTimeScaler();
         BingSingleSceneLoader();
         BindGPGSAuthentication();
+        BindGPGSLeaderboard();
         BindDataStorage();
     }
     
@@ -86,6 +87,16 @@ public class ProjectInstaller : MonoInstaller
         Container
             .Bind<IGPGSAuthentication>()
             .To<GPGSAuthentication>()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindGPGSLeaderboard()
+    {
+        Container
+            .Bind<GPGSLeaderboard>()
+            .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();

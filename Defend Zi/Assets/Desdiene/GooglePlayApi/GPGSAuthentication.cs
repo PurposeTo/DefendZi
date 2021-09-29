@@ -7,7 +7,7 @@ namespace Desdiene.GooglePlayApi
 {
     public class GPGSAuthentication : MonoBehaviourExt, IGPGSAuthentication
     {
-        public static PlayGamesPlatform Platform { get; private set; }
+        public PlayGamesPlatform Platform { get; private set; }
         public SignInStatus SignInStatus { get; private set; } = SignInStatus.NotAuthenticated;
 
         public bool IsAuthenticated
@@ -26,6 +26,13 @@ namespace Desdiene.GooglePlayApi
             TryAuthenticate();
         }
 
+        private void OnApplicationPause(bool pause)
+        {
+            if (!pause)
+            {
+                TryAuthenticate();
+            }
+        }
 
         private void OnApplicationQuit()
         {
