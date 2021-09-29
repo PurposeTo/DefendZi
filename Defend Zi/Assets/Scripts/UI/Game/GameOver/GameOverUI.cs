@@ -15,6 +15,7 @@ public class GameOverUI : MonoBehaviourExt
     [SerializeField, NotNull] private CollectRewardsOfferView _collectRewardsOfferView;
     [SerializeField, NotNull] private GameOverView _gameOverView;
     [SerializeField, NotNull] private ModalWindow _waitingView;
+    [SerializeField, NotNull] private ModalError _errorView;
 
     private SceneLoader _sceneLoader;
     private SceneAsset _gameScene;
@@ -169,8 +170,8 @@ public class GameOverUI : MonoBehaviourExt
 
     private void OnFailedToShowAd(string error)
     {
-        // todo выводить popUp окошко с причиной ошибки
-        Debug.LogWarning("Failed to show ad! " + error);
+        _errorView.Init($"Failed to show ad!\n{error}");
+        _errorView.Show();
     }
 
     private void RevivePlayer()
