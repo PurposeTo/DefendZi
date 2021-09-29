@@ -18,14 +18,14 @@ namespace Desdiene.UI.Elements
         private string _typeName;
         private string _gameObjectName;
         private ICyclicalProcesses _beforeHide;
-        private Canvas _canvas;
 
         protected sealed override void AwakeExt()
         {
             _typeName = GetType().Name;
             _gameObjectName = gameObject.name;
             _beforeHide = new CyclicalParallelProcesses($"Before hide {_typeName} on \"{_gameObjectName}\"");
-            _canvas = GetComponent<Canvas>();
+            RectTransform = GetComponent<RectTransform>();
+            Canvas = GetComponent<Canvas>();
             AwakeElement();
         }
 
@@ -35,8 +35,10 @@ namespace Desdiene.UI.Elements
             OnDestroyElement();
         }
 
-        private bool IsShowing => _canvas.enabled;
-        private bool IsHidden => !_canvas.enabled;
+        protected Canvas Canvas { get; private set; }
+        protected RectTransform RectTransform { get; private set; }
+        private bool IsShowing => Canvas.enabled;
+        private bool IsHidden => !Canvas.enabled;
 
         public void Show()
         {
@@ -72,7 +74,7 @@ namespace Desdiene.UI.Elements
             HideElement();
         }
 
-        private void DisableCanvas() => _canvas.enabled = false;
-        private void EnableCanvas() => _canvas.enabled = true;
+        private void DisableCanvas() => Canvas.enabled = false;
+        private void EnableCanvas() => Canvas.enabled = true;
     }
 }

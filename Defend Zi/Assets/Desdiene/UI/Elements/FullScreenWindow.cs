@@ -1,6 +1,5 @@
 ﻿using Desdiene.Types.ProcessContainers;
 using Desdiene.UI.Components;
-using UnityEngine;
 using Zenject;
 
 namespace Desdiene.UI.Elements
@@ -11,10 +10,8 @@ namespace Desdiene.UI.Elements
     /// 
     /// Скрипт может быть повешан на объект для логического обозначения.
     /// </summary>
-    [RequireComponent(typeof(Canvas))]
     public class FullScreenWindow : OverlayUiElement, IFullScreenWindow
     {
-        private Canvas _canvas;
         private FullScreenWindowsContainer _fullScreenWindowsContainer;
 
         [Inject]
@@ -25,7 +22,6 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void AwakeElement()
         {
-            _canvas = GetComponent<Canvas>();
             _fullScreenWindowsContainer.Add(this);
             AwakeWindow();
         }
@@ -52,6 +48,5 @@ namespace Desdiene.UI.Elements
         protected virtual void ShowWindow() { }
         protected virtual void BeforeHidingWindow(ICyclicalProcessesMutator beforeHide) { }
         protected virtual void HideWindow() { }
-
     }
 }

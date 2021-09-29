@@ -14,12 +14,10 @@ namespace Desdiene.UI.Elements
     [RequireComponent(typeof(Image))]
     public class ModalWindow : OverlayUiElement
     {
-        private RectTransform _rectTransform;
         private Image _image;
 
         protected sealed override void AwakeElement()
         {
-            _rectTransform = GetComponent<RectTransform>();
             _image = GetComponent<Image>();
             ValidateRaycastBlocker();
             AwakeWindow();
@@ -46,36 +44,36 @@ namespace Desdiene.UI.Elements
 
         private void ValidateRectTransform()
         {
-            if (_rectTransform.anchorMin != Vector2.zero)
+            if (RectTransform.anchorMin != Vector2.zero)
             {
                 Debug.LogWarning($"Set default anchorMin to raycast blocker on {name}");
-                _rectTransform.anchorMin = Vector2.zero;
+                RectTransform.anchorMin = Vector2.zero;
             }
-            if (_rectTransform.anchorMax != Vector2.one)
+            if (RectTransform.anchorMax != Vector2.one)
             {
                 Debug.LogWarning($"Set default anchorMax to raycast blocker on {name}");
-                _rectTransform.anchorMax = Vector2.one;
+                RectTransform.anchorMax = Vector2.one;
             }
-            if (_rectTransform.offsetMin != Vector2.zero)
+            if (RectTransform.offsetMin != Vector2.zero)
             {
                 Debug.LogWarning($"Set default offsetMin to raycast blocker on {name}");
-                _rectTransform.offsetMin = Vector2.zero;
+                RectTransform.offsetMin = Vector2.zero;
             }
-            if (_rectTransform.offsetMax != Vector2.zero)
+            if (RectTransform.offsetMax != Vector2.zero)
             {
                 Debug.LogWarning($"Set default offsetMax to raycast blocker on {name}");
-                _rectTransform.offsetMax = Vector2.zero;
+                RectTransform.offsetMax = Vector2.zero;
             }
             Vector2 middleVector = new Vector2(0.5f, 0.5f);
-            if (_rectTransform.pivot != middleVector)
+            if (RectTransform.pivot != middleVector)
             {
                 Debug.LogWarning($"Set default pivot to raycast blocker on {name}");
-                _rectTransform.pivot = middleVector;
+                RectTransform.pivot = middleVector;
             }
-            if (_rectTransform.rotation != Quaternion.identity)
+            if (RectTransform.rotation != Quaternion.identity)
             {
                 Debug.LogWarning($"Set default rotation to raycast blocker on {name}");
-                _rectTransform.rotation = Quaternion.identity;
+                RectTransform.rotation = Quaternion.identity;
             }
         }
 
