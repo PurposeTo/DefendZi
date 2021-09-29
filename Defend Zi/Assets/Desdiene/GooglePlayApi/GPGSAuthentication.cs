@@ -44,7 +44,7 @@ namespace Desdiene.GooglePlayApi
         {
             if (IsAuthenticated)
             {
-                Debug.LogError("Authentication has already been passed!");
+                Debug.Log("Authentication has already been passed!");
                 return;
             }
             else Authenticate();
