@@ -22,7 +22,7 @@ public class ProjectInstaller : MonoInstaller
         BindGPGSLeaderboard();
         BindDataStorage();
     }
-    
+
     private void BindRewardedAd()
     {
         Container
@@ -85,8 +85,8 @@ public class ProjectInstaller : MonoInstaller
     private void BindGPGSAuthentication()
     {
         Container
-            .Bind<IGPGSAuthentication>()
-            .To<GPGSAuthentication>()
+            .Bind<GpgsAutentification>()
+            .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .NonLazy();
@@ -95,7 +95,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindGPGSLeaderboard()
     {
         Container
-            .Bind<GPGSLeaderboard>()
+            .Bind<GpgsLeaderboard>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

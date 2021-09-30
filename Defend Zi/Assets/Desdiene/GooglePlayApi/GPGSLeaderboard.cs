@@ -6,20 +6,21 @@ using Zenject;
 
 namespace Desdiene.GooglePlayApi
 {
-    public class GPGSLeaderboard : MonoBehaviourExt
+    public class GpgsLeaderboard : MonoBehaviourExt
     {
-        private IGPGSAuthentication _authentication;
+        private PlayGamesPlatform _platform;
         private IStorage<IGameData> _storage;
 
         [Inject]
-        private void Constructor(IGPGSAuthentication authentication, IStorage<IGameData> storage)
+        private void Constructor(GpgsAutentification platformCreator, IStorage<IGameData> storage)
         {
-            _authentication = authentication ?? throw new ArgumentNullException(nameof(authentication));
+            if (platformCreator == null) throw new ArgumentNullException(nameof(platformCreator));
+
+            _platform = platformCreator.Get();
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
 
         private IGameData GameData => _storage.GetData();
-        private PlayGamesPlatform Platform => _authentication.Platform;
 
         public void Open()
         {
@@ -28,12 +29,12 @@ namespace Desdiene.GooglePlayApi
 
         private void OpenLeaderboard()
         {
-            Platform?.ShowLeaderboardUI();
+            _platform.ShowLeaderboardUI();
         }
 
         private void AddBestScore(int bestScore, Action onAdded)
         {
-            Platform?.ReportScore(bestScore, GPGSIds.leaderboard_the_most_careful, (success) =>
+            _platform.ReportScore(bestScore, GPGSIds.leaderboard_the_most_careful, (success) =>
             {
                 if (success)
                 {

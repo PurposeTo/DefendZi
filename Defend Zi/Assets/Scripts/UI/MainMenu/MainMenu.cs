@@ -10,12 +10,12 @@ using Zenject;
 public class MainMenu : MonoBehaviourExt
 {
     [SerializeField, NotNull] private MainMenuView _mainMenuView;
-    private GPGSLeaderboard _leaderboard;
+    private GpgsLeaderboard _leaderboard;
     private SceneAsset _gameScene;
     private SceneLoader _sceneLoader;
 
     [Inject]
-    private void Constructor(SceneLoader sceneLoader, GPGSLeaderboard leaderboard)
+    private void Constructor(SceneLoader sceneLoader, GpgsLeaderboard leaderboard)
     {
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
         _leaderboard = leaderboard ?? throw new ArgumentNullException(nameof(leaderboard));

@@ -17,19 +17,19 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
 {
     public class GooglePlayJsonDataLoader<T> : StorageJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
     {
-        private readonly IGPGSAuthentication _authentication;
+        private readonly PlayGamesPlatform _platform;
         private readonly ICoroutine _loadDataRoutine;
 
         public GooglePlayJsonDataLoader(MonoBehaviourExt mono,
             string fileName,
             IJsonConvertor<T> jsonConvertor,
-            IGPGSAuthentication authentication)
+            PlayGamesPlatform platform)
             : base(mono,
                   "Облачное хранилище google play-я",
                   fileName,
                   jsonConvertor)
         {
-            _authentication = authentication;
+            _platform = platform ?? throw new ArgumentNullException(nameof(platform));
             _loadDataRoutine = new CoroutineWrap(mono);
         }
 
@@ -56,7 +56,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
         private IEnumerator LoadDataEnumerator(Action<string> jsonDataCallback)
         {
             Debug.Log("Начало операции загрузки данных с облака. Ожидание аутентификации пользователя.");
-            yield return _loadDataRoutine.StartNested(new WaitUntil(() => _authentication.IsAuthenticated));
+            yield return _loadDataRoutine.StartNested(new WaitUntil(() => _platform.IsAuthenticated()));
             Debug.Log("Операция загрузки данных с облака - пользователь аутентифицировался.");
 
             // Начать отсчет времени для текущей сессии игры
@@ -96,7 +96,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
         private void OpenSavedGame(Action<SavedGameRequestStatus, ISavedGameMetadata> OnSavedGameOpened)
         {
             Debug.Log("Начало открытия сохранения на облаке");
-            if (!_authentication.IsAuthenticated)
+            if (!_platform.IsAuthenticated())
             {
                 Debug.Log("Ошибка открытия сохранения на облаке! Потеряна аутентификация пользователя.");
                 OnSavedGameOpened(SavedGameRequestStatus.AuthenticationError, null);
