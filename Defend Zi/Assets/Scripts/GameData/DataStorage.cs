@@ -1,21 +1,34 @@
-﻿using Desdiene.DataStorageFactories;
+﻿using System;
+using Desdiene.DataStorageFactories;
 using Desdiene.DataStorageFactories.ConcreteLoaders;
 using Desdiene.DataStorageFactories.Storages;
+using Desdiene.GooglePlayApi;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
+using GooglePlayGames;
+using Zenject;
 
 public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 {
     private const string fileName = "GameData";
 
+    private PlayGamesPlatform _platform;
     private IStorage<GameData> _storage;
+
+    [Inject]
+    private void Constructor(GpgsAutentification gpgsAutentification)
+    {
+        if (gpgsAutentification == null) throw new ArgumentNullException(nameof(gpgsAutentification));
+        _platform = gpgsAutentification.Get();
+    }
 
     protected override void AwakeExt()
     {
         IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>();
 
         var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
-        _storage = StorageFactory<GameData>.GetStorage(this, deviceLoader);
+        var googlePlayLoader = new GooglePlayJsonDataLoader<GameData>(this, fileName, jsonConvertor, _platform);
+        _storage = StorageFactory<GameData>.GetStorage(this, deviceLoader, googlePlayLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.
         InvokeLoadingData();
     }

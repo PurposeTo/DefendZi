@@ -5,7 +5,6 @@ using Desdiene.Coroutines;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders;
 using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
-using Desdiene.GooglePlayApi;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
