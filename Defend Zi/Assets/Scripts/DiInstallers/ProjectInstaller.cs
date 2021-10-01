@@ -31,7 +31,7 @@ public class ProjectInstaller : MonoInstaller
             //.To<IronSourceAd>()
             //.FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindFullScreenWindowsContainer()
@@ -39,7 +39,7 @@ public class ProjectInstaller : MonoInstaller
         Container
             .Bind<FullScreenWindowsContainer>()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BingSingleSceneLoader()
@@ -49,7 +49,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindScenesInBuild()
@@ -59,7 +59,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindLoadedScenes()
@@ -69,7 +69,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindDataStorage()
@@ -79,7 +79,7 @@ public class ProjectInstaller : MonoInstaller
             .To<DataStorage>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindGPGSAuthentication()
@@ -89,7 +89,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindGPGSLeaderboard()
@@ -99,7 +99,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindGlobalTimeRef()
@@ -109,7 +109,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindGlobalTimeScaler()
@@ -119,6 +119,6 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 }
