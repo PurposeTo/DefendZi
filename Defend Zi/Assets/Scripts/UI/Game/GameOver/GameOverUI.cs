@@ -6,6 +6,7 @@ using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
 using Desdiene.UI.Elements;
 using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using Zenject;
 
@@ -18,8 +19,8 @@ public class GameOverUI : MonoBehaviourExt
     [SerializeField, NotNull] private ModalError _errorView;
 
     private SceneLoader _sceneLoader;
-    private SceneAsset _gameScene;
-    private SceneAsset _mainMenuScene;
+    private ISceneAsset _gameScene;
+    private ISceneAsset _mainMenuScene;
 
     private IScoreAccessor _playerScore;
     private IStorage<IGameData> _storage;

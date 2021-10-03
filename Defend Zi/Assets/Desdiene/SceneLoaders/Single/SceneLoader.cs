@@ -7,6 +7,7 @@ using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.Types;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -43,9 +44,9 @@ namespace Desdiene.SceneLoaders.Single
 
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void Load(SceneAsset scene) => Load(scene, BeforeUnloading, AfterEnabling);
+        public void Load(ISceneAsset scene) => Load(scene, BeforeUnloading, AfterEnabling);
 
-        private void Load(SceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
+        private void Load(ISceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             if (scene == null) throw new ArgumentNullException(nameof(scene));
 
@@ -59,7 +60,7 @@ namespace Desdiene.SceneLoaders.Single
 
         private void Reload(Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
         {
-            SceneAsset _sceneToLoad = _scenesInBuild.Get(this, SceneManager.GetActiveScene().name);
+            ISceneAsset _sceneToLoad = _scenesInBuild.Get(this, SceneManager.GetActiveScene().name);
             Load(_sceneToLoad, beforeUnloading, afterEnabling);
         }
     }

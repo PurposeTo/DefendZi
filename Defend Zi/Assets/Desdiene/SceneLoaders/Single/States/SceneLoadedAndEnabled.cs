@@ -3,8 +3,8 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single.States.Base;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.ProcessContainers;
-using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Loadings;
+using Desdiene.UnityScenes.Types;
 
 namespace Desdiene.SceneLoaders.Single.States
 {
@@ -13,7 +13,7 @@ namespace Desdiene.SceneLoaders.Single.States
         public SceneLoadedAndEnabled(MonoBehaviourExt mono, IStateSwitcher<State> stateSwitcher)
             : base(mono, stateSwitcher) { }
 
-        public override void Load(SceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
+        public override void Load(ISceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             if (scene is null) throw new ArgumentNullException(nameof(scene));
 

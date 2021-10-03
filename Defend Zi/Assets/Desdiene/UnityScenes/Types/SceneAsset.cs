@@ -6,13 +6,13 @@ using Desdiene.UnityScenes.Loadings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Desdiene.UnityScenes
+namespace Desdiene.UnityScenes.Types
 {
     /// <summary>
     /// Описывает файл "юнити сцена". НЕ описывает загруженную сцену.
     /// Дочернему классу необходимо дать название, соответствующему названию сцены.
     /// </summary>
-    public class SceneAsset : MonoBehaviourExtContainer
+    internal class SceneAsset : MonoBehaviourExtContainer, ISceneAsset
     {
         private readonly string _sceneName;
 
@@ -32,12 +32,12 @@ namespace Desdiene.UnityScenes
         /// </summary>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling LoadAsSingle(Action<ILinearProcessesMutator> beforeEnabling)
+        ILoadingAndEnabling ISceneAsset.LoadAsSingle(Action<ILinearProcessesMutator> beforeEnabling)
         {
             return Load(LoadSceneMode.Single, beforeEnabling);
         }
 
-        public ILoadingAndEnabling LoadAsAdditive(Action<ILinearProcessesMutator> beforeEnabling)
+        ILoadingAndEnabling ISceneAsset.LoadAsAdditive(Action<ILinearProcessesMutator> beforeEnabling)
         {
             return Load(LoadSceneMode.Additive, beforeEnabling);
         }
@@ -48,7 +48,12 @@ namespace Desdiene.UnityScenes
         /// <param name="loadSceneMode">Режим загрузки сцены.</param>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        public ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling)
+        ILoadingAndEnabling ISceneAsset.Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling)
+        {
+            return Load(loadSceneMode, beforeEnabling);
+        }
+
+        private ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
             LoadingAndEnabling loading = new LoadingAndEnabling(monoBehaviourExt, loadingOperation, _sceneName, beforeEnabling);

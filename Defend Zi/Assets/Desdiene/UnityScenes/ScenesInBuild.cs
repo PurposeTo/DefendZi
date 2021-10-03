@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,7 +31,7 @@ namespace Desdiene.UnityScenes
 
         public string[] GetNames() => _scenesInBuildNames;
 
-        public SceneAsset Get(MonoBehaviourExt mono, string sceneName)
+        public ISceneAsset Get(MonoBehaviourExt mono, string sceneName)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
             if (string.IsNullOrWhiteSpace(sceneName))

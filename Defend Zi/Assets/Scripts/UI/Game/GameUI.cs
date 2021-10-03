@@ -4,6 +4,7 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
 using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +14,7 @@ public class GameUI : MonoBehaviourExt
     [SerializeField, NotNull] private GamePauseView _gamePauseView;
     private GlobalTimePause _gamePause;
     private SceneLoader _sceneLoader;
-    private SceneAsset _mainMenuScene;
+    private ISceneAsset _mainMenuScene;
 
     private IReincarnationNotification _playerReincarnation;
 

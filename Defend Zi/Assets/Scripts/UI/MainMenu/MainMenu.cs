@@ -3,6 +3,7 @@ using Desdiene.GooglePlayApi;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +11,7 @@ public class MainMenu : MonoBehaviourExt
 {
     [SerializeField, NotNull] private MainMenuView _mainMenuView;
     private GpgsLeaderboard _leaderboard;
-    private SceneAsset _gameScene;
+    private ISceneAsset _gameScene;
     private SceneLoader _sceneLoader;
 
     [Inject]

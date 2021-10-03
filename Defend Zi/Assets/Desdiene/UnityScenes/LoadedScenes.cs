@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

@@ -3,13 +3,14 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
 public class Test_SceneLoading : MonoBehaviourExt
 {
-    private SceneAsset _sceneType;
+    private ISceneAsset _sceneType;
     private SceneLoader _sceneLoader;
 
     private readonly ILinearProcess _testWait = new LinearProcess("Тестовое ожидание");
