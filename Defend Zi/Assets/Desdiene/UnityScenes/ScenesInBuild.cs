@@ -1,6 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
-using Desdiene.Singletons.Unity;
+using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,11 +11,11 @@ namespace Desdiene.UnityScenes
     /// Класс содержит информацию о сценах в сборке.
     /// Обращаться к SceneManager можно только из MonoBehaviour класса.
     /// </summary>
-    public class ScenesInBuild : GlobalSingleton<ScenesInBuild>
+    public sealed partial class ScenesInBuild : MonoBehaviourExt
     {
-        private string[] _scenesInBuild;
+        private string[] _scenesInBuildNames;
 
-        protected override void AwakeSingleton()
+        protected override void AwakeExt()
         {
             int sceneNumber = SceneManager.sceneCountInBuildSettings;
             string[] arrayOfNames;
@@ -23,12 +24,32 @@ namespace Desdiene.UnityScenes
             {
                 arrayOfNames[i] = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
             }
-            _scenesInBuild = arrayOfNames;
-            Debug.Log($"Сцен в сборке: {_scenesInBuild.Length}. Имена сцен:\n{string.Join("\n", _scenesInBuild.ToArray())}");
+            _scenesInBuildNames = arrayOfNames;
+            Debug.Log($"Сцен в сборке: {_scenesInBuildNames.Length}. Имена сцен:\n{string.Join("\n", _scenesInBuildNames.ToArray())}");
         }
 
-        public bool Contains(string sceneName) => _scenesInBuild.Contains(sceneName);
+        public string[] GetNames() => _scenesInBuildNames;
 
-        public string[] GetNames() => _scenesInBuild;
+        public SceneAsset Get(MonoBehaviourExt mono, string sceneName)
+        {
+            if (mono == null) throw new ArgumentNullException(nameof(mono));
+            if (string.IsNullOrWhiteSpace(sceneName))
+            {
+                throw new ArgumentException($"\"{nameof(sceneName)}\" can't be null or empty", nameof(sceneName));
+            }
+
+            if (Contains(sceneName))
+            {
+                Debug.Log($"Scene with name \"{sceneName}\" was found successfully");
+                return new SceneAsset(mono, sceneName);
+            }
+            else
+            {
+                throw new TypeLoadException($"Scene with name {sceneName} not found in build! " +
+                    $"The class name must match the name of the existing scene and be unique");
+            }
+        }
+
+        private bool Contains(string sceneName) => _scenesInBuildNames.Contains(sceneName);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
-using Desdiene.SceneTypes;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
+using Desdiene.UnityScenes;
 using UnityEngine;
 using Zenject;
 
@@ -18,8 +18,9 @@ public class GameUI : MonoBehaviourExt
     private IReincarnationNotification _playerReincarnation;
 
     [Inject]
-    private void Constructor(GlobalTimeScaler globalTimeScaler,
+    private void Constructor(GlobalTime globalTimeScaler,
                              SceneLoader sceneLoader,
+                             ScenesInBuild scenesInBuild,
                              ComponentsProxy componentsProxy)
     {
         if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
@@ -66,14 +67,14 @@ public class GameUI : MonoBehaviourExt
 
     private void ShowGamePauseView()
     {
-        _gamePause.Start();
+        ((Desdiene.Types.Processes.ICyclicalProcessMutator)_gamePause).Start();
         _gamePauseView.Show();
     }
 
     private void HideGamePauseView()
     {
         _gamePauseView.Hide();
-        _gamePause.Stop();
+        ((Desdiene.Types.Processes.ICyclicalProcessMutator)_gamePause).Stop();
     }
 
     private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);

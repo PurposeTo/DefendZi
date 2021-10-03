@@ -38,13 +38,13 @@ namespace Desdiene.TimeControls.Adapters
 
         void IPercentMutator.SetMax() => SetTimeRefScale(1f);
 
-        private float TimeScale => Time.timeScale;
+        private float TimeScale => UnityEngine.Time.timeScale;
 
         private void SetTimeRefScale(float timeScale)
         {
-            if (Time.timeScale != timeScale)
+            if (UnityEngine.Time.timeScale != timeScale)
             {
-                Time.timeScale = timeScale;
+                UnityEngine.Time.timeScale = timeScale;
                 OnChanged?.Invoke();
             }
         }

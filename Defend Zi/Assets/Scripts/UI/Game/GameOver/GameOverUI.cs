@@ -2,10 +2,10 @@
 using Desdiene.DataStorageFactories.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
-using Desdiene.SceneTypes;
 using Desdiene.TimeControls.Pauses;
 using Desdiene.TimeControls.Scalers;
 using Desdiene.UI.Elements;
+using Desdiene.UnityScenes;
 using UnityEngine;
 using Zenject;
 
@@ -36,14 +36,16 @@ public class GameOverUI : MonoBehaviourExt
     private bool doesPlayerBoughtRevival = false; // покупал ли игрок возрождение?
 
     [Inject]
-    private void Constructor(GlobalTimeScaler globalTimeScaler,
+    private void Constructor(GlobalTime globalTimeScaler,
                          IStorage<IGameData> storage,
                          SceneLoader sceneLoader,
+                         ScenesInBuild scenesInBuild,
                          IRewardedAd rewardedAd,
                          GameDataSaver gameDataSaver,
                          ComponentsProxy componentsProxy)
     {
         if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
+        if (scenesInBuild == null) throw new ArgumentNullException(nameof(scenesInBuild));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
@@ -76,9 +78,9 @@ public class GameOverUI : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _playerDeath.OnDeath += _playerDeathPause.Start;
+        _playerDeath.OnDeath += ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Start;
         _playerDeath.OnDeath += ChooseAndShowGameOverView;
-        _playerReincarnation.OnReviving += _playerDeathPause.Stop;
+        _playerReincarnation.OnReviving += ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Stop;
 
         _rewardedAd.OnFailedToShow += OnFailedToShowAd;
         _rewardedAd.OnFailedToShow += HideWaitingAndShowError;
@@ -97,9 +99,9 @@ public class GameOverUI : MonoBehaviourExt
 
     private void UnsubscribeEvents()
     {
-        _playerDeath.OnDeath -= _playerDeathPause.Start;
+        _playerDeath.OnDeath -= ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Start;
         _playerDeath.OnDeath -= ChooseAndShowGameOverView;
-        _playerReincarnation.OnReviving -= _playerDeathPause.Stop;
+        _playerReincarnation.OnReviving -= ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Stop;
 
         _rewardedAd.OnFailedToShow -= OnFailedToShowAd;
         _rewardedAd.OnFailedToShow -= HideWaitingAndShowError;

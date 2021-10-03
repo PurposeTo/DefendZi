@@ -115,7 +115,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindGlobalTimeScaler()
     {
         Container
-            .Bind<GlobalTimeScaler>()
+            .Bind<GlobalTime>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

@@ -10,45 +10,47 @@ namespace Desdiene.TimeControls.Pauses
     /// Создаваемый объект дает возможность поставить на паузу глобальное время.
     /// </summary>
     //Работать с UnityEngine.Time только внутри ЖЦ monoBehaviour.
-    public class GlobalTimePause : MonoBehaviourExtContainer, ICyclicalProcess
+    public class GlobalTimePause : MonoBehaviourExtContainer, ITimePause
     {
-        private readonly TimePause _timePause;
+        private readonly ITimePause _timePause;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="mono">Игровой компонент, к жизненному циклу которого будет привязан данных объект.</param>
         /// <param name="name">Имя для логгирования.</param>
-        public GlobalTimePause(MonoBehaviourExt mono, GlobalTimeScaler timeScaler, string name) : base(mono)
+        public GlobalTimePause(MonoBehaviourExt mono, GlobalTime globalTime, string name) : base(mono)
         {
-            _timePause = new TimePause(timeScaler, name);
+            _timePause = new TimePause(globalTime, name);
             mono.OnDestroyed += _timePause.Destroy;
         }
 
-        public event Action WhenStarted
+        event Action ICyclicalProcessNotifier.WhenStarted
         {
             add => _timePause.WhenStarted += value;
             remove => _timePause.WhenStarted -= value;
         }
 
-        public event Action WhenStopped
+        event Action ICyclicalProcessNotifier.WhenStopped
         {
             add => _timePause.WhenStopped += value;
             remove => _timePause.WhenStopped -= value;
         }
 
-        public event Action<IProcessAccessor> OnChanged
+        event Action<IProcessAccessor> IProcessNotifier.OnChanged
         {
             add => _timePause.OnChanged += value;
             remove => _timePause.OnChanged -= value;
         }
 
-        public string Name => _timePause.Name;
+        string IProcessAccessor.Name => _timePause.Name;
 
-        public bool KeepWaiting => _timePause.KeepWaiting;
+        bool IProcessAccessor.KeepWaiting => _timePause.KeepWaiting;
 
-        public void Start() => _timePause.Start();
+        void ICyclicalProcessMutator.Start() => _timePause.Start();
 
-        public void Stop() => _timePause.Stop();
+        void ICyclicalProcessMutator.Stop() => _timePause.Stop();
+
+        void ITimePause.Destroy() => _timePause.Destroy();
     }
 }

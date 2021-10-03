@@ -1,10 +1,10 @@
 ﻿using System;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.SceneTypes;
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.ProcessContainers;
+using Desdiene.UnityScenes;
 
 namespace Desdiene.SceneLoaders.Single.States.Base
 {

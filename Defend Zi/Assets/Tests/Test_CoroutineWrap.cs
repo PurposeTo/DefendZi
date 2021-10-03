@@ -6,7 +6,7 @@ using UnityEngine;
 public class Test_CoroutineWrap : MonoBehaviourExt
 {
 
-    private CoroutineWrap stoppableCoroutine;
+    private ICoroutine stoppableCoroutine;
 
     protected override void AwakeExt()
     {

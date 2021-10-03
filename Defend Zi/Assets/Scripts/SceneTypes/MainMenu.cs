@@ -1,11 +1,11 @@
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.SceneTypes;
+using Desdiene.UnityScenes;
 
 namespace SceneTypes
 {
     public class MainMenu : SceneAsset
     {
-        public MainMenu(MonoBehaviourExt mono) : base(mono)
+        public MainMenu(MonoBehaviourExt mono) : base(mono, nameof(MainMenu))
         {
 
         }

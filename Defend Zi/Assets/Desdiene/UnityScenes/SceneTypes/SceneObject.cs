@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-namespace Desdiene.UnityScenes.SceneTypes
+namespace Desdiene.UnityScenes
 {
     /// <summary>
     /// Описывает сцену-объект в окне иерархии объектов.

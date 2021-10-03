@@ -40,7 +40,7 @@ namespace Desdiene.UnityScenes.Loadings
 
             beforeEnablingAction?.Invoke(_beforeEnabling);
 
-            _progressChecking = new CoroutineWrap(mono);
+            _progressChecking = new CoroutineWrap(monoBehaviourExt);
             _progressChecking.StartContinuously(ProgressChecking());
         }
 
@@ -74,9 +74,6 @@ namespace Desdiene.UnityScenes.Loadings
         {
             while (!ProgressInfo.IsDone)
             {
-                Debug.Log($"КРЯ! Equals90Percents={ProgressInfo.Equals90Percents}; KeepWaiting={_beforeEnabling.KeepWaiting}");
-                ((LinearParallelProcesses)_beforeEnabling).LogAllProcesses();
-
                 if (ProgressInfo.Equals90Percents && !_beforeEnabling.KeepWaiting)
                 {
                     AllowSceneEnabling();

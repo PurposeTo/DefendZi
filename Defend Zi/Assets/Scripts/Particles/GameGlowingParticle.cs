@@ -10,7 +10,7 @@ public class GameGlowingParticle : MonoBehaviourExt
     private ICyclicalProcessAccessorNotifier _globalPause;
 
     [Inject]
-    private void Constructor(GlobalTimeScaler globalTimeScaler)
+    private void Constructor(GlobalTime globalTimeScaler)
     {
         _globalPause = globalTimeScaler ?? throw new System.ArgumentNullException(nameof(globalTimeScaler));
     }
