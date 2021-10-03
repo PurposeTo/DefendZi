@@ -54,8 +54,8 @@ public class GameOverUI : MonoBehaviourExt
         _playerDeathPause = new GlobalTimePause(this, globalTimeScaler, "Смерть игрока");
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
 
-        _gameScene = new SceneTypes.Game(this);
-        _mainMenuScene = new SceneTypes.MainMenu(this);
+        _gameScene = SceneTypes.Game.Get(this, scenesInBuild);
+        _mainMenuScene = SceneTypes.MainMenu.Get(this, scenesInBuild);
 
         _playerDeath = componentsProxy.PlayerDeath;
         _playerReincarnation = componentsProxy.PlayerReincarnation;

@@ -15,6 +15,6 @@ public class UserInputMono : MonoBehaviourExt, IUserInput
 
     protected override void AwakeExt()
     {
-        userInput = new UserInputCreator(this).GetOrDefault();
+        userInput = new UserInputFactory(this).GetOrDefault();
     }
 }

@@ -3,11 +3,11 @@ using Desdiene.UnityScenes;
 
 namespace SceneTypes
 {
-    public class Game : SceneAsset
+    public static class Game
     {
-        public Game(MonoBehaviourExt mono) : base(mono, nameof(Game))
+        public static SceneAsset Get(MonoBehaviourExt mono, ScenesInBuild scenesInBuild)
         {
-
+            return scenesInBuild.Get(mono, nameof(Game));
         }
     }
 }

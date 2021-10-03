@@ -3,7 +3,6 @@ using Desdiene.GooglePlayApi;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.UnityScenes;
-using SceneTypes;
 using UnityEngine;
 using Zenject;
 
@@ -20,7 +19,7 @@ public class MainMenu : MonoBehaviourExt
         if (scenesInBuild == null) throw new ArgumentNullException(nameof(scenesInBuild));
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
         _leaderboard = leaderboard ?? throw new ArgumentNullException(nameof(leaderboard));
-        _gameScene = new Game(this);
+        _gameScene = SceneTypes.Game.Get(this, scenesInBuild);
         SubscribeEvents();
     }
 

@@ -3,7 +3,6 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Desdiene.UnityScenes;
-using SceneTypes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -22,7 +21,7 @@ public class Test_SceneLoading : MonoBehaviourExt
         {
             Debug.Log($"Была загружена новая сцена!");
         };
-        _sceneType = new Test(this);
+        _sceneType = SceneTypes.Test.Get(this, scenesInBuild);
         _sceneLoader = sceneLoader;
         _sceneLoader.BeforeUnloading += BeforeUnloading;
         _sceneLoader.AfterEnabling += AfterEnabling;

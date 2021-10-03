@@ -4,11 +4,11 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.UserInputFactories;
 using UnityEngine;
 
-public class UserInputCreator : IUserInputFactory<IUserInput>
+public class UserInputFactory : IUserInputFactory<IUserInput>
 {
     private readonly UserInputFactory<IUserInput> creator;
 
-    public UserInputCreator(MonoBehaviourExt mono)
+    public UserInputFactory(MonoBehaviourExt mono)
     {
         IDictionary<RuntimePlatform, Func<IUserInput>> userInputs = new Dictionary<RuntimePlatform, Func<IUserInput>>
         {

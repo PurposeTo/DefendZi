@@ -29,7 +29,7 @@ public class GameUI : MonoBehaviourExt
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
         _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
 
-        _mainMenuScene = new SceneTypes.MainMenu(this);
+        _mainMenuScene = SceneTypes.MainMenu.Get(this, scenesInBuild);
 
         _playerReincarnation = componentsProxy.PlayerReincarnation;
     }
