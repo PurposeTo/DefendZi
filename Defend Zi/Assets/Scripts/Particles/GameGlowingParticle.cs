@@ -1,5 +1,5 @@
 ﻿using Desdiene.MonoBehaviourExtension;
-using Desdiene.TimeControls.Scalers;
+using Desdiene.TimeControls;
 using Desdiene.Types.Processes;
 using UnityEngine;
 using Zenject;
@@ -7,12 +7,12 @@ using Zenject;
 public class GameGlowingParticle : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GlowingParticle _glowing;
-    private ICyclicalProcessAccessorNotifier _globalPause;
+    private ITimeNotification _timeNotification;
 
     [Inject]
-    private void Constructor(GlobalTime globalTimeScaler)
+    private void Constructor(ITime globalTime)
     {
-        _globalPause = globalTimeScaler ?? throw new System.ArgumentNullException(nameof(globalTimeScaler));
+        _timeNotification = globalTime ?? throw new System.ArgumentNullException(nameof(globalTime));
     }
 
     protected override void AwakeExt()
@@ -29,14 +29,14 @@ public class GameGlowingParticle : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _globalPause.WhenStarted += StopGlowingMotion;
-        _globalPause.WhenStopped += StartGlowingMotion;
+        _timeNotification.WhenRunning += StartGlowingMotion;
+        _timeNotification.WhenStopped += StopGlowingMotion;
     }
 
     private void UnsubscribeEvents()
     {
-        _globalPause.WhenStarted -= StopGlowingMotion;
-        _globalPause.WhenStopped -= StartGlowingMotion;
+        _timeNotification.WhenRunning -= StartGlowingMotion;
+        _timeNotification.WhenStopped -= StopGlowingMotion;
     }
 
     private void StartGlowingMotion()

@@ -1,8 +1,8 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
-using Desdiene.TimeControls.Pauses;
-using Desdiene.TimeControls.Scalers;
+using Desdiene.TimeControls;
+using Desdiene.Types.Processes;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Types;
 using UnityEngine;
@@ -12,23 +12,23 @@ public class GameUI : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GameView _gameView;
     [SerializeField, NotNull] private GamePauseView _gamePauseView;
-    private GlobalTimePause _gamePause;
+    private ICyclicalProcess _gamePause;
     private SceneLoader _sceneLoader;
     private ISceneAsset _mainMenuScene;
 
     private IReincarnationNotification _playerReincarnation;
 
     [Inject]
-    private void Constructor(GlobalTime globalTimeScaler,
+    private void Constructor(ITime globalTime,
                              SceneLoader sceneLoader,
                              ScenesInBuild scenesInBuild,
                              ComponentsProxy componentsProxy)
     {
-        if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
+        if (globalTime == null) throw new ArgumentNullException(nameof(globalTime));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
-        _gamePause = new GlobalTimePause(this, globalTimeScaler, "Подконтрольная игроку пауза игры");
+        _gamePause = globalTime.CreatePause(this, "Подконтрольная игроку пауза игры");
 
         _mainMenuScene = SceneTypes.MainMenu.Get(this, scenesInBuild);
 

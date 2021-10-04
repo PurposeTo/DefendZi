@@ -1,11 +1,7 @@
-﻿using Desdiene.TimeControls.Scalers;
-
-namespace Desdiene.TimeControls
+﻿namespace Desdiene.TimeControls
 {
-    public interface ITime
+    public interface ITime : ITimeAccessor, ITimeMutator, ITimeNotification, ITimePauseFactory
     {
-        void Set(float timeScale);
-        void Stop();
-        void Run();
+
     }
 }

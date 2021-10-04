@@ -1,8 +1,8 @@
 ﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
+using Desdiene.TimeControls;
 using Desdiene.TimeControls.Adapters;
-using Desdiene.TimeControls.Scalers;
 using Desdiene.UI.Components;
 using Desdiene.UnityScenes;
 using Zenject;
@@ -115,8 +115,8 @@ public class ProjectInstaller : MonoInstaller
     private void BindGlobalTimeScaler()
     {
         Container
-            .Bind<GlobalTime>()
-            .ToSelf()
+            .Bind<ITime>()
+            .To<GlobalTime>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();

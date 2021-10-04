@@ -2,8 +2,8 @@
 using Desdiene.DataStorageFactories.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
-using Desdiene.TimeControls.Pauses;
-using Desdiene.TimeControls.Scalers;
+using Desdiene.TimeControls;
+using Desdiene.Types.Processes;
 using Desdiene.UI.Elements;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Types;
@@ -30,14 +30,14 @@ public class GameOverUI : MonoBehaviourExt
     private IHealthNotification _playerDeath;
     private IReincarnation _playerReincarnation;
 
-    private GlobalTimePause _playerDeathPause;
+    private ICyclicalProcess _playerDeathPause;
 
     private IRewardedAd _rewardedAd;
 
     private bool doesPlayerBoughtRevival = false; // покупал ли игрок возрождение?
 
     [Inject]
-    private void Constructor(GlobalTime globalTimeScaler,
+    private void Constructor(ITime globalTime,
                          IStorage<IGameData> storage,
                          SceneLoader sceneLoader,
                          ScenesInBuild scenesInBuild,
@@ -45,14 +45,14 @@ public class GameOverUI : MonoBehaviourExt
                          GameDataSaver gameDataSaver,
                          ComponentsProxy componentsProxy)
     {
-        if (globalTimeScaler == null) throw new ArgumentNullException(nameof(globalTimeScaler));
+        if (globalTime == null) throw new ArgumentNullException(nameof(globalTime));
         if (scenesInBuild == null) throw new ArgumentNullException(nameof(scenesInBuild));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
         _gameDataSaver = gameDataSaver ?? throw new ArgumentNullException(nameof(gameDataSaver));
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-        _playerDeathPause = new GlobalTimePause(this, globalTimeScaler, "Смерть игрока");
+        _playerDeathPause = globalTime.CreatePause(this, "Смерть игрока");
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
 
         _gameScene = SceneTypes.Game.Get(this, scenesInBuild);
