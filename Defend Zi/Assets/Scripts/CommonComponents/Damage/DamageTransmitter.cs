@@ -2,15 +2,15 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class DamageTransmitter : MonoBehaviourExt, IDamageDealer
+public class DamageTransmitter : MonoBehaviourExt, IDamage
 {
-    private IDamageDealer damageDealer;
+    private IDamage _damage;
 
     protected override void AwakeExt()
     {
         //todo: верное ли использование?
-        damageDealer = GetInitedComponentOnlyInParent<IDamageDealer>();
+        _damage = GetInitedComponentOnlyInParent<IDamage>();
     }
 
-    uint IDamageDealer.Value => damageDealer.Value;
+    uint IDamage.Value => _damage.Value;
 }

@@ -6,8 +6,8 @@ public abstract class Chunk : MonoBehaviourExt
 {
     [SerializeField, NotNull] ObjectInSightChecker _chunkInSight;
     [SerializeField, NotNull] ObjectInSightChecker _spawnPlaceInSight;
-    [SerializeField, NotNull] InterfaceComponent<IRectangleIn2DGetter> _chunkSize;
-    [SerializeField, NotNull] InterfaceComponent<IRectangleIn2DGetter> _spawnPlaceSize;
+    [SerializeField, NotNull] InterfaceComponent<IRectangleIn2DAccessor> _chunkSize;
+    [SerializeField, NotNull] InterfaceComponent<IRectangleIn2DAccessor> _spawnPlaceSize;
 
     public float SpawnPlaceWidth => _spawnPlaceSize
         .Implementation

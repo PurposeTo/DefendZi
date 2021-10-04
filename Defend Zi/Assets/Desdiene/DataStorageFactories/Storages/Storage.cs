@@ -28,7 +28,7 @@ namespace Desdiene.DataStorageFactories.Storages
             _chooseDataRoutine = new CoroutineWrap(superMonoBehaviour);
         }
 
-        // данные, полученные с хранилищ/а
+        // загруженные данные, полученные с хранилищ/а
         private T _cashLoadedData = default;
 
         public T GetData() => _data;
@@ -74,7 +74,7 @@ namespace Desdiene.DataStorageFactories.Storages
 
         private IEnumerator ChooseDataEnumerator(T currentData, T loadedData, Action<T> choosedData)
         {
-            Debug.LogWarning("NotImplementedException: выбор моделей");
+            Debug.LogError("NotImplementedException: выбор моделей");
             //todo предложить игроку выбрать модель
             yield return null;
             choosedData?.Invoke(currentData);

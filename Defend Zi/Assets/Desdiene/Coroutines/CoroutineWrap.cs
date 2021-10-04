@@ -50,35 +50,36 @@ namespace Desdiene.Coroutines
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();
+            SubscribeEvents();
         }
 
         public bool IsExecuting => CurrentState.IsExecuting;
-        private State CurrentState => _refCurrentState.Get() ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
         /// <summary>
         /// Запустить выполнение корутины, если она не была запущена.
         /// </summary>
-        public void StartContinuously(IEnumerator enumerator) => CurrentState.StartContinuously(enumerator);
+        void ICoroutine.StartContinuously(IEnumerator enumerator) => CurrentState.StartContinuously(enumerator);
 
         /// <summary>
         /// Если корутина была запущена, остановить её. Запустить выполнение корутины.
         /// </summary>
-        public void ReStart(IEnumerator enumerator)
+        void ICoroutine.ReStart(IEnumerator enumerator)
         {
-            TryTerminate();
-            StartContinuously(enumerator);
+            CurrentState.TryTerminate();
+            CurrentState.StartContinuously(enumerator);
         }
 
         /// <summary>
         /// Прервать выполнение корутины.
         /// </summary>
-        public void Terminate() => CurrentState.Terminate();
+        void ICoroutine.Terminate() => CurrentState.Terminate();
 
         /// <summary>
         /// Прервать выполнение корутины, если она была запущена.
         /// </summary>
         /// <returns>Была ли корутина запущена?</returns>
-        public bool TryTerminate() => CurrentState.TryTerminate();
+        bool ICoroutine.TryTerminate() => CurrentState.TryTerminate();
 
         /*
          * метод monoBehaviour.StopCoroutine не может остановить выполнение вложенных корутин, 
@@ -91,6 +92,11 @@ namespace Desdiene.Coroutines
         /// </summary>
         /// <param name="newCoroutine">Вложенная корутина.</param>
         /// <returns>Енумератор для ожидания выполнения.</returns>
-        public IEnumerator StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
+        IEnumerator ICoroutine.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
+
+        private void SubscribeEvents()
+        {
+            monoBehaviourExt.OnDestroyed += () => CurrentState.TryTerminate();
+        }
     }
 }

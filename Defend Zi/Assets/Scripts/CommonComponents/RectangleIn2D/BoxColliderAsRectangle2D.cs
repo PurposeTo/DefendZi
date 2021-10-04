@@ -4,21 +4,21 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [ExecuteInEditMode]
-public class BoxColliderAsRectangle2D : MonoBehaviourExt, IRectangleIn2DGetter
+public class BoxColliderAsRectangle2D : MonoBehaviourExt, IRectangleIn2DAccessor
 {
     private BoxCollider2D _boxCollider2D;
 
-    float IRectangleGetter.Height => _boxCollider2D.size.y;
+    float IRectangleAccessor.Height => _boxCollider2D.size.y;
 
-    float IRectangleGetter.Width => _boxCollider2D.size.x;
+    float IRectangleAccessor.Width => _boxCollider2D.size.x;
 
-    Vector2 IPositionGetter.Value => transform.position;
+    Vector2 IPositionAccessor.Value => transform.position;
 
-    Vector2 IPivotOffset2DGetter.Value => _boxCollider2D.offset;
+    Vector2 IPivotOffset2DAccessor.Value => _boxCollider2D.offset;
 
-    float IRotationGetter.Angle => transform.rotation.eulerAngles.z;
+    float IRotationAccessor.Angle => transform.rotation.eulerAngles.z;
 
-    Quaternion IRotationGetter.Quaternion => transform.rotation;
+    Quaternion IRotationAccessor.Quaternion => transform.rotation;
 
     protected override void AwakeExt()
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class TransformPosition : MonoBehaviourExt, IPosition
 {
-    Vector2 IPositionGetter.Value => transform.position;
+    Vector2 IPositionAccessor.Value => transform.position;
 
     event Action IPositionNotification.OnChanged
     {

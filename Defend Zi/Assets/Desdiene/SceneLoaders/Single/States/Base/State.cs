@@ -1,10 +1,10 @@
 ﻿using System;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.SceneTypes;
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.Processes;
+using Desdiene.Types.ProcessContainers;
+using Desdiene.UnityScenes.Types;
 
 namespace Desdiene.SceneLoaders.Single.States.Base
 {
@@ -27,7 +27,7 @@ namespace Desdiene.SceneLoaders.Single.States.Base
             OnExit();
         }
 
-        public abstract void Load(SceneAsset scene, Action<IProcessesSetter> beforeUnloading, Action afterEnabling);
+        public abstract void Load(ISceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling);
 
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }

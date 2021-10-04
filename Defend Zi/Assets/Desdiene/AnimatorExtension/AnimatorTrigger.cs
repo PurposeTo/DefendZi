@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Desdiene.AnimatorExtension
 {
-    public struct AnimatorTrigger
+    public class AnimatorTrigger
     {
         private readonly Animator _animator;
         private readonly AnimatorParameters _parameters;
@@ -25,14 +25,14 @@ namespace Desdiene.AnimatorExtension
             {
                 _parameter = param;
             }
-            else throw new ArgumentNullException(nameof(_paramName), $"Trigger param was not found in animator \"{_animator.name}\"");
+            else throw new ArgumentNullException(_paramName, $"Trigger param was not found in animator \"{_animator.name}\"");
         }
 
         public void Trigger()
         {
-            
-            throw new NotImplementedException();
-
+            _animator.SetTrigger(_paramName);
+            //_animator.ResetTrigger(_paramName);
+           // Debug.LogWarning("NotImplementedException");
             //todo проверить реализацию на практике.
 
             /* Это надо сделать так:

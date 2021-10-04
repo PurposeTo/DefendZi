@@ -1,4 +1,4 @@
-﻿public interface IRotation : IRotationGetter, IMoveRotation
+﻿public interface IRotation : IRotationAccessor, IMoveRotation
 {
 
 }

@@ -1,43 +1,85 @@
 using System;
+using System.Collections.Generic;
+using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.Percentables;
 using Desdiene.Types.Percentale;
+using Desdiene.Types.Percents;
 using Desdiene.Types.Ranges.Positive;
 
-public class PlayerHealth : IHealth
+public partial class PlayerHealth : IHealthReincarnation
 {
-    private IntPercentable _healthData;
-    private event Action OnDied;
-    private event Action OnReborn;
-    private bool IsDeath;
+    private readonly IRef<State> _refCurrentState = new Ref<State>();
+
+    private readonly IRef<int> _health;
+    private readonly IPercent _healthPercent;
 
     public PlayerHealth()
     {
         int defaultHealth = 1;
-        _healthData = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
-        OnDied += () => IsDeath = true;
-        OnReborn += () => IsDeath = false;
+        IPercentable<int> health = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
+        _health = health;
+        _healthPercent = health;
+
+        StateSwitcherWithContext<State, PlayerHealth> stateSwitcher = new StateSwitcherWithContext<State, PlayerHealth>(this, _refCurrentState);
+        List<State> allStates = new List<State>()
+            {
+                new Alive(this, stateSwitcher),
+                new Dead(this, stateSwitcher)
+            };
+        stateSwitcher.Add(allStates);
+        stateSwitcher.Switch<Alive>();
     }
 
-    event Action IDeath.OnDied
+    private event Action WhenAlive;
+    private event Action OnDamaged;
+    private event Action OnDeath;
+    private event Action WhenDead;
+    private event Action OnReviving;
+
+    event Action IHealthNotification.WhenAlive
     {
-        add => OnDied += value;
-        remove => OnDied -= value;
+        add
+        {
+            WhenAlive = CurrentState.SubscribeToWhenAlive(WhenAlive, value);
+        }
+        remove => WhenAlive -= value;
     }
 
-    event Action IDeath.OnReborn
+    event Action IHealthNotification.OnDamaged
     {
-        add => OnReborn += value;
-        remove => OnReborn -= value;
+        add => OnDamaged += value;
+        remove => OnDamaged -= value;
     }
 
-    bool IDeath.IsDeath => IsDeath;
-    IPercentable<int> IHealthGetter.Value => _healthData;
-
-    void IDamageTaker.TakeDamage(uint damage)
+    event Action IHealthNotification.OnDeath
     {
-        _healthData -= damage;
-        if (_healthData == 0) Die();
+        add => OnDeath += value;
+        remove => OnDeath -= value;
     }
 
-    private void Die() => OnDied?.Invoke();
+    event Action IHealthNotification.WhenDead
+    {
+        add
+        {
+            WhenDead = CurrentState.SubscribeToWhenDead(WhenDead, value);
+        }
+        remove => WhenDead -= value;
+    }
+
+    event Action IReincarnationNotification.OnReviving
+    {
+        add => OnReviving += value;
+        remove => OnReviving -= value;
+    }
+
+    int IHealthAccessor.Value => _health.Value;
+
+    float IHealthAccessor.Percent => _healthPercent.Value;
+
+    void IDamageTaker.TakeDamage(IDamage damage) => CurrentState.TakeDamage(damage);
+
+    void IReincarnation.Revive() => CurrentState.Revive();
+
+    private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 }

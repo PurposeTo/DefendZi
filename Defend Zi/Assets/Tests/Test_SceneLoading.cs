@@ -1,33 +1,28 @@
-﻿using System;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
-using Desdiene.SceneTypes;
+using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Desdiene.UnityScenes;
-using Desdiene.UnityScenes.Loadings;
-using Desdiene.UnityScenes.Loadings.Components;
-using Desdiene.UnityScenes.SceneTypes;
-using Desdiene.UnityScenes.Unloadings;
-using SceneTypes;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
 public class Test_SceneLoading : MonoBehaviourExt
 {
-    private SceneAsset _sceneType;
+    private ISceneAsset _sceneType;
     private SceneLoader _sceneLoader;
 
-    private readonly IProcess _testWait = new Process("Тестовое ожидание");
+    private readonly ILinearProcess _testWait = new LinearProcess("Тестовое ожидание");
 
     [Inject]
-    private void Constructor(SceneLoader sceneLoader)
+    private void Constructor(SceneLoader sceneLoader, ScenesInBuild scenesInBuild)
     {
         SceneManager.sceneLoaded += (scene, mode) =>
         {
             Debug.Log($"Была загружена новая сцена!");
         };
-        _sceneType = new Test(this);
+        _sceneType = SceneTypes.Test.Get(this, scenesInBuild);
         _sceneLoader = sceneLoader;
         _sceneLoader.BeforeUnloading += BeforeUnloading;
         _sceneLoader.AfterEnabling += AfterEnabling;
@@ -37,14 +32,14 @@ public class Test_SceneLoading : MonoBehaviourExt
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneObject firstLoadedScene = LoadedScenes.Instance.Get()[0];
+           // SceneObject firstLoadedScene = _loadedScenes.Get()[0];
             _sceneLoader.Reload();
         }
 
-        if (Input.GetKeyDown(KeyCode.G)) _testWait.Complete();
+        if (Input.GetKeyDown(KeyCode.G)) _testWait.Stop();
     }
 
-    private void BeforeUnloading(IProcessesSetter processes)
+    private void BeforeUnloading(ILinearProcessesMutator processes)
     {
         _testWait.Start();
         processes.Add(_testWait);

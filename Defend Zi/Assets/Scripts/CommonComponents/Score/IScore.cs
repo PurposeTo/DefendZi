@@ -1,4 +1,4 @@
-﻿public interface IScore : IScoreGetter, IScoreCollector, IScoreNotification
+﻿public interface IScore : IScoreAccessor, IScoreCollector, IScoreNotification
 {
 
 }

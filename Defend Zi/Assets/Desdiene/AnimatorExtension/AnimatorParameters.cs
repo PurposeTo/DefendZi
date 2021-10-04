@@ -12,6 +12,7 @@ namespace Desdiene.AnimatorExtension
         public AnimatorParameters(Animator unityAnimator)
         {
             _unityAnimator = unityAnimator ?? throw new ArgumentNullException(nameof(unityAnimator));
+            if (!_unityAnimator.isActiveAndEnabled) throw new InvalidOperationException($"Аниматор {_unityAnimator.name} должен быть включен для работы с ним");
 
             _parameters = new Dictionary<AnimatorControllerParameterType, Dictionary<string, AnimatorControllerParameter>>();
             Array.ForEach(Common.GetAllEnumValues<AnimatorControllerParameterType>(), (type) =>

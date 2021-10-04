@@ -6,13 +6,13 @@ namespace Desdiene
 {
     public class GizmoDrawing
     {
-        public static void Draw(Color color, IRectangleIn2DGetter rectangleIn2D, Vector3 lossyScale)
+        public static void Draw(Color color, IRectangleIn2DAccessor rectangleIn2D, Vector3 lossyScale)
         {
             if (rectangleIn2D is null) throw new ArgumentNullException(nameof(rectangleIn2D));
 
-            IPositionGetter rectPosition = rectangleIn2D;
-            IPivotOffset2DGetter rectPivotOffset = rectangleIn2D;
-            IRotationGetter rectRotation = rectangleIn2D;
+            IPositionAccessor rectPosition = rectangleIn2D;
+            IPivotOffset2DAccessor rectPivotOffset = rectangleIn2D;
+            IRotationAccessor rectRotation = rectangleIn2D;
             Vector3 position = rectPosition.Value + rectPivotOffset.Value;
             Vector3 size = new Vector3(rectangleIn2D.Width, rectangleIn2D.Height, 1f);
 

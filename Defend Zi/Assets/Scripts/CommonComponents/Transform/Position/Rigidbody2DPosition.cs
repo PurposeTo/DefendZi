@@ -12,7 +12,7 @@ public class Rigidbody2DPosition : IPosition
             : throw new ArgumentNullException(nameof(rigidbody2D));
     }
 
-    Vector2 IPositionGetter.Value => _rigidbody2D.position;
+    Vector2 IPositionAccessor.Value => _rigidbody2D.position;
 
     public event Action OnChanged;
 

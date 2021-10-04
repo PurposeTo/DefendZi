@@ -27,7 +27,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
             stateSwitcher.Switch<Initial<TData>>();
         }
 
-        private State<TData> CurrentState => _refCurrentState.Get() ?? throw new ArgumentNullException(nameof(CurrentState));
+        private State<TData> CurrentState => _refCurrentState.Value ?? throw new ArgumentNullException(nameof(CurrentState));
 
         public void Load(Action<TData> dataCallback)
         {

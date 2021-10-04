@@ -6,14 +6,14 @@ public class PlayerControl : IFixedUpdate
 {
     private readonly IUserInput _userInput;
     private readonly IPosition _position;
-    private readonly PlayerMovementView _movementView;
+    private readonly PlayerMovementData _movementData;
 
-    public PlayerControl(IUserInput input, IPosition position, PlayerMovementView movementView)
+    public PlayerControl(IUserInput input, IPosition position, PlayerMovementData movementData)
     {
         _userInput = input ?? throw new ArgumentNullException(nameof(input));
         _position = position ?? throw new ArgumentNullException(nameof(position));
-        _movementView = movementView ?? throw new ArgumentNullException(nameof(movementView));
-        _frequency = movementView.DefaultFrequency;
+        _movementData = movementData ?? throw new ArgumentNullException(nameof(movementData));
+        _frequency = movementData.DefaultFrequency;
     }
 
     private bool IsControlled => _userInput.IsActive;
@@ -23,15 +23,15 @@ public class PlayerControl : IFixedUpdate
     void IFixedUpdate.Invoke(float deltaTime)
     {
         float targetFrequency = IsControlled
-            ? _movementView.ControlledFrequency
-            : _movementView.DefaultFrequency;
+            ? _movementData.ControlledFrequency
+            : _movementData.DefaultFrequency;
         _frequency = GetFrequency(targetFrequency, deltaTime);
         Move(deltaTime);
     }
 
     private void Move(float deltaTime)
     {
-        float x = MoveOx(_movementView.Speed * deltaTime);
+        float x = MoveOx(_movementData.Speed * deltaTime);
         float y = MoveOy(x);
         _position.MoveTo(new Vector2(x, y));
     }
@@ -43,12 +43,12 @@ public class PlayerControl : IFixedUpdate
 
     private float MoveOy(float x)
     {
-        return _movementView.Amplitude * Mathf.Sin(_frequency * x + _phase);
+        return _movementData.Amplitude * Mathf.Sin(_frequency * x + _phase);
     }
 
     private float GetFrequency(float targetFrequency, float deltaTime)
     {
-        float delta = _movementView.FrequencyChangeRate * deltaTime;
+        float delta = _movementData.FrequencyChangeRate * deltaTime;
         float current = _frequency;
         float next = Mathf.MoveTowards(current, targetFrequency, delta);
         _phase = GetPhase(current, next);

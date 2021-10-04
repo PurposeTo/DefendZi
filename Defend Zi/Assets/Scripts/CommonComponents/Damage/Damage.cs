@@ -1,13 +1,13 @@
-﻿public class Damage : IDamageDealer
+﻿public class Damage : IDamage
 {
-    private readonly uint _damageData;
+    private readonly uint _points;
 
     public Damage() : this(1) { }
 
-    public Damage(uint damageData)
+    public Damage(uint points)
     {
-        _damageData = damageData;
+        _points = points;
     }
 
-    uint IDamageDealer.Value => _damageData;
+    uint IDamage.Value => _points;
 }

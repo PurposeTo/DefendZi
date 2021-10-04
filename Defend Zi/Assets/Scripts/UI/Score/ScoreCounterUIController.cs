@@ -5,7 +5,7 @@ using Zenject;
 [RequireComponent(typeof(TextView))]
 public class ScoreCounterUIController : MonoBehaviourExt
 {
-    private IScoreGetter score;
+    private IScoreAccessor score;
     private IScoreNotification scoreNotification;
     private TextView scoreCounterView;
 
@@ -24,18 +24,18 @@ public class ScoreCounterUIController : MonoBehaviourExt
         UnsubcribeEvents();
     }
 
-    private void UpdateScore()
+    private void UpdateScore(int scoreReceived)
     {
         scoreCounterView.SetText($"{score.Value}");
     }
 
     private void SubcribeEvents()
     {
-        scoreNotification.OnChanged += UpdateScore;
+        scoreNotification.OnReceived += UpdateScore;
     }
 
     private void UnsubcribeEvents()
     {
-        scoreNotification.OnChanged -= UpdateScore;
+        scoreNotification.OnReceived -= UpdateScore;
     }
 }

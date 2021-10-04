@@ -2,7 +2,7 @@
 
 namespace Desdiene.DataStorageFactories.Datas
 {
-    public interface IData : IDataGetter, IDataSetter, IDataNotifier, IDataValidator
+    public interface IData : IDataAccessor, IDataMutator, IDataNotifier, IDataValidator
     {
 
     }

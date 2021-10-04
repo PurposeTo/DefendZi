@@ -1,5 +1,4 @@
-﻿using System;
-namespace Desdiene.DataStorageFactories.Validators
+﻿namespace Desdiene.DataStorageFactories.Validators
 {
     public interface IDataValidator
     {

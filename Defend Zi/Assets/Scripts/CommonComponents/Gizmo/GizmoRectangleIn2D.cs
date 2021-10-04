@@ -6,16 +6,16 @@ using UnityEngine;
 /// <summary>
 /// Отрисовывает прямоугольник в 2D плоскости. (значение Z у плоскости = 0)
 /// </summary>
-[RequireComponent(typeof(IRectangleIn2DGetter))]
+[RequireComponent(typeof(IRectangleIn2DAccessor))]
 [ExecuteInEditMode]
 public class GizmoRectangleIn2D : MonoBehaviourExt
 {
-    private IRectangleIn2DGetter _rect2DPointsPosition;
+    private IRectangleIn2DAccessor _rect2DPointsPosition;
     [SerializeField] private Color _color = Color.white;
 
     protected override void AwakeExt()
     {
-        _rect2DPointsPosition = GetComponent<IRectangleIn2DGetter>();
+        _rect2DPointsPosition = GetComponent<IRectangleIn2DAccessor>();
     }
 
     private void OnDrawGizmos()
@@ -23,7 +23,7 @@ public class GizmoRectangleIn2D : MonoBehaviourExt
         // так как выполняется в ExecuteInEditMode, AwakeExt может не выполнится. (А какого хуя он не выполняется?)
         if (_rect2DPointsPosition == null)
         {
-            _rect2DPointsPosition = GetComponent<IRectangleIn2DGetter>();
+            _rect2DPointsPosition = GetComponent<IRectangleIn2DAccessor>();
         }
 
         GizmoDrawing.Draw(_color, _rect2DPointsPosition, transform.lossyScale);

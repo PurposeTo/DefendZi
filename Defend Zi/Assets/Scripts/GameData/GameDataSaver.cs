@@ -1,4 +1,5 @@
-﻿using Desdiene.DataStorageFactories.Storages;
+﻿using System;
+using Desdiene.DataStorageFactories.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
 
@@ -9,70 +10,52 @@ using Zenject;
 public class GameDataSaver : MonoBehaviourExt
 {
     private IStorage<IGameData> _dataStorage;
-    private GameManager _gameManager;
 
-    private IScoreGetter _playerScore;
+    private IScoreAccessor _playerScore;
     private GameStatisticsCollector _statisticsCollector;
     private GameStatistics Statistics => _statisticsCollector.GetStatistics();
 
     [Inject]
     private void Constructor(IStorage<IGameData> dataStorage,
-                             GameManager gameManager,
                              ComponentsProxy componentsProxy,
                              GameStatisticsCollector statisticsCollector)
     {
-        _dataStorage = dataStorage;
-        _gameManager = gameManager;
+        if (componentsProxy is null) throw new ArgumentNullException(nameof(componentsProxy));
+
+        _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 
         _playerScore = componentsProxy.PlayerScore;
-        _statisticsCollector = statisticsCollector;
-
-        SubscribeEvents();
+        _statisticsCollector = statisticsCollector ?? throw new ArgumentNullException(nameof(statisticsCollector));
     }
 
-    protected override void OnDestroyExt()
-    {
-        UnsubscribeEvents();
-    }
+    private IGameData GameData => _dataStorage.GetData();
 
-    private void SubscribeEvents()
+    public void CollectAndSaveGameData()
     {
-        _gameManager.OnGameOver += SaveGameData;
-    }
-
-    private void UnsubscribeEvents()
-    {
-        _gameManager.OnGameOver -= SaveGameData;
-    }
-
-    private void SaveGameData()
-    {
-        SaveGamesNumber();
-        SavePlayerScore();
-        SavePlayerLifeTime();
+        CollectGameData();
         InvokeSavingData();
     }
 
-    private void SaveGamesNumber() => _dataStorage.GetData().IncreaseGamesNumber();
-
-    private void SavePlayerScore()
+    private void CollectGameData()
     {
-        _dataStorage
-            .GetData()
-            .SetBestScore((uint)_playerScore.Value);
+        CollectGamesNumber();
+        CollectPlayerScore();
+        CollectPlayerLifeTime();
     }
 
-    private void SavePlayerLifeTime()
+    private void CollectGamesNumber() => GameData.IncreaseGamesNumber();
+
+    private void CollectPlayerScore()
+    {
+        GameData.SetBestScore((uint)_playerScore.Value);
+    }
+
+    private void CollectPlayerLifeTime()
     {
         uint lifeTimeSec = (uint)Statistics.LifeTimeSec;
 
-        _dataStorage
-            .GetData()
-            .SetAverageLifeTimeSec(lifeTimeSec);
-
-        _dataStorage
-            .GetData()
-            .SetBestLifeTimeSec(lifeTimeSec);
+        GameData.SetAverageLifeTimeSec(lifeTimeSec);
+        GameData.SetBestLifeTimeSec(lifeTimeSec);
     }
 
     private void InvokeSavingData() => _dataStorage.InvokeSavingData();

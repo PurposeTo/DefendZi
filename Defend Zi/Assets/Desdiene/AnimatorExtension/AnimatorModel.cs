@@ -21,6 +21,10 @@ namespace Desdiene.AnimatorExtension
             AwakeAnimator();
         }
 
+        /// <summary>
+        /// С аниматором возможно работать только тогда, когда он включен.
+        /// Данный метод вызывается при первом включении объекта.
+        /// </summary>
         protected abstract void AwakeAnimator();
 
         protected AnimatorBool GetAnimatorBool(string paramName, bool expectedDefaultValue)
