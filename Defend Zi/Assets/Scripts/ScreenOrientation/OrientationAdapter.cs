@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Coroutine;
+using Desdiene.Coroutines;
 using Desdiene;
 using UnityEngine;
 
@@ -20,7 +20,8 @@ public abstract class OrientationAdapter : MonoBehaviourExt
     protected override void AwakeExt()
     {
         _aspectRatio = GetAspectRatio();
-        new CoroutineWrap(this).StartContinuously(SetOrientation());
+        ICoroutine routine = new CoroutineWrap(this);
+        routine.StartContinuously(SetOrientation());
     }
 
     protected abstract void ChangeVisionToLandscape();
