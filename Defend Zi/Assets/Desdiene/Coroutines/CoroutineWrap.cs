@@ -96,7 +96,7 @@ namespace Desdiene.Coroutines
 
         private void SubscribeEvents()
         {
-            monoBehaviourExt.OnDestroyed += () => CurrentState.TryTerminate();
+            MonoBehaviourExt.OnDestroyed += () => CurrentState.TryTerminate();
         }
     }
 }

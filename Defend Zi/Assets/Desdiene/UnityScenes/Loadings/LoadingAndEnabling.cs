@@ -40,7 +40,7 @@ namespace Desdiene.UnityScenes.Loadings
 
             beforeEnablingAction?.Invoke(_beforeEnabling);
 
-            _progressChecking = new CoroutineWrap(monoBehaviourExt);
+            _progressChecking = new CoroutineWrap(MonoBehaviourExt);
             _progressChecking.StartContinuously(ProgressChecking());
         }
 
@@ -93,7 +93,7 @@ namespace Desdiene.UnityScenes.Loadings
             OnLoadedAndEnabled += Destroy;
         }
 
-        private void Destroy()
+        protected override void OnDestroy()
         {
             _progressChecking.TryTerminate();
             _beforeEnabling.Clear();

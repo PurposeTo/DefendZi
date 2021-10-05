@@ -23,7 +23,7 @@ namespace Desdiene.Coroutines.States
 
         protected override void OnEnter()
         {
-            Coroutine = monoBehaviourExt.StartCoroutine(Run());
+            Coroutine = MonoBehaviourExt.StartCoroutine(Run());
         }
 
         public override void StartContinuously(IEnumerator enumerator)
