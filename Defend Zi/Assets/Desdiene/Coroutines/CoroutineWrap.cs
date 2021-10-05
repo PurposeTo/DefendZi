@@ -50,7 +50,6 @@ namespace Desdiene.Coroutines
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();
-            SubscribeEvents();
         }
 
         public bool IsExecuting => CurrentState.IsExecuting;
@@ -94,9 +93,9 @@ namespace Desdiene.Coroutines
         /// <returns>Енумератор для ожидания выполнения.</returns>
         IEnumerator ICoroutine.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
 
-        private void SubscribeEvents()
+        protected override void OnDestroy()
         {
-            MonoBehaviourExt.OnDestroyed += () => CurrentState.TryTerminate();
+            CurrentState.TryTerminate();
         }
     }
 }
