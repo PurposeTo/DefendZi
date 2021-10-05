@@ -1,4 +1,6 @@
-﻿using Desdiene.DataStorageFactories.Combiners;
+﻿using System;
+using Desdiene.DataStorageFactories.Combiners;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Validators;
 using UnityEngine;
 
@@ -8,6 +10,8 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
+    TimeSpan IDataAccessor.PlayingTime => PlayingTime;
+
     GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
     {
         GameData gameData = new GameData();
@@ -36,12 +40,19 @@ public class GameData : IGameData, IDataCombiner<GameData>
         if (!IsValid()) Repair();
     }
 
+    void IDataMutator.SetPlayingTime(TimeSpan time) => PlayingTime = time;
+
+    void IDataMutator.AddPlayindTime(TimeSpan time) => PlayingTime += time;
+
+    public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
+
     public int GamesNumber { get; set; } = 0;
 
     public int BestScore { get; set; } = 0;
 
     public int AverageLifeTimeSec { get; set; } = 0;
     public int BestLifeTimeSec { get; set; } = 0;
+
 
     public void IncreaseGamesNumber() => GamesNumber++;
 
