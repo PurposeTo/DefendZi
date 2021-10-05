@@ -29,7 +29,7 @@ namespace Desdiene.Coroutines
      *    
      * Лог будет выведен, т.к. yield return будет лишь в следующей итерации цикла while.
      */
-    public class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
+    public sealed class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
 
