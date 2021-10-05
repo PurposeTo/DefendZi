@@ -22,8 +22,6 @@ public partial class PlayerHealth
 
         protected override void TakeDamage(PlayerHealth it, IDamage damage)
         {
-            UnityEngine.Debug.Log("КРЯ " + it);
-            UnityEngine.Debug.Log("КРЯ " + it._health);
             int pastHp = it._health.Value;
             int damagePoints = (int)damage.Value;
             int nextHp = it._health.SetAndGet(pastHp - damagePoints);
