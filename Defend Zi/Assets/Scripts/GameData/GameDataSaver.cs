@@ -52,10 +52,8 @@ public class GameDataSaver : MonoBehaviourExt
 
     private void CollectPlayerLifeTime()
     {
-        uint lifeTimeSec = (uint)Statistics.LifeTimeSec;
-
-        GameData.SetAverageLifeTimeSec(lifeTimeSec);
-        GameData.SetBestLifeTimeSec(lifeTimeSec);
+        GameData.SetBestLifeTime(Statistics.LifeTime);
+        GameData.AddPlayingTime(Statistics.LifeTime);
     }
 
     private void InvokeSavingData() => _dataStorage.InvokeSavingData();

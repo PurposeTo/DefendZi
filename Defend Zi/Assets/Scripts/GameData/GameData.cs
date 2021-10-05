@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Desdiene.DataStorageFactories.Combiners;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Validators;
@@ -10,28 +12,18 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
-    TimeSpan IDataAccessor.PlayingTime => PlayingTime;
 
-    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
-    {
-        GameData gameData = new GameData();
+    public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
 
-        //combine GamesNumber
-        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
-        gameData.GamesNumber = fullGamesNumber;
+    public int GamesNumber { get; set; } = 0;
 
-        //combine BestScore
-        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+    public int BestScore { get; set; } = 0;
 
-        //combine AverageLifeTimeSec
-        if (fullGamesNumber != 0)
-        {
-            int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
-            gameData.AverageLifeTimeSec = fullLifeTime / fullGamesNumber;
-        }
+    public TimeSpan AverageLifeTime => GamesNumber == 0
+        ? TimeSpan.Zero
+        : TimeSpan.FromSeconds(PlayingTime.Seconds / GamesNumber);
 
-        return gameData;
-    }
+    public TimeSpan BestLifeTime { get; set; } = TimeSpan.Zero;
 
     bool IDataValidator.IsValid() => IsValid();
 
@@ -42,40 +34,38 @@ public class GameData : IGameData, IDataCombiner<GameData>
 
     void IDataMutator.SetPlayingTime(TimeSpan time) => PlayingTime = time;
 
-    void IDataMutator.AddPlayindTime(TimeSpan time) => PlayingTime += time;
+    void IDataMutator.AddPlayingTime(TimeSpan time) => PlayingTime += time;
 
-    public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
+    void IGameData.IncreaseGamesNumber() => GamesNumber++;
 
-    public int GamesNumber { get; set; } = 0;
-
-    public int BestScore { get; set; } = 0;
-
-    public int AverageLifeTimeSec { get; set; } = 0;
-    public int BestLifeTimeSec { get; set; } = 0;
-
-
-    public void IncreaseGamesNumber() => GamesNumber++;
-
-    public void SetBestScore(uint score)
+    void IGameData.SetBestScore(uint score)
     {
         BestScore = Desdiene.Math.ClampMin((int)score, BestScore);
     }
 
-    /// <summary>
-    /// Данный метод 
-    /// </summary>
-    /// <param name="timeSec"></param>
-    public void SetAverageLifeTimeSec(uint timeSec)
+    void IGameData.SetBestLifeTime(TimeSpan time)
     {
-        int previosLifeTime = AverageLifeTimeSec * (GamesNumber - 1);
-        int fullLifeTime = (int)(previosLifeTime + timeSec);
-
-        if (GamesNumber != 0) AverageLifeTimeSec = fullLifeTime / GamesNumber;
+        BestLifeTime = new List<TimeSpan>() { time, BestLifeTime }.Max();
     }
 
-    public void SetBestLifeTimeSec(uint timeSec)
+    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
     {
-        BestLifeTimeSec = Desdiene.Math.ClampMin((int)timeSec, BestLifeTimeSec);
+        GameData gameData = new GameData();
+
+        // combine PlayingTime
+        gameData.PlayingTime = first.PlayingTime + second.PlayingTime;
+
+        //combine GamesNumber
+        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
+        gameData.GamesNumber = fullGamesNumber;
+
+        //combine BestScore
+        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+
+        //combine BestLifeTime
+        gameData.BestLifeTime = new List<TimeSpan>() { first.BestLifeTime, second.BestLifeTime }.Max();
+
+        return gameData;
     }
 
     public override string ToString()
@@ -83,8 +73,8 @@ public class GameData : IGameData, IDataCombiner<GameData>
         return $"{GetType().Name}"
              + $"\nGamesNumber={GamesNumber}"
              + $"\nBestScore={BestScore}"
-             + $"\nAverageLifeTimeSec={AverageLifeTimeSec}"
-             + $"\nBestLifeTimeSec={BestLifeTimeSec}";
+             + $"\nAverageLifeTimeSec={AverageLifeTime}"
+             + $"\nBestLifeTimeSec={BestLifeTime}";
     }
 
     private bool IsValid()

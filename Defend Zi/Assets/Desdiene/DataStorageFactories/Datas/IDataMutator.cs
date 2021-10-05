@@ -7,6 +7,6 @@ namespace Desdiene.DataStorageFactories.Datas
         //Методы или свойства по установке данных
 
         void SetPlayingTime(TimeSpan time);
-        void AddPlayindTime(TimeSpan time);
+        void AddPlayingTime(TimeSpan time);
     }
 }
