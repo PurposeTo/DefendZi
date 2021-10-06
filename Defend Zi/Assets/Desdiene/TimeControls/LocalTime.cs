@@ -37,6 +37,6 @@ namespace Desdiene.TimeControls
 
         void ITimeMutator.Set(float timeScale) => _time.Set(timeScale);
         
-        ICyclicalProcess ITimePauseFactory.CreatePause(MonoBehaviourExt mono, string name) => _time.CreatePause(mono, name);
+        IProcess ITimePauseFactory.CreatePause(MonoBehaviourExt mono, string name) => _time.CreatePause(mono, name);
     }
 }

@@ -9,12 +9,12 @@ public class TrainingAnimator : MonoBehaviourExt
     public void Enable()
     {
         _blinkingSprite.Enable();
-        _toVisibleText.Enable();
+        _toVisibleText.MakeVisible();
     }
 
     public void Disable()
     {
         _blinkingSprite.Disable();
-        _toVisibleText.Disable();
+        _toVisibleText.MakeTransparent();
     }
 }

@@ -21,8 +21,8 @@ namespace Desdiene.UI.Elements
         private string _typeName;
         private string _gameObjectName;
 
-        private ICyclicalProcesses _beforeHide;
-        private ICyclicalProcesses _beforeShow;
+        private IProcesses _beforeHide;
+        private IProcesses _beforeShow;
 
         protected sealed override void AwakeExt()
         {

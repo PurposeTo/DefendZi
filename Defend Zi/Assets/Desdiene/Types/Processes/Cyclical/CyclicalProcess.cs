@@ -10,7 +10,7 @@ namespace Desdiene.Types.Processes
     /// <summary>
     /// Цикличный процесс: после выключения может быть включен заново.
     /// </summary>
-    public class CyclicalProcess : ICyclicalProcess
+    public class CyclicalProcess : IProcess
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
         private readonly string _name;
@@ -38,13 +38,13 @@ namespace Desdiene.Types.Processes
 
         private event Action<IProcessAccessor> OnChanged;
 
-        event Action ICyclicalProcessNotifier.WhenStarted
+        event Action IProcessNotifier.WhenStarted
         {
             add => CurrentState.OnStarted += value;
             remove => CurrentState.OnStarted -= value;
         }
 
-        event Action ICyclicalProcessNotifier.WhenStopped
+        event Action IProcessNotifier.WhenCompleted
         {
             add => CurrentState.OnStopped += value;
             remove => CurrentState.OnStopped -= value;
@@ -59,9 +59,9 @@ namespace Desdiene.Types.Processes
         string IProcessAccessor.Name => _name;
         bool IProcessAccessor.KeepWaiting => CurrentState.KeepWaiting;
 
-        void ICyclicalProcessMutator.Start() => CurrentState.Start();
+        void IProcessMutator.Start() => CurrentState.Start();
 
-        void ICyclicalProcessMutator.Stop() => CurrentState.Stop();
+        void IProcessMutator.Stop() => CurrentState.Stop();
 
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 

@@ -5,6 +5,6 @@ namespace Desdiene.TimeControls
 {
     public interface ITimePauseFactory
     {
-        ICyclicalProcess CreatePause(MonoBehaviourExt mono, string name);
+        IProcess CreatePause(MonoBehaviourExt mono, string name);
     }
 }

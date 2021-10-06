@@ -9,10 +9,10 @@ namespace Desdiene.Types.ProcessContainers
     /// <summary>
     /// Представляет контейнер для цикличных и линейных процессов.
     /// </summary>
-    public class CyclicalParallelProcesses : ICyclicalProcesses
+    public class CyclicalParallelProcesses : IProcesses
     {
         private readonly List<IProcessAccessorNotifier> _processes = new List<IProcessAccessorNotifier>();
-        private readonly ICyclicalProcess _process;
+        private readonly IProcess _process;
 
         public CyclicalParallelProcesses(string name) : this(name, new List<IProcessAccessorNotifier>()) { }
 
@@ -27,16 +27,16 @@ namespace Desdiene.Types.ProcessContainers
             processes.ForEach(process => Add(process));
         }
 
-        event Action ICyclicalProcessNotifier.WhenStarted
+        event Action IProcessNotifier.WhenStarted
         {
             add => _process.WhenStarted += value;
             remove => _process.WhenStarted -= value;
         }
 
-        event Action ICyclicalProcessNotifier.WhenStopped
+        event Action IProcessNotifier.WhenCompleted
         {
-            add => _process.WhenStopped += value;
-            remove => _process.WhenStopped -= value;
+            add => _process.WhenCompleted += value;
+            remove => _process.WhenCompleted -= value;
         }
 
         event Action<IProcessAccessor> IProcessNotifier.OnChanged
@@ -65,7 +65,7 @@ namespace Desdiene.Types.ProcessContainers
 
         void IProcessesMutator.Remove(IProcessAccessorNotifier process) => Remove(process);
 
-        void ICyclicalProcesses.Clear()
+        void IProcesses.Clear()
         {
             List<IProcessAccessorNotifier> processes = new List<IProcessAccessorNotifier>(_processes);
             processes.ForEach(process => Remove(process));

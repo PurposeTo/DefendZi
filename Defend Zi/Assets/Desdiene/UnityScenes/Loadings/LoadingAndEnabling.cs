@@ -16,14 +16,14 @@ namespace Desdiene.UnityScenes.Loadings
     {
         private readonly AsyncOperation _loadingByUnity;
         private readonly string _sceneName;
-        private readonly ILinearProcesses _beforeEnabling;
+        private readonly IProcesses _beforeEnabling;
         private readonly ICoroutine _progressChecking;
         private string _logMessage = "";
 
         public LoadingAndEnabling(MonoBehaviourExt mono,
                                   AsyncOperation loadingByUnity,
                                   string sceneName,
-                                  Action<ILinearProcessesMutator> beforeEnablingAction) : base(mono)
+                                  Action<IProcessesMutator> beforeEnablingAction) : base(mono)
         {
             if (string.IsNullOrWhiteSpace(sceneName))
             {

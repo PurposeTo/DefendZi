@@ -39,14 +39,14 @@ namespace Desdiene.SceneLoaders.Single
             stateSwitcher.Switch<SceneLoadedAndEnabled>();
         }
 
-        public event Action<ILinearProcessesMutator> BeforeUnloading;
+        public event Action<IProcessesMutator> BeforeUnloading;
         public event Action AfterEnabling;
 
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
         public void Load(ISceneAsset scene) => Load(scene, BeforeUnloading, AfterEnabling);
 
-        private void Load(ISceneAsset scene, Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
+        private void Load(ISceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             if (scene == null) throw new ArgumentNullException(nameof(scene));
 
@@ -58,7 +58,7 @@ namespace Desdiene.SceneLoaders.Single
             Reload(BeforeUnloading, AfterEnabling);
         }
 
-        private void Reload(Action<ILinearProcessesMutator> beforeUnloading, Action afterEnabling)
+        private void Reload(Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
         {
             ISceneAsset _sceneToLoad = _scenesInBuild.Get(this, SceneManager.GetActiveScene().name);
             Load(_sceneToLoad, beforeUnloading, afterEnabling);

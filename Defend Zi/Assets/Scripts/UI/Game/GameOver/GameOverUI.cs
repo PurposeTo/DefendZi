@@ -30,7 +30,7 @@ public class GameOverUI : MonoBehaviourExt
     private IHealthNotification _playerDeath;
     private IReincarnation _playerReincarnation;
 
-    private ICyclicalProcess _playerDeathPause;
+    private IProcess _playerDeathPause;
 
     private IRewardedAd _rewardedAd;
 
@@ -79,9 +79,9 @@ public class GameOverUI : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _playerDeath.OnDeath += ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Start;
+        _playerDeath.OnDeath += ((Desdiene.Types.Processes.IProcessMutator)_playerDeathPause).Start;
         _playerDeath.OnDeath += ChooseAndShowGameOverView;
-        _playerReincarnation.OnReviving += ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Stop;
+        _playerReincarnation.OnReviving += ((Desdiene.Types.Processes.IProcessMutator)_playerDeathPause).Stop;
 
         _rewardedAd.OnFailedToShow += OnFailedToShowAd;
         _rewardedAd.OnFailedToShow += HideWaitingAndShowError;
@@ -100,9 +100,9 @@ public class GameOverUI : MonoBehaviourExt
 
     private void UnsubscribeEvents()
     {
-        _playerDeath.OnDeath -= ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Start;
+        _playerDeath.OnDeath -= ((Desdiene.Types.Processes.IProcessMutator)_playerDeathPause).Start;
         _playerDeath.OnDeath -= ChooseAndShowGameOverView;
-        _playerReincarnation.OnReviving -= ((Desdiene.Types.Processes.ICyclicalProcessMutator)_playerDeathPause).Stop;
+        _playerReincarnation.OnReviving -= ((Desdiene.Types.Processes.IProcessMutator)_playerDeathPause).Stop;
 
         _rewardedAd.OnFailedToShow -= OnFailedToShowAd;
         _rewardedAd.OnFailedToShow -= HideWaitingAndShowError;

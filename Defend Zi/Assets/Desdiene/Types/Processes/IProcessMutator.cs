@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Processes
 {
-    public interface ICyclicalProcessMutator
+    public interface IProcessMutator
     {
         void Start();
         void Stop();

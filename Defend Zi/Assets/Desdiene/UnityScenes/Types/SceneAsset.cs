@@ -32,12 +32,12 @@ namespace Desdiene.UnityScenes.Types
         /// </summary>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        ILoadingAndEnabling ISceneAsset.LoadAsSingle(Action<ILinearProcessesMutator> beforeEnabling)
+        ILoadingAndEnabling ISceneAsset.LoadAsSingle(Action<IProcessesMutator> beforeEnabling)
         {
             return Load(LoadSceneMode.Single, beforeEnabling);
         }
 
-        ILoadingAndEnabling ISceneAsset.LoadAsAdditive(Action<ILinearProcessesMutator> beforeEnabling)
+        ILoadingAndEnabling ISceneAsset.LoadAsAdditive(Action<IProcessesMutator> beforeEnabling)
         {
             return Load(LoadSceneMode.Additive, beforeEnabling);
         }
@@ -48,12 +48,12 @@ namespace Desdiene.UnityScenes.Types
         /// <param name="loadSceneMode">Режим загрузки сцены.</param>
         /// <param name="alowingEnableMode">Режим разрешения на включение сцены после загрузки.</param>
         /// <returns>Объект, описывающий процесс ожидания.</returns>
-        ILoadingAndEnabling ISceneAsset.Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling)
+        ILoadingAndEnabling ISceneAsset.Load(LoadSceneMode loadSceneMode, Action<IProcessesMutator> beforeEnabling)
         {
             return Load(loadSceneMode, beforeEnabling);
         }
 
-        private ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling)
+        private ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<IProcessesMutator> beforeEnabling)
         {
             AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(_sceneName, loadSceneMode);
             LoadingAndEnabling loading = new LoadingAndEnabling(MonoBehaviourExt, loadingOperation, _sceneName, beforeEnabling);

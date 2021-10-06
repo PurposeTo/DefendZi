@@ -12,7 +12,7 @@ public class GameUI : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GameView _gameView;
     [SerializeField, NotNull] private GamePauseView _gamePauseView;
-    private ICyclicalProcess _gamePause;
+    private IProcess _gamePause;
     private SceneLoader _sceneLoader;
     private ISceneAsset _mainMenuScene;
 
@@ -68,14 +68,14 @@ public class GameUI : MonoBehaviourExt
 
     private void ShowGamePauseView()
     {
-        ((Desdiene.Types.Processes.ICyclicalProcessMutator)_gamePause).Start();
+        ((Desdiene.Types.Processes.IProcessMutator)_gamePause).Start();
         _gamePauseView.Show();
     }
 
     private void HideGamePauseView()
     {
         _gamePauseView.Hide();
-        ((Desdiene.Types.Processes.ICyclicalProcessMutator)_gamePause).Stop();
+        ((Desdiene.Types.Processes.IProcessMutator)_gamePause).Stop();
     }
 
     private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);
