@@ -1,4 +1,5 @@
-﻿using Desdiene.DataStorageFactories.Storages;
+﻿using Desdiene.AudioPlayers;
+using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
@@ -21,15 +22,26 @@ public class ProjectInstaller : MonoInstaller
         BindGPGSAuthentication();
         BindGPGSLeaderboard();
         BindDataStorage();
+        BindBackgroundMusic();
+    }
+
+    private void BindBackgroundMusic()
+    {
+        Container
+             .Bind<BackgroundMusic>()
+             .ToSelf()
+             .FromNewComponentOnNewGameObject()
+             .AsSingle()
+             .NonLazy();
     }
 
     private void BindRewardedAd()
     {
         Container
             .Bind<IRewardedAd>()
-            .To<FailRewardedAdStub>()
-            //.To<IronSourceAd>()
-            //.FromNewComponentOnNewGameObject()
+            //.To<FailRewardedAdStub>()
+            .To<IronSourceAd>()
+            .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
     }

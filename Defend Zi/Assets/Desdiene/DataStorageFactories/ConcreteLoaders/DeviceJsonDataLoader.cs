@@ -27,7 +27,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
         {
             _filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
             Debug.Log($"{StorageName}. Путь к файлу данных : {_filePath}");
-            _deviceDataLoader = new DeviceDataLoader(monoBehaviourExt, _filePath);
+            _deviceDataLoader = new DeviceDataLoader(MonoBehaviourExt, _filePath);
         }
 
         public DeviceJsonDataLoader(MonoBehaviourExt mono, string fileName, IJsonConvertor<T> jsonConvertor)

@@ -9,14 +9,14 @@ namespace Desdiene.Types.ProcessContainers
     /// <summary>
     /// Представляет контейнер только для линейных процессов.
     /// </summary>
-    public class LinearParallelProcesses : ILinearProcesses
+    public class LinearParallelProcesses : IProcesses
     {
-        private readonly List<ILinearProcessAccessorNotifier> _processes = new List<ILinearProcessAccessorNotifier>();
-        private readonly ILinearProcess _process;
+        private readonly List<IProcessAccessorNotifier> _processes = new List<IProcessAccessorNotifier>();
+        private readonly IProcess _process;
 
-        public LinearParallelProcesses(string name) : this(name, new List<ILinearProcessAccessorNotifier>()) { }
+        public LinearParallelProcesses(string name) : this(name, new List<IProcessAccessorNotifier>()) { }
 
-        public LinearParallelProcesses(string name, List<ILinearProcessAccessorNotifier> processes)
+        public LinearParallelProcesses(string name, List<IProcessAccessorNotifier> processes)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -27,13 +27,13 @@ namespace Desdiene.Types.ProcessContainers
             processes.ForEach(process => Add(process));
         }
 
-        event Action ILinearProcessNotifier.WhenStarted
+        event Action IProcessNotifier.WhenStarted
         {
             add => _process.WhenStarted += value;
             remove => _process.WhenStarted -= value;
         }
 
-        event Action ILinearProcessNotifier.WhenCompleted
+        event Action IProcessNotifier.WhenCompleted
         {
             add => _process.WhenCompleted += value;
             remove => _process.WhenCompleted -= value;
@@ -51,7 +51,7 @@ namespace Desdiene.Types.ProcessContainers
         private string Name => _process.Name;
         private bool KeepWaiting => _process.KeepWaiting;
 
-        void ILinearProcessesMutator.Add(ILinearProcessAccessorNotifier[] processes)
+        void IProcessesMutator.Add(IProcessAccessorNotifier[] processes)
         {
             if (processes is null)
             {
@@ -61,18 +61,18 @@ namespace Desdiene.Types.ProcessContainers
             Array.ForEach(processes, process => Add(process));
         }
 
-        void ILinearProcessesMutator.Add(ILinearProcessAccessorNotifier process) => Add(process);
+        void IProcessesMutator.Add(IProcessAccessorNotifier process) => Add(process);
 
-        void ILinearProcessesMutator.Remove(ILinearProcessAccessorNotifier process) => Remove(process);
+        void IProcessesMutator.Remove(IProcessAccessorNotifier process) => Remove(process);
 
-        void ILinearProcesses.Clear()
+        void IProcesses.Clear()
         {
-            List<ILinearProcessAccessorNotifier> processes = new List<ILinearProcessAccessorNotifier>(_processes);
+            List<IProcessAccessorNotifier> processes = new List<IProcessAccessorNotifier>(_processes);
             processes.ForEach(process => Remove(process));
             Debug.Assert(_processes.Count == 0);
         }
 
-        private void Add(ILinearProcessAccessorNotifier process)
+        private void Add(IProcessAccessorNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (_processes.Contains(process))
@@ -92,7 +92,7 @@ namespace Desdiene.Types.ProcessContainers
             }
         }
 
-        private void Remove(ILinearProcessAccessorNotifier process)
+        private void Remove(IProcessAccessorNotifier process)
         {
             if (process == null) throw new ArgumentNullException(nameof(process));
             if (!_processes.Contains(process))

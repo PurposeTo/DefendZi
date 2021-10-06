@@ -7,8 +7,8 @@ namespace Desdiene.UnityScenes.Types
 {
     public interface ISceneAsset
     {
-        ILoadingAndEnabling LoadAsSingle(Action<ILinearProcessesMutator> beforeEnabling);
-        ILoadingAndEnabling LoadAsAdditive(Action<ILinearProcessesMutator> beforeEnabling);
-        ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<ILinearProcessesMutator> beforeEnabling);
+        ILoadingAndEnabling LoadAsSingle(Action<IProcessesMutator> beforeEnabling);
+        ILoadingAndEnabling LoadAsAdditive(Action<IProcessesMutator> beforeEnabling);
+        ILoadingAndEnabling Load(LoadSceneMode loadSceneMode, Action<IProcessesMutator> beforeEnabling);
     }
 }

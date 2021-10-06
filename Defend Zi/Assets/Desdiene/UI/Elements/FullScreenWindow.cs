@@ -10,7 +10,7 @@ namespace Desdiene.UI.Elements
     /// 
     /// Скрипт может быть повешан на объект для логического обозначения.
     /// </summary>
-    public class FullScreenWindow : OverlayUiElement, IFullScreenWindow
+    public class FullScreenWindow : UiElement, IFullScreenWindow
     {
         private FullScreenWindowsContainer _fullScreenWindowsContainer;
 
@@ -38,15 +38,12 @@ namespace Desdiene.UI.Elements
             ShowWindow();
         }
 
-        protected sealed override void BeforeHidingElement(ICyclicalProcessesMutator beforeHide) => BeforeHidingWindow(beforeHide);
-
         protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
         protected virtual void ShowWindow() { }
-        protected virtual void BeforeHidingWindow(ICyclicalProcessesMutator beforeHide) { }
         protected virtual void HideWindow() { }
     }
 }

@@ -29,7 +29,7 @@ namespace Desdiene.Coroutines
      *    
      * Лог будет выведен, т.к. yield return будет лишь в следующей итерации цикла while.
      */
-    public class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
+    public sealed class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
 
@@ -50,7 +50,6 @@ namespace Desdiene.Coroutines
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();
-            SubscribeEvents();
         }
 
         public bool IsExecuting => CurrentState.IsExecuting;
@@ -94,9 +93,9 @@ namespace Desdiene.Coroutines
         /// <returns>Енумератор для ожидания выполнения.</returns>
         IEnumerator ICoroutine.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
 
-        private void SubscribeEvents()
+        protected override void OnDestroy()
         {
-            monoBehaviourExt.OnDestroyed += () => CurrentState.TryTerminate();
+            CurrentState.TryTerminate();
         }
     }
 }

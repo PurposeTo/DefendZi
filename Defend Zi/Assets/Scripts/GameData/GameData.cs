@@ -1,4 +1,8 @@
-﻿using Desdiene.DataStorageFactories.Combiners;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Desdiene.DataStorageFactories.Combiners;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Validators;
 using UnityEngine;
 
@@ -8,26 +12,18 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
-    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
-    {
-        GameData gameData = new GameData();
 
-        //combine GamesNumber
-        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
-        gameData.GamesNumber = fullGamesNumber;
+    public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
 
-        //combine BestScore
-        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+    public int GamesNumber { get; set; } = 0;
 
-        //combine AverageLifeTimeSec
-        if (fullGamesNumber != 0)
-        {
-            int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
-            gameData.AverageLifeTimeSec = fullLifeTime / fullGamesNumber;
-        }
+    public int BestScore { get; set; } = 0;
 
-        return gameData;
-    }
+    public TimeSpan AverageLifeTime => GamesNumber == 0
+        ? TimeSpan.Zero
+        : TimeSpan.FromSeconds(PlayingTime.Seconds / GamesNumber);
+
+    public TimeSpan BestLifeTime { get; set; } = TimeSpan.Zero;
 
     bool IDataValidator.IsValid() => IsValid();
 
@@ -36,35 +32,40 @@ public class GameData : IGameData, IDataCombiner<GameData>
         if (!IsValid()) Repair();
     }
 
-    public int GamesNumber { get; set; } = 0;
+    void IDataMutator.SetPlayingTime(TimeSpan time) => PlayingTime = time;
 
-    public int BestScore { get; set; } = 0;
+    void IDataMutator.AddPlayingTime(TimeSpan time) => PlayingTime += time;
 
-    public int AverageLifeTimeSec { get; set; } = 0;
-    public int BestLifeTimeSec { get; set; } = 0;
+    void IGameData.IncreaseGamesNumber() => GamesNumber++;
 
-    public void IncreaseGamesNumber() => GamesNumber++;
-
-    public void SetBestScore(uint score)
+    void IGameData.SetBestScore(uint score)
     {
         BestScore = Desdiene.Math.ClampMin((int)score, BestScore);
     }
 
-    /// <summary>
-    /// Данный метод 
-    /// </summary>
-    /// <param name="timeSec"></param>
-    public void SetAverageLifeTimeSec(uint timeSec)
+    void IGameData.SetBestLifeTime(TimeSpan time)
     {
-        int previosLifeTime = AverageLifeTimeSec * (GamesNumber - 1);
-        int fullLifeTime = (int)(previosLifeTime + timeSec);
-
-        if (GamesNumber != 0) AverageLifeTimeSec = fullLifeTime / GamesNumber;
+        BestLifeTime = new List<TimeSpan>() { time, BestLifeTime }.Max();
     }
 
-    public void SetBestLifeTimeSec(uint timeSec)
+    GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
     {
-        BestLifeTimeSec = Desdiene.Math.ClampMin((int)timeSec, BestLifeTimeSec);
+        GameData gameData = new GameData();
+
+        // combine PlayingTime
+        gameData.PlayingTime = first.PlayingTime + second.PlayingTime;
+
+        //combine GamesNumber
+        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
+        gameData.GamesNumber = fullGamesNumber;
+
+        //combine BestScore
+        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+
+        //combine BestLifeTime
+        gameData.BestLifeTime = new List<TimeSpan>() { first.BestLifeTime, second.BestLifeTime }.Max();
+
+        return gameData;
     }
 
     public override string ToString()
@@ -72,8 +73,8 @@ public class GameData : IGameData, IDataCombiner<GameData>
         return $"{GetType().Name}"
              + $"\nGamesNumber={GamesNumber}"
              + $"\nBestScore={BestScore}"
-             + $"\nAverageLifeTimeSec={AverageLifeTimeSec}"
-             + $"\nBestLifeTimeSec={BestLifeTimeSec}";
+             + $"\nAverageLifeTimeSec={AverageLifeTime}"
+             + $"\nBestLifeTimeSec={BestLifeTime}";
     }
 
     private bool IsValid()

@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using Desdiene.Containers;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.ObjectPoolers.Datas;
 using UnityEngine;
 
 namespace Desdiene.ObjectPoolers.Components
 {
-    internal class PoolCreator : MonoBehaviourContainer
+    internal class PoolCreator : MonoBehaviourExtContainer
     {
         private readonly ObjectToPoolCreator objectCreator;
 
-        public PoolCreator(MonoBehaviour monoBehaviour, ObjectToPoolCreator objectCreator)
-            : base(monoBehaviour)
+        public PoolCreator(MonoBehaviourExt mono, ObjectToPoolCreator objectCreator)
+            : base(mono)
         {
             this.objectCreator = objectCreator;
         }
@@ -35,7 +36,7 @@ namespace Desdiene.ObjectPoolers.Components
         private GameObject CreateNewPoolParent(string PrefabName)
         {
             GameObject parent = new GameObject(PrefabName + " Pool");
-            parent.transform.SetParent(monoBehaviour.gameObject.transform);
+            parent.transform.SetParent(MonoBehaviourExt.gameObject.transform);
             return parent;
         }
 

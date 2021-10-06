@@ -51,7 +51,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         float spawnPointOx = Width + safeSpace + (originalChunk.SpawnPlaceWidth / 2);
 
         Vector3 spawnPosition = new Vector3(spawnPointOx, 0f, 0f);
-        Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, monoBehaviourExt.transform);
+        Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, MonoBehaviourExt.transform);
         Width += safeSpace + originalChunk.SpawnPlaceWidth;
     }
 

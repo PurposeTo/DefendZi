@@ -11,7 +11,7 @@ namespace Desdiene.Types.Processes
     /// Линейный процесс: после выключения не может быть включен.
     /// Обязательно ждать, если не не был запущен на момент обращения.
     /// </summary>
-    public class LinearProcess : ILinearProcess
+    public class LinearProcess : IProcess
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
         private readonly string _name;
@@ -40,13 +40,13 @@ namespace Desdiene.Types.Processes
 
         private event Action<IProcessAccessor> OnChanged;
 
-        event Action ILinearProcessNotifier.WhenStarted
+        event Action IProcessNotifier.WhenStarted
         {
             add => CurrentState.OnStarted += value;
             remove => CurrentState.OnStarted -= value;
         }
 
-        event Action ILinearProcessNotifier.WhenCompleted
+        event Action IProcessNotifier.WhenCompleted
         {
             add => CurrentState.OnCompleted += value;
             remove => CurrentState.OnCompleted -= value;
@@ -61,9 +61,9 @@ namespace Desdiene.Types.Processes
         string IProcessAccessor.Name => _name;
         bool IProcessAccessor.KeepWaiting => CurrentState.KeepWaiting;
 
-        void ILinearProcessMutator.Start() => CurrentState.Start();
+        void IProcessMutator.Start() => CurrentState.Start();
 
-        void ILinearProcessMutator.Stop() => CurrentState.Complete();
+        void IProcessMutator.Stop() => CurrentState.Complete();
 
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 

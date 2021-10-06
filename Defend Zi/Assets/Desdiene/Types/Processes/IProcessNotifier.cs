@@ -4,9 +4,10 @@ namespace Desdiene.Types.Processes
 {
     public interface IProcessNotifier
     {
-        /// <summary>
-        /// Событие о изменении состоянии процесса.
-        /// </summary>
+        event Action WhenStarted;
+
+        event Action WhenCompleted;
+
         event Action<IProcessAccessor> OnChanged;
     }
 }

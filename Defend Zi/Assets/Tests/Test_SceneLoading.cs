@@ -13,7 +13,7 @@ public class Test_SceneLoading : MonoBehaviourExt
     private ISceneAsset _sceneType;
     private SceneLoader _sceneLoader;
 
-    private readonly ILinearProcess _testWait = new LinearProcess("Тестовое ожидание");
+    private readonly IProcess _testWait = new LinearProcess("Тестовое ожидание");
 
     [Inject]
     private void Constructor(SceneLoader sceneLoader, ScenesInBuild scenesInBuild)
@@ -39,7 +39,7 @@ public class Test_SceneLoading : MonoBehaviourExt
         if (Input.GetKeyDown(KeyCode.G)) _testWait.Stop();
     }
 
-    private void BeforeUnloading(ILinearProcessesMutator processes)
+    private void BeforeUnloading(IProcessesMutator processes)
     {
         _testWait.Start();
         processes.Add(_testWait);

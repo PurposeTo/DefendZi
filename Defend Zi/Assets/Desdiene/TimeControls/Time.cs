@@ -10,8 +10,8 @@ namespace Desdiene.TimeControls
     {
         private readonly IPercent _timeScaleRef;
         private readonly IPercent _requiredTimeScale;
-        private readonly ICyclicalProcesses _pauses;
-        private readonly ICyclicalProcess _scalePause;
+        private readonly IProcesses _pauses;
+        private readonly IProcess _scalePause;
 
         float ITimeAccessor.Scale => _timeScaleRef.Value;
 
@@ -36,8 +36,8 @@ namespace Desdiene.TimeControls
 
         event Action ITimeNotification.WhenRunning
         {
-            add => _pauses.WhenStopped += value;
-            remove => _pauses.WhenStopped -= value;
+            add => _pauses.WhenCompleted += value;
+            remove => _pauses.WhenCompleted -= value;
         }
 
         event Action ITimeNotification.OnChanged
@@ -61,11 +61,11 @@ namespace Desdiene.TimeControls
                 }
             };
 
-            _pauses.WhenStopped += SetRequiredScaleToActual;
+            _pauses.WhenCompleted += SetRequiredScaleToActual;
             _pauses.WhenStarted += SetZeroActualScale;
         }
 
-        ICyclicalProcess ITimePauseFactory.CreatePause(MonoBehaviourExt mono, string name)
+        IProcess ITimePauseFactory.CreatePause(MonoBehaviourExt mono, string name)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
             if (string.IsNullOrWhiteSpace(name))
@@ -73,7 +73,7 @@ namespace Desdiene.TimeControls
                 throw new ArgumentException($"\"{nameof(name)}\" Can't be null or empty.", nameof(name));
             }
 
-            ICyclicalProcess pause = new CyclicalProcess(name);
+            IProcess pause = new CyclicalProcess(name);
             _pauses.Add(pause);
 
             void RemoveAndDescribe()

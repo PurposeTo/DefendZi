@@ -25,7 +25,7 @@ namespace Desdiene.Coroutines.States
         {
             if (Coroutine != null)
             {
-                monoBehaviourExt.StopCoroutine(Coroutine);
+                MonoBehaviourExt.StopCoroutine(Coroutine);
                 Coroutine = null;
             }
         }

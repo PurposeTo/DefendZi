@@ -17,20 +17,20 @@ public class ToVisible : AnimatorModel
     private readonly string isTransparentField = "isTransparent";
     private AnimatorBool _isTransparent;
 
-    public event Action OnAnimationEnabling;
-    public event Action OnAnimationDisabled;
+    public event Action OnMakingVisible;
+    public event Action OnMakedTransparent;
 
     protected override void AwakeAnimator()
     {
         _isTransparent = GetAnimatorBool(isTransparentField, true);
     }
 
-    public void Enable() => _isTransparent.Value = false;
-    public void Disable() => _isTransparent.Value = true;
+    public void MakeVisible() => _isTransparent.Value = false;
+    public void MakeTransparent() => _isTransparent.Value = true;
 
     // вызывается анимацией
-    private void InvokeOnAnimationEnabling() => OnAnimationEnabling?.Invoke();
+    private void InvokeOnMakingVisible() => OnMakingVisible?.Invoke();
 
     // вызывается анимацией
-    private void InvokeOnAnimationDisabled() => OnAnimationDisabled?.Invoke();
+    private void InvokeOnMakedTransparent() => OnMakedTransparent?.Invoke();
 }

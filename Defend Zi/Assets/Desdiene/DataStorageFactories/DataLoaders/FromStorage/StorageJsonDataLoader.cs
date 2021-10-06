@@ -128,8 +128,8 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
         private T RepairJsonAndDeserialize(string jsonData)
         {
             Debug.LogWarning($"Start repairing json data:\n{jsonData}");
-
             string repairedJson = RepairJson(jsonData);
+            Debug.LogWarning($"Repaired json data:\n{repairedJson}");
 
             try
             {

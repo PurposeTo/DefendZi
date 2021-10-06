@@ -95,13 +95,6 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
         private void OpenSavedGame(Action<SavedGameRequestStatus, ISavedGameMetadata> OnSavedGameOpened)
         {
             Debug.Log("Начало открытия сохранения на облаке");
-            if (!_platform.IsAuthenticated())
-            {
-                Debug.Log("Ошибка открытия сохранения на облаке! Потеряна аутентификация пользователя.");
-                OnSavedGameOpened(SavedGameRequestStatus.AuthenticationError, null);
-                return;
-            }
-
             SavedGameClient.OpenWithAutomaticConflictResolution(FileNameWithExtension,
                 DataSource.ReadCacheOrNetwork,
                 ConflictResolutionStrategy.UseLongestPlaytime,
@@ -115,7 +108,6 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
 
             builder = builder.WithUpdatedPlayedTime(_currentGameMetadata.TotalTimePlayed + allPlayingTime)
                 .WithUpdatedDescription("Saved game at " + DateTime.Now);
-
             SavedGameMetadataUpdate updatedMetadata = builder.Build();
             SavedGameClient.CommitUpdate(_currentGameMetadata, updatedMetadata, dataToSave, OnSavedGameCreated);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
@@ -48,7 +49,7 @@ public class GameStatisticsCollector : MonoBehaviourExt
         while (true)
         {
             float deltaTime = Time.deltaTime;
-            _statistics.LifeTimeSec += deltaTime;
+            _statistics.LifeTime += TimeSpan.FromSeconds(deltaTime);
             yield return null;
         }
     }

@@ -16,16 +16,16 @@ namespace Desdiene.UnityScenes.Loadings
     {
         private readonly AsyncOperation _loadingByUnity;
         private readonly string _sceneName;
-        private readonly ILinearProcesses _beforeEnabling;
+        private readonly IProcesses _beforeEnabling;
         private readonly ICoroutine _progressChecking;
         private string _logMessage = "";
 
         public LoadingAndEnabling(MonoBehaviourExt mono,
                                   AsyncOperation loadingByUnity,
                                   string sceneName,
-                                  Action<ILinearProcessesMutator> beforeEnablingAction) : base(mono)
+                                  Action<IProcessesMutator> beforeEnablingAction) : base(mono)
         {
-            if (string.IsNullOrEmpty(sceneName))
+            if (string.IsNullOrWhiteSpace(sceneName))
             {
                 throw new ArgumentException($"\"{nameof(sceneName)}\" can't be null or empty", nameof(sceneName));
             }
@@ -35,12 +35,12 @@ namespace Desdiene.UnityScenes.Loadings
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
 
-            SubscribeEvents();
+            _loadingByUnity.completed += OnLoadedAndEnabled;
             ForbidSceneEnabling();
 
             beforeEnablingAction?.Invoke(_beforeEnabling);
 
-            _progressChecking = new CoroutineWrap(monoBehaviourExt);
+            _progressChecking = new CoroutineWrap(MonoBehaviourExt);
             _progressChecking.StartContinuously(ProgressChecking());
         }
 
@@ -49,7 +49,7 @@ namespace Desdiene.UnityScenes.Loadings
         /// <summary>
         /// Событие вызывается после загрузки и включении сцены.
         /// </summary>
-        public event Action OnLoadedAndEnabled
+        event Action ILoadingAndEnabling.OnLoadedAndEnabled
         {
             add { lock (this) { onLoadedAndEnabled += value; } }
             remove { lock (this) { onLoadedAndEnabled -= value; } }
@@ -57,6 +57,12 @@ namespace Desdiene.UnityScenes.Loadings
 
         private ProgressInfo ProgressInfo { get; }
         private float LoadingProgress => ProgressInfo.Progress / 0.9f;
+
+        protected override void OnDestroy()
+        {
+            _progressChecking.TryTerminate();
+            _beforeEnabling.Clear();
+        }
 
         /* Используется слово "enable" для разделения понятий.
          * Согласно документации unity, может быть "active scene" - главная включенная сцена, при использовании LoadSceneMode.Additive
@@ -85,25 +91,11 @@ namespace Desdiene.UnityScenes.Loadings
             }
         }
 
-        private void InvokeOnLoadedAndEnabled(AsyncOperation unloadingByUnity) => onLoadedAndEnabled?.Invoke();
-
-        private void SubscribeEvents()
+        private void OnLoadedAndEnabled(AsyncOperation unloadingByUnity)
         {
-            _loadingByUnity.completed += InvokeOnLoadedAndEnabled;
-            OnLoadedAndEnabled += Destroy;
-        }
-
-        private void Destroy()
-        {
-            _progressChecking.TryTerminate();
-            _beforeEnabling.Clear();
-            UnsubscribeEvents();
-        }
-
-        private void UnsubscribeEvents()
-        {
-            _loadingByUnity.completed -= InvokeOnLoadedAndEnabled;
-            OnLoadedAndEnabled -= Destroy;
+            _loadingByUnity.completed -= OnLoadedAndEnabled;
+            onLoadedAndEnabled?.Invoke();
+            Destroy();
         }
 
         private string PrintLoadingLog(string logMessage)
