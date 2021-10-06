@@ -1,11 +1,11 @@
 ﻿using System;
 using Desdiene.StateMachines.StateSwitchers;
 
-public partial class PlayerHealth
+public partial class HealthReincarnation
 {
     private class Dead : State
     {
-        public Dead(PlayerHealth _it, IStateSwitcher<State, PlayerHealth> stateSwitcher) : base(_it, stateSwitcher) { }
+        public Dead(HealthReincarnation _it, IStateSwitcher<State, HealthReincarnation> stateSwitcher) : base(_it, stateSwitcher) { }
 
         public override Action SubscribeToWhenAlive(Action action, Action value) => action += value;
 
@@ -15,15 +15,15 @@ public partial class PlayerHealth
             return action += value;
         }
 
-        protected override void OnEnter(PlayerHealth it)
+        protected override void OnEnter(HealthReincarnation it)
         {
             it.OnDeath?.Invoke();
             it.WhenDead?.Invoke();
         }
 
-        protected override void TakeDamage(PlayerHealth it, IDamage damage) { }
+        protected override void TakeDamage(HealthReincarnation it, IDamage damage) { }
 
-        protected override void Revive(PlayerHealth it)
+        protected override void Revive(HealthReincarnation it)
         {
             it.OnReviving?.Invoke();
             it._healthPercent.SetMax();

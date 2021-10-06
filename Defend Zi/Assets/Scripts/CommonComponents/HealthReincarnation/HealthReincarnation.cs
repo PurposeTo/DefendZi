@@ -7,21 +7,21 @@ using Desdiene.Types.Percentale;
 using Desdiene.Types.Percents;
 using Desdiene.Types.Ranges.Positive;
 
-public partial class PlayerHealth : IHealthReincarnation
+public partial class HealthReincarnation : IHealthReincarnation
 {
     private readonly IRef<State> _refCurrentState = new Ref<State>();
 
     private readonly IRef<int> _health;
     private readonly IPercent _healthPercent;
 
-    public PlayerHealth()
+    public HealthReincarnation(uint maxHealth)
     {
-        int defaultHealth = 1;
-        IPercentable<int> health = new IntPercentable(defaultHealth, new IntRange(0, defaultHealth));
+        int maxHealthInt = (int)maxHealth;
+        IPercentable<int> health = new IntPercentable(maxHealthInt, new IntRange(0, maxHealthInt));
         _health = health;
         _healthPercent = health;
 
-        StateSwitcherWithContext<State, PlayerHealth> stateSwitcher = new StateSwitcherWithContext<State, PlayerHealth>(this, _refCurrentState);
+        StateSwitcherWithContext<State, HealthReincarnation> stateSwitcher = new StateSwitcherWithContext<State, HealthReincarnation>(this, _refCurrentState);
         List<State> allStates = new List<State>()
             {
                 new Alive(this, stateSwitcher),

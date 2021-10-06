@@ -20,7 +20,7 @@ public class Player :
     {
         IPosition position = new Rigidbody2DPosition(rigidbody2D);
         _controlFixedUpdate = new PlayerControl(input, position, movementView);
-        _health = new PlayerHealth();
+        _health = new HealthReincarnation(1);
         _score = new PlayerScore();
         _positionAccessor = position;
         _positionNotification = position;
