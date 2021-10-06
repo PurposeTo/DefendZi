@@ -36,8 +36,11 @@ namespace Desdiene.UI.Elements
 
         private void ValidateRaycastBlocker()
         {
-            ValidateRectTransform();
-            ValidateImage();
+            if (!TryGetComponent(out CanvasScaler _))
+            {
+                ValidateRectTransform();
+                ValidateImage();
+            }
         }
 
         private void ValidateRectTransform()

@@ -1,5 +1,4 @@
-﻿using Desdiene.AudioPlayers;
-using Desdiene.DataStorageFactories.Storages;
+﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
@@ -11,7 +10,8 @@ using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
-    [SerializeField, NotNull] private BackgroundMusic _backgroundMusicPrefab;
+    [SerializeField, NotNull] private BackgroundMusic _backgroundMusic;
+    [SerializeField, NotNull] private TransitionScreen _transitionScreen;
 
     public override void InstallBindings()
     {
@@ -26,6 +26,7 @@ public class ProjectInstaller : MonoInstaller
         BindGPGSLeaderboard();
         BindDataStorage();
         BindBackgroundMusic();
+        BindTransitionScreen();
     }
 
     private void BindBackgroundMusic()
@@ -33,7 +34,7 @@ public class ProjectInstaller : MonoInstaller
         Container
              .Bind<BackgroundMusic>()
              .ToSelf()
-             .FromComponentInNewPrefab(_backgroundMusicPrefab)
+             .FromComponentInNewPrefab(_backgroundMusic)
              .AsSingle()
              .NonLazy();
     }
@@ -135,5 +136,15 @@ public class ProjectInstaller : MonoInstaller
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
+    }
+
+    private void BindTransitionScreen()
+    {
+        Container
+            .Bind<TransitionScreen>()
+            .ToSelf()
+            .FromComponentInNewPrefab(_transitionScreen)
+            .AsSingle()
+            .NonLazy();
     }
 }
