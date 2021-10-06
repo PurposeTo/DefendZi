@@ -6,10 +6,13 @@ using Desdiene.TimeControls;
 using Desdiene.TimeControls.Adapters;
 using Desdiene.UI.Components;
 using Desdiene.UnityScenes;
+using UnityEngine;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
+    [SerializeField, NotNull] private BackgroundMusic _backgroundMusicPrefab;
+
     public override void InstallBindings()
     {
         BindRewardedAd();
@@ -30,7 +33,7 @@ public class ProjectInstaller : MonoInstaller
         Container
              .Bind<BackgroundMusic>()
              .ToSelf()
-             .FromNewComponentOnNewGameObject()
+             .FromComponentInNewPrefab(_backgroundMusicPrefab)
              .AsSingle()
              .NonLazy();
     }
