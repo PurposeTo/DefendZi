@@ -2,7 +2,7 @@
 
 namespace Desdiene.Types.ProcessContainers
 {
-    public interface ICyclicalProcessesMutator
+    public interface IProcessesMutator
     {
        void Add(IProcessAccessorNotifier[] processes);
        void Add(IProcessAccessorNotifier process);

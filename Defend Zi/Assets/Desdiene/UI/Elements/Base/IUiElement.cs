@@ -3,7 +3,7 @@
     /// <summary>
     /// интерфейс описывает UI элемент, находящийся на Canvas overlay
     /// </summary>
-    public interface IOverlayUiElement
+    public interface IUiElement
     {
         void Show();
         void Hide();

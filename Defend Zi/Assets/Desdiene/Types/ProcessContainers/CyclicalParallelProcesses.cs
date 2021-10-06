@@ -51,7 +51,7 @@ namespace Desdiene.Types.ProcessContainers
         private string Name => _process.Name;
         private bool KeepWaiting => _process.KeepWaiting;
 
-        void ICyclicalProcessesMutator.Add(IProcessAccessorNotifier[] processes)
+        void IProcessesMutator.Add(IProcessAccessorNotifier[] processes)
         {
             if (processes is null)
             {
@@ -61,9 +61,9 @@ namespace Desdiene.Types.ProcessContainers
             Array.ForEach(processes, process => Add(process));
         }
 
-        void ICyclicalProcessesMutator.Add(IProcessAccessorNotifier process) => Add(process);
+        void IProcessesMutator.Add(IProcessAccessorNotifier process) => Add(process);
 
-        void ICyclicalProcessesMutator.Remove(IProcessAccessorNotifier process) => Remove(process);
+        void IProcessesMutator.Remove(IProcessAccessorNotifier process) => Remove(process);
 
         void ICyclicalProcesses.Clear()
         {

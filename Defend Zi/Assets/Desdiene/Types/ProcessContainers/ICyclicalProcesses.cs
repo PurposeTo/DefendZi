@@ -2,7 +2,7 @@
 
 namespace Desdiene.Types.ProcessContainers
 {
-    public interface ICyclicalProcesses : ICyclicalProcessAccessorNotifier, ICyclicalProcessesMutator
+    public interface ICyclicalProcesses : ICyclicalProcessAccessorNotifier, IProcessesMutator
     {
         /// <summary>
         /// Очистить список от всех процессов.
