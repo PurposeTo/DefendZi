@@ -73,3 +73,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84cf0ee738d3fcd4699888640ea0bc84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _backgroundMusicPrefab: {fileID: 2786372144669525230, guid: 61c7df70ed6bad94c9d0eeaccfca1de2, type: 3}

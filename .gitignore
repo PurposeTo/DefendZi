@@ -50,9 +50,9 @@
 *.cubemap
  
 # Audio
-*.mp3
-*.wav
-*.ogg
+#*.mp3
+#*.wav
+#*.ogg
  
 # Video
 *.mp4
