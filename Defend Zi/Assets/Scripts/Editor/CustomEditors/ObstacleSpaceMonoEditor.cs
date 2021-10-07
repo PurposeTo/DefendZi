@@ -13,9 +13,10 @@ public class ObstacleSpaceMonoEditor : Editor
 
     private void RecalculateTotalMass()
     {
-        SerializedProperty chunksProperty = serializedObject.FindProperty("_selectableChunks");
+        SerializedProperty chunksDrawableProperty = serializedObject.FindProperty(SelectableChunksDrawable.SelectableChunksFieldName);
+        SerializedProperty chunksProperty = chunksDrawableProperty.FindPropertyRelative(SelectableChunksDrawable.SelectableChunksFieldName);
         int arraySize = chunksProperty.arraySize;
-        SelectableChunkPropertyDrawer.TotalMass = 0;
+        SelectableChunksDrawable.TotalMass = 0;
         for (int i = 0; i < arraySize; i++)
         {
             Object referenceObject = chunksProperty.GetArrayElementAtIndex(i).objectReferenceValue;
@@ -25,7 +26,7 @@ public class ObstacleSpaceMonoEditor : Editor
             }
             SerializedObject propertyObject = new SerializedObject(referenceObject);
             int chunkMass = propertyObject.FindProperty(SelectableChunk.ChanceMassFieldName).intValue;
-            SelectableChunkPropertyDrawer.TotalMass += chunkMass;
+            SelectableChunksDrawable.TotalMass += chunkMass;
         }
     }
 }

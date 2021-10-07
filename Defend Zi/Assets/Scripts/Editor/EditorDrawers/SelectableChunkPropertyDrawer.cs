@@ -8,7 +8,6 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(SelectableChunk))]
 public class SelectableChunkPropertyDrawer : PropertyDrawer
 {
-    public  static int TotalMass;
     private static readonly Percent ChunkRectPercentage = new Percent(0.8f);
     private static readonly Percent ChanceRectPercentage = new Percent(0.19f);
 
@@ -16,11 +15,6 @@ public class SelectableChunkPropertyDrawer : PropertyDrawer
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        if (property.objectReferenceValue == null)
-        {
-            return;
-        }
-
         int indent = EditorGUI.indentLevel;
         EditorGUI.indentLevel = 0;
 
@@ -28,10 +22,14 @@ public class SelectableChunkPropertyDrawer : PropertyDrawer
         Rect chunkRect = CreatePercentageRect(position, ChunkRectPercentage);
         Rect chanceMassRect = CreatePercentageRect(position, ChanceRectPercentage);
 
-        SerializedObject propertyObject = new SerializedObject(property.objectReferenceValue);
-        SerializedProperty chanceMassProperty = propertyObject.FindProperty(SelectableChunk.ChanceMassFieldName);
-        int mass = chanceMassProperty.intValue;
-        float massPercent = mass * 100f / TotalMass;
+        float massPercent = 0f;
+        if (property.objectReferenceValue != null)
+        {
+            SerializedObject propertyObject = new SerializedObject(property.objectReferenceValue);
+            SerializedProperty chanceMassProperty = propertyObject.FindProperty(SelectableChunk.ChanceMassFieldName);
+            int mass = chanceMassProperty.intValue;
+            massPercent = mass * 100f / SelectableChunksDrawable.TotalMass;
+        }
 
         EditorGUI.PropertyField(chunkRect, property, GUIContent.none);
         GUI.enabled = false;

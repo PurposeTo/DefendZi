@@ -14,12 +14,9 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     private IRectangleIn2DGetter _visibleGameSpace;
     private IPositionGetter _visibleGameSpacePosition;
 
-    private readonly ISelectableItem<Chunk>[] _selectableChunks;
+    private readonly ISelectableItems<Chunk> _selectableChunks;
     private readonly FloatRange _safeSpaceBetweenChunks;
     private readonly float _offsetGeneration;
-
-    // Длина пространства препятствий. Значение эквивалентно местоположению правой границе chunkSpawn.width
-    public float Width { get; private set; }
 
     public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DGetter visibleGameSpace) : base(mono)
     {
@@ -33,8 +30,6 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         _visibleGameSpacePosition = visibleGameSpace;
     }
 
-    private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
-
     void IUpdate.Invoke(float deltaTime)
     {
         while (IsNeedToGenerate)
@@ -43,9 +38,14 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         }
     }
 
+    // Длина пространства препятствий. Значение эквивалентно местоположению правой границе chunkSpawn.width
+    public float Width { get; private set; }
+
+    private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
+
     private void GenerateObstacles()
     {
-        Chunk originalChunk = Randomizer.GetRandomItem(_selectableChunks);
+        Chunk originalChunk = _selectableChunks.GetRandom();
 
         float safeSpace = Random.Range(_safeSpaceBetweenChunks.Min, _safeSpaceBetweenChunks.Max);
         float spawnPointOx = Width + safeSpace + (originalChunk.SpawnPlaceWidth / 2);
@@ -61,7 +61,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     /// </summary>
     private float ValidateOffsetGeneration(float offsetGeneration)
     {
-        float maxChunkSpawnPlaceWidth = _selectableChunks.Select(chunk => chunk.Item.Width).Max();
+        float maxChunkSpawnPlaceWidth = _selectableChunks.Select(chunk => chunk.Width).Max();
         if (offsetGeneration < maxChunkSpawnPlaceWidth)
         {
             Debug.LogWarning($"offsetGeneration не может быть меньше ширины самого большого чанка - {maxChunkSpawnPlaceWidth}!");
