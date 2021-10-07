@@ -23,12 +23,6 @@ public class SelectableChunksDrawable : ISelectableItems<Chunk>
     public SelectableChunksDrawable()
     {
         _selectableChunkItems = new SelectableItems<Chunk>(_selectableChunks);
-
-/*        _chances = new Percent[_selectableChunks.Length];
-        for (int i = 0; i < _selectableChunks.Length; i++)
-        {
-            //_chances[i] = _selectableChunkItems.GetChance(_selectableChunks);
-        }*/
     }
 
     Chunk ISelectableItems<Chunk>.GetRandom() => _selectableChunkItems.GetRandom();
