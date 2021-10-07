@@ -1,4 +1,4 @@
-﻿using Desdiene.Types.ProcessContainers;
+﻿using System;
 
 namespace Desdiene.UI.Elements
 {
@@ -16,13 +16,13 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDestroyElement() => OnDestroyWindow();
 
-        protected sealed override void ShowElement() => ShowWindow();
-        protected sealed override void HideElement() => HideWindow();
+        protected sealed override void ShowElement(Action show) => ShowWindow(show);
+        protected sealed override void HideElement(Action hide) => HideWindow(hide);
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
-        protected virtual void ShowWindow() { }
-        protected virtual void HideWindow() { }
+        protected virtual void ShowWindow(Action show) => show.Invoke();
+        protected virtual void HideWindow(Action hide) => hide.Invoke();
     }
 }

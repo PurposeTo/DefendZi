@@ -4,7 +4,6 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.ProcessContainers;
-using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -18,18 +17,15 @@ namespace Desdiene.UI.Elements
     public abstract partial class UiElement : MonoBehaviourExt, IUiElement
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
+        private string _stateName; //for unity log
         private string _typeName;
         private string _gameObjectName;
-
-        private IProcesses _beforeHide;
-        private IProcesses _beforeShow;
 
         protected sealed override void AwakeExt()
         {
             _typeName = GetType().Name;
             _gameObjectName = gameObject.name;
-            _beforeHide = new CyclicalParallelProcesses($"Before hide {_typeName} on \"{_gameObjectName}\"");
-            _beforeShow = new CyclicalParallelProcesses($"Before show {_typeName} on \"{_gameObjectName}\"");
+            _refCurrentState.OnChanged += () => _stateName = CurrentState.GetType().Name;
             RectTransform = GetComponent<RectTransform>();
             Canvas = GetComponent<Canvas>();
 
@@ -51,7 +47,6 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDestroyExt()
         {
-            _beforeHide.Clear();
             OnDestroyElement();
         }
 
@@ -74,14 +69,17 @@ namespace Desdiene.UI.Elements
         protected RectTransform RectTransform { get; private set; }
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void Show() => CurrentState.Show();
+        public void Show()
+        {
+            CurrentState.Show();
+        }
+
         public void Hide() => CurrentState.Hide();
 
         protected abstract void AwakeElement();
         protected abstract void OnDestroyElement();
-        protected abstract void ShowElement();
-        protected abstract void HideElement();
-
+        protected abstract void ShowElement(Action show);
+        protected abstract void HideElement(Action hide);
 
         private void DisableCanvas() => Canvas.enabled = false;
         private void EnableCanvas() => Canvas.enabled = true;

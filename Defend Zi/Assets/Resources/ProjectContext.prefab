@@ -74,4 +74,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backgroundMusic: {fileID: 2786372144669525230, guid: 61c7df70ed6bad94c9d0eeaccfca1de2, type: 3}
-  _transitionScreen: {fileID: 2472543277644610254, guid: 0ed309d1de58f1c48875b934cfad7094, type: 3}
+  _transitionScreen: {fileID: 5796299374348972457, guid: 0ed309d1de58f1c48875b934cfad7094, type: 3}

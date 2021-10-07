@@ -1,4 +1,4 @@
-﻿using Desdiene.Types.ProcessContainers;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,22 +25,22 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDestroyElement() => OnDestroyWindow();
 
-        protected sealed override void ShowElement() => ShowWindow();
-        protected sealed override void HideElement() => HideWindow();
+        protected sealed override void ShowElement(Action show) => ShowWindow(show);
+        protected sealed override void HideElement(Action hide) => HideWindow(hide);
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
-        protected virtual void ShowWindow() { }
-        protected virtual void HideWindow() { }
+        protected virtual void ShowWindow(Action show) => show.Invoke();
+        protected virtual void HideWindow(Action hide) => hide.Invoke();
 
         private void ValidateRaycastBlocker()
         {
-            if (!TryGetComponent(out CanvasScaler _))
+            if (!TryGetComponent(out CanvasScaler canvasScaler))
             {
                 ValidateRectTransform();
-                ValidateImage();
             }
+            ValidateRaycastTarget();
         }
 
         private void ValidateRectTransform()
@@ -78,8 +78,14 @@ namespace Desdiene.UI.Elements
             }
         }
 
-        private void ValidateImage()
+        private void ValidateRaycastTarget()
         {
+            if (GetComponentInParent<GraphicRaycaster>() == null)
+            {
+                Debug.LogWarning($"Added GraphicRaycaster on {name}");
+                gameObject.AddComponent<GraphicRaycaster>();
+            }
+
             if (!_image.raycastTarget)
             {
                 Debug.LogWarning($"Set [raycastTarget = true] to raycast blocker on {name}");

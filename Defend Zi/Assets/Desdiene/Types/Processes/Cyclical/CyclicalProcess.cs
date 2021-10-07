@@ -38,7 +38,7 @@ namespace Desdiene.Types.Processes
 
         private event Action<IProcessAccessor> OnChanged;
 
-        event Action IProcessNotifier.WhenStarted
+        event Action IProcessNotifier.WhenRunning
         {
             add => CurrentState.OnStarted += value;
             remove => CurrentState.OnStarted -= value;

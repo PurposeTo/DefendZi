@@ -31,7 +31,7 @@ namespace Desdiene.UnityScenes.Loadings
             }
 
             _sceneName = sceneName;
-            _beforeEnabling = new LinearParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
+            _beforeEnabling = new ParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
 

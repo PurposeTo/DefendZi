@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
@@ -13,11 +10,11 @@ using Zenject;
 /// Экран перехода между сценами.
 /// need to be a global singleton.
 /// </summary>
+[RequireComponent(typeof(TransitionScreenAnimator))]
 public class TransitionScreen : ModalWindow
 {
     private SceneLoader _sceneLoader;
-    private ToVisible _toVisible;
-    private IProcess _waitForHide;
+    private TransitionScreenAnimator _animator;
 
     [Inject]
     public void Constructor(SceneLoader sceneLoader)
@@ -27,7 +24,9 @@ public class TransitionScreen : ModalWindow
 
     protected override void AwakeWindow()
     {
+        _animator = GetInitedComponent<TransitionScreenAnimator>();
         SubscribeEvents();
+        Hide();
     }
 
     protected override void OnDestroyWindow()
@@ -35,22 +34,45 @@ public class TransitionScreen : ModalWindow
         UnSubsctibeEvents();
     }
 
-    protected override void ShowWindow()
+    protected override void ShowWindow(Action show)
     {
-        _toVisible.MakeTransparent();
+        _animator.Show();
+
+        void OnDisplayed()
+        {
+            show.Invoke();
+            _animator.OnDisplayed -= OnDisplayed;
+        }
+        _animator.OnDisplayed += OnDisplayed;
+
     }
 
-    protected override void HideWindow()
+    protected override void HideWindow(Action hide)
     {
-        _toVisible.MakeTransparent();
+        _animator.Hide();
+
+        void OnHidden()
+        {
+            hide.Invoke();
+            _animator.OnHidden -= OnHidden;
+        }
+        _animator.OnHidden += OnHidden;
     }
 
-    private void Show(IProcessesMutator linearProcesses)
+    private void Show(IProcessesMutator processes)
     {
         IProcess _waitForShow = new LinearProcess("Включение окна перехода между сценами");
         _waitForShow.Start();
         Show();
-        linearProcesses.Add(_waitForShow);
+
+        void StopWaiting()
+        {
+            _waitForShow.Stop();
+            WhenDisplayed -= StopWaiting;
+        }
+
+        WhenDisplayed += StopWaiting;
+        processes.Add(_waitForShow);
     }
 
     private void SubscribeEvents()
@@ -64,4 +86,5 @@ public class TransitionScreen : ModalWindow
         _sceneLoader.AfterEnabling -= Hide;
         _sceneLoader.BeforeUnloading -= Show;
     }
+
 }

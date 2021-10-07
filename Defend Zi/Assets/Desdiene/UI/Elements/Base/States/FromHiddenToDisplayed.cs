@@ -1,4 +1,5 @@
 ﻿using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.Types.ProcessContainers;
 
 namespace Desdiene.UI.Elements
 {
@@ -7,13 +8,15 @@ namespace Desdiene.UI.Elements
         private sealed class FromHiddenToDisplayed : State
         {
             public FromHiddenToDisplayed(UiElement _it, IStateSwitcher<State, UiElement> stateSwitcher)
-                : base(_it, stateSwitcher) { }
+                : base(_it, stateSwitcher)
+            {
+
+            }
 
             protected override void OnEnter(UiElement it)
             {
                 it.EnableCanvas();
-                it.ShowElement();
-                SwitchState<Displayed>();
+                it.ShowElement(() => SwitchState<Displayed>());
             }
 
             protected override void OnExit(UiElement it) { }

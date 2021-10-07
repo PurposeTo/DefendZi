@@ -7,30 +7,30 @@ using UnityEngine;
 namespace Desdiene.Types.ProcessContainers
 {
     /// <summary>
-    /// Представляет контейнер только для линейных процессов.
+    /// Представляет контейнер процессов.
     /// </summary>
-    public class LinearParallelProcesses : IProcesses
+    public class ParallelProcesses : IProcesses
     {
         private readonly List<IProcessAccessorNotifier> _processes = new List<IProcessAccessorNotifier>();
         private readonly IProcess _process;
 
-        public LinearParallelProcesses(string name) : this(name, new List<IProcessAccessorNotifier>()) { }
+        public ParallelProcesses(string name) : this(name, new List<IProcessAccessorNotifier>()) { }
 
-        public LinearParallelProcesses(string name, List<IProcessAccessorNotifier> processes)
+        public ParallelProcesses(string name, List<IProcessAccessorNotifier> processes)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException($"\"{nameof(name)}\" Can't be null or empty.", nameof(name));
             }
 
-            _process = new OptionalLinearProcess(name);
+            _process = new CyclicalProcess(name);
             processes.ForEach(process => Add(process));
         }
 
-        event Action IProcessNotifier.WhenStarted
+        event Action IProcessNotifier.WhenRunning
         {
-            add => _process.WhenStarted += value;
-            remove => _process.WhenStarted -= value;
+            add => _process.WhenRunning += value;
+            remove => _process.WhenRunning -= value;
         }
 
         event Action IProcessNotifier.WhenCompleted
@@ -118,7 +118,7 @@ namespace Desdiene.Types.ProcessContainers
 
         private void Stop() => _process.Stop();
 
-        public void LogAllProcesses()
+        private void LogAllProcesses()
         {
             string logMessage = $"List in \"{Name}\" have {_processes.Count} items. KeepWaiting: {KeepWaiting}";
             _processes.ForEach(item => logMessage += $"\nName: {item.Name}. KeepWaiting: {item.KeepWaiting}");
