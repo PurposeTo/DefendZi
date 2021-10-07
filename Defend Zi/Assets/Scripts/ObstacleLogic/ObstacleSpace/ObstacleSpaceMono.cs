@@ -8,7 +8,7 @@ using Zenject;
 public class ObstacleSpaceMono : MonoBehaviourExt
 {
     [SerializeField] private SelectableChunk[] _selectableChunks;
-    [SerializeField] private float _startPoint = 40f;
+    [SerializeField] private float _startPoint = 20f;
     [SerializeField] private float _offsetGeneration = 30f; // Сейчас не учитывает размеры препятствий, поэтому поставить число побольше
     [SerializeField] private FloatRange _safeSpaceBetweenChunks = new FloatRange(5f, 10f);
 
