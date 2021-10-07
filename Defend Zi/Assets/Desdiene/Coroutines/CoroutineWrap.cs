@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Desdiene.Containers;
 using Desdiene.Coroutines.Components;
-using Desdiene.Coroutines.States;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
+using UnityEngine;
 
 namespace Desdiene.Coroutines
 {
@@ -29,30 +29,30 @@ namespace Desdiene.Coroutines
      *    
      * Лог будет выведен, т.к. yield return будет лишь в следующей итерации цикла while.
      */
-    public sealed class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
+    public sealed partial class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
+
+        private readonly CoroutinesStack _coroutinesStack = new CoroutinesStack();
         private readonly IRef<State> _refCurrentState = new Ref<State>();
+        private Coroutine _coroutine;
 
         public CoroutineWrap(MonoBehaviourExt mono) : base(mono)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
 
-            StateContext stateContext = new StateContext();
-            CoroutinesStack coroutineStack = new CoroutinesStack();
-            Func<bool> isExecutingRef = () => CurrentState is Executing;
-            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+            var stateSwitcher = new StateSwitcherWithContext<State, CoroutineWrap>(this, _refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new Created(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef),
-                new Executing(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef),
-                new Executed(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef),
-                new Terminated(mono, stateSwitcher, stateContext, coroutineStack, isExecutingRef)
+                new Created(mono, stateSwitcher, this),
+                new Executing(mono, stateSwitcher, this),
+                new Executed(mono, stateSwitcher, this), 
+                new Terminated(mono, stateSwitcher, this)
             };
             stateSwitcher.Add(allStates);
             stateSwitcher.Switch<Created>();
         }
 
-        public bool IsExecuting => CurrentState.IsExecuting;
+        public bool IsExecuting => _refCurrentState.Value is Executing;
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Desdiene.Coroutines
         /// </summary>
         /// <param name="newCoroutine">Вложенная корутина.</param>
         /// <returns>Енумератор для ожидания выполнения.</returns>
-        IEnumerator ICoroutine.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
+        IEnumerator INestedCoroutineRunner.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
 
         protected override void OnDestroy()
         {

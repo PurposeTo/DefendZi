@@ -5,38 +5,37 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.Coroutines.States
+namespace Desdiene.Coroutines
 {
-    public class Created : State
+    public partial class CoroutineWrap
     {
-        public Created(MonoBehaviourExt mono,
-                       IStateSwitcher<State> stateSwitcher,
-                       StateContext stateContext,
-                       CoroutinesStack coroutinesStack,
-                       Func<bool> isExecutingRef)
-            : base(mono,
-                   stateSwitcher,
-                   stateContext,
-                   coroutinesStack,
-                   isExecutingRef)
-        { }
-
-        public override void StartContinuously(IEnumerator enumerator)
+        private class Created : State
         {
-            CoroutinesStack.Clear();
-            CoroutinesStack.Add(enumerator);
-            SwitchState<Executing>();
-        }
+            public Created(MonoBehaviourExt mono,
+                           IStateSwitcher<State, CoroutineWrap> stateSwitcher,
+                           CoroutineWrap it)
+                : base(mono,
+                       stateSwitcher, 
+                       it)
+            { }
 
-        public override void Terminate()
-        {
-            Debug.LogError("You need to start coroutine, before terminate it");
-        }
+            protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)
+            {
+                it._coroutinesStack.Clear();
+                it._coroutinesStack.Add(enumerator);
+                SwitchState<Executing>();
+            }
 
-        public override IEnumerator StartNested(IEnumerator newCoroutine)
-        {
-            Debug.LogError("You need to start coroutine, before start nested");
-            yield break;
+            protected override void Terminate(CoroutineWrap it)
+            {
+                Debug.LogError("You need to start coroutine, before terminate it");
+            }
+
+            protected override IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine)
+            {
+                Debug.LogError("You need to start coroutine, before start nested");
+                yield break;
+            }
         }
     }
 }

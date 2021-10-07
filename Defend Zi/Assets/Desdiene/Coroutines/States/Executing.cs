@@ -5,54 +5,53 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.Coroutines.States
+namespace Desdiene.Coroutines
 {
-    public class Executing : State
+    public partial class CoroutineWrap
     {
-        public Executing(MonoBehaviourExt mono,
-                       IStateSwitcher<State> stateSwitcher,
-                       StateContext stateContext,
-                       CoroutinesStack coroutinesStack,
-                       Func<bool> isExecutingRef)
-            : base(mono,
-                   stateSwitcher,
-                   stateContext,
-                   coroutinesStack,
-                   isExecutingRef)
-        { }
-
-        protected override void OnEnter()
+        private class Executing : State
         {
-            Coroutine = MonoBehaviourExt.StartCoroutine(Run());
-        }
+            public Executing(MonoBehaviourExt mono,
+                           IStateSwitcher<State, CoroutineWrap> stateSwitcher,
+                           CoroutineWrap it)
+                : base(mono,
+                       stateSwitcher,
+                       it)
+            { }
 
-        public override void StartContinuously(IEnumerator enumerator)
-        {
-            Debug.LogWarning("You can't start coroutine, because it is executing now");
-        }
-
-        public override void Terminate()
-        {
-            SwitchState<Terminated>();
-        }
-
-        /// <summary>
-        /// Использование с "yield return" - запустить и дождаться выполнения корутины.
-        /// Если не использовать с "yield return", то корутина не будет запущена.
-        /// </summary>
-        public override IEnumerator StartNested(IEnumerator newCoroutine)
-        {
-            CoroutinesStack.Add(newCoroutine);
-            yield break;
-        }
-
-        private IEnumerator Run()
-        {
-            while (IsExecuting && CoroutinesStack.MoveNext())
+            protected override void OnEnter(CoroutineWrap it)
             {
-                yield return CoroutinesStack.Current;
+                it._coroutine = MonoBehaviourExt.StartCoroutine(Run(it));
             }
-            SwitchState<Executed>();
+
+            protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)
+            {
+                Debug.LogWarning("You can't start coroutine, because it is executing now");
+            }
+
+            protected override void Terminate(CoroutineWrap it)
+            {
+                SwitchState<Terminated>();
+            }
+
+            /// <summary>
+            /// Использование с "yield return" - запустить и дождаться выполнения корутины.
+            /// Если не использовать с "yield return", то корутина не будет запущена.
+            /// </summary>
+            protected override IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine)
+            {
+                it._coroutinesStack.Add(newCoroutine);
+                yield break;
+            }
+
+            private IEnumerator Run(CoroutineWrap it)
+            {
+                while (it.IsExecuting && it._coroutinesStack.MoveNext())
+                {
+                    yield return it._coroutinesStack.Current;
+                }
+                SwitchState<Executed>();
+            }
         }
     }
 }

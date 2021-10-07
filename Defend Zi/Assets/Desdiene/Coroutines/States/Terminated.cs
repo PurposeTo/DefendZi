@@ -5,45 +5,44 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.Coroutines.States
+namespace Desdiene.Coroutines
 {
-    public class Terminated : State
+    public partial class CoroutineWrap
     {
-        public Terminated(MonoBehaviourExt mono,
-                       IStateSwitcher<State> stateSwitcher,
-                       StateContext stateContext,
-                       CoroutinesStack coroutinesStack,
-                       Func<bool> isExecutingRef)
-            : base(mono,
-                   stateSwitcher,
-                   stateContext,
-                   coroutinesStack,
-                   isExecutingRef)
-        { }
-
-        protected override void OnEnter()
+        private class Terminated : State
         {
-            if (Coroutine != null)
+            public Terminated(MonoBehaviourExt mono,
+                           IStateSwitcher<State, CoroutineWrap> stateSwitcher,
+                           CoroutineWrap it)
+                : base(mono,
+                       stateSwitcher,
+                       it)
+            { }
+
+            protected override void OnEnter(CoroutineWrap it)
             {
-                MonoBehaviourExt.StopCoroutine(Coroutine);
-                Coroutine = null;
+                if (it._coroutine != null)
+                {
+                    MonoBehaviourExt.StopCoroutine(it._coroutine);
+                    it._coroutine = null;
+                }
             }
-        }
 
-        public override void StartContinuously(IEnumerator enumerator)
-        {
-            SwitchState<Created>().StartContinuously(enumerator);
-        }
+            protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)
+            {
+                SwitchState<Created>().StartContinuously(enumerator);
+            }
 
-        public override void Terminate()
-        {
-            Debug.LogError("You can't terminate coroutine, because it is already terminated");
-        }
+            protected override void Terminate(CoroutineWrap it)
+            {
+                Debug.LogError("You can't terminate coroutine, because it is already terminated");
+            }
 
-        public override IEnumerator StartNested(IEnumerator newCoroutine)
-        {
-            Debug.LogError("You can't start nested coroutine, because coroutine is terminated");
-            yield break;
+            protected override IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine)
+            {
+                Debug.LogError("You can't start nested coroutine, because coroutine is terminated");
+                yield break;
+            }
         }
     }
 }
