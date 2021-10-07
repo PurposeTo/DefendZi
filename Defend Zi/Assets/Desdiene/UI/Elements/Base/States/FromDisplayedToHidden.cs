@@ -15,7 +15,7 @@ namespace Desdiene.UI.Elements
 
             protected override void OnEnter(UiElement it)
             {
-                var wait = it.HideElement();
+                IProcessAccessorNotifier wait = it.HideElement();
 
                 void SetHidden()
                 {
