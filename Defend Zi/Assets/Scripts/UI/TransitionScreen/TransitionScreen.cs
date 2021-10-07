@@ -34,55 +34,33 @@ public class TransitionScreen : ModalWindow
         UnSubsctibeEvents();
     }
 
-    protected override void ShowWindow(Action show)
+    protected override IProcessAccessorNotifier ShowWindow()
     {
-        _animator.Show();
-
-        void OnDisplayed()
-        {
-            show.Invoke();
-            _animator.OnDisplayed -= OnDisplayed;
-        }
-        _animator.OnDisplayed += OnDisplayed;
+       return _animator.Show();
     }
 
-    protected override void HideWindow(Action hide)
+    protected override IProcessAccessorNotifier HideWindow()
     {
-        _animator.Hide();
-
-        void OnHidden()
-        {
-            hide.Invoke();
-            _animator.OnHidden -= OnHidden;
-        }
-        _animator.OnHidden += OnHidden;
+        return _animator.Hide();
     }
 
     private void Show(IProcessesMutator processes)
     {
-        IProcess _waitForShow = new LinearProcess("Включение окна перехода между сценами");
-        _waitForShow.Start();
-        Show();
-
-        void StopWaiting()
-        {
-            _waitForShow.Stop();
-            WhenDisplayed -= StopWaiting;
-        }
-
-        WhenDisplayed += StopWaiting;
-        processes.Add(_waitForShow);
+        IProcessAccessorNotifier _wait = Show();
+        processes.Add(_wait);
     }
 
     private void SubscribeEvents()
     {
-        _sceneLoader.AfterEnabling += Hide;
+        _sceneLoader.AfterEnabling += HideThis;
         _sceneLoader.BeforeUnloading += Show;
     }
 
     private void UnSubsctibeEvents()
     {
-        _sceneLoader.AfterEnabling -= Hide;
+        _sceneLoader.AfterEnabling -= HideThis;
         _sceneLoader.BeforeUnloading -= Show;
     }
+
+    private void HideThis() => Hide();
 }

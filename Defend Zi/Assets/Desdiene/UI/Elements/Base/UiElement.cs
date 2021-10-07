@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
+using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -68,17 +69,14 @@ namespace Desdiene.UI.Elements
         protected RectTransform RectTransform { get; private set; }
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
-        public void Show()
-        {
-            CurrentState.Show();
-        }
+        public IProcessAccessorNotifier Show() => CurrentState.Show();
 
-        public void Hide() => CurrentState.Hide();
+        public IProcessAccessorNotifier Hide() => CurrentState.Hide();
 
         protected abstract void AwakeElement();
         protected abstract void OnDestroyElement();
-        protected abstract void ShowElement(Action show);
-        protected abstract void HideElement(Action hide);
+        protected abstract IProcessAccessorNotifier ShowElement();
+        protected abstract IProcessAccessorNotifier HideElement();
 
         private void DisableCanvas() => Canvas.enabled = false;
         private void EnableCanvas() => Canvas.enabled = true;

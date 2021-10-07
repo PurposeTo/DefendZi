@@ -1,4 +1,5 @@
 ﻿using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.Types.Processes;
 
 namespace Desdiene.UI.Elements
 {
@@ -14,22 +15,39 @@ namespace Desdiene.UI.Elements
 
             protected override void OnEnter(UiElement it)
             {
-                it.HideElement(() => SwitchState<Hidden>());
+                var wait = it.HideElement();
+
+                void SetHidden()
+                {
+                    wait.WhenCompleted -= SetHidden;
+                    SwitchState<Hidden>();
+                }
+
+                wait.WhenCompleted += SetHidden;
             }
 
             protected override void OnExit(UiElement it) { }
 
-            protected override void Show(UiElement it)
+            protected override IProcessAccessorNotifier Show(UiElement it)
             {
+                IProcess wait = new LinearProcess("Ожидание закрытия и последующего открытия окна");
                 void ShowAfterHidden()
                 {
-                    it.Show();
+                    IProcessAccessorNotifier waitForDisplayed = it.Show();
+
+                    void StopWaiting()
+                    {
+                        waitForDisplayed.WhenCompleted -= StopWaiting;
+                        wait.Stop();
+                    }
+                    waitForDisplayed.WhenCompleted += StopWaiting;
                     it.WhenHidden -= ShowAfterHidden;
                 }
                 it.WhenHidden += ShowAfterHidden;
+                return wait;
             }
 
-            protected override void Hide(UiElement it) { }
+            protected override IProcessAccessorNotifier Hide(UiElement it) => this;
         }
     }
 }

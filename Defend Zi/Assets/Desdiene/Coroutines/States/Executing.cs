@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Desdiene.Coroutines.Components;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
 namespace Desdiene.Coroutines
@@ -12,15 +10,20 @@ namespace Desdiene.Coroutines
         private class Executing : State
         {
             public Executing(MonoBehaviourExt mono,
-                           IStateSwitcher<State, CoroutineWrap> stateSwitcher,
-                           CoroutineWrap it)
+                             CoroutineWrap it)
                 : base(mono,
-                       stateSwitcher,
                        it)
             { }
 
+            public override Action SubscribeToWhenRunning(Action action, Action value)
+            {
+                value?.Invoke();
+                return base.SubscribeToWhenRunning(action, value);
+            }
+
             protected override void OnEnter(CoroutineWrap it)
             {
+                it.WhenRunning?.Invoke();
                 it._coroutine = MonoBehaviourExt.StartCoroutine(Run(it));
             }
 
@@ -50,6 +53,7 @@ namespace Desdiene.Coroutines
                 {
                     yield return it._coroutinesStack.Current;
                 }
+
                 SwitchState<Executed>();
             }
         }

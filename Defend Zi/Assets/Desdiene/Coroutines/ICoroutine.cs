@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using Desdiene.Types.Processes;
 
 namespace Desdiene.Coroutines
 {
-    public interface ICoroutine : INestedCoroutineRunner
+    public interface ICoroutine : INestedCoroutineRunner, IProcessAccessorNotifier
     {
         bool IsExecuting { get; }
 

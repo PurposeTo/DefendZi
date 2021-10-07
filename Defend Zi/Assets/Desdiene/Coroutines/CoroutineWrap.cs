@@ -6,6 +6,7 @@ using Desdiene.Coroutines.Components;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
+using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.Coroutines
@@ -31,9 +32,10 @@ namespace Desdiene.Coroutines
      */
     public sealed partial class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
-
+        private readonly IStateSwitcher<State, CoroutineWrap> _stateSwitcher;
         private readonly CoroutinesStack _coroutinesStack = new CoroutinesStack();
         private readonly IRef<State> _refCurrentState = new Ref<State>();
+        private readonly IRef<bool> _isExecuting = new Ref<bool>(false);
         private Coroutine _coroutine;
 
         public CoroutineWrap(MonoBehaviourExt mono) : base(mono)
@@ -43,17 +45,54 @@ namespace Desdiene.Coroutines
             var stateSwitcher = new StateSwitcherWithContext<State, CoroutineWrap>(this, _refCurrentState);
             List<State> allStates = new List<State>()
             {
-                new Created(mono, stateSwitcher, this),
-                new Executing(mono, stateSwitcher, this),
-                new Executed(mono, stateSwitcher, this), 
-                new Terminated(mono, stateSwitcher, this)
+                new Created(mono, this),
+                new Executing(mono, this),
+                new Executed(mono, this),
+                new Terminated(mono, this)
             };
             stateSwitcher.Add(allStates);
-            stateSwitcher.Switch<Created>();
+            _stateSwitcher = stateSwitcher;
+            SwitchState<Created>();
+
+            _isExecuting.OnChanged += () => OnChanged?.Invoke(this);
         }
 
-        public bool IsExecuting => _refCurrentState.Value is Executing;
-        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+        protected override void OnDestroy()
+        {
+            CurrentState.TryTerminate();
+        }
+
+        private event Action WhenRunning;
+        private event Action WhenCompleted;
+        private event Action<IProcessAccessor> OnChanged;
+
+        event Action IProcessNotifier.WhenRunning
+        {
+            add
+            {
+                WhenRunning = CurrentState.SubscribeToWhenRunning(WhenRunning, value);
+            }
+            remove => WhenRunning -= value;
+        }
+
+        event Action IProcessNotifier.WhenCompleted
+        {
+            add
+            {
+                WhenCompleted = CurrentState.SubscribeToWhenCompleted(WhenCompleted, value);
+            }
+            remove => WhenCompleted -= value;
+        }
+
+        event Action<IProcessAccessor> IProcessNotifier.OnChanged
+        {
+            add => OnChanged += value;
+            remove => OnChanged -= value;
+        }
+
+        string IProcessAccessor.Name => "Выполнение сопрограммы";
+
+        bool IProcessAccessor.KeepWaiting => IsExecuting;
 
         /// <summary>
         /// Запустить выполнение корутины, если она не была запущена.
@@ -93,9 +132,17 @@ namespace Desdiene.Coroutines
         /// <returns>Енумератор для ожидания выполнения.</returns>
         IEnumerator INestedCoroutineRunner.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
 
-        protected override void OnDestroy()
+
+        public bool IsExecuting => _isExecuting.Value;
+        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+
+
+        private State SwitchState<stateT>() where stateT : State
         {
-            CurrentState.TryTerminate();
+            // информация о следующем состоянии может должна быть установленна до вызова state.OnEnter
+            _isExecuting.Set(typeof(stateT) == typeof(Executing));
+            State state = _stateSwitcher.Switch<stateT>();
+            return state;
         }
     }
 }

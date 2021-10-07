@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Desdiene.Coroutines.Components;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
 namespace Desdiene.Coroutines
@@ -12,12 +10,16 @@ namespace Desdiene.Coroutines
         private class Terminated : State
         {
             public Terminated(MonoBehaviourExt mono,
-                           IStateSwitcher<State, CoroutineWrap> stateSwitcher,
                            CoroutineWrap it)
                 : base(mono,
-                       stateSwitcher,
                        it)
             { }
+
+            public override Action SubscribeToWhenCompleted(Action action, Action value)
+            {
+                value?.Invoke();
+                return base.SubscribeToWhenCompleted(action, value);
+            }
 
             protected override void OnEnter(CoroutineWrap it)
             {
@@ -26,6 +28,7 @@ namespace Desdiene.Coroutines
                     MonoBehaviourExt.StopCoroutine(it._coroutine);
                     it._coroutine = null;
                 }
+                it.WhenCompleted?.Invoke();
             }
 
             protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)

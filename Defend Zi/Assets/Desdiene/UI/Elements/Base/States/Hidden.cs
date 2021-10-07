@@ -1,5 +1,6 @@
 ﻿using System;
 using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -26,13 +27,13 @@ namespace Desdiene.UI.Elements
 
             protected override void OnExit(UiElement it) { }
 
-            protected override void Show(UiElement it)
+            protected override IProcessAccessorNotifier Show(UiElement it)
             {
                 Debug.Log($"Show {it._typeName} on \"{it._gameObjectName}\"");
-                SwitchState<FromHiddenToDisplayed>();
+                return SwitchState<FromHiddenToDisplayed>();
             }
 
-            protected override void Hide(UiElement it) { }
+            protected override IProcessAccessorNotifier Hide(UiElement it) => new CompletedProcess();
         }
     }
 }

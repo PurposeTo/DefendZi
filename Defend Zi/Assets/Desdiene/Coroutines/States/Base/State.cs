@@ -11,17 +11,13 @@ namespace Desdiene.Coroutines
     {
         private abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<CoroutineWrap>
         {
-            private readonly IStateSwitcher<State, CoroutineWrap> _stateSwitcher;
             private readonly CoroutineWrap _it;
 
             protected State(MonoBehaviourExt mono,
-                            IStateSwitcher<State, CoroutineWrap> stateSwitcher,
                             CoroutineWrap it) : base(mono)
             {
-                _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
                 _it = it ?? throw new ArgumentNullException(nameof(it));
             }
-
 
             void IStateEntryExitPoint<CoroutineWrap>.OnEnter(CoroutineWrap it)
             {
@@ -33,9 +29,8 @@ namespace Desdiene.Coroutines
                 OnExit(it);
             }
 
-            protected virtual void OnEnter(CoroutineWrap it) { }
-
-            protected virtual void OnExit(CoroutineWrap it) { }
+            public virtual Action SubscribeToWhenRunning(Action action, Action value) => action += value;
+            public virtual Action SubscribeToWhenCompleted(Action action, Action value) => action += value;
 
             /// <summary>
             /// Запустить выполнение корутины, если она не была запущена.
@@ -70,7 +65,11 @@ namespace Desdiene.Coroutines
             protected abstract void Terminate(CoroutineWrap it);
             protected abstract IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine);
 
-            protected State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
+            protected virtual void OnEnter(CoroutineWrap it) { }
+
+            protected virtual void OnExit(CoroutineWrap it) { }
+
+            protected State SwitchState<stateT>() where stateT : State => _it.SwitchState<stateT>();
         }
     }
 }

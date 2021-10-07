@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.Types.Processes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,16 +25,18 @@ public class TransitionScreenAnimator : MonoBehaviourExt
 
     private Color Color { get => _image.color; set => _image.color = value; }
 
-    public void Show()
+    public IProcessAccessorNotifier Show()
     {
         SetHidden();
         _animation.ReStart(ToDisplayed());
+        return _animation;
     }
 
-    public void Hide()
+    public IProcessAccessorNotifier Hide()
     {
         SetDisplayed();
         _animation.ReStart(ToHidden());
+        return _animation;
     }
 
     private IEnumerator ToHidden()

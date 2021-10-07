@@ -12,10 +12,8 @@ namespace Desdiene.Coroutines
         private class Created : State
         {
             public Created(MonoBehaviourExt mono,
-                           IStateSwitcher<State, CoroutineWrap> stateSwitcher,
                            CoroutineWrap it)
                 : base(mono,
-                       stateSwitcher, 
                        it)
             { }
 
