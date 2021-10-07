@@ -34,6 +34,8 @@ namespace Desdiene.UI.Elements
             protected override IProcessAccessorNotifier Hide(UiElement it)
             {
                 IProcess wait = new LinearProcess("Ожидание открытия и последующего закрытия окна");
+                wait.Start();
+
                 void HideAfterDisplayed()
                 {
                     IProcessAccessorNotifier waitForHidden = it.Hide();

@@ -31,6 +31,8 @@ namespace Desdiene.UI.Elements
             protected override IProcessAccessorNotifier Show(UiElement it)
             {
                 IProcess wait = new LinearProcess("Ожидание закрытия и последующего открытия окна");
+                wait.Start();
+
                 void ShowAfterHidden()
                 {
                     IProcessAccessorNotifier waitForDisplayed = it.Show();
