@@ -3,7 +3,7 @@ using System.Collections;
 using System.Text;
 using Desdiene.Coroutines;
 using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
+using Desdiene.DataStorageFactories.DataLoaders.Json;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.ConcreteLoaders
 {
-    public class GooglePlayJsonDataLoader<T> : StorageJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
+    public class GooglePlayJsonDataLoader<T> : JsonDataLoader<T>, IDataLoader<T> where T : IData, new()
     {
         private readonly PlayGamesPlatform _platform;
         private readonly ICoroutine _loadDataRoutine;

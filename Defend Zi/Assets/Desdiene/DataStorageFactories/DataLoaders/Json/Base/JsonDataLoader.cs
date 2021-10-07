@@ -5,22 +5,23 @@ using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
+namespace Desdiene.DataStorageFactories.DataLoaders.Json
 {
     /// <summary>
     /// Данный класс занимается загрузкой, сохранением и валидацией json данных с хранилища.
     /// Логика загрузки и сохранения данных на само хранилище определяется в дочернем классе.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class StorageJsonDataLoader<T> : MonoBehaviourExtContainer, IStorageDataLoader<T> where T : IData, new()
+    public abstract class JsonDataLoader<T> : MonoBehaviourExtContainer, IDataLoader<T> where T : IData, new()
     {
+        private readonly string _storageName;
         private readonly IJsonConvertor<T> _jsonConvertor;
 
         /// <param name="storageName">Имя хранилища</param>
         /// <param name="fileName">Имя сохраняемого файла</param>
         /// <param name="fileName">расширение сохраняемого файла</param>
         /// <param name="jsonConvertor">json (де)сериализатор</param>
-        public StorageJsonDataLoader(MonoBehaviourExt mono,
+        public JsonDataLoader(MonoBehaviourExt mono,
             string storageName,
             string fileName,
             IJsonConvertor<T> jsonConvertor)
@@ -36,12 +37,12 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
                 throw new ArgumentException($"{nameof(fileName)} не может быть пустым или иметь значение null");
             }
 
-            StorageName = storageName;
+            _storageName = storageName;
             FileName = fileName;
             _jsonConvertor = jsonConvertor ?? throw new ArgumentNullException(nameof(jsonConvertor));
         }
 
-        public string StorageName { get; }
+        string IDataLoader<T>.StorageName => _storageName;
         protected string FileName { get; }
         protected string FileExtension => "json";
         protected string FileNameWithExtension => FileName + "." + FileExtension;
@@ -51,19 +52,19 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
         /// Не вызовется, если произошли проблемы при чтении.
         /// </summary>
         /// <param name="dataCallback"></param>
-        public void Load(Action<T> dataCallback)
+        void IDataLoader<T>.Load(Action<T> dataCallback)
         {
-            Debug.Log($"Начата загрузка данных с [{StorageName}]");
+            Debug.Log($"Начата загрузка данных с [{((IDataLoader<T>)this).StorageName}]");
             ReadFromStorage(jsonData =>
             {
                 if (string.IsNullOrEmpty(jsonData))
                 {
-                    Debug.Log($"Данные на [{StorageName}] не найдены");
+                    Debug.Log($"Данные на [{((IDataLoader<T>)this).StorageName}] не найдены");
                     dataCallback?.Invoke(new T());
                 }
                 else
                 {
-                    Debug.Log($"Данные с [{StorageName}] загружены\nДанные:\n{jsonData}");
+                    Debug.Log($"Данные с [{((IDataLoader<T>)this).StorageName}] загружены\nДанные:\n{jsonData}");
                     T data = DeserializeData(jsonData);
                     data.TryToRepair();
                     dataCallback?.Invoke(data);
@@ -71,9 +72,9 @@ namespace Desdiene.DataStorageFactories.DataLoaders.FromStorage
             });
         }
 
-        public void Save(T data)
+        void IDataLoader<T>.Save(T data)
         {
-            Debug.Log($"Начато сохранение данных на [{StorageName}]");
+            Debug.Log($"Начато сохранение данных на [{((IDataLoader<T>)this).StorageName}]");
             if (data.IsValid())
             {
                 string jsonData = SerializeData(data);

@@ -1,13 +1,12 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.DataLoaders;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Encryptions;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 
-namespace Desdiene.DataStorageFactories.ConcreteLoaders
+namespace Desdiene.DataStorageFactories.DataLoaders.Json
 {
-    public class DeviceJsonDataLoaderCrypto<T> : DeviceJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
+    public class DeviceJsonDataLoaderCrypto<T> : DeviceJsonDataLoader<T>, IDataLoader<T> where T : IData, new()
     {
         private readonly JsonEncryption jsonEncryption;
 
