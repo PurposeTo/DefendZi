@@ -44,7 +44,6 @@ public class TransitionScreen : ModalWindow
             _animator.OnDisplayed -= OnDisplayed;
         }
         _animator.OnDisplayed += OnDisplayed;
-
     }
 
     protected override void HideWindow(Action hide)
@@ -86,5 +85,4 @@ public class TransitionScreen : ModalWindow
         _sceneLoader.AfterEnabling -= Hide;
         _sceneLoader.BeforeUnloading -= Show;
     }
-
 }

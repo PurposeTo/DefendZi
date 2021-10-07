@@ -3,7 +3,7 @@ using System;
 public class EmptyRewardedAdStub : IRewardedAd
 {
     bool IRewardedAd.CanBeShown => false;
-    
+
     event Action<string> IRewardedAd.OnFailedToShow
     {
         add { }

@@ -24,7 +24,6 @@ public class TransitionScreenAnimator : MonoBehaviourExt
 
     private Color Color { get => _image.color; set => _image.color = value; }
 
-
     public void Show()
     {
         SetHidden();

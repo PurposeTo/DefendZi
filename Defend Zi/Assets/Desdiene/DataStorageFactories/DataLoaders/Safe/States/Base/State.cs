@@ -1,6 +1,6 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
+using Desdiene.DataStorageFactories.Datas;
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
 

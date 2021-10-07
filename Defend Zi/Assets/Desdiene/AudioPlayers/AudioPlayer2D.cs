@@ -19,7 +19,7 @@ namespace Desdiene.AudioPlayers
 
         void IAudioPlayer.Play(AudioClip audio)
         {
-            if (audio is null)  throw new ArgumentNullException(nameof(audio));
+            if (audio is null) throw new ArgumentNullException(nameof(audio));
 
             Stop();
             _audioSource.clip = audio;

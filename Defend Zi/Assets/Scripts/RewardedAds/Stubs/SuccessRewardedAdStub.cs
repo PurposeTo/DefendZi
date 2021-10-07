@@ -5,7 +5,7 @@ public class SuccessRewardedAdStub : IRewardedAd
     private event Action OnRewarded;
 
     bool IRewardedAd.CanBeShown => true;
-    
+
     event Action<string> IRewardedAd.OnFailedToShow
     {
         add { }

@@ -56,7 +56,7 @@ public class Test_CoroutineWrap : MonoBehaviourExt
 
             if (count == 9)
             {
-               break;
+                break;
             }
             count++;
             yield return new WaitForSeconds(0.5f);

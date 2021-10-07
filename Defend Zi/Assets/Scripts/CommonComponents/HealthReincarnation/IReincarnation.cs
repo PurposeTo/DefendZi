@@ -1,6 +1,4 @@
-﻿using System;
-
-public interface IReincarnation : IReincarnationNotification
+﻿public interface IReincarnation : IReincarnationNotification
 {
     void Revive();
 }

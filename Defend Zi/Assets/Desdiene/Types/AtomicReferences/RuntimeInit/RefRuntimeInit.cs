@@ -13,7 +13,7 @@ namespace Desdiene.Types.AtomicReferences.RuntimeInit
     {
         private readonly IRef<State<T>> initStateRef = new Ref<State<T>>();
         private readonly IRef<T> valueRef = new Ref<T>();
-        
+
         public RefRuntimeInit()
         {
             initStateRef.Set(new NotInited<T>(initStateRef,
