@@ -26,10 +26,10 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
             LoadAndDecryptData(jsonDataCallback.Invoke);
         }
 
-        protected override void SaveJsonData(string jsonData)
+        protected override void SaveJsonData(string jsonData, Action<bool> successCallback)
         {
             string modifiedData = jsonEncryption.Encrypt(jsonData);
-            base.SaveJsonData(modifiedData);
+            base.SaveJsonData(modifiedData, successCallback);
         }
 
         private void LoadAndDecryptData(Action<string> jsonDataCallback)

@@ -19,9 +19,9 @@ namespace Desdiene.DataStorageFactories.DataLoaders
             Array.ForEach(storages, storage => storage.Load(data));
         }
 
-        void IDataLoader<T>.Save(T data)
+        void IDataLoader<T>.Save(T data, Action<bool> successCallback)
         {
-            Array.ForEach(storages, storage => storage.Save(data));
+            Array.ForEach(storages, storage => storage.Save(data, successCallback));
         }
     }
 }

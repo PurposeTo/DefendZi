@@ -21,7 +21,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
                 });
             }
 
-            protected override void Save(SafeDataLoader<TData> it, TData data)
+            protected override void Save(SafeDataLoader<TData> it, TData data, Action<bool> successCallback)
             {
                 Debug.Log($"Данные с [{it._dataStorage.StorageName}] еще не были получены. " +
                     $"Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");

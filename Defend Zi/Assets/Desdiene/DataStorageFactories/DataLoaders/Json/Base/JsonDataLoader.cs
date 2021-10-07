@@ -72,20 +72,20 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
             });
         }
 
-        void IDataLoader<T>.Save(T data)
+        void IDataLoader<T>.Save(T data, Action<bool> successCallback)
         {
             Debug.Log($"Начато сохранение данных на [{((IDataLoader<T>)this).StorageName}]");
             if (data.IsValid())
             {
                 string jsonData = SerializeData(data);
-                SaveJsonData(jsonData);
+                SaveJsonData(jsonData, successCallback);
             }
             else Debug.LogError($"Data is not valid!\n{data}");
         }
 
         protected abstract void LoadJsonData(Action<string> jsonDataCallback);
 
-        protected abstract void SaveJsonData(string jsonData);
+        protected abstract void SaveJsonData(string jsonData, Action<bool> successCallback);
 
         /// <summary>
         /// Установить значения полям, которые is null.

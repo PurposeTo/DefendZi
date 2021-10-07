@@ -22,10 +22,10 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
             void IStateEntryExitPoint<SafeDataLoader<TData>>.OnExit(SafeDataLoader<TData> it) { }
 
             public void Load(Action<TData> dataCallback) => Load(_it, dataCallback);
-            public void Save(TData data) => Save(_it, data);
+            public void Save(TData data, Action<bool> successCallback) => Save(_it, data, successCallback);
 
             protected abstract void Load(SafeDataLoader<TData> it, Action<TData> dataCallback);
-            protected abstract void Save(SafeDataLoader<TData> it, TData data);
+            protected abstract void Save(SafeDataLoader<TData> it, TData data, Action<bool> successCallback);
 
             protected void SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
         }

@@ -42,14 +42,14 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
             _loadingData.StartContinuously(LoadingData(jsonDataCallback));
         }
 
-        protected override void SaveJsonData(string jsonData)
+        protected override void SaveJsonData(string jsonData, Action<bool> successCallback)
         {
             if (_currentGameMetadata == null)
             {
                 Debug.LogWarning("Невозможно записать данные на облако, не открыв сохранения! " +
                     "Сохранение откроется автоматически при чтении данных с облака.");
             }
-            else SaveData(Encoding.UTF8.GetBytes(jsonData));
+            else SaveData(Encoding.UTF8.GetBytes(jsonData), successCallback);
         }
 
         private IEnumerator LoadingData(Action<string> jsonDataCallback)
@@ -101,7 +101,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
                 OnSavedGameOpened);
         }
 
-        private void SaveData(byte[] dataToSave)
+        private void SaveData(byte[] dataToSave, Action<bool> successCallback)
         {
             TimeSpan allPlayingTime = DateTime.Now - _startPlayingTime;
             SavedGameMetadataUpdate.Builder builder = new SavedGameMetadataUpdate.Builder();
@@ -109,11 +109,19 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
             builder = builder.WithUpdatedPlayedTime(_currentGameMetadata.TotalTimePlayed + allPlayingTime)
                 .WithUpdatedDescription("Saved game at " + DateTime.Now);
             SavedGameMetadataUpdate updatedMetadata = builder.Build();
-            SavedGameClient.CommitUpdate(_currentGameMetadata, updatedMetadata, dataToSave, OnSavedCreated);
+            SavedGameClient.CommitUpdate(_currentGameMetadata,
+                                         updatedMetadata,
+                                         dataToSave,
+                                         (dataSavedStatus, gameMetadata) =>
+                                         {
+                                             OnSavedCreated(dataSavedStatus, gameMetadata, successCallback);
+                                         });
         }
 
 
-        private void OnSavedCreated(SavedGameRequestStatus dataSavedStatus, ISavedGameMetadata gameMetadata)
+        private void OnSavedCreated(SavedGameRequestStatus dataSavedStatus,
+                                    ISavedGameMetadata gameMetadata,
+                                    Action<bool> successCallback)
         {
             Debug.Log($"Данные были записаны на облако со статусом " + dataSavedStatus);
 
@@ -125,6 +133,8 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
                 // Заново считаем время игры с момента записи сохранения
                 _startPlayingTime = DateTime.Now;
             }
+
+            successCallback?.Invoke(dataSavedStatus == SavedGameRequestStatus.Success);
         }
     }
 }

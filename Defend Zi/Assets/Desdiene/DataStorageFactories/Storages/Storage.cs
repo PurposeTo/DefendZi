@@ -47,7 +47,7 @@ namespace Desdiene.DataStorageFactories.Storages
 
         public void InvokeSavingData()
         {
-            _storageDataLoader.Save(_data);
+            _storageDataLoader.Save(_data, null);
         }
 
         private T CombineData(T data1, T data2)

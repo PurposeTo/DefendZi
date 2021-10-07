@@ -12,7 +12,6 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
-
     public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
 
     public int GamesNumber { get; set; } = 0;
@@ -74,7 +73,29 @@ public class GameData : IGameData, IDataCombiner<GameData>
              + $"\nGamesNumber={GamesNumber}"
              + $"\nBestScore={BestScore}"
              + $"\nAverageLifeTimeSec={AverageLifeTime}"
-             + $"\nBestLifeTimeSec={BestLifeTime}";
+             + $"\nBestLifeTimeSec={BestLifeTime}"
+             + $"\nPlayingTime={PlayingTime}";
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is GameData data &&
+               PlayingTime.Equals(data.PlayingTime) &&
+               GamesNumber == data.GamesNumber &&
+               BestScore == data.BestScore &&
+               AverageLifeTime.Equals(data.AverageLifeTime) &&
+               BestLifeTime.Equals(data.BestLifeTime);
+    }
+
+    public override int GetHashCode()
+    {
+        int hashCode = -338788781;
+        hashCode = hashCode * -1521134295 + PlayingTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + GamesNumber.GetHashCode();
+        hashCode = hashCode * -1521134295 + BestScore.GetHashCode();
+        hashCode = hashCode * -1521134295 + AverageLifeTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + BestLifeTime.GetHashCode();
+        return hashCode;
     }
 
     private bool IsValid()

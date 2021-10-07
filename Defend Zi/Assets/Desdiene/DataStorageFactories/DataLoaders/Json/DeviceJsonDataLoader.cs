@@ -37,7 +37,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
             _deviceDataLoader.ReadDataFromDevice(jsonDataCallback.Invoke);
         }
 
-        protected override void SaveJsonData(string jsonData)
+        protected override void SaveJsonData(string jsonData, Action<bool> successCallback)
         {
             if (string.IsNullOrWhiteSpace(jsonData))
             {
@@ -46,7 +46,18 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
 
             // TODO: А если у пользователя недостаточно памяти, чтобы создать файл?
 
-            File.WriteAllText(_filePath, jsonData);
+            bool success = false;
+            try
+            {
+                File.WriteAllText(_filePath, jsonData);
+                success = true;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError(exception);
+            }
+
+            successCallback?.Invoke(success);
         }
     }
 }

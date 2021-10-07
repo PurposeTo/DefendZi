@@ -27,7 +27,7 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
     {
         IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>();
 
-        var deviceLoader = new DeviceJsonDataLoader<GameData>(this, fileName, jsonConvertor);
+        var deviceLoader = new DeviceJsonDataLoaderCrypto<GameData>(this, fileName, jsonConvertor);
         var googlePlayLoader = new GooglePlayJsonDataLoader<GameData>(this, fileName, jsonConvertor, _platform);
         _storage = StorageFactory<GameData>.GetStorage(this, deviceLoader, googlePlayLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.

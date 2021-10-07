@@ -8,6 +8,6 @@ namespace Desdiene.DataStorageFactories.DataLoaders
         string StorageName { get; }
 
         void Load(Action<T> dataCallback);
-        void Save(T data);
+        void Save(T data, Action<bool> successCallback);
     }
 }

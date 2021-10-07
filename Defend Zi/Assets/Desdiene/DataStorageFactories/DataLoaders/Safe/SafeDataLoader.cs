@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
+using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.DataLoaders.Safe
 {
@@ -11,7 +12,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
         private readonly IRef<State> _refCurrentState = new Ref<State>();
         private readonly IDataLoader<TData> _dataStorage;
 
-        private TData _lastDataFromStorage;
+        private int _lastDataFromStorageHash;
 
         public SafeDataLoader(IDataLoader<TData> dataStorage)
         {
@@ -33,17 +34,26 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
         {
             CurrentState.Load((data) =>
             {
-                _lastDataFromStorage = data;
+                _lastDataFromStorageHash = data.GetHashCode();
                 dataCallback?.Invoke(data);
             });
         }
 
-        void IDataLoader<TData>.Save(TData data)
+        void IDataLoader<TData>.Save(TData data, Action<bool> successCallback)
         {
-            if (Equals(data, _lastDataFromStorage)) return;
+            if (Equals(data.GetHashCode(), _lastDataFromStorageHash))
+            {
+                Debug.Log($"[{_dataStorage.StorageName}] Сохраняемые данные совпадают с теми, что уже находятся в хранилище");
+                return;
+            }
 
-            // todo из метода Save коллбеком получать успешно сохраненные данные
-            CurrentState.Save(data);
+            CurrentState.Save(data, (success) =>
+            {
+                if (success) _lastDataFromStorageHash = data.GetHashCode();
+                Debug.Log($"[{_dataStorage.StorageName}] Данные сохранены со статусом success={success}");
+
+                successCallback?.Invoke(success);
+            });
         }
 
         private State CurrentState => _refCurrentState.Value ?? throw new ArgumentNullException(nameof(CurrentState));
