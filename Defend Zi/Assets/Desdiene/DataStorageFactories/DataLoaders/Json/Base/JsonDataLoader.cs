@@ -109,14 +109,14 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
 
         private string SerializeData(T data)
         {
-            return _jsonConvertor.SerializeObject(data);
+            return _jsonConvertor.Serialize(data);
         }
 
         private T DeserializeData(string jsonData)
         {
             try
             {
-                return _jsonConvertor.DeserializeObject(jsonData);
+                return _jsonConvertor.Deserialize(jsonData);
             }
             catch (Exception exception)
             {
@@ -133,7 +133,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
 
             try
             {
-                return _jsonConvertor.DeserializeObject(repairedJson);
+                return _jsonConvertor.Deserialize(repairedJson);
             }
             catch (Exception exception)
             {

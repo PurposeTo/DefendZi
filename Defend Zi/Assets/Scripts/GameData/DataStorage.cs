@@ -7,6 +7,7 @@ using Desdiene.GooglePlayApi;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
+using Newtonsoft.Json;
 using Zenject;
 
 public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
@@ -25,7 +26,8 @@ public class DataStorage : MonoBehaviourExt, IStorage<IGameData>
 
     protected override void AwakeExt()
     {
-        IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>();
+        var serializeSettings = new JsonSerializerSettings(); // todo добавить safeint/float
+        IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>(serializeSettings);
 
         var deviceLoader = new DeviceJsonDataLoaderCrypto<GameData>(this, fileName, jsonConvertor);
         var googlePlayLoader = new GooglePlayJsonDataLoader<GameData>(this, fileName, jsonConvertor, _platform);

@@ -11,25 +11,25 @@ namespace Desdiene.JsonConvertorWrapper
     /// <typeparam name="T">Тип (де)сериализуемого объекта</typeparam>
     public class NewtonsoftJsonConvertor<T> : IJsonConvertor<T> where T : new()
     {
-        private readonly JsonSerializerSettings serializerSettings;
+        private readonly JsonSerializerSettings _serializerSettings;
 
         public NewtonsoftJsonConvertor() : this(new JsonSerializerSettings()) { }
 
         public NewtonsoftJsonConvertor(JsonSerializerSettings serializerSettings)
         {
-            this.serializerSettings = serializerSettings;
+            _serializerSettings = serializerSettings;
         }
 
-        T IJsonConvertor<T>.DeserializeObject(string jsonData)
+        T IJsonConvertor<T>.Deserialize(string jsonData)
         {
-            T data = JsonConvert.DeserializeObject<T>(jsonData, serializerSettings);
+            T data = JsonConvert.DeserializeObject<T>(jsonData, _serializerSettings);
             Debug.Log("Десериализованные данные:\n" + data);
             return data;
         }
 
-        string IJsonConvertor<T>.SerializeObject(T data)
+        string IJsonConvertor<T>.Serialize(T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data, serializerSettings);
+            string jsonData = JsonConvert.SerializeObject(data, _serializerSettings);
             Debug.Log("Сериализованные данные:\n" + jsonData);
             return jsonData;
         }
