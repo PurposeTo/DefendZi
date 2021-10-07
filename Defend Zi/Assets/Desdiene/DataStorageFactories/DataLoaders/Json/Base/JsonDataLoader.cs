@@ -55,7 +55,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
         void IDataLoader<T>.Load(Action<T> dataCallback)
         {
             Debug.Log($"Начата загрузка данных с [{((IDataLoader<T>)this).StorageName}]");
-            ReadFromStorage(jsonData =>
+            LoadJsonData(jsonData =>
             {
                 if (string.IsNullOrEmpty(jsonData))
                 {
@@ -78,14 +78,14 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
             if (data.IsValid())
             {
                 string jsonData = SerializeData(data);
-                WriteToStorage(jsonData);
+                SaveJsonData(jsonData);
             }
             else Debug.LogError($"Data is not valid!\n{data}");
         }
 
-        protected abstract void ReadFromStorage(Action<string> jsonDataCallback);
+        protected abstract void LoadJsonData(Action<string> jsonDataCallback);
 
-        protected abstract void WriteToStorage(string jsonData);
+        protected abstract void SaveJsonData(string jsonData);
 
         /// <summary>
         /// Установить значения полям, которые is null.

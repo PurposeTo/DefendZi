@@ -17,7 +17,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
     public class GooglePlayJsonDataLoader<T> : JsonDataLoader<T>, IDataLoader<T> where T : IData, new()
     {
         private readonly PlayGamesPlatform _platform;
-        private readonly ICoroutine _loadDataRoutine;
+        private readonly ICoroutine _loadingData;
 
         public GooglePlayJsonDataLoader(MonoBehaviourExt mono,
             string fileName,
@@ -29,7 +29,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
                   jsonConvertor)
         {
             _platform = platform ?? throw new ArgumentNullException(nameof(platform));
-            _loadDataRoutine = new CoroutineWrap(mono);
+            _loadingData = new CoroutineWrap(mono);
         }
 
         private DateTime _startPlayingTime;
@@ -37,12 +37,12 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
 
         private ISavedGameClient SavedGameClient => ((PlayGamesPlatform)Social.Active).SavedGame;
 
-        protected override void ReadFromStorage(Action<string> jsonDataCallback)
+        protected override void LoadJsonData(Action<string> jsonDataCallback)
         {
-            _loadDataRoutine.StartContinuously(LoadDataEnumerator(jsonDataCallback));
+            _loadingData.StartContinuously(LoadingData(jsonDataCallback));
         }
 
-        protected override void WriteToStorage(string jsonData)
+        protected override void SaveJsonData(string jsonData)
         {
             if (_currentGameMetadata == null)
             {
@@ -52,17 +52,17 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
             else SaveData(Encoding.UTF8.GetBytes(jsonData));
         }
 
-        private IEnumerator LoadDataEnumerator(Action<string> jsonDataCallback)
+        private IEnumerator LoadingData(Action<string> jsonDataCallback)
         {
             Debug.Log("Начало операции загрузки данных с облака. Ожидание аутентификации пользователя.");
-            yield return _loadDataRoutine.StartNested(new WaitUntil(() => _platform.IsAuthenticated()));
+            yield return _loadingData.StartNested(new WaitUntil(() => _platform.IsAuthenticated()));
             Debug.Log("Операция загрузки данных с облака - пользователь аутентифицировался.");
 
             // Начать отсчет времени для текущей сессии игры
             _startPlayingTime = DateTime.Now;
 
             // Загрузка данных из облака
-            ReadSavedGame((readingStatus, data) =>
+            LoadData((readingStatus, data) =>
             {
                 Debug.Log($"Данные с облака были извлечены со статусом " + readingStatus);
 
@@ -76,7 +76,7 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
             });
         }
 
-        private void ReadSavedGame(Action<SavedGameRequestStatus, byte[]> completedCallback)
+        private void LoadData(Action<SavedGameRequestStatus, byte[]> completedCallback)
         {
             OpenSavedGame((openingStatus, gameMetadata) =>
             {
@@ -109,11 +109,11 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
             builder = builder.WithUpdatedPlayedTime(_currentGameMetadata.TotalTimePlayed + allPlayingTime)
                 .WithUpdatedDescription("Saved game at " + DateTime.Now);
             SavedGameMetadataUpdate updatedMetadata = builder.Build();
-            SavedGameClient.CommitUpdate(_currentGameMetadata, updatedMetadata, dataToSave, OnSavedGameCreated);
+            SavedGameClient.CommitUpdate(_currentGameMetadata, updatedMetadata, dataToSave, OnSavedCreated);
         }
 
 
-        private void OnSavedGameCreated(SavedGameRequestStatus dataSavedStatus, ISavedGameMetadata gameMetadata)
+        private void OnSavedCreated(SavedGameRequestStatus dataSavedStatus, ISavedGameMetadata gameMetadata)
         {
             Debug.Log($"Данные были записаны на облако со статусом " + dataSavedStatus);
 

@@ -21,15 +21,15 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
             jsonEncryption = new JsonEncryption(FileName, FileExtension);
         }
 
-        protected override void ReadFromStorage(Action<string> jsonDataCallback)
+        protected override void LoadJsonData(Action<string> jsonDataCallback)
         {
             LoadAndDecryptData(jsonDataCallback.Invoke);
         }
 
-        protected override void WriteToStorage(string jsonData)
+        protected override void SaveJsonData(string jsonData)
         {
             string modifiedData = jsonEncryption.Encrypt(jsonData);
-            base.WriteToStorage(modifiedData);
+            base.SaveJsonData(modifiedData);
         }
 
         private void LoadAndDecryptData(Action<string> jsonDataCallback)

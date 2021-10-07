@@ -32,12 +32,12 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
             : this(mono, "Локальное хранилище", fileName, jsonConvertor)
         { }
 
-        protected override void ReadFromStorage(Action<string> jsonDataCallback)
+        protected override void LoadJsonData(Action<string> jsonDataCallback)
         {
             _deviceDataLoader.ReadDataFromDevice(jsonDataCallback.Invoke);
         }
 
-        protected override void WriteToStorage(string jsonData)
+        protected override void SaveJsonData(string jsonData)
         {
             if (string.IsNullOrWhiteSpace(jsonData))
             {
