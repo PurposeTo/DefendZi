@@ -23,8 +23,14 @@ namespace Desdiene.Coroutines
 
             protected override void OnEnter(CoroutineWrap it)
             {
+                it._isExecuting.Set(true);
                 it.WhenRunning?.Invoke();
                 it._coroutine = MonoBehaviourExt.StartCoroutine(Run(it));
+            }
+
+            protected override void OnExit(CoroutineWrap it)
+            {
+                it._isExecuting.Set(false);
             }
 
             protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)

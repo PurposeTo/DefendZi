@@ -136,13 +136,6 @@ namespace Desdiene.Coroutines
         public bool IsExecuting => _isExecuting.Value;
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
-
-        private State SwitchState<stateT>() where stateT : State
-        {
-            // информация о следующем состоянии может должна быть установленна до вызова state.OnEnter
-            _isExecuting.Set(typeof(stateT) == typeof(Executing));
-            State state = _stateSwitcher.Switch<stateT>();
-            return state;
-        }
+        private State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
     }
 }
