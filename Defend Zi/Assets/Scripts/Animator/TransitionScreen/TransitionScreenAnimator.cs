@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class TransitionScreenAnimator : MonoBehaviourExt
 {
-    private readonly float animationTime = 0.25f;
+    private readonly float animationTime = 0.15f;
     private Image _image;
 
     private ICoroutine _animation;
