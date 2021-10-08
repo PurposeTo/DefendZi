@@ -1,10 +1,13 @@
-using Desdiene.Types.Percents;
+﻿using Desdiene.Types.Percents;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Этот дровер отвечает за отрисовку одного поля SelectableChunk
+/// </summary>
 [CustomPropertyDrawer(typeof(SelectableChunk))]
 public class SelectableChunkPropertyDrawer : PropertyDrawer
 {
@@ -26,9 +29,8 @@ public class SelectableChunkPropertyDrawer : PropertyDrawer
         if (property.objectReferenceValue != null)
         {
             SerializedObject propertyObject = new SerializedObject(property.objectReferenceValue);
-            SerializedProperty chanceMassProperty = propertyObject.FindProperty(SelectableChunk.ChanceMassFieldName);
-            int mass = chanceMassProperty.intValue;
-            massPercent = mass * 100f / SelectableChunksDrawable.TotalMass;
+            SerializedProperty chancePercentProperty = propertyObject.FindProperty(SelectableChunk.ChancePercentFieldName);
+            massPercent = chancePercentProperty == null ? 0f : chancePercentProperty.floatValue;
         }
 
         EditorGUI.PropertyField(chunkRect, property, GUIContent.none);

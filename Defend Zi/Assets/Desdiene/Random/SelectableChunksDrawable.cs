@@ -1,18 +1,19 @@
-using Desdiene.Random;
+﻿using Desdiene.Random;
 using Desdiene.Types.Percents;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Обертка для массива из SelectableChunk для отрисовки в инспекторе
+/// </summary>
 [Serializable]
 public class SelectableChunksDrawable : ISelectableItems<Chunk>
 {
     #region Properties for editor drawer
 
     public static string SelectableChunksFieldName => nameof(_selectableChunks);
-
-    public static float TotalMass;
 
     #endregion
 
