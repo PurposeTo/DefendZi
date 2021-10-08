@@ -1,4 +1,4 @@
-using System.Linq;
+п»їusing System.Linq;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Random;
 using Desdiene.Types.Ranges.Positive;
@@ -10,11 +10,11 @@ public class ObstacleSpaceMono : MonoBehaviourExt
 
     [SerializeField] private SelectableChunksDrawable _selectableChunks;
     [SerializeField] private float _startPoint = 40f;
-    [SerializeField] private float _offsetGeneration = 30f; // Сейчас не учитывает размеры препятствий, поэтому поставить число побольше
+    [SerializeField] private float _offsetGeneration = 30f; // РЎРµР№С‡Р°СЃ РЅРµ СѓС‡РёС‚С‹РІР°РµС‚ СЂР°Р·РјРµСЂС‹ РїСЂРµРїСЏС‚СЃС‚РІРёР№, РїРѕСЌС‚РѕРјСѓ РїРѕСЃС‚Р°РІРёС‚СЊ С‡РёСЃР»Рѕ РїРѕР±РѕР»СЊС€Рµ
     [SerializeField] private FloatRange _safeSpaceBetweenChunks = new FloatRange(5f, 10f);
 
     private IUpdate _update;
-    private ObstacleSpace _obstacleSpace; // пока оставить, может пригодиться
+    private ObstacleSpace _obstacleSpace; // РїРѕРєР° РѕСЃС‚Р°РІРёС‚СЊ, РјРѕР¶РµС‚ РїСЂРёРіРѕРґРёС‚СЊСЃСЏ
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)

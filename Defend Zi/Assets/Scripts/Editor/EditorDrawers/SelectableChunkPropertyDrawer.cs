@@ -8,8 +8,8 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(SelectableChunk))]
 public class SelectableChunkPropertyDrawer : PropertyDrawer
 {
-    private static readonly Percent ChunkFieldPercentageSize = new Percent(0.8f);
-    private static readonly Percent ChanceFieldPercentageSize = new Percent(0.19f);
+    private static readonly Percent _chunkFieldPercentageSize = new Percent(0.8f);
+    private static readonly Percent _chanceFieldPercentageSize = new Percent(0.19f);
 
     private float _rectPosX;
 
@@ -19,8 +19,8 @@ public class SelectableChunkPropertyDrawer : PropertyDrawer
         EditorGUI.indentLevel = 0;
 
         _rectPosX = position.x;
-        Rect chunkRect = CreatePercentageRect(position, ChunkFieldPercentageSize);
-        Rect chanceMassRect = CreatePercentageRect(position, ChanceFieldPercentageSize);
+        Rect chunkRect = GetFieldRect(position, _chunkFieldPercentageSize);
+        Rect chanceMassRect = GetFieldRect(position, _chanceFieldPercentageSize);
 
         float massPercent = 0f;
         if (property.objectReferenceValue != null)
@@ -39,7 +39,7 @@ public class SelectableChunkPropertyDrawer : PropertyDrawer
         EditorGUI.indentLevel = indent;
     }
 
-    private Rect CreatePercentageRect(Rect position, Percent percentage)
+    private Rect GetFieldRect(Rect position, Percent percentage)
     {
         float currPosX = _rectPosX;
         float currWidth = percentage * position.width;
