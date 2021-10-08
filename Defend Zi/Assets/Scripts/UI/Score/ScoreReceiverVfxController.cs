@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using Desdiene.Coroutines;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 public class ScoreReceiverVfxController : MonoBehaviourExt
 {
-    [SerializeField, NotNull] private ScoreReceiver scoreReceiver;
-    [SerializeField, NotNull] private TextView creatingScoreView;
-
-    private readonly float viewLifeTime = 1f;
+    [SerializeField, NotNull] private InterfaceComponent<IScoreNotification> _scoreNotification;
+    [SerializeField, NotNull] private PopUpScore _popUpScorePrefab;
 
     protected override void AwakeExt()
     {
@@ -20,32 +16,21 @@ public class ScoreReceiverVfxController : MonoBehaviourExt
         UnsubcribeEvents();
     }
 
+    private IScoreNotification ScoreNotification => _scoreNotification.Implementation;
+
     private void CreatePopUp(int score)
     {
-        var textView = Instantiate(creatingScoreView, transform);
-        textView.SetText($"+{score}");
-        DestroyPopUpEnumerator(textView.gameObject);
-    }
-
-    private void DestroyPopUpEnumerator(GameObject gameObject)
-    {
-        ICoroutine routine = new CoroutineWrap(this);
-        routine.StartContinuously(DestroyPopUp(gameObject));
-    }
-
-    private IEnumerator DestroyPopUp(GameObject gameObject)
-    {
-        yield return new WaitForSeconds(viewLifeTime);
-        Destroy(gameObject);
+        PopUpScore popUpScore = Instantiate(_popUpScorePrefab, transform);
+        popUpScore.SetText($"+{score}");
     }
 
     private void SubcribeEvents()
     {
-        scoreReceiver.OnReceived += CreatePopUp;
+        ScoreNotification.OnReceived += CreatePopUp;
     }
 
     private void UnsubcribeEvents()
     {
-        scoreReceiver.OnReceived -= CreatePopUp;
+        ScoreNotification.OnReceived -= CreatePopUp;
     }
 }

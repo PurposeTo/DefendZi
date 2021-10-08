@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace Desdiene.ObjectPoolers.Components
 {
-    internal class FromPoolSpawner : MonoBehaviourContainer
+    internal class FromPoolSpawner : MonoBehaviourExtContainer
     {
         private readonly Pools _pools;
         private readonly ObjectToPoolCreator _objectCreator;
         public FromPoolSpawner(
-            MonoBehaviour monoBehaviour,
+            MonoBehaviourExt mono,
             Pools pools,
             ObjectToPoolCreator objectCreator)
-            : base(monoBehaviour)
+            : base(mono)
         {
             _pools = pools;
             _objectCreator = objectCreator;

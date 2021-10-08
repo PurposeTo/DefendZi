@@ -1,20 +1,71 @@
 ﻿using Desdiene.DataStorageFactories.Storages;
 using Desdiene.GooglePlayApi;
-using Desdiene.TimeControls.Pausables;
-using Desdiene.TimeControls.Scales;
+using Desdiene.SceneLoaders.Single;
+using Desdiene.TimeControls;
+using Desdiene.TimeControls.Adapters;
+using Desdiene.UI.Components;
 using Desdiene.UnityScenes;
+using UnityEngine;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
+    [SerializeField, NotNull] private BackgroundMusic _backgroundMusic;
+    [SerializeField, NotNull] private TransitionScreen _transitionScreen;
+
     public override void InstallBindings()
     {
+        BindRewardedAd();
+        BindFullScreenWindowsContainer();
         BindScenesInBuild();
         BindLoadedScenes();
+        BindGlobalTimeRef();
         BindGlobalTimeScaler();
-        BindGlobalTimePauser();
+        BingSingleSceneLoader();
         BindGPGSAuthentication();
+        BindGPGSLeaderboard();
         BindDataStorage();
+        BindBackgroundMusic();
+        BindTransitionScreen();
+    }
+
+    private void BindBackgroundMusic()
+    {
+        Container
+             .Bind<BackgroundMusic>()
+             .ToSelf()
+             .FromComponentInNewPrefab(_backgroundMusic)
+             .AsSingle()
+             .NonLazy();
+    }
+
+    private void BindRewardedAd()
+    {
+        Container
+            .Bind<IRewardedAd>()
+            //.To<FailRewardedAdStub>()
+            .To<IronSourceAd>()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
+    }
+
+    private void BindFullScreenWindowsContainer()
+    {
+        Container
+            .Bind<FullScreenWindowsContainer>()
+            .AsSingle()
+            .Lazy();
+    }
+
+    private void BingSingleSceneLoader()
+    {
+        Container
+            .Bind<SceneLoader>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
     }
 
     private void BindScenesInBuild()
@@ -24,7 +75,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindLoadedScenes()
@@ -34,7 +85,7 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindDataStorage()
@@ -44,35 +95,55 @@ public class ProjectInstaller : MonoInstaller
             .To<DataStorage>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
     private void BindGPGSAuthentication()
     {
         Container
-            .Bind<IGPGSAuthentication>()
-            .To<GPGSAuthentication>()
+            .Bind<GpgsAutentification>()
+            .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
+    }
+
+    private void BindGPGSLeaderboard()
+    {
+        Container
+            .Bind<GpgsLeaderboard>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
+    }
+
+    private void BindGlobalTimeRef()
+    {
+        Container
+            .Bind<GlobalTimeScaleAdapter>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
     }
 
     private void BindGlobalTimeScaler()
     {
         Container
-            .Bind<GlobalTimeScaler>()
-            .ToSelf()
+            .Bind<ITime>()
+            .To<GlobalTime>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
-            .NonLazy();
+            .Lazy();
     }
 
-    private void BindGlobalTimePauser()
+    private void BindTransitionScreen()
     {
         Container
-            .Bind<GlobalTimePausable>()
+            .Bind<TransitionScreen>()
             .ToSelf()
-            .FromNewComponentOnNewGameObject()
+            .FromComponentInNewPrefab(_transitionScreen)
             .AsSingle()
             .NonLazy();
     }

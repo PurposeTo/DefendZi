@@ -1,34 +1,24 @@
 ﻿using System;
-using System.Collections;
-using Desdiene.Containers;
-using Desdiene.Coroutines;
-using Desdiene.DataStorageFactories.Combiner;
-using Desdiene.DataStorageFactories.Data;
+using Desdiene.DataStorageFactories.Combiners;
 using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.MonoBehaviourExtension;
+using Desdiene.DataStorageFactories.Datas;
 using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.Storages
 {
-    public class Storage<T> : MonoBehaviourExtContainer, IStorage<T> where T : IData, IDataCombiner<T>, new()
+    public sealed class Storage<T> : IStorage<T> where T : IData, IDataCombiner<T>, new()
     {
         private T _data = new T();
         private readonly IDataCombiner<T> _combiner;
-        private readonly IStorageDataLoader<T> _storageDataLoader;
+        private readonly IDataLoader<T> _storageDataLoader;
 
-        private readonly ICoroutine _chooseDataRoutine;
-
-        public Storage(MonoBehaviourExt superMonoBehaviour,
-                       IStorageDataLoader<T> storageDataLoader)
-            : base(superMonoBehaviour)
+        public Storage(IDataLoader<T> storageDataLoader)
         {
             _combiner = _data;
             _storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
-
-            _chooseDataRoutine = new CoroutineWrap(superMonoBehaviour);
         }
 
-        // данные, полученные с хранилищ/а
+        // загруженные данные, полученные с хранилищ/а
         private T _cashLoadedData = default;
 
         public T GetData() => _data;
@@ -46,15 +36,10 @@ namespace Desdiene.DataStorageFactories.Storages
                 }
                 else
                 {
-                    if (_cashLoadedData.Equals(loadedData)) return;
-                    else
+                    if (loadedData.PlayingTime > _cashLoadedData.PlayingTime)
                     {
-                        ChooseData(loadedData, choosedData =>
-                        {
-                            _cashLoadedData = choosedData;
-                            _data = choosedData;
-                        });
-                        return;
+                        _cashLoadedData = loadedData;
+                        _data = loadedData;
                     }
                 }
             });
@@ -62,22 +47,7 @@ namespace Desdiene.DataStorageFactories.Storages
 
         public void InvokeSavingData()
         {
-            _storageDataLoader.Save(_data);
-        }
-
-        private void ChooseData(T loadedData, Action<T> choosedData)
-        {
-            T currentData = _data;
-
-            _chooseDataRoutine.StartContinuously(ChooseDataEnumerator(currentData, loadedData, choosedData));
-        }
-
-        private IEnumerator ChooseDataEnumerator(T currentData, T loadedData, Action<T> choosedData)
-        {
-            Debug.LogWarning("NotImplementedException: выбор моделей");
-            //todo предложить игроку выбрать модель
-            yield return null;
-            choosedData?.Invoke(currentData);
+            _storageDataLoader.Save(_data, null);
         }
 
         private T CombineData(T data1, T data2)

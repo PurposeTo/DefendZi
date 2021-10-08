@@ -6,15 +6,15 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class ObstacleMono :
     MonoBehaviourExt,
-    IDamageDealer,
-    IScoreGetter,
+    IDamage,
+    IScoreAccessor,
     IPosition,
     IRotation
 {
     [SerializeField] private int _scoreByAvoding = 5;
 
-    private IScoreGetter _scoreGetter;
-    private IDamageDealer _damageDealer;
+    private IScoreAccessor _scoreAccessor;
+    private IDamage _damageDealer;
     private IPosition _position;
     private IRotation _rotation;
 
@@ -22,21 +22,21 @@ public class ObstacleMono :
     {
         Obstacle obstacle = new Obstacle(_scoreByAvoding, GetInitedComponent<Rigidbody2D>());
 
-        _scoreGetter = obstacle;
+        _scoreAccessor = obstacle;
         _damageDealer = obstacle;
         _position = obstacle;
         _rotation = obstacle;
     }
 
-    uint IDamageDealer.Value => _damageDealer.Value;
+    uint IDamage.Value => _damageDealer.Value;
 
-    int IScoreGetter.Value => _scoreGetter.Value;
+    int IScoreAccessor.Value => _scoreAccessor.Value;
 
-    Vector2 IPositionGetter.Value => _position.Value;
+    Vector2 IPositionAccessor.Value => _position.Value;
 
-    float IRotationGetter.Angle => _rotation.Angle;
+    float IRotationAccessor.Angle => _rotation.Angle;
 
-    Quaternion IRotationGetter.Quaternion => _rotation.Quaternion;
+    Quaternion IRotationAccessor.Quaternion => _rotation.Quaternion;
 
     event Action IPositionNotification.OnChanged
     {

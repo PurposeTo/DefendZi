@@ -40,8 +40,8 @@
 .gradle/
 
 # Images
-*.jpg
-*.jpeg
+#*.jpg
+#*.jpeg
 #*.png
 *.gif
 *.psd
@@ -50,9 +50,9 @@
 *.cubemap
  
 # Audio
-*.mp3
-*.wav
-*.ogg
+#*.mp3
+#*.wav
+#*.ogg
  
 # Video
 *.mp4
@@ -453,3 +453,6 @@ Defend Zi/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - F
 Defend Zi/Assets/Plugins/Zenject/Source/Zenject.csproj.meta
 Defend Zi/Assets/GameData.json
 Defend Zi/Assets/GameData.json.meta
+Defend Zi/Assets/Plugins/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
+Defend Zi/Assets/GameDataAlpha.json
+Defend Zi/Assets/GameDataAlpha.json.meta

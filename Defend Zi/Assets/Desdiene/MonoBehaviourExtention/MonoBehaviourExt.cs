@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Desdiene.Coroutines;
 using UnityEngine;
 
 namespace Desdiene.MonoBehaviourExtension
@@ -21,6 +20,7 @@ namespace Desdiene.MonoBehaviourExtension
 
         /// <summary>
         /// Необходимо использовать данный метод в дочернем классе взамен Awake()
+        /// Внутри данного метода и следующих, которые соотносятся с ЖЦ gameObject-а можно безопасно обращаться к SerializeField полям данного класса
         /// </summary>
         protected virtual void AwakeExt() { }
 

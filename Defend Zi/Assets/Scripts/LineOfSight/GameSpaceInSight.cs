@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(BoxCollider2D))]
 [ExecuteInEditMode]
-public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DGetter
+public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DAccessor
 {
     public const float Height = 15;
 
@@ -16,12 +16,12 @@ public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DGetter
 
     private RectangleIn2D _area;
 
-    float IRectangleGetter.Height => _area.Height;
-    float IRectangleGetter.Width => _area.Width;
-    Vector2 IPivotOffset2DGetter.Value => _area.PivotOffset;
-    Vector2 IPositionGetter.Value => _area.Position;
-    float IRotationGetter.Angle => _area.Rotation.eulerAngles.z;
-    Quaternion IRotationGetter.Quaternion => _area.Rotation;
+    float IRectangleAccessor.Height => _area.Height;
+    float IRectangleAccessor.Width => _area.Width;
+    Vector2 IPivotOffset2DAccessor.Value => _area.PivotOffset;
+    Vector2 IPositionAccessor.Value => _area.Position;
+    float IRotationAccessor.Angle => _area.Rotation.eulerAngles.z;
+    Quaternion IRotationAccessor.Quaternion => _area.Rotation;
 
     protected override void AwakeExt()
     {

@@ -11,14 +11,14 @@ using UnityEngine;
 /// </summary>
 public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 {
-    private IRectangleIn2DGetter _visibleGameSpace;
-    private IPositionGetter _visibleGameSpacePosition;
+    private IRectangleIn2DAccessor _visibleGameSpace;
+    private IPositionAccessor _visibleGameSpacePosition;
 
     private readonly ISelectableItems<Chunk> _selectableChunks;
     private readonly FloatRange _safeSpaceBetweenChunks;
     private readonly float _offsetGeneration;
 
-    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DGetter visibleGameSpace) : base(mono)
+    public ObstacleSpace(MonoBehaviourExt mono, ObstacleSpaceData data, IRectangleIn2DAccessor visibleGameSpace) : base(mono)
     {
         Width = data.Width;
 
@@ -29,6 +29,10 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         _visibleGameSpace = visibleGameSpace;
         _visibleGameSpacePosition = visibleGameSpace;
     }
+
+    // Длина пространства препятствий. Значение эквивалентно местоположению правой границе chunkSpawn.width
+    public float Width { get; private set; }
+    private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
 
     void IUpdate.Invoke(float deltaTime)
     {
@@ -47,11 +51,12 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     {
         Chunk originalChunk = _selectableChunks.GetRandom();
 
+        // расстояние между чанками
         float safeSpace = Random.Range(_safeSpaceBetweenChunks.Min, _safeSpaceBetweenChunks.Max);
         float spawnPointOx = Width + safeSpace + (originalChunk.SpawnPlaceWidth / 2);
 
         Vector3 spawnPosition = new Vector3(spawnPointOx, 0f, 0f);
-        Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, monoBehaviourExt.transform);
+        Object.Instantiate(originalChunk, spawnPosition, Quaternion.identity, MonoBehaviourExt.transform);
         Width += safeSpace + originalChunk.SpawnPlaceWidth;
     }
 

@@ -1,32 +1,31 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Data;
-using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
-using Desdiene.DataStorageFactories.DataLoaders.Safe.States.Base;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe.States
+namespace Desdiene.DataStorageFactories.DataLoaders.Safe
 {
-    internal class Initial<T> : State<T> where T : IData, new()
+    internal partial class SafeDataLoader<TData>
     {
-
-        public Initial(IStateSwitcher<State<T>> stateSwitcher,
-                            StorageJsonDataLoader<T> dataStorage)
-            : base(stateSwitcher, dataStorage) { }
-
-        public override void Load(Action<T> dataCallback)
+        private class Initial : State
         {
-            DataStorage.Load(data =>
+            public Initial(IStateSwitcher<State, SafeDataLoader<TData>> stateSwitcher,
+                                   SafeDataLoader<TData> it)
+                : base(stateSwitcher, it) { }
+
+            protected override void Load(SafeDataLoader<TData> it, Action<TData> dataCallback)
             {
-                dataCallback?.Invoke(data);
-                SwitchState<DataWasReceived<T>>();
-            });
-        }
+                it._dataStorage.Load(data =>
+                {
+                    dataCallback?.Invoke(data);
+                    SwitchState<DataWasReceived>();
+                });
+            }
 
-        public override void Save(T data)
-        {
-            Debug.Log($"Данные с [{DataStorage.StorageName}] еще не были получены. " +
-                $"Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
+            protected override void Save(SafeDataLoader<TData> it, TData data, Action<bool> successCallback)
+            {
+                Debug.Log($"Данные с [{it._dataStorage.StorageName}] еще не были получены. " +
+                    $"Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
+            }
         }
     }
 }

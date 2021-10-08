@@ -1,82 +1,75 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.Containers;
-using Desdiene.Coroutines.Components;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
-using UnityEngine;
 
-namespace Desdiene.Coroutines.States.Base
+namespace Desdiene.Coroutines
 {
-    public abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<MutableData>
+    public partial class CoroutineWrap
     {
-        private readonly IStateSwitcher<State, MutableData> _stateSwitcher;
-        private readonly Func<bool> _isExecutingRef;
-
-        public State(MonoBehaviourExt mono,
-                     IStateSwitcher<State, MutableData> stateSwitcher,
-                     CoroutinesStack coroutinesStack,
-                     Func<bool> isExecutingRef) : base(mono)
+        private abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint<CoroutineWrap>
         {
-            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
-            CoroutinesStack = coroutinesStack ?? throw new ArgumentNullException(nameof(coroutinesStack));
-            _isExecutingRef = isExecutingRef ?? throw new ArgumentNullException(nameof(isExecutingRef));
-        }
+            private readonly CoroutineWrap _it;
 
-        public bool IsExecuting => _isExecutingRef.Invoke();
-
-        protected CoroutinesStack CoroutinesStack { get; }
-        protected Coroutine Coroutine { get; set; }
-
-        void IStateEntryExitPoint<MutableData>.OnEnter(MutableData mutableData)
-        {
-            if (mutableData != null)
+            protected State(MonoBehaviourExt mono,
+                            CoroutineWrap it) : base(mono)
             {
-                Coroutine = mutableData.Coroutine;
+                _it = it ?? throw new ArgumentNullException(nameof(it));
             }
 
-            OnEnter();
+            void IStateEntryExitPoint<CoroutineWrap>.OnEnter(CoroutineWrap it)
+            {
+                OnEnter(it);
+            }
+
+            void IStateEntryExitPoint<CoroutineWrap>.OnExit(CoroutineWrap it)
+            {
+                OnExit(it);
+            }
+
+            public virtual Action SubscribeToWhenRunning(Action action, Action value) => action += value;
+            public virtual Action SubscribeToWhenCompleted(Action action, Action value) => action += value;
+
+            /// <summary>
+            /// Запустить выполнение корутины, если она не была запущена.
+            /// </summary>
+            public void StartContinuously(IEnumerator enumerator) => StartContinuously(_it, enumerator);
+
+            /// <summary>
+            /// Прервать выполнение корутины.
+            /// </summary>
+            public void Terminate() => Terminate(_it);
+
+            /// <summary>
+            /// Прервать выполнение корутины, если она была запущена.
+            /// </summary>
+            /// <returns>Была ли корутина запущена?</returns>
+            public bool TryTerminate()
+            {
+                bool isExecuting = _it.IsExecuting; // т.к. состояние может поменяться, кешируем.
+                if (isExecuting) Terminate();
+                return isExecuting;
+            }
+
+            /// <summary>
+            /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
+            /// </summary>
+            /// <param name="newCoroutine">Вложенная корутина.</param>
+            /// <returns>Енумератор для ожидания выполнения.</returns>
+            public IEnumerator StartNested(IEnumerator newCoroutine) => StartNested(_it, newCoroutine);
+
+
+            protected abstract void StartContinuously(CoroutineWrap it, IEnumerator enumerator);
+            protected abstract void Terminate(CoroutineWrap it);
+            protected abstract IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine);
+
+            protected virtual void OnEnter(CoroutineWrap it) { }
+
+            protected virtual void OnExit(CoroutineWrap it) { }
+
+            protected State SwitchState<stateT>() where stateT : State => _it.SwitchState<stateT>();
         }
-
-        MutableData IStateEntryExitPoint<MutableData>.OnExit()
-        {
-            OnExit();
-            return new MutableData(Coroutine);
-        }
-
-        protected virtual void OnEnter() { }
-
-        protected virtual void OnExit() { }
-
-        /// <summary>
-        /// Запустить выполнение корутины, если она не была запущена.
-        /// </summary>
-        public abstract void StartContinuously(IEnumerator enumerator);
-
-        /// <summary>
-        /// Прервать выполнение корутины.
-        /// </summary>
-        public abstract void Terminate();
-
-        /// <summary>
-        /// Прервать выполнение корутины, если она была запущена.
-        /// </summary>
-        /// <returns>Была ли корутина запущена?</returns>
-        public bool TryTerminate()
-        {
-            bool isExecuting = IsExecuting; // т.к. состояние может поменяться, кешируем.
-            if (isExecuting) Terminate();
-            return isExecuting;
-        }
-
-        /// <summary>
-        /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
-        /// </summary>
-        /// <param name="newCoroutine">Вложенная корутина.</param>
-        /// <returns>Енумератор для ожидания выполнения.</returns>
-        public abstract IEnumerator StartNested(IEnumerator newCoroutine);
-
-        protected State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
     }
 }

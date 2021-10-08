@@ -1,6 +1,5 @@
 using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.Percentale;
 using UnityEngine;
 using Zenject;
 
@@ -8,16 +7,16 @@ using Zenject;
 [DisallowMultipleComponent]
 public class PlayerMono :
     MonoBehaviourExt,
-    IPositionGetter,
+    IPositionAccessor,
     IPositionNotification,
-    IHealth,
+    IHealthReincarnation,
     IScore
 {
-    [SerializeField] private PlayerMovementData _movementData;
+    [SerializeField] private PlayerMovementDataMono _movementData;
 
     private IFixedUpdate _fixedUpdate;
-    private IHealth _health;
-    private IPositionGetter _positionGetter;
+    private IHealthReincarnation _health;
+    private IPositionAccessor _positionAccessor;
     private IPositionNotification _positionNotification;
     private IScore _score;
 
@@ -28,11 +27,11 @@ public class PlayerMono :
         if (gameDifficulty == null) throw new ArgumentNullException(nameof(gameDifficulty));
 
         Rigidbody2D rb2d = GetInitedComponent<Rigidbody2D>();
-        PlayerMovementView movementView = new PlayerMovementView(gameDifficulty, _movementData);
+        PlayerMovementData movementView = new PlayerMovementData(gameDifficulty, _movementData);
         Player _player = new Player(input, rb2d, movementView);
 
         _fixedUpdate = _player;
-        _positionGetter = _player;
+        _positionAccessor = _player;
         _positionNotification = _player;
         _health = _player;
         _score = _player;
@@ -40,30 +39,48 @@ public class PlayerMono :
 
     private void FixedUpdate() => _fixedUpdate.Invoke(Time.fixedDeltaTime);
 
-    Vector2 IPositionGetter.Value => _positionGetter.Value;
+    Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 
-    IPercentable<int> IHealthGetter.Value => _health.Value;
+    int IScoreAccessor.Value => _score.Value;
 
-    int IScoreGetter.Value => _score.Value;
+    int IHealthAccessor.Value => _health.Value;
 
-    bool IDeath.IsDeath => _health.IsDeath;
+    float IHealthAccessor.Percent => _health.Percent;
 
-    event Action IScoreNotification.OnChanged
+    event Action<int> IScoreNotification.OnReceived
     {
-        add => _score.OnChanged += value;
-        remove => _score.OnChanged -= value;
+        add => _score.OnReceived += value;
+        remove => _score.OnReceived -= value;
     }
 
-    event Action IDeath.OnDied
+    event Action IHealthNotification.WhenAlive
     {
-        add => _health.OnDied += value;
-        remove => _health.OnDied -= value;
+        add => _health.WhenAlive += value;
+        remove => _health.WhenAlive -= value;
     }
 
-    event Action IDeath.OnReborn
+    event Action IHealthNotification.OnDamaged
     {
-        add => _health.OnReborn += value;
-        remove => _health.OnReborn -= value;
+        add => _health.OnDamaged += value;
+        remove => _health.OnDamaged -= value;
+    }
+
+    event Action IHealthNotification.OnDeath
+    {
+        add => _health.OnDeath += value;
+        remove => _health.OnDeath -= value;
+    }
+
+    event Action IHealthNotification.WhenDead
+    {
+        add => _health.WhenDead += value;
+        remove => _health.WhenDead -= value;
+    }
+
+    event Action IReincarnationNotification.OnReviving
+    {
+        add => _health.OnReviving += value;
+        remove => _health.OnReviving -= value;
     }
 
     event Action IPositionNotification.OnChanged
@@ -72,7 +89,8 @@ public class PlayerMono :
         remove => _positionNotification.OnChanged -= value;
     }
 
-    void IScoreCollector.Add(int amount) => _score.Add(amount);
+    void IReincarnation.Revive() => _health.Revive();
+    void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);
 
-    void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);
+    void IScoreCollector.Add(int amount) => _score.Add(amount);
 }

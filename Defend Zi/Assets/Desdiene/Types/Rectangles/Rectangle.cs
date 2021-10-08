@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Desdiene.Types.Rectangles
 {
     [Serializable]
-    public struct Rectangle : IRectangleGetter
+    public struct Rectangle : IRectangleAccessor
     {
         //Не делать readonly, тк могут редактироваться через инспектор.
         [SerializeField] private Ufloat _height;
@@ -19,8 +19,8 @@ namespace Desdiene.Types.Rectangles
 
         #region реализация интерфейсов через прокидывание ссылок на поле/свойство/метод
 
-        float IRectangleGetter.Height => _height;
-        float IRectangleGetter.Width => _width;
+        float IRectangleAccessor.Height => _height;
+        float IRectangleAccessor.Width => _width;
 
         #endregion
 

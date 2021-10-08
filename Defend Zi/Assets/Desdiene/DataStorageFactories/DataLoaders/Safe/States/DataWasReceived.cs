@@ -1,23 +1,25 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Data;
-using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
-using Desdiene.DataStorageFactories.DataLoaders.Safe.States.Base;
 using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe.States
+namespace Desdiene.DataStorageFactories.DataLoaders.Safe
 {
-    internal class DataWasReceived<T> : State<T> where T : IData, new()
+    internal partial class SafeDataLoader<TData>
     {
-        public DataWasReceived(IStateSwitcher<State<T>> stateSwitcher,
-                            StorageJsonDataLoader<T> dataStorage)
-            : base(stateSwitcher, dataStorage) { }
-
-        public override void Load(Action<T> dataCallback)
+        private class DataWasReceived : State
         {
-            Debug.Log($"Данные с [{DataStorage.StorageName}] уже были получены!");
-        }
+            public DataWasReceived(IStateSwitcher<State, SafeDataLoader<TData>> stateSwitcher,
+                                   SafeDataLoader<TData> it)
+                : base(stateSwitcher, it) { }
 
-        public override void Save(T data) => DataStorage.Save(data);
+            protected override void Load(SafeDataLoader<TData> it, Action<TData> dataCallback)
+            {
+                Debug.Log($"Данные с [{it._dataStorage.StorageName}] уже были получены!");
+            }
+
+            protected override void Save(SafeDataLoader<TData> it,
+                                         TData data,
+                                         Action<bool> successCallback) => it._dataStorage.Save(data, successCallback);
+        }
     }
 }

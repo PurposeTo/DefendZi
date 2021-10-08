@@ -1,57 +1,79 @@
 using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.Percentale;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player :
     IFixedUpdate,
-    IPositionGetter,
+    IPositionAccessor,
     IPositionNotification,
-    IHealth,
+    IHealthReincarnation,
     IScore
 {
     private readonly IFixedUpdate _controlFixedUpdate;
-    private readonly IHealth _health = new PlayerHealth();
-    private readonly IPosition _position;
-    private readonly IScore _score = new PlayerScore();
+    private readonly IHealthReincarnation _health;
+    private readonly IPositionAccessor _positionAccessor;
+    private readonly IPositionNotification _positionNotification;
+    private readonly IScore _score;
 
-    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementView movementView)
+    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementView)
     {
-        _position = new Rigidbody2DPosition(rigidbody2D);
-        _controlFixedUpdate = new PlayerControl(input, _position, movementView);
+        IPosition position = new Rigidbody2DPosition(rigidbody2D);
+        _controlFixedUpdate = new PlayerControl(input, position, movementView);
+        _health = new HealthReincarnation(1);
+        _score = new PlayerScore();
+        _positionAccessor = position;
+        _positionNotification = position;
     }
 
-    Vector2 IPositionGetter.Value => _position.Value;
+    Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 
-    IPercentable<int> IHealthGetter.Value => _health.Value;
+    int IScoreAccessor.Value => _score.Value;
 
-    int IScoreGetter.Value => _score.Value;
+    int IHealthAccessor.Value => _health.Value;
 
-    bool IDeath.IsDeath => _health.IsDeath;
+    float IHealthAccessor.Percent => _health.Percent;
 
-    event Action IScoreNotification.OnChanged
+    event Action<int> IScoreNotification.OnReceived
     {
-        add => _score.OnChanged += value;
-        remove => _score.OnChanged -= value;
+        add => _score.OnReceived += value;
+        remove => _score.OnReceived -= value;
     }
 
-    event Action IDeath.OnDied
+    event Action IHealthNotification.WhenAlive
     {
-        add => _health.OnDied += value;
-        remove => _health.OnDied -= value;
+        add => _health.WhenAlive += value;
+        remove => _health.WhenAlive -= value;
     }
 
-    event Action IDeath.OnReborn
+    event Action IHealthNotification.OnDamaged
     {
-        add => _health.OnReborn += value;
-        remove => _health.OnReborn -= value;
+        add => _health.OnDamaged += value;
+        remove => _health.OnDamaged -= value;
+    }
+
+    event Action IHealthNotification.OnDeath
+    {
+        add => _health.OnDeath += value;
+        remove => _health.OnDeath -= value;
+    }
+
+    event Action IHealthNotification.WhenDead
+    {
+        add => _health.WhenDead += value;
+        remove => _health.WhenDead -= value;
+    }
+
+    event Action IReincarnationNotification.OnReviving
+    {
+        add => _health.OnReviving += value;
+        remove => _health.OnReviving -= value;
     }
 
     event Action IPositionNotification.OnChanged
     {
-        add => _position.OnChanged += value;
-        remove => _position.OnChanged -= value;
+        add => _positionNotification.OnChanged += value;
+        remove => _positionNotification.OnChanged -= value;
     }
 
     void IFixedUpdate.Invoke(float deltaTime)
@@ -59,7 +81,8 @@ public class Player :
         _controlFixedUpdate.Invoke(deltaTime);
     }
 
-    void IDamageTaker.TakeDamage(uint damage) => _health.TakeDamage(damage);
+    void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);
+    void IReincarnation.Revive() => _health.Revive();
 
     void IScoreCollector.Add(int amount) => _score.Add(amount);
 }

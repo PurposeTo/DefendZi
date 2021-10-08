@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class GameStatistics
 {
-    [SerializeField] private float _lifeTimeSec;
+    [SerializeField] private TimeSpan _lifeTime;
 
-    public float LifeTimeSec { get => _lifeTimeSec; set => _lifeTimeSec = value; }
+    public TimeSpan LifeTime { get => _lifeTime; set => _lifeTime = value; }
 }

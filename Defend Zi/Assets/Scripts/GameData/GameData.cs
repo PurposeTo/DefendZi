@@ -1,4 +1,9 @@
-﻿using Desdiene.DataStorageFactories.Combiner;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Desdiene.DataStorageFactories.Combiners;
+using Desdiene.DataStorageFactories.Datas;
+using Desdiene.DataStorageFactories.Validators;
 using UnityEngine;
 
 /* 
@@ -7,49 +12,47 @@ using UnityEngine;
  */
 public class GameData : IGameData, IDataCombiner<GameData>
 {
+    public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
+
     public int GamesNumber { get; set; } = 0;
 
     public int BestScore { get; set; } = 0;
 
-    public int AverageLifeTimeSec { get; set; } = 0;
-    public int BestLifeTimeSec { get; set; } = 0;
+    public TimeSpan AverageLifeTime => GamesNumber == 0
+        ? TimeSpan.Zero
+        : TimeSpan.FromSeconds(PlayingTime.Seconds / GamesNumber);
 
-    public void IncreaseGamesNumber() => GamesNumber++;
+    public TimeSpan BestLifeTime { get; set; } = TimeSpan.Zero;
 
-    public void SetBestScore(uint score)
+    bool IDataValidator.IsValid() => IsValid();
+
+    void IDataValidator.TryToRepair()
+    {
+        if (!IsValid()) Repair();
+    }
+
+    void IDataMutator.SetPlayingTime(TimeSpan time) => PlayingTime = time;
+
+    void IDataMutator.AddPlayingTime(TimeSpan time) => PlayingTime += time;
+
+    void IGameData.IncreaseGamesNumber() => GamesNumber++;
+
+    void IGameData.SetBestScore(uint score)
     {
         BestScore = Desdiene.Math.ClampMin((int)score, BestScore);
     }
 
-    /// <summary>
-    /// Данный метод 
-    /// </summary>
-    /// <param name="timeSec"></param>
-    public void SetAverageLifeTimeSec(uint timeSec)
+    void IGameData.SetBestLifeTime(TimeSpan time)
     {
-        int previosLifeTime = AverageLifeTimeSec * (GamesNumber - 1);
-        int fullLifeTime = (int)(previosLifeTime + timeSec);
-
-        if (GamesNumber != 0) AverageLifeTimeSec = fullLifeTime / GamesNumber;
-    }
-
-    public void SetBestLifeTimeSec(uint timeSec)
-    {
-        BestLifeTimeSec = Desdiene.Math.ClampMin((int)timeSec, BestLifeTimeSec);
-    }
-
-    public override string ToString()
-    {
-        return $"{GetType().Name}"
-             + $"\nGamesNumber={GamesNumber}"
-             + $"\nBestScore={BestScore}"
-             + $"\nAverageLifeTimeSec={AverageLifeTimeSec}"
-             + $"\nBestLifeTimeSec={BestLifeTimeSec}";
+        BestLifeTime = new List<TimeSpan>() { time, BestLifeTime }.Max();
     }
 
     GameData IDataCombiner<GameData>.Combine(GameData first, GameData second)
     {
         GameData gameData = new GameData();
+
+        // combine PlayingTime
+        gameData.PlayingTime = first.PlayingTime + second.PlayingTime;
 
         //combine GamesNumber
         int fullGamesNumber = first.GamesNumber + second.GamesNumber;
@@ -58,13 +61,51 @@ public class GameData : IGameData, IDataCombiner<GameData>
         //combine BestScore
         gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
 
-        //combine AverageLifeTimeSec
-        if (fullGamesNumber != 0)
-        {
-            int fullLifeTime = first.AverageLifeTimeSec * first.GamesNumber + second.AverageLifeTimeSec * second.GamesNumber;
-            gameData.AverageLifeTimeSec = fullLifeTime / fullGamesNumber;
-        }
+        //combine BestLifeTime
+        gameData.BestLifeTime = new List<TimeSpan>() { first.BestLifeTime, second.BestLifeTime }.Max();
 
         return gameData;
+    }
+
+    public override string ToString()
+    {
+        return $"{GetType().Name}"
+             + $"\nGamesNumber={GamesNumber}"
+             + $"\nBestScore={BestScore}"
+             + $"\nAverageLifeTimeSec={AverageLifeTime}"
+             + $"\nBestLifeTimeSec={BestLifeTime}"
+             + $"\nPlayingTime={PlayingTime}";
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is GameData data &&
+               PlayingTime.Equals(data.PlayingTime) &&
+               GamesNumber == data.GamesNumber &&
+               BestScore == data.BestScore &&
+               AverageLifeTime.Equals(data.AverageLifeTime) &&
+               BestLifeTime.Equals(data.BestLifeTime);
+    }
+
+    public override int GetHashCode()
+    {
+        int hashCode = -338788781;
+        hashCode = hashCode * -1521134295 + PlayingTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + GamesNumber.GetHashCode();
+        hashCode = hashCode * -1521134295 + BestScore.GetHashCode();
+        hashCode = hashCode * -1521134295 + AverageLifeTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + BestLifeTime.GetHashCode();
+        return hashCode;
+    }
+
+    private bool IsValid()
+    {
+        // сейчас нельзя сломать данные, т.к. нет nullable полей.
+        return true;
+    }
+
+    private void Repair()
+    {
+        // сейчас нельзя сломать данные, т.к. нет nullable полей.
     }
 }

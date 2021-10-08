@@ -1,32 +1,19 @@
 using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.TimeControls.Scales;
 using UnityEngine;
-using Zenject;
 
 public class DebugUIController : MonoBehaviourExt
 {
-    private GlobalTimeScaler globalTimeScaler;
     private ICoroutine _updateDebug;
 
-    [Inject]
-    public void Constructor(GlobalTimeScaler globalTimeScaler)
+    protected override void AwakeExt()
     {
-        this.globalTimeScaler = globalTimeScaler;
-        globalTimeScaler.OnTimeScaleChanged += SetDebugText;
         _updateDebug = new CoroutineWrap(this);
         _updateDebug.StartContinuously(UpdateDebug());
     }
 
     [SerializeField, NotNull] private DebugUIView debugUIView;
-
-    private float TimeScale => globalTimeScaler.TimeScale;
-
-    protected override void OnDestroyExt()
-    {
-        globalTimeScaler.OnTimeScaleChanged -= SetDebugText;
-    }
 
     private void SetDebugText(float TimeScale)
     {
@@ -41,7 +28,7 @@ public class DebugUIController : MonoBehaviourExt
         var wait = new WaitForSecondsRealtime(.1f);
         while (true)
         {
-            SetDebugText(TimeScale);
+            SetDebugText(Time.timeScale);
             yield return wait;
         }
     }

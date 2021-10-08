@@ -3,8 +3,8 @@ using Zenject;
 
 public class CameraMovement : MonoBehaviour
 {
+    private IPositionAccessor playerPosition;
     private float offsetOx;
-    private IPositionGetter playerPosition;
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
@@ -20,6 +20,8 @@ public class CameraMovement : MonoBehaviour
 
     private void Move()
     {
-        transform.position = new Vector3(playerPosition.Value.x + offsetOx, transform.position.y, transform.position.z);
+        Vector3 current = transform.position;
+        Vector3 target = new Vector3(playerPosition.Value.x + offsetOx, current.y, current.z);
+        transform.position = target;
     }
 }

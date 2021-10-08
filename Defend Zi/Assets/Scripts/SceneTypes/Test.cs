@@ -1,13 +1,18 @@
+using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.SceneTypes;
+using Desdiene.UnityScenes;
+using Desdiene.UnityScenes.Types;
 
 namespace SceneTypes
 {
-    public class Test : SceneAsset
+    public static class Test
     {
-        public Test(MonoBehaviourExt mono) : base(mono)
+        public static ISceneAsset Get(MonoBehaviourExt mono, ScenesInBuild scenesInBuild)
         {
+            if (mono == null) throw new ArgumentNullException(nameof(mono));
+            if (scenesInBuild == null) throw new ArgumentNullException(nameof(scenesInBuild));
 
+            return scenesInBuild.Get(mono, nameof(Test));
         }
     }
 }

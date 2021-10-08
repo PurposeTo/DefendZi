@@ -5,17 +5,32 @@ namespace Desdiene.UnityScenes.Unloadings
 {
     public class Unloading : IUnloading
     {
-        private protected AsyncOperation _unloadingOperation;
+        private protected AsyncOperation _unloadingByUnity;
 
-        public Unloading(AsyncOperation unloadingOperation)
+        public Unloading(AsyncOperation unloadingByUnity)
         {
-            _unloadingOperation = unloadingOperation;
+            _unloadingByUnity = unloadingByUnity ?? throw new ArgumentNullException(nameof(unloadingByUnity));
+            SubscribeEvents();
         }
 
-        public event Action OnUnloaded
+        private Action onUnloaded;
+
+        event Action IUnloading.OnUnloaded
         {
-            add => _unloadingOperation.completed += (_) => value?.Invoke();
-            remove => _unloadingOperation.completed -= (_) => value?.Invoke();
+            add { lock (this) { onUnloaded += value; } }
+            remove { lock (this) { onUnloaded -= value; } }
+        }
+
+        private void InvokeOnUnloaded(AsyncOperation _) => onUnloaded?.Invoke();
+
+        private void SubscribeEvents()
+        {
+            _unloadingByUnity.completed += InvokeOnUnloaded;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            _unloadingByUnity.completed -= InvokeOnUnloaded;
         }
     }
 }

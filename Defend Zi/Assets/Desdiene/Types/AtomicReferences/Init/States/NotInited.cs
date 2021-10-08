@@ -5,7 +5,7 @@ namespace Desdiene.Types.AtomicReferences.Init.States
 {
     internal class NotInited<T> : State<T>
     {
-        public NotInited(in Ref<State<T>> state, in Func<T> initFunc, in Ref<T> valueRef)
+        public NotInited(in IRef<State<T>> state, in Func<T> initFunc, in IRef<T> valueRef)
             : base(state, initFunc, valueRef)
         {
             //Проверка на null нужна только если мы собираемся использовать данное значение.

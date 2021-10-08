@@ -11,32 +11,40 @@ namespace Desdiene.Types.Percentables
     {
         public IntPercentable(int value, IntRange range) : base(value, range) { }
 
-        event Action IPercentNotifier.OnValueChanged
+        event Action IPercentNotifier.OnChanged
         {
-            add => OnValueChanged += value;
-            remove => OnValueChanged -= value;
+            add => valueRef.OnChanged += value;
+            remove => valueRef.OnChanged -= value;
         }
 
         /// <summary>
         /// Получить процентное значение.
         /// </summary>
         /// <returns></returns>
-        float IPercentGetter.Value => Percent;
+        float IPercentAccessor.Value => Percent;
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
         /// Значение округляется до ближайшего целочисленноого.
         /// </summary>
         /// <param name="percent"></param>
-        void IPercentSetter.Set(float percent) => SetByPercent(percent);
+        void IPercentMutator.Set(float percent) => SetByPercent(percent);
 
-        float IPercentSetter.SetAndGet(float percent)
+        float IPercentMutator.SetAndGet(float percent)
         {
             SetByPercent(percent);
             return Percent;
         }
 
-        public float Percent => Mathf.InverseLerp(range.Min, range.Max, Get());
+        bool IPercentAccessor.IsMin => IsMin;
+
+        bool IPercentAccessor.IsMax => IsMax;
+
+        void IPercentMutator.SetMax() => SetByPercent(range.Max);
+
+        void IPercentMutator.SetMin() => SetByPercent(range.Min);
+
+        private float Percent => Mathf.InverseLerp(range.Min, range.Max, Value);
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
@@ -51,25 +59,25 @@ namespace Desdiene.Types.Percentables
 
         public static IntPercentable operator -(IntPercentable value, int delta)
         {
-            value.Set(value.Get() - delta);
+            value.Set(value.Value - delta);
             return value;
         }
 
         public static IntPercentable operator -(IntPercentable value, uint delta)
         {
-            value.Set((int)(value.Get() - delta));
+            value.Set((int)(value.Value - delta));
             return value;
         }
 
         public static IntPercentable operator +(IntPercentable value, int delta)
         {
-            value.Set(value.Get() + delta);
+            value.Set(value.Value + delta);
             return value;
         }
 
         public static IntPercentable operator +(IntPercentable value, uint delta)
         {
-            value.Set((int)(value.Get() + delta));
+            value.Set((int)(value.Value + delta));
             return value;
         }
     }

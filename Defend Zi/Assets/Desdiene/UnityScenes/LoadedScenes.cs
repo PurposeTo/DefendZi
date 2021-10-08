@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Desdiene.Singletons.Unity;
-using Desdiene.UnityScenes.SceneTypes;
+using Desdiene.MonoBehaviourExtension;
+using Desdiene.UnityScenes.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,10 +13,10 @@ namespace Desdiene.UnityScenes
      * SceneManager.sceneLoaded - вызовет событие тогда, когда сцена будет И загружена, И включена.
      */
     /// <summary>
-    /// Класс содержит информацию о текущих загруженных сценах.
+    /// Класс содержит информацию о текущих загруженных (НЕ включенных!) сценах.
     /// Обращаться к SceneManager можно только из MonoBehaviour класса.
     /// </summary>
-    public class LoadedScenes : GlobalSingleton<LoadedScenes>
+    public class LoadedScenes : MonoBehaviourExt
     {
         /// <summary>
         /// Получить массив загруженных сцен, без учета, включены ли они.

@@ -8,12 +8,12 @@ using Zenject;
 public class ScoreAdderByDistance : MonoBehaviourExt
 {
     [Tooltip("Задержка перед началом исполнения")]
-    [SerializeField] private float _delayBeforeStart = 1.5f;
+    [SerializeField] private float _delayBeforeStart = 0.5f;
     [Tooltip("Дистанция, за прохождение которой начисляется одно очко")]
     [SerializeField] private float _distancePerScore = 17.5f;
 
     private IScoreCollector _collector;
-    private IPositionGetter _position;
+    private IPositionAccessor _position;
 
     private ICoroutine _scoreAdding;
 

@@ -2,8 +2,8 @@
 {
     public interface IJsonConvertor<T>
     {
-        T DeserializeObject(string jsonData);
+        T Deserialize(string jsonData);
 
-        string SerializeObject(T data);
+        string Serialize(T data);
     }
 }

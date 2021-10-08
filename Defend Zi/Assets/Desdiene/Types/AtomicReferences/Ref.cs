@@ -12,33 +12,39 @@ namespace Desdiene.Types.AtomicReferences
     [Serializable]
     public sealed class Ref<T> : IRef<T>
     {
+        private T _value;
+
         public Ref() : this(default) { }
         public Ref(T value)
         {
             Set(value);
         }
 
-        public event Action OnValueChanged;
-        private T value;
+        private event Action OnChanged;
 
-        public T Get() => value;
+        T IRefAccessor<T>.Value => _value;
 
-        public void Set(T value)
+        event Action IRefNotifier.OnChanged
         {
-            if (!Equals(this.value, value))
-            {
-                this.value = value;
-                OnValueChanged?.Invoke();
-            }
+            add => OnChanged += value;
+            remove => OnChanged -= value;
         }
 
-        public T SetAndGet(T value)
+        void IRefMutator<T>.Set(T value) => Set(value);
+
+        T IRef<T>.SetAndGet(T value)
         {
             Set(value);
-            return Get();
+            return _value;
         }
 
-        //todo входит ли данный метод в логику данного класса?
-        public bool IsNull() => value == null;
+        private void Set(T value)
+        {
+            if (!Equals(_value, value))
+            {
+                this._value = value;
+                OnChanged?.Invoke();
+            }
+        }
     }
 }

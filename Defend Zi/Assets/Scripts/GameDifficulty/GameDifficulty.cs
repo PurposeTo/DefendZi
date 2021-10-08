@@ -3,20 +3,20 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.Percents;
 using UnityEngine;
 
-public class GameDifficulty : MonoBehaviourExt, IPercentGetter, IPercentNotifier
+public class GameDifficulty : MonoBehaviourExt, IPercentAccessor, IPercentNotifier
 {
     [SerializeField] private float _gainPerSec = 0.01f;
-    private Percent _difficulty = new Percent();
+    private IPercent _difficulty = new Percent();
     private string _difficultyDebug; // поле для выведения в дебаг инспектора
 
-    public bool IsMin => _difficulty.IsMin;
-    public bool IsMax => _difficulty.IsMax;
-    public float Value => _difficulty.Value;
+    bool IPercentAccessor.IsMin => _difficulty.IsMin;
+    bool IPercentAccessor.IsMax => _difficulty.IsMax;
+    float IPercentAccessor.Value => _difficulty.Value;
 
-    public event Action OnValueChanged
+    event Action IPercentNotifier.OnChanged
     {
-        add => _difficulty.OnValueChanged += value;
-        remove => _difficulty.OnValueChanged -= value;
+        add => _difficulty.OnChanged += value;
+        remove => _difficulty.OnChanged -= value;
     }
 
     protected override void AwakeExt()
@@ -32,25 +32,24 @@ public class GameDifficulty : MonoBehaviourExt, IPercentGetter, IPercentNotifier
     private void Update()
     {
         float deltaTime = Time.deltaTime;
-        _difficulty += _gainPerSec * deltaTime;
+        float pastValue = _difficulty.Value;
+        _difficulty.Set(pastValue + _gainPerSec * deltaTime);
     }
-
-    public float Get() => _difficulty.Get();
 
     private void SubscribeEvents()
     {
-        _difficulty.OnValueChanged += UpdateDebugDifficulty;
+        _difficulty.OnChanged += UpdateDebugDifficulty;
     }
 
     private void UnsubscribeEvents()
     {
-        _difficulty.OnValueChanged -= UpdateDebugDifficulty;
+        _difficulty.OnChanged -= UpdateDebugDifficulty;
     }
 
     private void UpdateDebugDifficulty() => _difficultyDebug = GetDebugDifficulty();
 
     private string GetDebugDifficulty()
     {
-        return $"{(float)Math.Round(_difficulty.Get() * 100, 2)}%";
+        return $"{(float)Math.Round(_difficulty.Value * 100, 2)}%";
     }
 }

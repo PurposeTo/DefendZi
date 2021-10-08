@@ -8,13 +8,13 @@ public class PointToPointMovement : MonoBehaviourExtContainer
 {
     private readonly float _speed;
     private readonly IPosition _position;
-    private readonly IPositionGetter _targetPosition;
+    private readonly IPositionAccessor _targetPosition;
     private readonly AnimationCurve _animationCurve;
     private readonly ICoroutine _routineExecutor;
 
     public PointToPointMovement(MonoBehaviourExt monoBehaviour,
                                 IPosition position,
-                                IPositionGetter targetPosition,
+                                IPositionAccessor targetPosition,
                                 float speed,
                                 AnimationCurve animationCurve)
         : base(monoBehaviour)

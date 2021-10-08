@@ -66,7 +66,7 @@ namespace Desdiene.Tools
 
                 for (int i = 0; !dataWasLoaded || i < retryCount; i++)
                 {
-                    yield return  request.SendWebRequest();
+                    yield return request.SendWebRequest();
 
                     if (request.error != null || request.responseCode == 404)
                     {
