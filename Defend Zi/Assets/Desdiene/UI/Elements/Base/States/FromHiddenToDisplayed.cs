@@ -1,4 +1,5 @@
 ﻿using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.Types.Processes;
 
 namespace Desdiene.UI.Elements
 {
@@ -7,27 +8,50 @@ namespace Desdiene.UI.Elements
         private sealed class FromHiddenToDisplayed : State
         {
             public FromHiddenToDisplayed(UiElement _it, IStateSwitcher<State, UiElement> stateSwitcher)
-                : base(_it, stateSwitcher) { }
+                : base(_it, stateSwitcher)
+            {
+
+            }
 
             protected override void OnEnter(UiElement it)
             {
                 it.EnableCanvas();
-                it.ShowElement();
-                SwitchState<Displayed>();
+                IProcessAccessorNotifier wait = it.ShowElement();
+
+                void SetDisplayed()
+                {
+                    wait.WhenCompleted -= SetDisplayed;
+                    SwitchState<Displayed>();
+                }
+
+                wait.WhenCompleted += SetDisplayed;
             }
 
             protected override void OnExit(UiElement it) { }
 
-            protected override void Show(UiElement it) { }
+            protected override IProcessAccessorNotifier Show(UiElement it) => this;
 
-            protected override void Hide(UiElement it)
+            protected override IProcessAccessorNotifier Hide(UiElement it)
             {
+                IProcess wait = new LinearProcess("Ожидание открытия и последующего закрытия окна");
+                wait.Start();
+
                 void HideAfterDisplayed()
                 {
-                    it.Hide();
+                    IProcessAccessorNotifier waitForHidden = it.Hide();
+
+                    void StopWaiting()
+                    {
+                        waitForHidden.WhenCompleted -= StopWaiting;
+                        wait.Stop();
+                    }
+                    waitForHidden.WhenCompleted += StopWaiting;
+
                     it.WhenDisplayed -= HideAfterDisplayed;
                 }
                 it.WhenDisplayed += HideAfterDisplayed;
+
+                return wait;
             }
         }
     }

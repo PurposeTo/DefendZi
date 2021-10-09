@@ -4,7 +4,7 @@ namespace Desdiene.Types.Processes
 {
     public interface IProcessNotifier
     {
-        event Action WhenStarted;
+        event Action WhenRunning;
 
         event Action WhenCompleted;
 

@@ -35,7 +35,7 @@ namespace Desdiene.Types.Percentables
             SetByPercent(percent);
             return Percent;
         }
-        
+
         bool IPercentAccessor.IsMin => IsMin;
 
         bool IPercentAccessor.IsMax => IsMax;

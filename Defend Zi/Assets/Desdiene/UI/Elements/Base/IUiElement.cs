@@ -1,11 +1,13 @@
-﻿namespace Desdiene.UI.Elements
+﻿using Desdiene.Types.Processes;
+
+namespace Desdiene.UI.Elements
 {
     /// <summary>
     /// интерфейс описывает UI элемент, находящийся на Canvas overlay
     /// </summary>
     public interface IUiElement
     {
-        void Show();
-        void Hide();
+        IProcessAccessorNotifier Show();
+        IProcessAccessorNotifier Hide();
     }
 }

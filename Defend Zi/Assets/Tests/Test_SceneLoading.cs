@@ -32,7 +32,7 @@ public class Test_SceneLoading : MonoBehaviourExt
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-           // SceneObject firstLoadedScene = _loadedScenes.Get()[0];
+            // SceneObject firstLoadedScene = _loadedScenes.Get()[0];
             _sceneLoader.Reload();
         }
 

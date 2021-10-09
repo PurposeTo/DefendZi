@@ -1,11 +1,11 @@
 ﻿using System;
-using Desdiene.Containers;
-using Desdiene.MonoBehaviourExtension;
-using UnityEngine;
-using Desdiene.UnityScenes.Loadings.Components;
-using Desdiene.Coroutines;
 using System.Collections;
+using Desdiene.Containers;
+using Desdiene.Coroutines;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.ProcessContainers;
+using Desdiene.UnityScenes.Loadings.Components;
+using UnityEngine;
 
 namespace Desdiene.UnityScenes.Loadings
 {
@@ -31,7 +31,7 @@ namespace Desdiene.UnityScenes.Loadings
             }
 
             _sceneName = sceneName;
-            _beforeEnabling = new LinearParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
+            _beforeEnabling = new ParallelProcesses($"Перед загрузкой сцены \"{_sceneName}\"");
             _loadingByUnity = loadingByUnity ?? throw new ArgumentNullException(nameof(loadingByUnity));
             ProgressInfo = new ProgressInfo(_loadingByUnity);
 

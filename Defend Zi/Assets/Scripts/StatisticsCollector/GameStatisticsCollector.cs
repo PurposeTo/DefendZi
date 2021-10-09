@@ -33,6 +33,7 @@ public class GameStatisticsCollector : MonoBehaviourExt
     private void SubscribeEvents()
     {
         _playerDeath.WhenAlive += StartLifeTimeCounter;
+        Debug.Log($"КРЯ {_lifeTimeCounting.IsExecuting}");
         _playerDeath.WhenDead += _lifeTimeCounting.Terminate;
     }
 
@@ -42,7 +43,11 @@ public class GameStatisticsCollector : MonoBehaviourExt
         _playerDeath.WhenDead -= _lifeTimeCounting.Terminate;
     }
 
-    private void StartLifeTimeCounter() => _lifeTimeCounting.StartContinuously(LifeTimeCounting());
+    private void StartLifeTimeCounter()
+    {
+        _lifeTimeCounting.StartContinuously(LifeTimeCounting());
+        Debug.Log($"КРЯ StartLifeTimeCounter {_lifeTimeCounting.IsExecuting}");
+    }
 
     private IEnumerator LifeTimeCounting()
     {

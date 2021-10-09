@@ -1,4 +1,5 @@
-﻿using Desdiene.Types.ProcessContainers;
+﻿using System;
+using Desdiene.Types.Processes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,19 +26,22 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDestroyElement() => OnDestroyWindow();
 
-        protected sealed override void ShowElement() => ShowWindow();
-        protected sealed override void HideElement() => HideWindow();
+        protected sealed override IProcessAccessorNotifier ShowElement() => ShowWindow();
+        protected sealed override IProcessAccessorNotifier HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
-        protected virtual void ShowWindow() { }
-        protected virtual void HideWindow() { }
+        protected virtual IProcessAccessorNotifier ShowWindow() => new CompletedProcess();
+        protected virtual IProcessAccessorNotifier HideWindow() => new CompletedProcess();
 
         private void ValidateRaycastBlocker()
         {
-            ValidateRectTransform();
-            ValidateImage();
+            if (!TryGetComponent(out CanvasScaler canvasScaler))
+            {
+                ValidateRectTransform();
+            }
+            ValidateRaycastTarget();
         }
 
         private void ValidateRectTransform()
@@ -75,8 +79,14 @@ namespace Desdiene.UI.Elements
             }
         }
 
-        private void ValidateImage()
+        private void ValidateRaycastTarget()
         {
+            if (GetComponentInParent<GraphicRaycaster>() == null)
+            {
+                Debug.LogWarning($"Added GraphicRaycaster on {name}");
+                gameObject.AddComponent<GraphicRaycaster>();
+            }
+
             if (!_image.raycastTarget)
             {
                 Debug.LogWarning($"Set [raycastTarget = true] to raycast blocker on {name}");

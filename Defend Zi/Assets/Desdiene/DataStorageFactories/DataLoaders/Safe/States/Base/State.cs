@@ -1,31 +1,33 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Datas;
-using Desdiene.DataStorageFactories.DataLoaders.FromStorage;
 using Desdiene.StateMachines.States;
 using Desdiene.StateMachines.StateSwitchers;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe.States.Base
+namespace Desdiene.DataStorageFactories.DataLoaders.Safe
 {
-    internal abstract class State<T> : IStateEntryExitPoint where T : IData, new()
+    internal partial class SafeDataLoader<TData>
     {
-        private readonly IStateSwitcher<State<T>> _stateSwitcher;
-        private readonly StorageJsonDataLoader<T> _dataStorage;
-
-        private protected State(IStateSwitcher<State<T>> stateSwitcher,
-                                StorageJsonDataLoader<T> dataStorage)
+        private abstract class State : IStateEntryExitPoint<SafeDataLoader<TData>>
         {
-            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
-            _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
+            private readonly IStateSwitcher<State, SafeDataLoader<TData>> _stateSwitcher;
+            private readonly SafeDataLoader<TData> _it;
+
+            private protected State(IStateSwitcher<State, SafeDataLoader<TData>> stateSwitcher,
+                                    SafeDataLoader<TData> it)
+            {
+                _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
+                _it = it ?? throw new ArgumentNullException(nameof(it));
+            }
+
+            void IStateEntryExitPoint<SafeDataLoader<TData>>.OnEnter(SafeDataLoader<TData> it) { }
+            void IStateEntryExitPoint<SafeDataLoader<TData>>.OnExit(SafeDataLoader<TData> it) { }
+
+            public void Load(Action<TData> dataCallback) => Load(_it, dataCallback);
+            public void Save(TData data, Action<bool> successCallback) => Save(_it, data, successCallback);
+
+            protected abstract void Load(SafeDataLoader<TData> it, Action<TData> dataCallback);
+            protected abstract void Save(SafeDataLoader<TData> it, TData data, Action<bool> successCallback);
+
+            protected void SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
         }
-
-        protected StorageJsonDataLoader<T> DataStorage => _dataStorage;
-
-        void IStateEntryExitPoint.OnEnter() { }
-        void IStateEntryExitPoint.OnExit() { }
-
-        public abstract void Load(Action<T> dataCallback);
-        public abstract void Save(T data);
-
-        protected void SwitchState<stateT>() where stateT : State<T> => _stateSwitcher.Switch<stateT>();
     }
 }

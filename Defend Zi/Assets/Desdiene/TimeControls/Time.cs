@@ -19,7 +19,7 @@ namespace Desdiene.TimeControls
         {
             _timeScaleRef = timeScaleRef ?? throw new ArgumentNullException(nameof(timeScaleRef));
             _requiredTimeScale = new Percent(_timeScaleRef.Value);
-            _pauses = new CyclicalParallelProcesses("Остановка времени");
+            _pauses = new ParallelProcesses("Остановка времени");
             _scalePause = new CyclicalProcess("Scale времени равно 0");
             _pauses.Add(_scalePause);
 
@@ -30,8 +30,8 @@ namespace Desdiene.TimeControls
 
         event Action ITimeNotification.WhenStopped
         {
-            add => _pauses.WhenStarted += value;
-            remove => _pauses.WhenStarted -= value;
+            add => _pauses.WhenRunning += value;
+            remove => _pauses.WhenRunning -= value;
         }
 
         event Action ITimeNotification.WhenRunning
@@ -62,7 +62,7 @@ namespace Desdiene.TimeControls
             };
 
             _pauses.WhenCompleted += SetRequiredScaleToActual;
-            _pauses.WhenStarted += SetZeroActualScale;
+            _pauses.WhenRunning += SetZeroActualScale;
         }
 
         IProcess ITimePauseFactory.CreatePause(MonoBehaviourExt mono, string name)

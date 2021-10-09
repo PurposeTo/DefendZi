@@ -11,7 +11,7 @@ namespace Desdiene.DataStorageFactories.Encryptions
     {
         protected string CryptoFileName { get; }
         protected string FileExtension { get; }
-        protected string FileNameWithExtension => CryptoFileName + FileExtension;
+        protected string FileNameWithExtension => CryptoFileName + "." + FileExtension;
 
         protected readonly string hashDataFilePath;
         private static readonly int salt = 100;

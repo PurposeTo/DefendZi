@@ -1,13 +1,13 @@
 ﻿public class ScorePoints : IScoreAccessor
 {
-    private readonly int _amount;
+    private readonly uint _amount;
 
     public ScorePoints() : this(1) { }
 
-    public ScorePoints(int amount)
+    public ScorePoints(uint amount)
     {
         _amount = amount;
     }
 
-    int IScoreAccessor.Value => _amount;
+    uint IScoreAccessor.Value => _amount;
 }

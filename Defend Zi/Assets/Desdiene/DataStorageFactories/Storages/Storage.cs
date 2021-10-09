@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
-using Desdiene.Containers;
-using Desdiene.Coroutines;
 using Desdiene.DataStorageFactories.Combiners;
-using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.MonoBehaviourExtension;
+using Desdiene.DataStorageFactories.Datas;
 using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.Storages
@@ -14,9 +10,9 @@ namespace Desdiene.DataStorageFactories.Storages
     {
         private T _data = new T();
         private readonly IDataCombiner<T> _combiner;
-        private readonly IStorageDataLoader<T> _storageDataLoader;
+        private readonly IDataLoader<T> _storageDataLoader;
 
-        public Storage(IStorageDataLoader<T> storageDataLoader)
+        public Storage(IDataLoader<T> storageDataLoader)
         {
             _combiner = _data;
             _storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
@@ -51,7 +47,7 @@ namespace Desdiene.DataStorageFactories.Storages
 
         public void InvokeSavingData()
         {
-            _storageDataLoader.Save(_data);
+            _storageDataLoader.Save(_data, null);
         }
 
         private T CombineData(T data1, T data2)

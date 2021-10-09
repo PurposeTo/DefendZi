@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using Desdiene.Types.Processes;
 
 namespace Desdiene.Coroutines
 {
-    public interface ICoroutine
+    public interface ICoroutine : INestedCoroutineRunner, IProcessAccessorNotifier
     {
         bool IsExecuting { get; }
 
@@ -28,12 +29,5 @@ namespace Desdiene.Coroutines
         /// </summary>
         /// <returns>Была ли корутина запущена?</returns>
         public bool TryTerminate();
-
-        /// <summary>
-        /// Запустить выполнение вложенной корутины (аналогия со вложенными методами).
-        /// </summary>
-        /// <param name="newCoroutine">Вложенная корутина.</param>
-        /// <returns>Енумератор для ожидания выполнения.</returns>
-        public IEnumerator StartNested(IEnumerator newCoroutine);
     }
 }

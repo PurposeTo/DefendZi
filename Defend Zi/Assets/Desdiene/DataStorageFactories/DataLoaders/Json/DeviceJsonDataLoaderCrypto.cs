@@ -1,13 +1,12 @@
 ﻿using System;
 using Desdiene.DataStorageFactories.Datas;
-using Desdiene.DataStorageFactories.DataLoaders;
 using Desdiene.DataStorageFactories.Encryptions;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 
-namespace Desdiene.DataStorageFactories.ConcreteLoaders
+namespace Desdiene.DataStorageFactories.DataLoaders.Json
 {
-    public class DeviceJsonDataLoaderCrypto<T> : DeviceJsonDataLoader<T>, IStorageDataLoader<T> where T : IData, new()
+    public class DeviceJsonDataLoaderCrypto<T> : DeviceJsonDataLoader<T>, IDataLoader<T> where T : IData, new()
     {
         private readonly JsonEncryption jsonEncryption;
 
@@ -22,15 +21,15 @@ namespace Desdiene.DataStorageFactories.ConcreteLoaders
             jsonEncryption = new JsonEncryption(FileName, FileExtension);
         }
 
-        protected override void ReadFromStorage(Action<string> jsonDataCallback)
+        protected override void LoadJsonData(Action<string> jsonDataCallback)
         {
             LoadAndDecryptData(jsonDataCallback.Invoke);
         }
 
-        protected override void WriteToStorage(string jsonData)
+        protected override void SaveJsonData(string jsonData, Action<bool> successCallback)
         {
             string modifiedData = jsonEncryption.Encrypt(jsonData);
-            base.WriteToStorage(modifiedData);
+            base.SaveJsonData(modifiedData, successCallback);
         }
 
         private void LoadAndDecryptData(Action<string> jsonDataCallback)

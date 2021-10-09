@@ -16,18 +16,18 @@ public class GameOverView : FullScreenWindow
 
     public event Action OnReloadLvlClicked;
 
-    public void Init(int score, int bestScore)
+    public void Init(uint score, uint bestScore)
     {
         SetScore(score);
         SetBestScore(bestScore);
     }
 
-    private void SetBestScore(int bestScore)
+    private void SetBestScore(uint bestScore)
     {
         _bestScoreText.SetText($"Best score: {bestScore}");
     }
 
-    private void SetScore(int score)
+    private void SetScore(uint score)
     {
         _scoreText.SetText($"Score: {score}");
     }

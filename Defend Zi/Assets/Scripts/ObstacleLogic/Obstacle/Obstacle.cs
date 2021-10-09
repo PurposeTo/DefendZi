@@ -12,7 +12,7 @@ public class Obstacle :
     private readonly IPosition _position;
     private readonly IRotation _rotation;
 
-    public Obstacle(int scoreByAvoding, Rigidbody2D rigidbody2D)
+    public Obstacle(uint scoreByAvoding, Rigidbody2D rigidbody2D)
     {
         _score = new ScorePoints(scoreByAvoding);
         _position = new Rigidbody2DPosition(rigidbody2D);
@@ -21,7 +21,7 @@ public class Obstacle :
 
     uint IDamage.Value => _damage.Value;
 
-    int IScoreAccessor.Value => _score.Value;
+    uint IScoreAccessor.Value => _score.Value;
 
     Vector2 IPositionAccessor.Value => _position.Value;
 

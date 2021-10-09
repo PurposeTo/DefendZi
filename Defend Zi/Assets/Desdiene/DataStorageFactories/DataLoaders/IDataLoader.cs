@@ -3,9 +3,11 @@ using Desdiene.DataStorageFactories.Datas;
 
 namespace Desdiene.DataStorageFactories.DataLoaders
 {
-    public interface IStorageDataLoader<T> where T : IData
+    public interface IDataLoader<T> where T : IData
     {
+        string StorageName { get; }
+
         void Load(Action<T> dataCallback);
-        void Save(T data);
+        void Save(T data, Action<bool> successCallback);
     }
 }

@@ -1,4 +1,4 @@
 ﻿public interface IScoreCollector
 {
-    void Add(int amount);
+    void Add(uint amount);
 }

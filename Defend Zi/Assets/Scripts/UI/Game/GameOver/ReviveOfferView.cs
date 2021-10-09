@@ -21,12 +21,12 @@ public class ReviveOfferView : FullScreenWindow
     public event Action OnRefuseToRevivingClicked;
     public event Action OnMainMenuClicked;
 
-    public void Init(int score)
+    public void Init(uint score)
     {
         SetScore(score);
     }
 
-    private void SetScore(int score)
+    private void SetScore(uint score)
     {
         _scoreText.SetText($"Score: {score}");
     }
