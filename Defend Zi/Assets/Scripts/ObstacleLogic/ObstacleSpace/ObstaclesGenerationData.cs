@@ -4,11 +4,7 @@ using Desdiene.Types.Ranges.Positive;
 
 public class ObstaclesGenerationData
 {
-    public ISelectableItem<Chunk>[] SelectableChunks { get; }
-    public FloatRange SafeSpaceBetweenChunks { get; }
-    public float OffsetGeneration { get; }
-
-    public ObstaclesGenerationData(ISelectableItem<Chunk>[] selectableChunks,
+    public ObstaclesGenerationData(ISelectableItems<Chunk> selectableChunks,
                                    FloatRange safeSpaceBetweenChunks,
                                    float offsetGeneration)
     {
@@ -16,4 +12,8 @@ public class ObstaclesGenerationData
         SafeSpaceBetweenChunks = safeSpaceBetweenChunks;
         OffsetGeneration = offsetGeneration;
     }
+
+    public ISelectableItems<Chunk> SelectableChunks { get; }
+    public FloatRange SafeSpaceBetweenChunks { get; }
+    public float OffsetGeneration { get; }
 }

@@ -10,9 +10,9 @@ namespace Desdiene.DataStorageFactories.Storages
     {
         private T _data = new T();
         private readonly IDataCombiner<T> _combiner;
-        private readonly IDataLoader<T> _storageDataLoader;
+        private readonly IStorageData<T> _storageDataLoader;
 
-        public Storage(IDataLoader<T> storageDataLoader)
+        public Storage(IStorageData<T> storageDataLoader)
         {
             _combiner = _data;
             _storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));

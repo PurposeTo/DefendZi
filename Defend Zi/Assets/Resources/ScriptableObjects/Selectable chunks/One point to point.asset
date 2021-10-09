@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202de611a8bfdf243ac4948e685a7bd3, type: 3}
   m_Name: One point to point
   m_EditorClassIdentifier: 
+  _chancePercent: 23.529411
   _chunk: {fileID: 8408913508908222737, guid: 8ea02eac41728fd4696f5d34d24a7953, type: 3}
   _chanceMass: 4

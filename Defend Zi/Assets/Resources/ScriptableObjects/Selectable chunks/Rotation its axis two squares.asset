@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202de611a8bfdf243ac4948e685a7bd3, type: 3}
   m_Name: Rotation its axis two squares
   m_EditorClassIdentifier: 
+  _chancePercent: 17.647058
   _chunk: {fileID: 2657452245075001829, guid: bb30629e2ae00574c9b922de081839af, type: 3}
   _chanceMass: 3

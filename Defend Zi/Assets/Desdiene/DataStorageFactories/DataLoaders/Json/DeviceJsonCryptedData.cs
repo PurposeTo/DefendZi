@@ -6,11 +6,11 @@ using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.DataStorageFactories.DataLoaders.Json
 {
-    public class DeviceJsonDataLoaderCrypto<T> : DeviceJsonDataLoader<T>, IDataLoader<T> where T : IData, new()
+    public class DeviceJsonCryptedData<T> : DeviceJsonData<T>, IStorageData<T> where T : IData, new()
     {
-        private readonly JsonEncryption jsonEncryption;
+        private readonly JsonEncryption _jsonEncryption;
 
-        public DeviceJsonDataLoaderCrypto(MonoBehaviourExt superMono,
+        public DeviceJsonCryptedData(MonoBehaviourExt superMono,
                                           string fileName,
                                           IJsonConvertor<T> jsonConvertor)
             : base(superMono,
@@ -18,7 +18,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
                    fileName,
                    jsonConvertor)
         {
-            jsonEncryption = new JsonEncryption(FileName, FileExtension);
+            _jsonEncryption = new JsonEncryption(FileName, FileExtension);
         }
 
         protected override void LoadJsonData(Action<string> jsonDataCallback)
@@ -28,7 +28,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
 
         protected override void SaveJsonData(string jsonData, Action<bool> successCallback)
         {
-            string modifiedData = jsonEncryption.Encrypt(jsonData);
+            string modifiedData = _jsonEncryption.Encrypt(jsonData);
             base.SaveJsonData(modifiedData, successCallback);
         }
 
@@ -36,7 +36,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
         {
             _deviceDataLoader.ReadDataFromDevice(receivedData =>
             {
-                jsonDataCallback?.Invoke(jsonEncryption.Decrypt(receivedData));
+                jsonDataCallback?.Invoke(_jsonEncryption.Decrypt(receivedData));
             });
         }
     }

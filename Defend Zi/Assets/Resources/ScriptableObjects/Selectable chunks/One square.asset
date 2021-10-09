@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202de611a8bfdf243ac4948e685a7bd3, type: 3}
   m_Name: One square
   m_EditorClassIdentifier: 
+  _chancePercent: 29.411766
   _chunk: {fileID: 2761785738928596454, guid: adb9973b53341d84c9e727300eb7c4d6, type: 3}
   _chanceMass: 5
