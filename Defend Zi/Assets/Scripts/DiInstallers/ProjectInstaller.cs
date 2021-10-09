@@ -153,7 +153,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindScreenOrientationAdapter()
     {
         Container
-            .Bind<ScreenOrientationAdapter>()
+            .Bind<AndroidScreenAutoRotation>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

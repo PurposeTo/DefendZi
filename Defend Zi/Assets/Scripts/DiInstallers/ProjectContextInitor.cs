@@ -24,7 +24,7 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         GpgsLeaderboard _9,
         GlobalTimeScaleAdapter _10,
         ITime _11,
-        ScreenOrientationAdapter _12,
+        AndroidScreenAutoRotation _12,
         ScreenOrientationWrap _13,
         TransitionScreen _14
         )

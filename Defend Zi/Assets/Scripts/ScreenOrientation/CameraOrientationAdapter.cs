@@ -57,11 +57,7 @@ public abstract class CameraOrientationAdapter : MonoBehaviourExt
 
     private void Adapt(ScreenOrientation screenOrientation)
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            AdaptToLandscape();
-            return;
-        }
+        if (Application.platform == RuntimePlatform.WindowsEditor) return;
 
         if (screenOrientation == ScreenOrientation.LandscapeLeft || screenOrientation == ScreenOrientation.LandscapeRight)
         {

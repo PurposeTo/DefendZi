@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public static class AndroidScreenRotation
+public static class AndroidScreenAutoRotationSetting
 {
     public static bool IsRotationAllowed()
     {
