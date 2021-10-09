@@ -14,7 +14,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     private IRectangleIn2DAccessor _visibleGameSpace;
     private IPositionAccessor _visibleGameSpacePosition;
 
-    private readonly ISelectableItem<Chunk>[] _selectableChunks;
+    private readonly ISelectableItems<Chunk> _selectableChunks;
     private readonly FloatRange _safeSpaceBetweenChunks;
     private readonly float _offsetGeneration;
 
@@ -44,7 +44,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
 
     private void GenerateObstacles()
     {
-        Chunk originalChunk = Randomizer.GetRandomItem(_selectableChunks);
+        Chunk originalChunk = _selectableChunks.GetRandom();
 
         // расстояние между чанками
         float safeSpace = Random.Range(_safeSpaceBetweenChunks.Min, _safeSpaceBetweenChunks.Max);
@@ -61,7 +61,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     /// </summary>
     private float ValidateOffsetGeneration(float offsetGeneration)
     {
-        float maxChunkSpawnPlaceWidth = _selectableChunks.Select(chunk => chunk.Item.Width).Max();
+        float maxChunkSpawnPlaceWidth = _selectableChunks.Select(chunk => chunk.Width).Max();
         if (offsetGeneration < maxChunkSpawnPlaceWidth)
         {
             Debug.LogWarning($"offsetGeneration не может быть меньше ширины самого большого чанка - {maxChunkSpawnPlaceWidth}!");
