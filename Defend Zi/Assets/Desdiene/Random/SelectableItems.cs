@@ -12,10 +12,10 @@ namespace Desdiene.Random
 
         public SelectableItems(ISelectableItem<T>[] selectableItems)
         {
-            _selectableItems = selectableItems;
+            _selectableItems = selectableItems ?? throw new System.ArgumentNullException(nameof(selectableItems));
         }
 
-        IPercentGetter ISelectableItems<T>.GetChance(ISelectableItem<T> item)
+        IPercentAccessor ISelectableItems<T>.GetChance(ISelectableItem<T> item)
         {
             uint totalMass = 0;
             foreach (ISelectableItem<T> itemInList in _selectableItems)
@@ -49,7 +49,8 @@ namespace Desdiene.Random
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            foreach (T item in _selectableItems)
+            IEnumerable<T> items = _selectableItems.Select(it => it.Item);
+            foreach (T item in items)
             {
                 yield return item;
             }

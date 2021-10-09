@@ -11,8 +11,8 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(SelectableChunk))]
 public class SelectableChunkPropertyDrawer : PropertyDrawer
 {
-    private static readonly Percent _chunkFieldPercentageSize = new Percent(0.8f);
-    private static readonly Percent _chanceFieldPercentageSize = new Percent(0.19f);
+    private static readonly IPercentAccessor _chunkFieldPercentageSize = new Percent(0.8f);
+    private static readonly IPercentAccessor _chanceFieldPercentageSize = new Percent(0.19f);
 
     private float _rectPosX;
 
@@ -41,14 +41,14 @@ public class SelectableChunkPropertyDrawer : PropertyDrawer
         EditorGUI.indentLevel = indent;
     }
 
-    private Rect GetFieldRect(Rect position, Percent percentage)
+    private Rect GetFieldRect(Rect position, IPercentAccessor percentage)
     {
         float currPosX = _rectPosX;
-        float currWidth = percentage * position.width;
+        float currWidth = percentage.Value * position.width;
         _rectPosX += currWidth + 5f;
         return new Rect(currPosX,
                     position.y,
-                    percentage * position.width,
+                    percentage.Value * position.width,
                     position.height);
     }
 }

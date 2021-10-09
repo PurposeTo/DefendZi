@@ -7,6 +7,6 @@ namespace Desdiene.Random
     public interface ISelectableItems<T> : IEnumerable<T>
     {
         T GetRandom();
-        IPercentGetter GetChance(ISelectableItem<T> item);
+        IPercentAccessor GetChance(ISelectableItem<T> item);
     }
 }

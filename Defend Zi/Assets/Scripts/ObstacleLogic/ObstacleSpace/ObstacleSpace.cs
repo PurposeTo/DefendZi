@@ -42,11 +42,6 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
         }
     }
 
-    // Длина пространства препятствий. Значение эквивалентно местоположению правой границе chunkSpawn.width
-    public float Width { get; private set; }
-
-    private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
-
     private void GenerateObstacles()
     {
         Chunk originalChunk = _selectableChunks.GetRandom();

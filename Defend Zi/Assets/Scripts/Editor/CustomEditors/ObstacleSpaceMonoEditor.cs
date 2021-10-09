@@ -13,14 +13,19 @@ public class ObstacleSpaceMonoEditor : Editor
     {
         base.OnInspectorGUI();
 
-        RecalculateTotalMass();
+        RecalculateChances();
     }
 
-    private void RecalculateTotalMass()
+    private void RecalculateChances()
     {
-        SerializedProperty chunksDrawableProperty = serializedObject.FindProperty(SelectableChunksDrawable.SelectableChunksFieldName);
-        SerializedProperty chunksProperty = chunksDrawableProperty.FindPropertyRelative(SelectableChunksDrawable.SelectableChunksFieldName);
+        SerializedProperty chunksProperty = serializedObject.FindProperty(ObstacleSpaceMono.SelectableChunksFieldName);
         List<SerializedObject> chunkObjects = new List<SerializedObject>();
+        int totalMass = GetTotalMass(chunksProperty, chunkObjects);
+        RecalculateChancePercent(chunkObjects, totalMass);
+    }
+
+    private int GetTotalMass(SerializedProperty chunksProperty, List<SerializedObject> chunkObjects)
+    {
         int arraySize = chunksProperty.arraySize;
         int totalMass = 0;
         for (int i = 0; i < arraySize; i++)
@@ -35,6 +40,11 @@ public class ObstacleSpaceMonoEditor : Editor
             int chunkMass = propertyObject.FindProperty(SelectableChunk.ChanceMassFieldName).intValue;
             totalMass += chunkMass;
         }
+        return totalMass;
+    }
+
+    private void RecalculateChancePercent(List<SerializedObject> chunkObjects, int totalMass)
+    {
         chunkObjects.ForEach(chunkObject =>
         {
             float chancePercent = (float)chunkObject.FindProperty(SelectableChunk.ChanceMassFieldName).intValue / totalMass;
