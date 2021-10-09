@@ -74,8 +74,8 @@ public class GameOverUI : MonoBehaviourExt
     }
 
     private IGameData GameData => _storage.GetData();
-    private int PlayerScore => _playerScore.Value;
-    private int PlayerBestScore => GameData.BestScore;
+    private uint PlayerScore => _playerScore.Value;
+    private uint PlayerBestScore => GameData.BestScore;
 
     private void SubscribeEvents()
     {

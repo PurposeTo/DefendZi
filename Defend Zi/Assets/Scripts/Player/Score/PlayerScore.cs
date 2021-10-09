@@ -2,15 +2,15 @@
 
 public class PlayerScore : IScore
 {
-    private int _value;
+    private uint _value;
 
-    public event Action<int> OnReceived;
+    public event Action<uint> OnReceived;
 
-    void IScoreCollector.Add(int amount)
+    void IScoreCollector.Add(uint amount)
     {
         _value += amount;
         OnReceived?.Invoke(amount);
     }
 
-    int IScoreAccessor.Value => _value;
+    uint IScoreAccessor.Value => _value;
 }

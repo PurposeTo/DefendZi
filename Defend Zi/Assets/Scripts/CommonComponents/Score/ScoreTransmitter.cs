@@ -12,5 +12,5 @@ public class ScoreTransmitter : MonoBehaviourExt, IScoreAccessor
         _score = GetInitedComponentOnlyInParent<IScoreAccessor>();
     }
 
-    int IScoreAccessor.Value => _score.Value;
+    uint IScoreAccessor.Value => _score.Value;
 }

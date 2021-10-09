@@ -3,8 +3,8 @@ using Desdiene.DataStorageFactories.Datas;
 
 public interface IGameData : IData
 {
-    int GamesNumber { get; }
-    int BestScore { get; }
+    uint GamesNumber { get; }
+    uint BestScore { get; }
     TimeSpan AverageLifeTime { get; }
     TimeSpan BestLifeTime { get; }
 

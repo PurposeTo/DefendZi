@@ -32,7 +32,7 @@ namespace Desdiene.GooglePlayApi
             _platform.ShowLeaderboardUI();
         }
 
-        private void AddBestScore(int bestScore, Action onAdded)
+        private void AddBestScore(uint bestScore, Action onAdded)
         {
             _platform.ReportScore(bestScore, GPGSIds.leaderboard_the_most_careful, (success) =>
             {

@@ -7,9 +7,9 @@ public class ScoreReceiver : MonoBehaviourExt, IScoreNotification
 {
     [SerializeField, NotNull] private InterfaceComponent<IScoreCollector> _scoreCollector;
 
-    private event Action<int> OnReceived;
+    private event Action<uint> OnReceived;
 
-    event Action<int> IScoreNotification.OnReceived
+    event Action<uint> IScoreNotification.OnReceived
     {
         add => OnReceived += value;
         remove => OnReceived -= value;
@@ -22,7 +22,7 @@ public class ScoreReceiver : MonoBehaviourExt, IScoreNotification
     {
         if (collision.TryGetComponent(out IScoreAccessor score))
         {
-            int value = score.Value;
+            uint value = score.Value;
 
             ScoreCollector.Add(value);
             OnReceived?.Invoke(value);

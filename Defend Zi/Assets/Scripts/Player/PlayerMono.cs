@@ -41,13 +41,13 @@ public class PlayerMono :
 
     Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 
-    int IScoreAccessor.Value => _score.Value;
+    uint IScoreAccessor.Value => _score.Value;
 
     int IHealthAccessor.Value => _health.Value;
 
     float IHealthAccessor.Percent => _health.Percent;
 
-    event Action<int> IScoreNotification.OnReceived
+    event Action<uint> IScoreNotification.OnReceived
     {
         add => _score.OnReceived += value;
         remove => _score.OnReceived -= value;
@@ -92,5 +92,5 @@ public class PlayerMono :
     void IReincarnation.Revive() => _health.Revive();
     void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);
 
-    void IScoreCollector.Add(int amount) => _score.Add(amount);
+    void IScoreCollector.Add(uint amount) => _score.Add(amount);
 }

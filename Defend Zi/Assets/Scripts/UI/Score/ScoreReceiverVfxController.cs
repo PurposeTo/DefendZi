@@ -18,7 +18,7 @@ public class ScoreReceiverVfxController : MonoBehaviourExt
 
     private IScoreNotification ScoreNotification => _scoreNotification.Implementation;
 
-    private void CreatePopUp(int score)
+    private void CreatePopUp(uint score)
     {
         PopUpScore popUpScore = Instantiate(_popUpScorePrefab, transform);
         popUpScore.SetText($"+{score}");

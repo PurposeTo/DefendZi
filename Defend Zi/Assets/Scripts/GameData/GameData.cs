@@ -14,9 +14,9 @@ public class GameData : IGameData, IDataCombiner<GameData>
 {
     public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
 
-    public int GamesNumber { get; set; } = 0;
+    public uint GamesNumber { get; set; } = 0;
 
-    public int BestScore { get; set; } = 0;
+    public uint BestScore { get; set; } = 0;
 
     public TimeSpan AverageLifeTime => GamesNumber == 0
         ? TimeSpan.Zero
@@ -39,7 +39,7 @@ public class GameData : IGameData, IDataCombiner<GameData>
 
     void IGameData.SetBestScore(uint score)
     {
-        BestScore = Desdiene.Math.ClampMin((int)score, BestScore);
+        BestScore = Desdiene.Math.ClampMin(score, BestScore);
     }
 
     void IGameData.SetBestLifeTime(TimeSpan time)
@@ -55,11 +55,11 @@ public class GameData : IGameData, IDataCombiner<GameData>
         gameData.PlayingTime = first.PlayingTime + second.PlayingTime;
 
         //combine GamesNumber
-        int fullGamesNumber = first.GamesNumber + second.GamesNumber;
+        uint fullGamesNumber = first.GamesNumber + second.GamesNumber;
         gameData.GamesNumber = fullGamesNumber;
 
         //combine BestScore
-        gameData.BestScore = Mathf.Max(first.BestScore, second.BestScore);
+        gameData.BestScore = (uint)Mathf.Max(first.BestScore, second.BestScore);
 
         //combine BestLifeTime
         gameData.BestLifeTime = new List<TimeSpan>() { first.BestLifeTime, second.BestLifeTime }.Max();

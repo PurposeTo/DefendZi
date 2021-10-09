@@ -2,5 +2,5 @@
 
 public interface IScoreNotification
 {
-    event Action<int> OnReceived;
+    event Action<uint> OnReceived;
 }

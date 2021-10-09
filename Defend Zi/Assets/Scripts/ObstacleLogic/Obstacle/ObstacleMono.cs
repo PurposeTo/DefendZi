@@ -11,7 +11,7 @@ public class ObstacleMono :
     IPosition,
     IRotation
 {
-    [SerializeField] private int _scoreByAvoding = 5;
+    [SerializeField] private uint _scoreByAvoding = 5;
 
     private IScoreAccessor _scoreAccessor;
     private IDamage _damageDealer;
@@ -30,7 +30,7 @@ public class ObstacleMono :
 
     uint IDamage.Value => _damageDealer.Value;
 
-    int IScoreAccessor.Value => _scoreAccessor.Value;
+    uint IScoreAccessor.Value => _scoreAccessor.Value;
 
     Vector2 IPositionAccessor.Value => _position.Value;
 

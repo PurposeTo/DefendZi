@@ -1,4 +1,4 @@
 ﻿public interface IScoreAccessor
 {
-    int Value { get; }
+    uint Value { get; }
 }
