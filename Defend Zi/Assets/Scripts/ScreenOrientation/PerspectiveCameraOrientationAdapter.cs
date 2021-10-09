@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Отдаляет перспективную камеру
+/// Регулирует видимость перспективной камеры
 /// </summary>
-public class OrientationAdapterWithPerspectiveCamera : OrientationAdapter
+public class PerspectiveCameraOrientationAdapter : CameraOrientationAdapter
 {
     protected override void ChangeVisionToLandscape()
     {

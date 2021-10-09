@@ -25,6 +25,8 @@ public class ProjectInstaller : MonoInstaller
         BindGPGSAuthentication();
         BindGPGSLeaderboard();
         BindDataStorage();
+        BindScreenOrientationAdapter();
+        BindScreenOrientation();
         BindBackgroundMusic();
         BindTransitionScreen();
     }
@@ -36,7 +38,7 @@ public class ProjectInstaller : MonoInstaller
              .ToSelf()
              .FromComponentInNewPrefab(_backgroundMusic)
              .AsSingle()
-             .NonLazy();
+             .Lazy();
     }
 
     private void BindRewardedAd()
@@ -145,6 +147,26 @@ public class ProjectInstaller : MonoInstaller
             .ToSelf()
             .FromComponentInNewPrefab(_transitionScreen)
             .AsSingle()
-            .NonLazy();
+            .Lazy();
+	}
+
+    private void BindScreenOrientationAdapter()
+    {
+        Container
+            .Bind<ScreenOrientationAdapter>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
+    }
+
+    private void BindScreenOrientation()
+    {
+        Container
+            .Bind<ScreenOrientationSetter>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
     }
 }

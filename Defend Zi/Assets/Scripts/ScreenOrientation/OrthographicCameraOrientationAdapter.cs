@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Отдаляет ортографическую камеру
+/// Регулирует видимость ортографической камеры
 /// </summary>
-public class OrientationAdapterWithOrthographicCamera : OrientationAdapter
+public class OrthographicCameraOrientationAdapter : CameraOrientationAdapter
 {
-    private float PortraitCameraSize => LandscapeCameraSize * AspectRatio;
     private float LandscapeCameraSize => GameSpaceInSight.Height / 2;
+    private float PortraitCameraSize => LandscapeCameraSize * AspectRatio;
 
     protected override void ChangeVisionToLandscape()
     {
