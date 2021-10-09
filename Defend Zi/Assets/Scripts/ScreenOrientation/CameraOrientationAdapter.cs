@@ -6,19 +6,19 @@ using Zenject;
 public abstract class CameraOrientationAdapter : MonoBehaviourExt
 {
     [SerializeField] private Camera _camera;
-    private ScreenOrientationAdapter _screenOrientationAdapter;
+    private ScreenOrientationWrap _screenOrientationWrap;
     private float _aspectRatio;
 
     [Inject]
-    private void Constructor(ScreenOrientationAdapter screenOrientationAdapter)
+    private void Constructor(ScreenOrientationWrap screenOrientationWrap)
     {
-        _screenOrientationAdapter = screenOrientationAdapter ?? throw new System.ArgumentNullException(nameof(screenOrientationAdapter));
+        _screenOrientationWrap = screenOrientationWrap ?? throw new System.ArgumentNullException(nameof(screenOrientationWrap));
     }
 
     protected override void AwakeExt()
     {
         _aspectRatio = GetAspectRatio();
-        Adapt(_screenOrientationAdapter.Value);
+        Adapt(_screenOrientationWrap.Get());
         SubscribeEvents();
     }
 
@@ -51,9 +51,9 @@ public abstract class CameraOrientationAdapter : MonoBehaviourExt
         ChangeVisionToPortrait();
     }
 
-    private void SubscribeEvents() => _screenOrientationAdapter.OnChange += Adapt;
+    private void SubscribeEvents() => _screenOrientationWrap.OnChange += Adapt;
 
-    private void UnsubscribeEvents() => _screenOrientationAdapter.OnChange -= Adapt;
+    private void UnsubscribeEvents() => _screenOrientationWrap.OnChange -= Adapt;
 
     private void Adapt(ScreenOrientation screenOrientation)
     {

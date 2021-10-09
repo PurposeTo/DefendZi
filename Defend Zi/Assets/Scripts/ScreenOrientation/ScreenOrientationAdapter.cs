@@ -3,19 +3,24 @@ using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
+using Zenject;
 
 public class ScreenOrientationAdapter : MonoBehaviourExt
 {
     private readonly DeviceOrientation _defaultDeviceOrientation = DeviceOrientation.LandscapeLeft;
+    private ScreenOrientationWrap _screenOrientation;
+
+    [Inject]
+    private void Constructor(ScreenOrientationWrap screenOrientationWrap)
+    {
+        _screenOrientation = screenOrientationWrap ?? throw new ArgumentNullException(nameof(screenOrientationWrap));
+    }
 
     protected override void AwakeExt()
     {
         ICoroutine routine = new CoroutineWrap(this);
         routine.StartContinuously(SetOrientation());
     }
-
-    public event Action<ScreenOrientation> OnChange;
-    public ScreenOrientation Value { get; private set; }
 
     private IEnumerator SetOrientation()
     {
@@ -47,8 +52,8 @@ public class ScreenOrientationAdapter : MonoBehaviourExt
                     case DeviceOrientation.PortraitUpsideDown:
                     case DeviceOrientation.LandscapeLeft:
                     case DeviceOrientation.LandscapeRight:
-                        Value = (ScreenOrientation)Enum.Parse(typeof(ScreenOrientation), nextDeviceOrientation.ToString());
-                        OnChange?.Invoke(Value);
+                        var orientation = (ScreenOrientation)Enum.Parse(typeof(ScreenOrientation), nextDeviceOrientation.ToString());
+                        _screenOrientation.Set(orientation);
                         break;
                 }
 

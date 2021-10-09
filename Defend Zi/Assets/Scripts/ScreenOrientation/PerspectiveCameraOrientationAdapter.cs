@@ -5,13 +5,13 @@
 /// </summary>
 public class PerspectiveCameraOrientationAdapter : CameraOrientationAdapter
 {
-    protected override void ChangeVisionToLandscape()
+    protected sealed override void ChangeVisionToLandscape()
     {
         var position = Camera.transform.position;
         Camera.transform.position = new Vector3(position.x, position.y, GetDistanceToPlain());
     }
 
-    protected override void ChangeVisionToPortrait()
+    protected sealed override void ChangeVisionToPortrait()
     {
         var position = Camera.transform.position;
         Camera.transform.position = new Vector3(position.x, position.y, GetDistanceToPlain() * AspectRatio);

@@ -163,7 +163,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindScreenOrientation()
     {
         Container
-            .Bind<ScreenOrientationSetter>()
+            .Bind<ScreenOrientationWrap>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

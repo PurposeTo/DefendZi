@@ -25,7 +25,7 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         GlobalTimeScaleAdapter _10,
         ITime _11,
         ScreenOrientationAdapter _12,
-        ScreenOrientationSetter _13,
+        ScreenOrientationWrap _13,
         TransitionScreen _14
         )
     {
