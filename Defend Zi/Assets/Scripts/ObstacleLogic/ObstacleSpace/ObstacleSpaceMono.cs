@@ -21,12 +21,12 @@ public class ObstacleSpaceMono : MonoBehaviourExt
 
     private IUpdate _update;
     private ObstacleSpace _obstacleSpace; // пока оставить, может пригодиться
-    private IRectangleIn2DAccessor visibleGameSpace;
+    private IRectangleIn2DAccessor _visibleGameSpace;
 
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
-        visibleGameSpace = componentsProxy.VisibleGameSpace;
+        _visibleGameSpace = componentsProxy.VisibleGameSpace;
     }
 
     protected override void AwakeExt()
@@ -38,7 +38,7 @@ public class ObstacleSpaceMono : MonoBehaviourExt
                                                                     obstaclesGenerationData);
         ObstacleSpace obstacleSpace = new ObstacleSpace(this,
                                                         obstacleSpaceData,
-                                                        visibleGameSpace);
+                                                        _visibleGameSpace);
 
         _obstacleSpace = obstacleSpace;
         _update = obstacleSpace;
