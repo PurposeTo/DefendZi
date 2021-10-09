@@ -14,12 +14,12 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.ConcreteLoaders
 {
-    public class GooglePlayJsonDataLoader<T> : JsonDataLoader<T>, IDataLoader<T> where T : IData, new()
+    public class GooglePlayJsonData<T> : StorageJsonData<T>, IStorageData<T> where T : IData, new()
     {
         private readonly PlayGamesPlatform _platform;
         private readonly ICoroutine _loadingData;
 
-        public GooglePlayJsonDataLoader(MonoBehaviourExt mono,
+        public GooglePlayJsonData(MonoBehaviourExt mono,
             string fileName,
             IJsonConvertor<T> jsonConvertor,
             PlayGamesPlatform platform)

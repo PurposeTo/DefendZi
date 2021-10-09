@@ -92,7 +92,7 @@ public class ProjectInstaller : MonoInstaller
     {
         Container
             .Bind<IStorage<IGameData>>()
-            .To<DataStorage>()
+            .To<GameDataStorage>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();

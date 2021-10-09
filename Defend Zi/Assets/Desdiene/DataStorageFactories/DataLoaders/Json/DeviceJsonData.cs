@@ -12,23 +12,23 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Json
     /// Данный класс занимается загрузкой, сохранением и валидацией json данных с устройства.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DeviceJsonDataLoader<T> : JsonDataLoader<T>, IDataLoader<T> where T : IData, new()
+    public class DeviceJsonData<T> : StorageJsonData<T>, IStorageData<T> where T : IData, new()
     {
         protected readonly string _filePath;
         protected readonly DeviceDataLoader _deviceDataLoader;
 
-        public DeviceJsonDataLoader(MonoBehaviourExt mono,
+        public DeviceJsonData(MonoBehaviourExt mono,
                                     string storageName,
                                     string fileName,
                                     IJsonConvertor<T> jsonConvertor)
             : base(mono, storageName, fileName, jsonConvertor)
         {
             _filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
-            Debug.Log($"{((IDataLoader<T>)this).StorageName}. Путь к файлу данных : {_filePath}");
+            Debug.Log($"{((IStorageData<T>)this).StorageName}. Путь к файлу данных : {_filePath}");
             _deviceDataLoader = new DeviceDataLoader(MonoBehaviourExt, _filePath);
         }
 
-        public DeviceJsonDataLoader(MonoBehaviourExt mono, string fileName, IJsonConvertor<T> jsonConvertor)
+        public DeviceJsonData(MonoBehaviourExt mono, string fileName, IJsonConvertor<T> jsonConvertor)
             : this(mono, "Локальное хранилище", fileName, jsonConvertor)
         { }
 

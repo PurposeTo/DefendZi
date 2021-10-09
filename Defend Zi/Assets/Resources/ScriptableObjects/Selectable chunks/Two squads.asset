@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202de611a8bfdf243ac4948e685a7bd3, type: 3}
   m_Name: Two squads
   m_EditorClassIdentifier: 
+  _chancePercent: 23.529411
   _chunk: {fileID: 8118671411362236042, guid: 483904f840240964882e82c4343c6ac8, type: 3}
   _chanceMass: 4

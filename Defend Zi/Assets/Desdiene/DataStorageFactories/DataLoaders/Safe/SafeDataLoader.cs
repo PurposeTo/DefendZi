@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.DataLoaders.Safe
 {
-    internal partial class SafeDataLoader<TData> : IDataLoader<TData> where TData : IData, new()
+    internal partial class SafeDataLoader<TData> : IStorageData<TData> where TData : IData, new()
     {
         private readonly IRef<State> _refCurrentState = new Ref<State>();
-        private readonly IDataLoader<TData> _dataStorage;
+        private readonly IStorageData<TData> _dataStorage;
 
         private int _lastDataFromStorageHash;
 
-        public SafeDataLoader(IDataLoader<TData> dataStorage)
+        public SafeDataLoader(IStorageData<TData> dataStorage)
         {
             _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 
@@ -28,9 +28,9 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
             stateSwitcher.Switch<Initial>();
         }
 
-        string IDataLoader<TData>.StorageName => _dataStorage.StorageName;
+        string IStorageData<TData>.StorageName => _dataStorage.StorageName;
 
-        void IDataLoader<TData>.Load(Action<TData> dataCallback)
+        void IStorageData<TData>.Load(Action<TData> dataCallback)
         {
             CurrentState.Load((data) =>
             {
@@ -39,7 +39,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
             });
         }
 
-        void IDataLoader<TData>.Save(TData data, Action<bool> successCallback)
+        void IStorageData<TData>.Save(TData data, Action<bool> successCallback)
         {
             if (Equals(data.GetHashCode(), _lastDataFromStorageHash))
             {
