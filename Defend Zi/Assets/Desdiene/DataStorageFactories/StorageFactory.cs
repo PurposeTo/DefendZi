@@ -13,12 +13,12 @@ namespace Desdiene.DataStorageFactories
     public static class StorageFactory<TData> where TData : IData, IDataCombiner<TData>, new()
     {
         public static IStorage<TData> GetStorage(MonoBehaviourExt mono,
-                                                 params StorageJsonData<TData>[] loaders)
+                                                 params StorageJsonData<TData>[] storages)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
-            if (loaders is null) throw new ArgumentNullException(nameof(loaders));
+            if (storages is null) throw new ArgumentNullException(nameof(storages));
 
-            IStorageData<TData>[] safeReaderWriters = loaders
+            IStorageData<TData>[] safeReaderWriters = storages
                 .Select(storage => new SafeDataLoader<TData>(storage))
                 .ToArray();
 
