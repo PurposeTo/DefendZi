@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test.unity
     guid: 69c86e604acd8d44e9d2b2a9977e5330
+  - enabled: 0
+    path: Assets/Scenes/OrientationTest.unity
+    guid: 64a8164ee1f481f43941f0faf8134ce5
   m_configObjects: {}
