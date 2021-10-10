@@ -12,6 +12,7 @@ public class ScreenOrientationWrap : MonoBehaviourExt
 
     public void Set(ScreenOrientation orientation)
     {
+        // При присвоении нового значения Screen.orientation не факт, что оно сразу же изменится - поэтому проверка об изменении производится в Update
         Screen.orientation = orientation;
     }
 

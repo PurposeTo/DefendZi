@@ -3,7 +3,7 @@
 /// <summary>
 /// Регулирует видимость перспективной камеры
 /// </summary>
-public class PerspectiveCameraOrientationAdapter : CameraOrientationAdapter
+public class PerspectiveCameraOrientation : CameraOrientation
 {
     protected sealed override void ChangeVisionToLandscape()
     {

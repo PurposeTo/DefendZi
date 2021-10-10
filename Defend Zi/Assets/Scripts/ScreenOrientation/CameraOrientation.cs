@@ -3,7 +3,7 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
 
-public abstract class CameraOrientationAdapter : MonoBehaviourExt
+public abstract class CameraOrientation : MonoBehaviourExt
 {
     [SerializeField] private Camera _camera;
     private ScreenOrientationWrap _screenOrientationWrap;
@@ -18,7 +18,7 @@ public abstract class CameraOrientationAdapter : MonoBehaviourExt
     protected override void AwakeExt()
     {
         _aspectRatio = GetAspectRatio();
-        Adapt(_screenOrientationWrap.Get());
+        Change(_screenOrientationWrap.Get());
         SubscribeEvents();
     }
 
@@ -39,33 +39,33 @@ public abstract class CameraOrientationAdapter : MonoBehaviourExt
         return width / hight;
     }
 
-    private void AdaptToLandscape()
+    private void ChangeToLandscape()
     {
         _camera.transform.rotation = Quaternion.AngleAxis(0f, Vector3.forward);
         ChangeVisionToLandscape();
     }
 
-    private void AdaptToPortrait()
+    private void ChangeToPortrait()
     {
         _camera.transform.rotation = Quaternion.AngleAxis(270f, Vector3.forward);
         ChangeVisionToPortrait();
     }
 
-    private void SubscribeEvents() => _screenOrientationWrap.OnChange += Adapt;
+    private void SubscribeEvents() => _screenOrientationWrap.OnChange += Change;
 
-    private void UnsubscribeEvents() => _screenOrientationWrap.OnChange -= Adapt;
+    private void UnsubscribeEvents() => _screenOrientationWrap.OnChange -= Change;
 
-    private void Adapt(ScreenOrientation screenOrientation)
+    private void Change(ScreenOrientation screenOrientation)
     {
         if (Application.platform == RuntimePlatform.WindowsEditor) return;
 
         if (screenOrientation == ScreenOrientation.LandscapeLeft || screenOrientation == ScreenOrientation.LandscapeRight)
         {
-            AdaptToLandscape();
+            ChangeToLandscape();
         }
         else if (screenOrientation == ScreenOrientation.Portrait || screenOrientation == ScreenOrientation.PortraitUpsideDown)
         {
-            AdaptToPortrait();
+            ChangeToPortrait();
         }
     }
 }

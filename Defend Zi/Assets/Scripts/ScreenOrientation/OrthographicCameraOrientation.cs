@@ -3,7 +3,7 @@
 /// <summary>
 /// Регулирует видимость ортографической камеры
 /// </summary>
-public class OrthographicCameraOrientationAdapter : CameraOrientationAdapter
+public class OrthographicCameraOrientation : CameraOrientation
 {
     private float LandscapeCameraSize => GameSpaceInSight.Height / 2;
     private float PortraitCameraSize => LandscapeCameraSize * AspectRatio;

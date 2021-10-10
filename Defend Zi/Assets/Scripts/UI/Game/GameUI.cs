@@ -48,7 +48,6 @@ public class GameUI : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        Debug.Log($"KEEEk _gameView: {_gameView}, _gamePauseView: {_gamePauseView}, _playerReincarnation: {_playerReincarnation}");
         _gameView.OnPauseClicked += ShowGamePauseView;
         _gamePauseView.OnResumeClicked += HideGamePauseView;
         _gamePauseView.OnMainMenuClicked += LoadMainMenu;
