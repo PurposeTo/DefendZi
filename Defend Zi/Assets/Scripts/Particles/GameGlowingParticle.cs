@@ -3,6 +3,9 @@ using Desdiene.TimeControls;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Описывает поведение частиц "Glowing" на игровой сцене (во время игрово процесса)
+/// </summary>
 public class GameGlowingParticle : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GlowingParticle _glowing;
@@ -24,6 +27,7 @@ public class GameGlowingParticle : MonoBehaviourExt
         UnsubscribeEvents();
     }
 
+    // todo: это число должно вычисляться исходя из скорости передвижения игрока
     private float GlowingSpeedOx => -12;
 
     private void SubscribeEvents()
