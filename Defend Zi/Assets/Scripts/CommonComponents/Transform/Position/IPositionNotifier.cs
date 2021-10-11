@@ -1,6 +1,6 @@
 ﻿using System;
 
-public interface IPositionNotification
+public interface IPositionNotifier
 {
     event Action OnChanged;
 }

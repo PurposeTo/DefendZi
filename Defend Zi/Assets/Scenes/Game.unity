@@ -654,6 +654,7 @@ GameObject:
   - component: {fileID: 274676712}
   - component: {fileID: 274676710}
   - component: {fileID: 274676713}
+  - component: {fileID: 274676714}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -756,6 +757,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eef40833224a68848b3bf26aef2580f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &274676714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274676707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 093adc5a706782d47af94e0bcba3d5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &299936701
@@ -2132,7 +2145,8 @@ GameObject:
   - component: {fileID: 932604057}
   - component: {fileID: 932604056}
   - component: {fileID: 932604055}
-  - component: {fileID: 932604058}
+  - component: {fileID: 932604060}
+  - component: {fileID: 932604059}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2206,7 +2220,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &932604058
+--- !u!114 &932604059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2215,9 +2229,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 932604054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef24ca42d95887948a5ada3f0752d7c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 98b7337d0333f73439556d38f407f7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &932604060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932604054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5f7ed1db7ae774d8f70aa86b199a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetComponent: {fileID: 274676714}
+  _trackX: 1
+  _trackY: 0
 --- !u!1001 &1009080881
 PrefabInstance:
   m_ObjectHideFlags: 0

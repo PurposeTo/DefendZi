@@ -7,8 +7,7 @@ using Zenject;
 [DisallowMultipleComponent]
 public class PlayerMono :
     MonoBehaviourExt,
-    IPositionAccessor,
-    IPositionNotification,
+    IPositionAccessorNotifier,
     IHealthReincarnation,
     IScore
 {
@@ -17,7 +16,7 @@ public class PlayerMono :
     private IFixedUpdate _fixedUpdate;
     private IHealthReincarnation _health;
     private IPositionAccessor _positionAccessor;
-    private IPositionNotification _positionNotification;
+    private IPositionNotifier _positionNotification;
     private IScore _score;
 
     [Inject]
@@ -83,7 +82,7 @@ public class PlayerMono :
         remove => _health.OnReviving -= value;
     }
 
-    event Action IPositionNotification.OnChanged
+    event Action IPositionNotifier.OnChanged
     {
         add => _positionNotification.OnChanged += value;
         remove => _positionNotification.OnChanged -= value;
