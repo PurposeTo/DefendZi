@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(IPosition))]
 public class Position2DTracker : MonoBehaviourExt
 {
-    [SerializeField] private InterfaceComponent<IPositionAccessorNotifier> _targetComponent;
+    [SerializeField, NotNull] private InterfaceComponent<IPositionAccessorNotifier> _targetComponent;
     [SerializeField] private bool _trackX = true;
     [SerializeField] private bool _trackY = true;
     private IPosition _position;
