@@ -6,14 +6,14 @@ using UnityEngine;
 public class Player :
     IFixedUpdate,
     IPositionAccessor,
-    IPositionNotification,
+    IPositionNotifier,
     IHealthReincarnation,
     IScore
 {
     private readonly IFixedUpdate _controlFixedUpdate;
     private readonly IHealthReincarnation _health;
     private readonly IPositionAccessor _positionAccessor;
-    private readonly IPositionNotification _positionNotification;
+    private readonly IPositionNotifier _positionNotification;
     private readonly IScore _score;
 
     public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementView)
@@ -70,7 +70,7 @@ public class Player :
         remove => _health.OnReviving -= value;
     }
 
-    event Action IPositionNotification.OnChanged
+    event Action IPositionNotifier.OnChanged
     {
         add => _positionNotification.OnChanged += value;
         remove => _positionNotification.OnChanged -= value;

@@ -8,7 +8,7 @@ public class ComponentsProxy : MonoBehaviour
     public IHealthNotification PlayerDeath => _player;
     public IReincarnation PlayerReincarnation => _player;
     public IPositionAccessor PlayerPosition => _player;
-    public IPositionNotification PlayerPositionNotification => _player;
+    public IPositionNotifier PlayerPositionNotification => _player;
     public IScoreAccessor PlayerScore => _player;
     public IScoreNotification PlayerScoreNotification => _player;
     public IRectangleIn2DAccessor VisibleGameSpace => _visibleGameSpace;

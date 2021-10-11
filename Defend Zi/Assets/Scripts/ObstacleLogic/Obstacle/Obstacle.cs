@@ -29,7 +29,7 @@ public class Obstacle :
 
     public Quaternion Quaternion => _rotation.Quaternion;
 
-    event Action IPositionNotification.OnChanged
+    event Action IPositionNotifier.OnChanged
     {
         add => _position.OnChanged += value;
         remove => _position.OnChanged -= value;
