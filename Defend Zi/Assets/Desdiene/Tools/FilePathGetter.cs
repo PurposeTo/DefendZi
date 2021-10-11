@@ -5,6 +5,8 @@ namespace Desdiene.Tools
 {
     public static class FilePathGetter
     {
+        private static readonly string _androidPathPrefix = "file://";
+
         public static string GetFilePath(string fileName)
         {
             var runningPlatform = Application.platform;
@@ -14,7 +16,7 @@ namespace Desdiene.Tools
                 case RuntimePlatform.WindowsEditor:
                     return Path.Combine(Application.dataPath, fileName);
                 case RuntimePlatform.Android:
-                    return Path.Combine(Application.persistentDataPath, fileName);
+                    return _androidPathPrefix + Path.Combine(Application.persistentDataPath, fileName);
                 default:
                     Debug.LogError($"{runningPlatform} is unknown platform to GetFilePath()!");
                     return "";
