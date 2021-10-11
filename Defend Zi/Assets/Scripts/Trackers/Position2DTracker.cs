@@ -1,7 +1,13 @@
 ﻿using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
+/// <summary>
+/// Скрипт изменяет позицию объекта вслед за позицией цели.
+/// Позиция по Z не меняется.
+/// Возможно отключить изменение позиции по x/y оси.
+/// </summary>
 [RequireComponent(typeof(IPosition))]
+[DisallowMultipleComponent]
 public class Position2DTracker : MonoBehaviourExt
 {
     [SerializeField, NotNull] private InterfaceComponent<IPositionAccessorNotifier> _targetComponent;
