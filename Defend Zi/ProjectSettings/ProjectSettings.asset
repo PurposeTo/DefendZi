@@ -246,7 +246,9 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/Desdiene/DefendZi/user.keystore
+  AndroidKeystoreName: "C:/Users/firec/Desktop/Desdiene/\u041F\u0440\u043E\u0435\u043A\u0442\u044B.
+    \u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430\u0446\u0438\u044F \u0438
+    \u043C\u0430\u0442\u0435\u0440\u0438\u0430\u043B\u044B/Defend Zi/Pass/user.keystore"
   AndroidKeyaliasName: alphakey
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
