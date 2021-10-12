@@ -28,19 +28,19 @@ namespace Desdiene.TimeControls
 
         // когда время идет, пауза остановлена и наоборот.
 
-        event Action ITimeNotification.WhenStopped
+        event Action ITimeNotificator.WhenStopped
         {
             add => _pauses.WhenRunning += value;
             remove => _pauses.WhenRunning -= value;
         }
 
-        event Action ITimeNotification.WhenRunning
+        event Action ITimeNotificator.WhenRunning
         {
             add => _pauses.WhenCompleted += value;
             remove => _pauses.WhenCompleted -= value;
         }
 
-        event Action ITimeNotification.OnChanged
+        event Action ITimeNotificator.OnChanged
         {
             add => _timeScaleRef.OnChanged += value;
             remove => _timeScaleRef.OnChanged -= value;

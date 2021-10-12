@@ -9,12 +9,12 @@ using Zenject;
 public class GameGlowingParticle : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GlowingParticle _glowing;
-    private ITimeNotification _timeNotification;
+    private ITimeAccessorNotificator _time;
 
     [Inject]
     private void Constructor(ITime globalTime)
     {
-        _timeNotification = globalTime ?? throw new System.ArgumentNullException(nameof(globalTime));
+        _time = globalTime ?? throw new System.ArgumentNullException(nameof(globalTime));
     }
 
     protected override void AwakeExt()
@@ -32,14 +32,14 @@ public class GameGlowingParticle : MonoBehaviourExt
 
     private void SubscribeEvents()
     {
-        _timeNotification.WhenRunning += StartGlowingMotion;
-        _timeNotification.WhenStopped += StopGlowingMotion;
+        _time.WhenRunning += StartGlowingMotion;
+        _time.WhenStopped += StopGlowingMotion;
     }
 
     private void UnsubscribeEvents()
     {
-        _timeNotification.WhenRunning -= StartGlowingMotion;
-        _timeNotification.WhenStopped -= StopGlowingMotion;
+        _time.WhenRunning -= StartGlowingMotion;
+        _time.WhenStopped -= StopGlowingMotion;
     }
 
     private void StartGlowingMotion()
