@@ -1,5 +1,7 @@
-﻿using Desdiene.MonoBehaviourExtension;
+﻿using System;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControls;
+using Desdiene.Types.Percents;
 using UnityEngine;
 using Zenject;
 
@@ -10,15 +12,18 @@ public class GameGlowingParticle : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GlowingParticle _glowing;
     private ITimeAccessorNotificator _time;
+    private IPercentAccessorNotifier _gameDifficulty;
 
     [Inject]
-    private void Constructor(ITime globalTime)
+    private void Constructor(ITime globalTime, GameDifficulty gameDifficulty)
     {
-        _time = globalTime ?? throw new System.ArgumentNullException(nameof(globalTime));
+        _time = globalTime ?? throw new ArgumentNullException(nameof(globalTime));
+        _gameDifficulty = gameDifficulty ?? throw new ArgumentNullException(nameof(gameDifficulty));
     }
 
     protected override void AwakeExt()
     {
+        SetParticlesVelocity();
         SubscribeEvents();
     }
 
@@ -27,28 +32,24 @@ public class GameGlowingParticle : MonoBehaviourExt
         UnsubscribeEvents();
     }
 
-    // todo: это число должно вычисляться исходя из скорости передвижения игрока
-    private float GlowingSpeedOx => -12;
+    // todo: это число должно вычисляться
+    private Vector2 CameraVelocity => Vector2.Lerp(new Vector2(12, 0), new Vector2(18, 0), _gameDifficulty.Value);
 
     private void SubscribeEvents()
     {
-        _time.WhenRunning += StartGlowingMotion;
-        _time.WhenStopped += StopGlowingMotion;
+        _time.OnChanged += SetParticlesVelocity;
+        _gameDifficulty.OnChanged += SetParticlesVelocity;
     }
 
     private void UnsubscribeEvents()
     {
-        _time.WhenRunning -= StartGlowingMotion;
-        _time.WhenStopped -= StopGlowingMotion;
+        _time.OnChanged -= SetParticlesVelocity;
+        _gameDifficulty.OnChanged -= SetParticlesVelocity;
     }
 
-    private void StartGlowingMotion()
+    private void SetParticlesVelocity()
     {
-        _glowing.SetConstantSpeedOx(GlowingSpeedOx);
-    }
-
-    private void StopGlowingMotion()
-    {
-        _glowing.SetConstantSpeedOx(0f);
+        Vector2 velocity = CameraVelocity * _time.Scale;
+        _glowing.SetConstantVelocity(velocity * -1);
     }
 }

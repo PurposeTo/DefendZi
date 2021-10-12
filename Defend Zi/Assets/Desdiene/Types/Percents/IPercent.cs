@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Types.Percents
 {
-    public interface IPercent : IPercentAccessor, IPercentMutator, IPercentNotifier
+    public interface IPercent : IPercentAccessorNotifier, IPercentMutator
     {
 
     }

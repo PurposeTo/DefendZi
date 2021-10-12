@@ -8,9 +8,10 @@ public class GlowingParticle : MonoBehaviourExt
 {
     [SerializeField, NotNull] private ParticleSystem _particleSystem;
 
-    public void SetConstantSpeedOx(float speed)
+    public void SetConstantVelocity(Vector2 newVelocity)
     {
-        ParticleSystem.VelocityOverLifetimeModule velocity = _particleSystem.velocityOverLifetime;
-        velocity.x = new ParticleSystem.MinMaxCurve(speed);
+        ParticleSystem.VelocityOverLifetimeModule velocityOverLifetime = _particleSystem.velocityOverLifetime;
+        velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(newVelocity.x);
+        velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(newVelocity.y);
     }
 }
