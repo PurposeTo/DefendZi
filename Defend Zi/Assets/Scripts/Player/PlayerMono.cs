@@ -13,7 +13,6 @@ public class PlayerMono :
 {
     [SerializeField] private PlayerMovementDataMono _movementData;
 
-    private IFixedUpdate _fixedUpdate;
     private IHealthReincarnation _health;
     private IPositionAccessor _positionAccessor;
     private IPositionNotifier _positionNotification;
@@ -27,16 +26,13 @@ public class PlayerMono :
 
         Rigidbody2D rb2d = GetInitedComponent<Rigidbody2D>();
         PlayerMovementData movementView = new PlayerMovementData(gameDifficulty, _movementData);
-        Player _player = new Player(input, rb2d, movementView);
+        Player _player = new Player(this, input, rb2d, movementView);
 
-        _fixedUpdate = _player;
         _positionAccessor = _player;
         _positionNotification = _player;
         _health = _player;
         _score = _player;
     }
-
-    private void FixedUpdate() => _fixedUpdate.Invoke(Time.fixedDeltaTime);
 
     Vector2 IPositionAccessor.Value => _positionAccessor.Value;
 

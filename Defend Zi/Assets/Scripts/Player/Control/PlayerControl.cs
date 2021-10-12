@@ -1,26 +1,29 @@
 ﻿using System;
+using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-public class PlayerControl : IFixedUpdate
+public class PlayerControl : MonoBehaviourExtContainer
 {
+    private readonly FixedUpdate _fixedUpdate;
     private readonly IUserInput _userInput;
     private readonly IPosition _position;
     private readonly PlayerMovementData _movementData;
 
-    public PlayerControl(IUserInput input, IPosition position, PlayerMovementData movementData)
+    public PlayerControl(MonoBehaviourExt mono, IUserInput input, IPosition position, PlayerMovementData movementData) : base(mono)
     {
         _userInput = input ?? throw new ArgumentNullException(nameof(input));
         _position = position ?? throw new ArgumentNullException(nameof(position));
         _movementData = movementData ?? throw new ArgumentNullException(nameof(movementData));
         _frequency = movementData.DefaultFrequency;
+        _fixedUpdate = new FixedUpdate(MonoBehaviourExt, FixedUpdate);
     }
 
     private bool IsControlled => _userInput.IsActive;
     private float _frequency;
     private float _phase;
 
-    void IFixedUpdate.Invoke(float deltaTime)
+    private void FixedUpdate(float deltaTime)
     {
         float targetFrequency = IsControlled
             ? _movementData.ControlledFrequency

@@ -2,7 +2,7 @@
 
 namespace Desdiene.TimeControls
 {
-    public interface ITimeNotification
+    public interface ITimeNotificator
     {
         event Action WhenStopped;
         event Action WhenRunning;

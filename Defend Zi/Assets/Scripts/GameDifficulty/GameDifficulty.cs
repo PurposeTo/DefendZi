@@ -3,21 +3,11 @@ using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.Percents;
 using UnityEngine;
 
-public class GameDifficulty : MonoBehaviourExt, IPercentAccessor, IPercentNotifier
+public class GameDifficulty : MonoBehaviourExt, IPercentAccessorNotifier
 {
     [SerializeField] private float _gainPerSec = 0.01f;
     private IPercent _difficulty = new Percent();
     private string _difficultyDebug; // поле для выведения в дебаг инспектора
-
-    bool IPercentAccessor.IsMin => _difficulty.IsMin;
-    bool IPercentAccessor.IsMax => _difficulty.IsMax;
-    float IPercentAccessor.Value => _difficulty.Value;
-
-    event Action IPercentNotifier.OnChanged
-    {
-        add => _difficulty.OnChanged += value;
-        remove => _difficulty.OnChanged -= value;
-    }
 
     protected override void AwakeExt()
     {
@@ -35,6 +25,16 @@ public class GameDifficulty : MonoBehaviourExt, IPercentAccessor, IPercentNotifi
         float pastValue = _difficulty.Value;
         _difficulty.Set(pastValue + _gainPerSec * deltaTime);
     }
+
+    event Action IPercentNotifier.OnChanged
+    {
+        add => _difficulty.OnChanged += value;
+        remove => _difficulty.OnChanged -= value;
+    }
+
+    bool IPercentAccessor.IsMin => _difficulty.IsMin;
+    bool IPercentAccessor.IsMax => _difficulty.IsMax;
+    float IPercentAccessor.Value => _difficulty.Value;
 
     private void SubscribeEvents()
     {

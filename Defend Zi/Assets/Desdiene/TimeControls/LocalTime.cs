@@ -17,19 +17,19 @@ namespace Desdiene.TimeControls
 
         float ITimeAccessor.Scale => _time.Scale;
 
-        event Action ITimeNotification.WhenStopped
+        event Action ITimeNotificator.WhenStopped
         {
             add => _time.WhenStopped += value;
             remove => _time.WhenStopped -= value;
         }
 
-        event Action ITimeNotification.WhenRunning
+        event Action ITimeNotificator.WhenRunning
         {
             add => _time.WhenRunning += value;
             remove => _time.WhenRunning -= value;
         }
 
-        event Action ITimeNotification.OnChanged
+        event Action ITimeNotificator.OnChanged
         {
             add => _time.OnChanged += value;
             remove => _time.OnChanged -= value;
