@@ -1,25 +1,26 @@
 using System;
+using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player :
-    IFixedUpdate,
+    MonoBehaviourExtContainer,
     IPositionAccessor,
     IPositionNotifier,
     IHealthReincarnation,
     IScore
 {
-    private readonly IFixedUpdate _controlFixedUpdate;
+    private readonly PlayerControl _playerControl;
     private readonly IHealthReincarnation _health;
     private readonly IPositionAccessor _positionAccessor;
     private readonly IPositionNotifier _positionNotification;
     private readonly IScore _score;
 
-    public Player(IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementView)
+    public Player(MonoBehaviourExt mono, IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementView) : base(mono)
     {
         IPosition position = new Rigidbody2DPosition(rigidbody2D);
-        _controlFixedUpdate = new PlayerControl(input, position, movementView);
+        _playerControl = new PlayerControl(MonoBehaviourExt, input, position, movementView);
         _health = new HealthReincarnation(1);
         _score = new PlayerScore();
         _positionAccessor = position;
@@ -74,11 +75,6 @@ public class Player :
     {
         add => _positionNotification.OnChanged += value;
         remove => _positionNotification.OnChanged -= value;
-    }
-
-    void IFixedUpdate.Invoke(float deltaTime)
-    {
-        _controlFixedUpdate.Invoke(deltaTime);
     }
 
     void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);

@@ -32,6 +32,8 @@ namespace Desdiene.Containers
             private set => _monoBehaviourExt = value;
         }
 
+        protected virtual void OnDestroy() { }
+
         /// <summary>
         /// Вызвать для освобождения ресурсов и избавления связи с MonoBehaviourExt для последующей сборки мусора.
         /// </summary>
@@ -44,8 +46,6 @@ namespace Desdiene.Containers
             MonoBehaviourExt = null;
             _isDestroyed = true;
         }
-
-        protected virtual void OnDestroy() { }
 
         private void SubscribeEvents()
         {

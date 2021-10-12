@@ -30,6 +30,11 @@ namespace Desdiene.Coroutines
      *    
      * Лог будет выведен, т.к. yield return будет лишь в следующей итерации цикла while.
      */
+
+    /// <summary>
+    /// Класс для работы с корутиной.
+    /// Корутина автоматически останавливается при разрушении монобех объекта, через который она запущена.
+    /// </summary>
     public sealed partial class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
         private readonly IStateSwitcher<State, CoroutineWrap> _stateSwitcher;
