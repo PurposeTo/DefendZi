@@ -10,11 +10,11 @@ public class TrainingController : MonoBehaviourExt
     [SerializeField, NotNull] private TrainingAnimator _trainingAnimator;
     private readonly int _gamesNumberToEnableTraining = 10;
     private readonly int _trainingTime = 10;
-    private IStorage<IGameData> _storage;
+    private IDataContainer<IGameData> _storage;
     private ICoroutine _training;
 
     [Inject]
-    private void Constructor(IStorage<IGameData> storage)
+    private void Constructor(IDataContainer<IGameData> storage)
     {
         _storage = storage ?? throw new System.ArgumentNullException(nameof(storage));
         _training = new CoroutineWrap(this);

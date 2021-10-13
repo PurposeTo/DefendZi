@@ -9,14 +9,14 @@ using Zenject;
 /// </summary>
 public class GameDataSaver : MonoBehaviourExt
 {
-    private IStorage<IGameData> _dataStorage;
+    private IDataContainer<IGameData> _dataStorage;
 
     private IScoreAccessor _playerScore;
     private GameStatisticsCollector _statisticsCollector;
     private GameStatistics Statistics => _statisticsCollector.GetStatistics();
 
     [Inject]
-    private void Constructor(IStorage<IGameData> dataStorage,
+    private void Constructor(IDataContainer<IGameData> dataStorage,
                              ComponentsProxy componentsProxy,
                              GameStatisticsCollector statisticsCollector)
     {

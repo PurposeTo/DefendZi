@@ -9,10 +9,10 @@ namespace Desdiene.GooglePlayApi
     public class GpgsLeaderboard : MonoBehaviourExt
     {
         private PlayGamesPlatform _platform;
-        private IStorage<IGameData> _storage;
+        private IDataContainer<IGameData> _storage;
 
         [Inject]
-        private void Constructor(GpgsAutentification platformCreator, IStorage<IGameData> storage)
+        private void Constructor(GpgsAutentification platformCreator, IDataContainer<IGameData> storage)
         {
             if (platformCreator == null) throw new ArgumentNullException(nameof(platformCreator));
 

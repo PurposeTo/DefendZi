@@ -19,7 +19,7 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         SceneLoader _4,
         ScenesInBuild _5,
         LoadedScenes _6,
-        IStorage<IGameData> _7,
+        IDataContainer<IGameData> _7,
         GpgsAutentification _8,
         GpgsLeaderboard _9,
         GlobalTimeScaleAdapter _10,

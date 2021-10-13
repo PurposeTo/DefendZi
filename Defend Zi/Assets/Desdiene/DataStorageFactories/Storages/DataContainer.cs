@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.Storages
 {
-    public sealed class Storage<T> : IStorage<T> where T : IData, IDataCombiner<T>, new()
+    public sealed class DataContainer<T> : IDataContainer<T> where T : IData, IDataCombiner<T>, new()
     {
         private T _data = new T();
         private readonly IDataCombiner<T> _combiner;
         private readonly IStorageData<T> _storageDataLoader;
 
-        public Storage(IStorageData<T> storageDataLoader)
+        public DataContainer(IStorageData<T> storageDataLoader)
         {
             _combiner = _data;
             _storageDataLoader = storageDataLoader ?? throw new ArgumentNullException(nameof(storageDataLoader));
