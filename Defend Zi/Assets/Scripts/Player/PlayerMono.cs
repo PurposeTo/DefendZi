@@ -14,8 +14,7 @@ public class PlayerMono :
     [SerializeField] private PlayerMovementDataMono _movementData;
 
     private IHealthReincarnation _health;
-    private IPositionAccessor _positionAccessor;
-    private IPositionNotifier _positionNotification;
+    private IPositionAccessorNotifier _position;
     private IScore _score;
 
     [Inject]
@@ -28,19 +27,10 @@ public class PlayerMono :
         PlayerMovementData movementView = new PlayerMovementData(gameDifficulty, _movementData);
         Player _player = new Player(this, input, rb2d, movementView);
 
-        _positionAccessor = _player;
-        _positionNotification = _player;
+        _position = _player;
         _health = _player;
         _score = _player;
     }
-
-    Vector2 IPositionAccessor.Value => _positionAccessor.Value;
-
-    uint IScoreAccessor.Value => _score.Value;
-
-    int IHealthAccessor.Value => _health.Value;
-
-    float IHealthAccessor.Percent => _health.Percent;
 
     event Action<uint> IScoreNotification.OnReceived
     {
@@ -80,9 +70,18 @@ public class PlayerMono :
 
     event Action IPositionNotifier.OnChanged
     {
-        add => _positionNotification.OnChanged += value;
-        remove => _positionNotification.OnChanged -= value;
+        add => _position.OnChanged += value;
+        remove => _position.OnChanged -= value;
     }
+
+    Vector2 IPositionAccessor.Value => _position.Value;
+
+    uint IScoreAccessor.Value => _score.Value;
+
+    int IHealthAccessor.Value => _health.Value;
+
+    float IHealthAccessor.Percent => _health.Percent;
+
 
     void IReincarnation.Revive() => _health.Revive();
     void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);

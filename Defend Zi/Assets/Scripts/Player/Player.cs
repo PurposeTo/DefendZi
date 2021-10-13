@@ -6,15 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player :
     MonoBehaviourExtContainer,
-    IPositionAccessor,
-    IPositionNotifier,
+    IPositionAccessorNotifier,
     IHealthReincarnation,
     IScore
 {
     private readonly PlayerControl _playerControl;
     private readonly IHealthReincarnation _health;
-    private readonly IPositionAccessor _positionAccessor;
-    private readonly IPositionNotifier _positionNotification;
+    private readonly IPositionAccessorNotifier _position;
     private readonly IScore _score;
 
     public Player(MonoBehaviourExt mono, IUserInput input, Rigidbody2D rigidbody2D, PlayerMovementData movementView) : base(mono)
@@ -23,17 +21,8 @@ public class Player :
         _playerControl = new PlayerControl(MonoBehaviourExt, input, position, movementView);
         _health = new HealthReincarnation(1);
         _score = new PlayerScore();
-        _positionAccessor = position;
-        _positionNotification = position;
+        _position = position;
     }
-
-    Vector2 IPositionAccessor.Value => _positionAccessor.Value;
-
-    uint IScoreAccessor.Value => _score.Value;
-
-    int IHealthAccessor.Value => _health.Value;
-
-    float IHealthAccessor.Percent => _health.Percent;
 
     event Action<uint> IScoreNotification.OnReceived
     {
@@ -73,9 +62,18 @@ public class Player :
 
     event Action IPositionNotifier.OnChanged
     {
-        add => _positionNotification.OnChanged += value;
-        remove => _positionNotification.OnChanged -= value;
+        add => _position.OnChanged += value;
+        remove => _position.OnChanged -= value;
     }
+
+    Vector2 IPositionAccessor.Value => _position.Value;
+
+    uint IScoreAccessor.Value => _score.Value;
+
+    int IHealthAccessor.Value => _health.Value;
+
+    float IHealthAccessor.Percent => _health.Percent;
+
 
     void IDamageTaker.TakeDamage(IDamage damage) => _health.TakeDamage(damage);
     void IReincarnation.Revive() => _health.Revive();
