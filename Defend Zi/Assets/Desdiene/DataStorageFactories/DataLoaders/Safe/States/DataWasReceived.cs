@@ -8,18 +8,16 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
     {
         private class DataWasReceived : State
         {
-            public DataWasReceived(IStateSwitcher<State, SafeDataLoader<TData>> stateSwitcher,
+            public DataWasReceived(IStateSwitcher<State> stateSwitcher,
                                    SafeDataLoader<TData> it)
                 : base(stateSwitcher, it) { }
 
-            protected override void Load(SafeDataLoader<TData> it, Action<TData> dataCallback)
+            public override void Load(Action<TData> dataCallback)
             {
-                Debug.Log($"Данные с [{it._dataStorage.StorageName}] уже были получены!");
+                Debug.Log($"Данные с [{It._dataStorage.StorageName}] уже были получены!");
             }
 
-            protected override void Save(SafeDataLoader<TData> it,
-                                         TData data,
-                                         Action<bool> successCallback) => it._dataStorage.Save(data, successCallback);
+            public override void Save(TData data, Action<bool> successCallback) => It._dataStorage.Save(data, successCallback);
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using Desdiene.Coroutines.Components;
+﻿using System.Collections;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
 namespace Desdiene.Coroutines
@@ -17,19 +14,19 @@ namespace Desdiene.Coroutines
                        it)
             { }
 
-            protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)
+            public override void StartContinuously(IEnumerator enumerator)
             {
-                it._coroutinesStack.Clear();
-                it._coroutinesStack.Add(enumerator);
+                It._coroutinesStack.Clear();
+                It._coroutinesStack.Add(enumerator);
                 SwitchState<Executing>();
             }
 
-            protected override void Terminate(CoroutineWrap it)
+            public override void Terminate()
             {
                 Debug.LogError("You need to start coroutine, before terminate it");
             }
 
-            protected override IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine)
+            public override IEnumerator StartNested(IEnumerator newCoroutine)
             {
                 Debug.LogError("You need to start coroutine, before start nested");
                 yield break;

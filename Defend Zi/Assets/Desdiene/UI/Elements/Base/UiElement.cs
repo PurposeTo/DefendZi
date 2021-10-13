@@ -29,7 +29,7 @@ namespace Desdiene.UI.Elements
             RectTransform = GetComponent<RectTransform>();
             Canvas = GetComponent<Canvas>();
 
-            StateSwitcherWithContext<State, UiElement> stateSwitcher = new StateSwitcherWithContext<State, UiElement>(this, _refCurrentState);
+            var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new Displayed(this, stateSwitcher),

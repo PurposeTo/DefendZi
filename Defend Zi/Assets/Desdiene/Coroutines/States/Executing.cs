@@ -21,24 +21,24 @@ namespace Desdiene.Coroutines
                 return base.SubscribeToWhenRunning(action, value);
             }
 
-            protected override void OnEnter(CoroutineWrap it)
+            protected override void OnEnter()
             {
-                it._isExecuting.Set(true);
-                it.WhenRunning?.Invoke();
-                it._coroutine = MonoBehaviourExt.StartCoroutine(Run(it));
+                It._isExecuting.Set(true);
+                It.WhenRunning?.Invoke();
+                It._coroutine = MonoBehaviourExt.StartCoroutine(Run());
             }
 
-            protected override void OnExit(CoroutineWrap it)
+            protected override void OnExit()
             {
-                it._isExecuting.Set(false);
+                It._isExecuting.Set(false);
             }
 
-            protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)
+            public override void StartContinuously(IEnumerator enumerator)
             {
                 Debug.LogWarning("You can't start coroutine, because it is executing now");
             }
 
-            protected override void Terminate(CoroutineWrap it)
+            public override void Terminate()
             {
                 SwitchState<Terminated>();
             }
@@ -47,17 +47,17 @@ namespace Desdiene.Coroutines
             /// Использование с "yield return" - запустить и дождаться выполнения корутины.
             /// Если не использовать с "yield return", то корутина не будет запущена.
             /// </summary>
-            protected override IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine)
+            public override IEnumerator StartNested(IEnumerator newCoroutine)
             {
-                it._coroutinesStack.Add(newCoroutine);
+                It._coroutinesStack.Add(newCoroutine);
                 yield break;
             }
 
-            private IEnumerator Run(CoroutineWrap it)
+            private IEnumerator Run()
             {
-                while (it.IsExecuting && it._coroutinesStack.MoveNext())
+                while (It.IsExecuting && It._coroutinesStack.MoveNext())
                 {
-                    yield return it._coroutinesStack.Current;
+                    yield return It._coroutinesStack.Current;
                 }
 
                 SwitchState<Executed>();

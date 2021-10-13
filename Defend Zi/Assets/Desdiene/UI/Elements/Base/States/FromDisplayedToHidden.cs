@@ -7,15 +7,15 @@ namespace Desdiene.UI.Elements
     {
         private sealed class FromDisplayedToHidden : State
         {
-            public FromDisplayedToHidden(UiElement _it, IStateSwitcher<State, UiElement> stateSwitcher)
+            public FromDisplayedToHidden(UiElement _it, IStateSwitcher<State> stateSwitcher)
                 : base(_it, stateSwitcher)
             {
 
             }
 
-            protected override void OnEnter(UiElement it)
+            protected override void OnEnter()
             {
-                IProcessAccessorNotifier wait = it.HideElement();
+                IProcessAccessorNotifier wait = It.HideElement();
 
                 void SetHidden()
                 {
@@ -26,16 +26,16 @@ namespace Desdiene.UI.Elements
                 wait.WhenCompleted += SetHidden;
             }
 
-            protected override void OnExit(UiElement it) { }
+            protected override void OnExit() { }
 
-            protected override IProcessAccessorNotifier Show(UiElement it)
+            public override IProcessAccessorNotifier Show()
             {
                 IProcess wait = new LinearProcess("Ожидание закрытия и последующего открытия окна");
                 wait.Start();
 
                 void ShowAfterHidden()
                 {
-                    IProcessAccessorNotifier waitForDisplayed = it.Show();
+                    IProcessAccessorNotifier waitForDisplayed = It.Show();
 
                     void StopWaiting()
                     {
@@ -43,13 +43,13 @@ namespace Desdiene.UI.Elements
                         wait.Stop();
                     }
                     waitForDisplayed.WhenCompleted += StopWaiting;
-                    it.WhenHidden -= ShowAfterHidden;
+                    It.WhenHidden -= ShowAfterHidden;
                 }
-                it.WhenHidden += ShowAfterHidden;
+                It.WhenHidden += ShowAfterHidden;
                 return wait;
             }
 
-            protected override IProcessAccessorNotifier Hide(UiElement it) => this;
+            public override IProcessAccessorNotifier Hide() => this;
         }
     }
 }

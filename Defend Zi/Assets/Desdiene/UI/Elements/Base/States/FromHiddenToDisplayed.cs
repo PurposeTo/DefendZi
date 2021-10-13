@@ -7,16 +7,16 @@ namespace Desdiene.UI.Elements
     {
         private sealed class FromHiddenToDisplayed : State
         {
-            public FromHiddenToDisplayed(UiElement _it, IStateSwitcher<State, UiElement> stateSwitcher)
+            public FromHiddenToDisplayed(UiElement _it, IStateSwitcher<State> stateSwitcher)
                 : base(_it, stateSwitcher)
             {
 
             }
 
-            protected override void OnEnter(UiElement it)
+            protected override void OnEnter()
             {
-                it.EnableCanvas();
-                IProcessAccessorNotifier wait = it.ShowElement();
+                It.EnableCanvas();
+                IProcessAccessorNotifier wait = It.ShowElement();
 
                 void SetDisplayed()
                 {
@@ -27,18 +27,18 @@ namespace Desdiene.UI.Elements
                 wait.WhenCompleted += SetDisplayed;
             }
 
-            protected override void OnExit(UiElement it) { }
+            protected override void OnExit() { }
 
-            protected override IProcessAccessorNotifier Show(UiElement it) => this;
+            public override IProcessAccessorNotifier Show() => this;
 
-            protected override IProcessAccessorNotifier Hide(UiElement it)
+            public override IProcessAccessorNotifier Hide()
             {
                 IProcess wait = new LinearProcess("Ожидание открытия и последующего закрытия окна");
                 wait.Start();
 
                 void HideAfterDisplayed()
                 {
-                    IProcessAccessorNotifier waitForHidden = it.Hide();
+                    IProcessAccessorNotifier waitForHidden = It.Hide();
 
                     void StopWaiting()
                     {
@@ -47,9 +47,9 @@ namespace Desdiene.UI.Elements
                     }
                     waitForHidden.WhenCompleted += StopWaiting;
 
-                    it.WhenDisplayed -= HideAfterDisplayed;
+                    It.WhenDisplayed -= HideAfterDisplayed;
                 }
-                it.WhenDisplayed += HideAfterDisplayed;
+                It.WhenDisplayed += HideAfterDisplayed;
 
                 return wait;
             }

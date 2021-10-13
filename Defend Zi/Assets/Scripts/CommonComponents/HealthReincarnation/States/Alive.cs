@@ -5,7 +5,7 @@ public partial class HealthReincarnation
 {
     private class Alive : State
     {
-        public Alive(HealthReincarnation _it, IStateSwitcher<State, HealthReincarnation> stateSwitcher)
+        public Alive(HealthReincarnation _it, IStateSwitcher<State> stateSwitcher)
             : base(_it, stateSwitcher) { }
 
         public override Action SubscribeToWhenAlive(Action action, Action value)
@@ -16,21 +16,21 @@ public partial class HealthReincarnation
 
         public override Action SubscribeToWhenDead(Action action, Action value) => action += value;
 
-        protected override void OnEnter(HealthReincarnation it)
+        public override void TakeDamage(IDamage damage)
         {
-            it.WhenAlive?.Invoke();
-        }
-
-        protected override void TakeDamage(HealthReincarnation it, IDamage damage)
-        {
-            int pastHp = it._health.Value;
+            int pastHp = It._health.Value;
             int damagePoints = (int)damage.Value;
-            int nextHp = it._health.SetAndGet(pastHp - damagePoints);
-            if (pastHp != nextHp) it.OnDamaged?.Invoke();
-            if (it._healthPercent.IsMin) Die();
+            int nextHp = It._health.SetAndGet(pastHp - damagePoints);
+            if (pastHp != nextHp) It.OnDamaged?.Invoke();
+            if (It._healthPercent.IsMin) Die();
         }
 
-        protected override void Revive(HealthReincarnation it) { }
+        public override void Revive() { }
+
+        protected override void OnEnter()
+        {
+            It.WhenAlive?.Invoke();
+        }
 
         private void Die()
         {
