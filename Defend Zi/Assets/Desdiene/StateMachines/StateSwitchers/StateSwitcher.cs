@@ -38,8 +38,6 @@ namespace Desdiene.StateMachines.StateSwitchers
             }
         }
 
-        protected bool IsStateContains(AbstractStateT state) => _allStates.Contains(state);
-
         /// <summary>
         /// Сменить состояние на указанное по типу.
         /// </summary>
@@ -74,9 +72,9 @@ namespace Desdiene.StateMachines.StateSwitchers
 
         public void Remove(AbstractStateT state) => _allStates.Remove(state);
 
-        public virtual AbstractStateT Switch(AbstractStateT newState)
+        public AbstractStateT Switch(AbstractStateT newState)
         {
-            if (!IsStateContains(newState))
+            if (!_allStates.Contains(newState))
             {
                 throw new InvalidOperationException("You need to add the state to all states, before switching");
             }

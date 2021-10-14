@@ -9,7 +9,7 @@ namespace Desdiene.UI.Elements
     {
         private sealed class Hidden : State
         {
-            public Hidden(UiElement _it, IStateSwitcher<State, UiElement> stateSwitcher)
+            public Hidden(UiElement _it, IStateSwitcher<State> stateSwitcher)
                 : base(_it, stateSwitcher) { }
 
 
@@ -19,21 +19,21 @@ namespace Desdiene.UI.Elements
                 return base.SubscribeToWhenHidden(action, value);
             }
 
-            protected override void OnEnter(UiElement it)
+            protected override void OnEnter()
             {
-                it.DisableCanvas();
-                it.whenHidden?.Invoke();
+                It.DisableCanvas();
+                It.whenHidden?.Invoke();
             }
 
-            protected override void OnExit(UiElement it) { }
+            protected override void OnExit() { }
 
-            protected override IProcessAccessorNotifier Show(UiElement it)
+            public override IProcessAccessorNotifier Show()
             {
-                Debug.Log($"Show {it._typeName} on \"{it._gameObjectName}\"");
+                Debug.Log($"Show {It._typeName} on \"{It._gameObjectName}\"");
                 return SwitchState<FromHiddenToDisplayed>();
             }
 
-            protected override IProcessAccessorNotifier Hide(UiElement it) => new CompletedProcess();
+            public override IProcessAccessorNotifier Hide() => new CompletedProcess();
         }
     }
 }

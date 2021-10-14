@@ -21,7 +21,7 @@ public partial class HealthReincarnation : IHealthReincarnation
         _health = health;
         _healthPercent = health;
 
-        StateSwitcherWithContext<State, HealthReincarnation> stateSwitcher = new StateSwitcherWithContext<State, HealthReincarnation>(this, _refCurrentState);
+        var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
         List<State> allStates = new List<State>()
             {
                 new Alive(this, stateSwitcher),

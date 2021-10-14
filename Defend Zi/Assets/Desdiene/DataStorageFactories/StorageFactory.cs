@@ -12,7 +12,7 @@ namespace Desdiene.DataStorageFactories
 {
     public static class StorageFactory<TData> where TData : IData, IDataCombiner<TData>, new()
     {
-        public static IStorage<TData> GetStorage(MonoBehaviourExt mono,
+        public static IDataContainer<TData> GetStorage(MonoBehaviourExt mono,
                                                  params StorageJsonData<TData>[] storages)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
@@ -23,7 +23,7 @@ namespace Desdiene.DataStorageFactories
                 .ToArray();
 
             IStorageData<TData> loadersContainer = new LoadersContainer<TData>(safeReaderWriters);
-            return new Storage<TData>(loadersContainer);
+            return new DataContainer<TData>(loadersContainer);
         }
     }
 }

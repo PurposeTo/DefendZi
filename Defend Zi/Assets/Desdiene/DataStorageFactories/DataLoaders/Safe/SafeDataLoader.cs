@@ -18,7 +18,7 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
         {
             _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 
-            var stateSwitcher = new StateSwitcherWithContext<State, SafeDataLoader<TData>>(this, _refCurrentState);
+            var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new Initial(stateSwitcher, this),

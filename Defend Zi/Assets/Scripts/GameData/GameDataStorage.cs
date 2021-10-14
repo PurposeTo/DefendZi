@@ -10,12 +10,12 @@ using GooglePlayGames;
 using Newtonsoft.Json;
 using Zenject;
 
-public class GameDataStorage : MonoBehaviourExt, IStorage<IGameData>
+public class GameDataStorage : MonoBehaviourExt, IDataContainer<IGameData>
 {
     private const string fileName = "GameData";
 
     private PlayGamesPlatform _platform;
-    private IStorage<GameData> _storage;
+    private IDataContainer<GameData> _storage;
 
     [Inject]
     private void Constructor(GpgsAutentification gpgsAutentification)

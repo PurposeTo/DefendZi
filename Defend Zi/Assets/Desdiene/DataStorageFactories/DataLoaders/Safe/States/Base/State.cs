@@ -6,26 +6,24 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
 {
     internal partial class SafeDataLoader<TData>
     {
-        private abstract class State : IStateEntryExitPoint<SafeDataLoader<TData>>
+        private abstract class State : IStateEntryExitPoint
         {
-            private readonly IStateSwitcher<State, SafeDataLoader<TData>> _stateSwitcher;
-            private readonly SafeDataLoader<TData> _it;
+            private readonly IStateSwitcher<State> _stateSwitcher;
 
-            private protected State(IStateSwitcher<State, SafeDataLoader<TData>> stateSwitcher,
+            private protected State(IStateSwitcher<State> stateSwitcher,
                                     SafeDataLoader<TData> it)
             {
                 _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
-                _it = it ?? throw new ArgumentNullException(nameof(it));
+                It = it ?? throw new ArgumentNullException(nameof(it));
             }
 
-            void IStateEntryExitPoint<SafeDataLoader<TData>>.OnEnter(SafeDataLoader<TData> it) { }
-            void IStateEntryExitPoint<SafeDataLoader<TData>>.OnExit(SafeDataLoader<TData> it) { }
+            void IStateEntryExitPoint.OnEnter() { }
+            void IStateEntryExitPoint.OnExit() { }
 
-            public void Load(Action<TData> dataCallback) => Load(_it, dataCallback);
-            public void Save(TData data, Action<bool> successCallback) => Save(_it, data, successCallback);
+            protected SafeDataLoader<TData> It { get; }
 
-            protected abstract void Load(SafeDataLoader<TData> it, Action<TData> dataCallback);
-            protected abstract void Save(SafeDataLoader<TData> it, TData data, Action<bool> successCallback);
+            public abstract void Load(Action<TData> dataCallback);
+            public abstract void Save(TData data, Action<bool> successCallback);
 
             protected void SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
         }

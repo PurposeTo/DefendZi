@@ -21,22 +21,22 @@ namespace Desdiene.Coroutines
                 return base.SubscribeToWhenCompleted(action, value);
             }
 
-            protected override void OnEnter(CoroutineWrap it)
+            protected override void OnEnter()
             {
-                it.WhenCompleted?.Invoke();
+                It.WhenCompleted?.Invoke();
             }
 
-            protected override void StartContinuously(CoroutineWrap it, IEnumerator enumerator)
+            public override void StartContinuously(IEnumerator enumerator)
             {
                 SwitchState<Created>().StartContinuously(enumerator);
             }
 
-            protected override void Terminate(CoroutineWrap it)
+            public override void Terminate()
             {
                 Debug.LogError("You can't terminate coroutine, because it is executed");
             }
 
-            protected override IEnumerator StartNested(CoroutineWrap it, IEnumerator newCoroutine)
+            public override IEnumerator StartNested(IEnumerator newCoroutine)
             {
                 Debug.LogError("You can't start nested coroutine, because coroutine is executed");
                 yield break;

@@ -37,7 +37,7 @@ namespace Desdiene.Coroutines
     /// </summary>
     public sealed partial class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
-        private readonly IStateSwitcher<State, CoroutineWrap> _stateSwitcher;
+        private readonly IStateSwitcher<State> _stateSwitcher;
         private readonly CoroutinesStack _coroutinesStack = new CoroutinesStack();
         private readonly IRef<State> _refCurrentState = new Ref<State>();
         private readonly IRef<bool> _isExecuting = new Ref<bool>(false);
@@ -47,7 +47,7 @@ namespace Desdiene.Coroutines
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
 
-            var stateSwitcher = new StateSwitcherWithContext<State, CoroutineWrap>(this, _refCurrentState);
+            var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
             List<State> allStates = new List<State>()
             {
                 new Created(mono, this),
@@ -136,7 +136,6 @@ namespace Desdiene.Coroutines
         /// <param name="newCoroutine">Вложенная корутина.</param>
         /// <returns>Енумератор для ожидания выполнения.</returns>
         IEnumerator INestedCoroutineRunner.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
-
 
         public bool IsExecuting => _isExecuting.Value;
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));

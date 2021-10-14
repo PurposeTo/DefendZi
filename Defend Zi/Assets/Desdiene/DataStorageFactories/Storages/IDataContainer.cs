@@ -2,7 +2,7 @@
 
 namespace Desdiene.DataStorageFactories.Storages
 {
-    public interface IStorage<T> where T : IData
+    public interface IDataContainer<T> where T : IData
     {
         T GetData();
 

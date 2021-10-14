@@ -23,7 +23,7 @@ public class GameOverUI : MonoBehaviourExt
     private ISceneAsset _mainMenuScene;
 
     private IScoreAccessor _playerScore;
-    private IStorage<IGameData> _storage;
+    private IDataContainer<IGameData> _storage;
 
     private GameDataSaver _gameDataSaver;
 
@@ -38,7 +38,7 @@ public class GameOverUI : MonoBehaviourExt
 
     [Inject]
     private void Constructor(ITime globalTime,
-                         IStorage<IGameData> storage,
+                         IDataContainer<IGameData> storage,
                          SceneLoader sceneLoader,
                          ScenesInBuild scenesInBuild,
                          IRewardedAd rewardedAd,
