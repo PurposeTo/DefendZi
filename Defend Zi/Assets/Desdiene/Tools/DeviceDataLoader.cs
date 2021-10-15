@@ -11,14 +11,12 @@ namespace Desdiene.Tools
 {
     public class DeviceDataLoader : MonoBehaviourExtContainer
     {
-        private readonly string filePath;
-        private readonly int retryCount = 3;
-
+        private readonly string _filePath;
         private readonly ICoroutine _dataReading;
 
         public DeviceDataLoader(MonoBehaviourExt superMonoBehaviour, string filePath) : base(superMonoBehaviour)
         {
-            this.filePath = filePath;
+            _filePath = filePath;
             _dataReading = new CoroutineWrap(superMonoBehaviour);
         }
 
@@ -53,32 +51,23 @@ namespace Desdiene.Tools
 
         private string LoadViaEditor()
         {
-            return File.Exists(filePath) ? File.ReadAllText(filePath) : null;
+            return File.Exists(_filePath) ? File.ReadAllText(_filePath) : null;
         }
 
         private IEnumerator LoadViaAndroid(Action<string> stringDataCallback)
         {
             string data = null;
 
-            using (UnityWebRequest request = new UnityWebRequest { url = filePath, downloadHandler = new DownloadHandlerBuffer() })
+            using (UnityWebRequest request = new UnityWebRequest { url = _filePath, downloadHandler = new DownloadHandlerBuffer() })
             {
-                bool dataWasLoaded = false;
+                yield return request.SendWebRequest();
 
-                for (int i = 0; !dataWasLoaded || i < retryCount; i++)
+                if (!File.Exists(request.url)) Debug.Log($"File {request.url} does not exists.");
+                else if (request.error != null) 
                 {
-                    yield return request.SendWebRequest();
-
-                    if (request.error != null || request.responseCode == 404)
-                    {
-                        Debug.LogWarning($"Сaught an exception while loading data from android:\n{request.error}");
-                        yield return null;
-                    }
-                    else
-                    {
-                        data = request.downloadHandler.text;
-                        dataWasLoaded = true;
-                    }
+                    Debug.LogError($"Сaught an exception while loading data from android:\n{request.error}");
                 }
+                else data = request.downloadHandler.text;
             }
 
             stringDataCallback?.Invoke(data);

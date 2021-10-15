@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Assets.Desdiene.Tools;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
@@ -23,8 +24,8 @@ namespace Desdiene.DataStorageFactories.Storages.Json
                                     IJsonConvertor<T> jsonConvertor)
             : base(mono, storageName, fileName, jsonConvertor)
         {
-            _filePath = FilePathGetter.GetFilePath(FileNameWithExtension);
-            Debug.Log($"{((IStorageData<T>)this).StorageName}. Путь к файлу данных : {_filePath}");
+            _filePath = new FilePath(FileNameWithExtension).Value;
+            Debug.Log($"{storageName}. Путь к файлу данных : {_filePath}");
             _deviceDataLoader = new DeviceDataLoader(MonoBehaviourExt, _filePath);
         }
 
@@ -49,7 +50,7 @@ namespace Desdiene.DataStorageFactories.Storages.Json
             bool success = false;
             try
             {
-                File.WriteAllText(_filePath, jsonData);
+                LocalFile.WriteAllText(_filePath, jsonData);
                 success = true;
             }
             catch (Exception exception)

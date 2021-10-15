@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Assets.Desdiene.Tools;
 using Desdiene.Tools;
 using UnityEngine;
 
@@ -20,14 +21,13 @@ namespace Desdiene.DataStorageFactories.Encryptions
         {
             CryptoFileName = $"{fileName}Alpha";
             FileExtension = fileExtension;
-            hashDataFilePath = FilePathGetter.GetFilePath(FileNameWithExtension);
+            hashDataFilePath = new FilePath(FileNameWithExtension).Value;
         }
 
         public string Encrypt(string data)
         {
             string saltedData = AddSalt(data);
-            File.WriteAllText(hashDataFilePath, StringHash(saltedData));
-
+            LocalFile.WriteAllText(hashDataFilePath, StringHash(saltedData));
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(saltedData));
         }
 
