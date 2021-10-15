@@ -59,12 +59,13 @@ namespace Desdiene.Coroutines
             _stateSwitcher = stateSwitcher;
             SwitchState<Created>();
 
-            _isExecuting.OnChanged += () => OnChanged?.Invoke(this);
+            SubscribeEvents();
         }
 
         protected override void OnDestroy()
         {
             CurrentState.TryTerminate();
+            UnsubscribeEvents();
         }
 
         private event Action WhenRunning;
@@ -141,5 +142,17 @@ namespace Desdiene.Coroutines
         private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
 
         private State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
+
+        private void SubscribeEvents()
+        {
+            _isExecuting.OnChanged += InvokeOnChangedProcess;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            _isExecuting.OnChanged -= InvokeOnChangedProcess;
+        }
+
+        private void InvokeOnChangedProcess() => OnChanged?.Invoke(this);
     }
 }
