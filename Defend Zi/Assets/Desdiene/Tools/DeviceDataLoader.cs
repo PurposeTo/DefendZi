@@ -62,9 +62,10 @@ namespace Desdiene.Tools
             {
                 yield return request.SendWebRequest();
 
-                if (request.error != null) 
+                if (!File.Exists(request.url)) Debug.Log($"File {request.url} does not exists.");
+                else if (request.error != null) 
                 {
-                    Debug.LogWarning($"Сaught an exception while loading data from android:\n{request.error}");
+                    Debug.LogError($"Сaught an exception while loading data from android:\n{request.error}");
                 }
                 else data = request.downloadHandler.text;
             }
