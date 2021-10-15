@@ -22,7 +22,7 @@ namespace Desdiene.DataStorageFactories
                 .Select(storage => new SafeDataLoader<TData>(storage))
                 .ToArray();
 
-            IStorageData<TData> loadersContainer = new LoadersContainer<TData>(safeReaderWriters);
+            IStorageData<TData> loadersContainer = new StoragesContainer<TData>(safeReaderWriters);
             return new DataContainer<TData>(loadersContainer);
         }
     }

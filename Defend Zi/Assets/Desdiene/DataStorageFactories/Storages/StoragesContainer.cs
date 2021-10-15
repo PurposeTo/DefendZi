@@ -3,11 +3,11 @@ using Desdiene.DataStorageFactories.Datas;
 
 namespace Desdiene.DataStorageFactories.Storages
 {
-    internal class LoadersContainer<T> : IStorageData<T> where T : IData
+    internal class StoragesContainer<T> : IStorageData<T> where T : IData
     {
         private readonly IStorageData<T>[] storages;
 
-        public LoadersContainer(params IStorageData<T>[] storages)
+        public StoragesContainer(params IStorageData<T>[] storages)
         {
             this.storages = storages;
         }
