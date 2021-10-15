@@ -24,9 +24,10 @@ namespace Desdiene.Containers
         private IEnumerator FixedUpdateEnumerator()
         {
             var wait = new WaitForFixedUpdate();
-            float deltaTime = Time.fixedDeltaTime;
+
             while (true)
             {
+                float deltaTime = Time.fixedDeltaTime;
                 _fixedUpdateAction.Invoke(deltaTime);
                 yield return wait;
             }
