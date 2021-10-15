@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.Processes;
 using UnityEngine;
 
@@ -9,9 +8,7 @@ namespace Desdiene.UI.Elements
     {
         private sealed class Displayed : State
         {
-            public Displayed(UiElement _it, IStateSwitcher<State> stateSwitcher)
-                : base(_it, stateSwitcher) { }
-
+            public Displayed(UiElement _it) : base(_it) { }
 
             public override Action SubscribeToWhenDisplayed(Action action, Action value)
             {

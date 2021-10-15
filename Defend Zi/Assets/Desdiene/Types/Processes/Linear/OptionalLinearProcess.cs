@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.AtomicReferences;
-using Desdiene.Types.Processes.Linear.States;
 
 namespace Desdiene.Types.Processes
 {
@@ -11,9 +9,9 @@ namespace Desdiene.Types.Processes
     /// Опциональный линейный процесс: после выключения не может быть включен. 
     /// Не обязательно ждать, если он не был запущен на момент обращения. 
     /// </summary>
-    public class OptionalLinearProcess : IProcess
+    public partial class OptionalLinearProcess : IProcess
     {
-        private readonly IRef<State> _refCurrentState = new Ref<State>();
+        private readonly IStateSwitcher<State> _stateSwitcher;
         private readonly string _name;
 
         public OptionalLinearProcess(string name)
@@ -24,32 +22,37 @@ namespace Desdiene.Types.Processes
             }
 
             _name = name;
-            StateContext stateContext = new StateContext();
-            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+
+            State initState = new CreatedNonWaiting(this);
             List<State> allStates = new List<State>()
             {
-                new CreatedNonWaiting(stateSwitcher, stateContext, _name),
-                new Running(stateSwitcher, stateContext, _name),
-                new Completed(stateSwitcher, stateContext, _name)
+                initState,
+                new Running(this),
+                new Completed(this)
             };
-            stateSwitcher.Add(allStates);
-            stateSwitcher.Switch<CreatedNonWaiting>();
-
-            SubscribeEvents();
+            _stateSwitcher = new StateSwitcher<State>(initState, allStates);
         }
 
         private event Action<IProcessAccessor> OnChanged;
+        private event Action WhenRunning;
+        private event Action WhenCompleted;
 
         event Action IProcessNotifier.WhenRunning
         {
-            add => CurrentState.OnStarted += value;
-            remove => CurrentState.OnStarted -= value;
+            add
+            {
+                WhenRunning = CurrentState.SubscribeToWhenRunning(WhenRunning, value);
+            }
+            remove => WhenRunning -= value;
         }
 
         event Action IProcessNotifier.WhenCompleted
         {
-            add => CurrentState.OnCompleted += value;
-            remove => CurrentState.OnCompleted -= value;
+            add
+            {
+                WhenCompleted = CurrentState.SubscribeToWhenCompleted(WhenCompleted, value);
+            }
+            remove => WhenCompleted -= value;
         }
 
         event Action<IProcessAccessor> IProcessNotifier.OnChanged
@@ -65,13 +68,15 @@ namespace Desdiene.Types.Processes
 
         void IProcessMutator.Stop() => CurrentState.Complete();
 
-        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _stateSwitcher.CurrentState;
 
-        private void SubscribeEvents()
+        private State SwitchState<stateT>() where stateT : State
         {
-            CurrentState.OnChanged += InvokeOnChanged;
+            bool pastKeepWaiting = CurrentState.KeepWaiting;
+            State nextState = _stateSwitcher.Switch<stateT>();
+            bool nextKeepWaiting = nextState.KeepWaiting;
+            if (pastKeepWaiting != nextKeepWaiting) OnChanged?.Invoke(this);
+            return nextState;
         }
-
-        private void InvokeOnChanged() => OnChanged?.Invoke(this);
     }
 }

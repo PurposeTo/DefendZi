@@ -1,32 +1,27 @@
 ﻿using System;
-using Desdiene.StateMachines.StateSwitchers;
 
-namespace Desdiene.Types.Processes.Linear.States
+namespace Desdiene.Types.Processes
 {
-    public class CreatedNonWaiting : State
+    public partial class OptionalLinearProcess
     {
-        public CreatedNonWaiting(IStateSwitcher<State> stateSwitcher,
-                       StateContext stateContext,
-                       string name)
-            : base(stateSwitcher,
-                   stateContext,
-                   name)
-        { }
-
-        public override bool KeepWaiting => false;
-
-        public override void Start()
+        private class CreatedNonWaiting : State
         {
-            SwitchState<Running>();
+            public CreatedNonWaiting(OptionalLinearProcess it) : base(it) { }
+
+            public override bool KeepWaiting => false;
+
+            public override void Start()
+            {
+                SwitchState<Running>();
+            }
+
+            public override void Complete()
+            {
+                SwitchState<Running>().Complete();
+            }
+
+            public override Action SubscribeToWhenRunning(Action action, Action value) => action += value;
+            public override Action SubscribeToWhenCompleted(Action onCompleted, Action value) => onCompleted += value;
         }
-
-        public override void Complete()
-        {
-            SwitchState<Running>().Complete();
-        }
-
-        protected override Action SubscribeToOnStarted(Action onStarted, Action value) => onStarted += value;
-
-        protected override Action SubscribeToOnCompleted(Action onCompleted, Action value) => onCompleted += value;
     }
 }

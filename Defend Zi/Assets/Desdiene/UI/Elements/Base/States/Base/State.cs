@@ -1,6 +1,5 @@
 ﻿using System;
 using Desdiene.StateMachines.States;
-using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.Processes;
 
 namespace Desdiene.UI.Elements
@@ -9,13 +8,11 @@ namespace Desdiene.UI.Elements
     {
         private abstract class State : IStateEntryExitPoint, IProcessAccessorNotifier
         {
-            private readonly IStateSwitcher<State> _stateSwitcher;
             private readonly IProcess _stateExecuting;
 
-            protected State(UiElement it, IStateSwitcher<State> stateSwitcher)
+            protected State(UiElement it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
-                _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
                 _stateExecuting = new CyclicalProcess($"Выполнение состояния {GetType()}");
             }
 
@@ -53,7 +50,7 @@ namespace Desdiene.UI.Elements
                 OnExit();
                 _stateExecuting.Stop();
             }
-            
+
             protected UiElement It { get; }
 
             public virtual Action SubscribeToWhenDisplayed(Action action, Action value) => action += value;
@@ -65,7 +62,7 @@ namespace Desdiene.UI.Elements
             protected abstract void OnEnter();
             protected abstract void OnExit();
 
-            protected State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
+            protected State SwitchState<stateT>() where stateT : State => It._stateSwitcher.Switch<stateT>();
         }
     }
 }

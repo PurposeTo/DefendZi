@@ -1,38 +1,35 @@
 ﻿using System;
 using Desdiene.StateMachines.StateSwitchers;
 
-namespace Desdiene.Types.Processes.Cyclical.States
+namespace Desdiene.Types.Processes
 {
-    public class Running : State
+    public partial class CyclicalProcess
     {
-        public Running(IStateSwitcher<State> stateSwitcher,
-                       StateContext stateContext,
-                       string name)
-            : base(stateSwitcher,
-                   stateContext,
-                   name)
-        { }
-
-        public override bool KeepWaiting => true;
-
-        public override void Start() { }
-
-        public override void Stop()
+        private class Running : State
         {
-            SwitchState<Stopped>();
-        }
+            public Running(CyclicalProcess it) : base(it) { }
 
-        protected override void OnEnter()
-        {
-            StateContext.OnStarted?.Invoke();
-        }
+            public override bool KeepWaiting => true;
 
-        protected override Action SubscribeToOnStarted(Action onStarted, Action value)
-        {
-            value?.Invoke();
-            return onStarted += value;
-        }
+            public override Action SubscribeToWhenRunning(Action action, Action value)
+            {
+                value?.Invoke();
+                return action += value;
+            }
 
-        protected override Action SubscribeToOnStopped(Action onCompleted, Action value) => onCompleted += value;
+            public override Action SubscribeToWhenCompleted(Action onCompleted, Action value) => onCompleted += value;
+
+            public override void Start() { }
+
+            public override void Stop()
+            {
+                SwitchState<Stopped>();
+            }
+
+            protected override void OnEnter()
+            {
+                It.WhenRunning?.Invoke();
+            }
+        }
     }
 }

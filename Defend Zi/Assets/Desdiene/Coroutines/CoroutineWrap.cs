@@ -39,7 +39,6 @@ namespace Desdiene.Coroutines
     {
         private readonly IStateSwitcher<State> _stateSwitcher;
         private readonly CoroutinesStack _coroutinesStack = new CoroutinesStack();
-        private readonly IRef<State> _refCurrentState = new Ref<State>();
         private readonly IRef<bool> _isExecuting = new Ref<bool>(false);
         private Coroutine _coroutine;
 
@@ -47,17 +46,15 @@ namespace Desdiene.Coroutines
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
 
-            var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+            State initState = new Created(mono, this);
             List<State> allStates = new List<State>()
             {
-                new Created(mono, this),
+                initState,
                 new Executing(mono, this),
                 new Executed(mono, this),
                 new Terminated(mono, this)
             };
-            stateSwitcher.Add(allStates);
-            _stateSwitcher = stateSwitcher;
-            SwitchState<Created>();
+            _stateSwitcher = new StateSwitcher<State>(initState, allStates);
 
             SubscribeEvents();
         }
@@ -139,7 +136,7 @@ namespace Desdiene.Coroutines
         IEnumerator INestedCoroutineRunner.StartNested(IEnumerator newCoroutine) => CurrentState.StartNested(newCoroutine);
 
         public bool IsExecuting => _isExecuting.Value;
-        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _stateSwitcher.CurrentState;
 
         private State SwitchState<stateT>() where stateT : State => _stateSwitcher.Switch<stateT>();
 
