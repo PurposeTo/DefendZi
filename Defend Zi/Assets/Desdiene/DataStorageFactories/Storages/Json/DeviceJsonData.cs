@@ -24,8 +24,8 @@ namespace Desdiene.DataStorageFactories.Storages.Json
                                     IJsonConvertor<T> jsonConvertor)
             : base(mono, storageName, fileName, jsonConvertor)
         {
-            _filePath = new FilePath(FileNameWithExtension).Get();
-            Debug.Log($"{((IStorageData<T>)this).StorageName}. Путь к файлу данных : {_filePath}");
+            _filePath = new FilePath(FileNameWithExtension).Value;
+            Debug.Log($"{storageName}. Путь к файлу данных : {_filePath}");
             _deviceDataLoader = new DeviceDataLoader(MonoBehaviourExt, _filePath);
         }
 

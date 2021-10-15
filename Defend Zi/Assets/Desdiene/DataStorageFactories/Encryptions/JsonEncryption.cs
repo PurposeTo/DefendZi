@@ -21,7 +21,7 @@ namespace Desdiene.DataStorageFactories.Encryptions
         {
             CryptoFileName = $"{fileName}Alpha";
             FileExtension = fileExtension;
-            hashDataFilePath = new FilePath(FileNameWithExtension).Get();
+            hashDataFilePath = new FilePath(FileNameWithExtension).Value;
         }
 
         public string Encrypt(string data)
