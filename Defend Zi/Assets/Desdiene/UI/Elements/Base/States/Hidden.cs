@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.Processes;
 using UnityEngine;
 
@@ -9,9 +8,7 @@ namespace Desdiene.UI.Elements
     {
         private sealed class Hidden : State
         {
-            public Hidden(UiElement _it, IStateSwitcher<State> stateSwitcher)
-                : base(_it, stateSwitcher) { }
-
+            public Hidden(UiElement _it) : base(_it) { }
 
             public override Action SubscribeToWhenHidden(Action action, Action value)
             {

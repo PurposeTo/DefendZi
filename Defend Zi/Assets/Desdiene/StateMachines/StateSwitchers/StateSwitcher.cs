@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Desdiene.StateMachines.States;
-using Desdiene.Types.AtomicReferences;
 
 namespace Desdiene.StateMachines.StateSwitchers
 {
@@ -11,39 +10,23 @@ namespace Desdiene.StateMachines.StateSwitchers
         where AbstractStateT : class, IStateEntryExitPoint
     {
         private readonly List<AbstractStateT> _allStates;
-        private readonly IRef<AbstractStateT> _refCurrentState;
+        private AbstractStateT _currentState;
 
-        public StateSwitcher(IRef<AbstractStateT> refCurrentState) : this(new List<AbstractStateT>(), refCurrentState) { }
-
-        public StateSwitcher(List<AbstractStateT> allStates, IRef<AbstractStateT> refCurrentState)
+        public StateSwitcher(AbstractStateT currentState, List<AbstractStateT> allStates)
         {
+            _currentState = currentState ?? throw new ArgumentNullException(nameof(currentState));
             _allStates = allStates ?? throw new ArgumentNullException(nameof(allStates));
-            _refCurrentState = refCurrentState ?? throw new ArgumentNullException(nameof(refCurrentState));
+            _currentState.OnEnter();
         }
 
-        /// <summary>
-        /// Был ли первоначальное включение состояния?
-        /// Не реализован паттерн состояния, т.к. контексты бы пересекались и код был бы нечитабельным.
-        /// </summary>
-        protected bool IsCurrentStateNotNull => _refCurrentState.Value != null;
-        protected AbstractStateT CurrentState
-        {
-            get
-            {
-                return _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
-            }
-            set
-            {
-                _refCurrentState.Set(value);
-            }
-        }
+        AbstractStateT IStateSwitcher<AbstractStateT>.CurrentState => _currentState;
 
         /// <summary>
         /// Сменить состояние на указанное по типу.
         /// </summary>
         /// <typeparam name="ConcreteStateT">Тип искомого состояния.</typeparam>
         /// <returns>Новое состояние.</returns>
-        public AbstractStateT Switch<ConcreteStateT>() where ConcreteStateT : AbstractStateT
+        AbstractStateT IStateSwitcher<AbstractStateT>.Switch<ConcreteStateT>()
         {
             AbstractStateT newState = _allStates.Single(it => it is ConcreteStateT);
             return Switch(newState);
@@ -55,35 +38,29 @@ namespace Desdiene.StateMachines.StateSwitchers
         ///<exception cref="InvalidOperationException">Если найдено 0 или >1 элемента по указанным условиям</exception>
         /// <param name="predicate">Условие поиска состояния.</param>
         /// <returns>Новое состояние.</returns>
-        public AbstractStateT Switch(Predicate<AbstractStateT> predicate)
+        AbstractStateT IStateSwitcher<AbstractStateT>.Switch(Predicate<AbstractStateT> predicate)
         {
             AbstractStateT newState = _allStates.Single(state => predicate.Invoke(state));
             return Switch(newState);
         }
 
-        public bool Any(Predicate<AbstractStateT> predicate) => _allStates.Exists(predicate);
+        bool IStateSwitcher<AbstractStateT>.Any(Predicate<AbstractStateT> predicate) => _allStates.Exists(predicate);
 
-        public void Add(IEnumerable<AbstractStateT> states) => _allStates.AddRange(states);
-        public void Add(AbstractStateT state, params AbstractStateT[] states)
-        {
-            _allStates.Add(state);
-            Add(states);
-        }
+        AbstractStateT IStateSwitcher<AbstractStateT>.Switch(AbstractStateT newState) => Switch(newState);
 
-        public void Remove(AbstractStateT state) => _allStates.Remove(state);
-
-        public AbstractStateT Switch(AbstractStateT newState)
+        private AbstractStateT Switch(AbstractStateT newState)
         {
             if (!_allStates.Contains(newState))
             {
                 throw new InvalidOperationException("You need to add the state to all states, before switching");
             }
 
-            if (IsCurrentStateNotNull) CurrentState.OnExit();
+            if (newState == _currentState) return _currentState;
 
-            CurrentState = newState;
-            CurrentState.OnEnter();
-            return CurrentState;
+            _currentState.OnExit();
+            _currentState = newState;
+            _currentState.OnEnter();
+            return _currentState;
         }
     }
 }

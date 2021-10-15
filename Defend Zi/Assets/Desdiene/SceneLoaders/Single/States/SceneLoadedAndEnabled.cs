@@ -1,34 +1,34 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.SceneLoaders.Single.States.Base;
-using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.UnityScenes.Loadings;
 using Desdiene.UnityScenes.Types;
 
-namespace Desdiene.SceneLoaders.Single.States
+namespace Desdiene.SceneLoaders.Single
 {
-    public class SceneLoadedAndEnabled : State
+    public partial class SceneLoader
     {
-        public SceneLoadedAndEnabled(MonoBehaviourExt mono, IStateSwitcher<State> stateSwitcher)
-            : base(mono, stateSwitcher) { }
-
-        public override void Load(ISceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
+        private class SceneLoadedAndEnabled : State
         {
-            if (scene is null) throw new ArgumentNullException(nameof(scene));
+            public SceneLoadedAndEnabled(MonoBehaviourExt mono, SceneLoader it) : base(mono, it) { }
 
-            IProcessesMutator beforePastSceneUnloading = new ParallelProcesses("Подготовка к выгрузке старой сцены");
-            ILoadingAndEnabling loadingAndEnabling = scene.LoadAsSingle(beforeUnloading);
-
-            void OnSceneLoadedAndEnabled()
+            public override void Load(ISceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling)
             {
-                afterEnabling?.Invoke();
-                SwitchState<SceneLoadedAndEnabled>();
-                loadingAndEnabling.OnLoadedAndEnabled -= OnSceneLoadedAndEnabled;
-            }
+                if (scene is null) throw new ArgumentNullException(nameof(scene));
 
-            SwitchState<SceneTransition>();
-            loadingAndEnabling.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
+                IProcessesMutator beforePastSceneUnloading = new ParallelProcesses("Подготовка к выгрузке старой сцены");
+                ILoadingAndEnabling loadingAndEnabling = scene.LoadAsSingle(beforeUnloading);
+
+                void OnSceneLoadedAndEnabled()
+                {
+                    afterEnabling?.Invoke();
+                    SwitchState<SceneLoadedAndEnabled>();
+                    loadingAndEnabling.OnLoadedAndEnabled -= OnSceneLoadedAndEnabled;
+                }
+
+                SwitchState<SceneTransition>();
+                loadingAndEnabling.OnLoadedAndEnabled += OnSceneLoadedAndEnabled;
+            }
         }
     }
 }

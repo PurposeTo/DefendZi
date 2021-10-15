@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.DataStorageFactories.Datas;
 
-namespace Desdiene.DataStorageFactories.DataLoaders
+namespace Desdiene.DataStorageFactories.Storages
 {
     public interface IStorageData<T> where T : IData
     {

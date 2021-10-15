@@ -1,10 +1,10 @@
 ﻿using System;
 using Desdiene.DataStorageFactories.Combiners;
-using Desdiene.DataStorageFactories.DataLoaders;
+using Desdiene.DataStorageFactories.Storages;
 using Desdiene.DataStorageFactories.Datas;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.Storages
+namespace Desdiene.DataStorageFactories.DataContainers
 {
     public sealed class DataContainer<T> : IDataContainer<T> where T : IData, IDataCombiner<T>, new()
     {

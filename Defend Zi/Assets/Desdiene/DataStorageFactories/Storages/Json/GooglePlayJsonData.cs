@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Text;
 using Desdiene.Coroutines;
-using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.DataStorageFactories.DataLoaders.Json;
+using Desdiene.DataStorageFactories.Storages;
+using Desdiene.DataStorageFactories.Storages.Json;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;

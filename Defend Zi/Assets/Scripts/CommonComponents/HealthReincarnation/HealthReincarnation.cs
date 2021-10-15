@@ -9,8 +9,7 @@ using Desdiene.Types.Ranges.Positive;
 
 public partial class HealthReincarnation : IHealthReincarnation
 {
-    private readonly IRef<State> _refCurrentState = new Ref<State>();
-
+    private readonly IStateSwitcher<State> _stateSwitcher;
     private readonly IRef<int> _health;
     private readonly IPercent _healthPercent;
 
@@ -21,14 +20,13 @@ public partial class HealthReincarnation : IHealthReincarnation
         _health = health;
         _healthPercent = health;
 
-        var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+        State initState = new Alive(this);
         List<State> allStates = new List<State>()
             {
-                new Alive(this, stateSwitcher),
-                new Dead(this, stateSwitcher)
+                initState,
+                new Dead(this)
             };
-        stateSwitcher.Add(allStates);
-        stateSwitcher.Switch<Alive>();
+        _stateSwitcher = new StateSwitcher<State>(initState, allStates);
     }
 
     private event Action WhenAlive;
@@ -81,5 +79,5 @@ public partial class HealthReincarnation : IHealthReincarnation
 
     void IReincarnation.Revive() => CurrentState.Revive();
 
-    private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+    private State CurrentState => _stateSwitcher.CurrentState;
 }

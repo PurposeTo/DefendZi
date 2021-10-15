@@ -1,6 +1,6 @@
 ﻿using Desdiene.DataStorageFactories.Datas;
 
-namespace Desdiene.DataStorageFactories.Storages
+namespace Desdiene.DataStorageFactories.DataContainers
 {
     public interface IDataContainer<T> where T : IData
     {

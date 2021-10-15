@@ -1,83 +1,41 @@
 ﻿using System;
 using Desdiene.StateMachines.States;
-using Desdiene.StateMachines.StateSwitchers;
 
-namespace Desdiene.Types.Processes.Linear.States
+namespace Desdiene.Types.Processes
 {
-    public abstract class State : IStateEntryExitPoint
+    public partial class OptionalLinearProcess
     {
-        private readonly IStateSwitcher<State> _stateSwitcher;
-        private readonly StateContext _stateContext;
-
-        public State(IStateSwitcher<State> stateSwitcher, StateContext stateContext, string name)
+        private abstract class State : IStateEntryExitPoint
         {
-            if (string.IsNullOrWhiteSpace(name))
+            protected State(OptionalLinearProcess it)
             {
-                throw new ArgumentException($"\"{nameof(name)}\" Can't be null or empty.", nameof(name));
+                It = it ?? throw new ArgumentNullException(nameof(it));
             }
 
-            _stateSwitcher = stateSwitcher ?? throw new ArgumentNullException(nameof(stateSwitcher));
-            _stateContext = stateContext ?? throw new ArgumentNullException(nameof(stateContext));
-            Name = name;
-        }
-
-        // microsoft docs: don't use abstract/virtual events!
-        public event Action OnStarted
-        {
-            add
+            void IStateEntryExitPoint.OnEnter()
             {
-                _stateContext.OnStarted = SubscribeToOnStarted(_stateContext.OnStarted, value);
+                OnEnter();
             }
-            remove => _stateContext.OnStarted -= value;
+
+            void IStateEntryExitPoint.OnExit()
+            {
+                OnExit();
+            }
+
+            public abstract bool KeepWaiting { get; }
+            protected OptionalLinearProcess It { get; }
+
+            public abstract Action SubscribeToWhenRunning(Action action, Action value);
+            public abstract Action SubscribeToWhenCompleted(Action action, Action value);
+
+            public abstract void Start();
+            public abstract void Complete();
+
+            protected virtual void OnEnter() { }
+
+            protected virtual void OnExit() { }
+
+            protected State SwitchState<stateT>() where stateT : State => It.SwitchState<stateT>();
         }
-
-        // microsoft docs: don't use abstract/virtual events!
-        public event Action OnCompleted
-        {
-            add => _stateContext.OnCompleted = SubscribeToOnCompleted(_stateContext.OnCompleted, value);
-            remove => _stateContext.OnCompleted -= value;
-        }
-
-        public event Action OnChanged
-        {
-            add => _stateContext.OnChanged += value;
-            remove => _stateContext.OnChanged -= value;
-        }
-
-        void IStateEntryExitPoint.OnEnter()
-        {
-            OnEnter();
-        }
-
-        void IStateEntryExitPoint.OnExit()
-        {
-            OnExit();
-        }
-
-        public string Name { get; }
-        public abstract bool KeepWaiting { get; }
-        protected StateContext StateContext => _stateContext;
-
-        public abstract void Start();
-
-        public abstract void Complete();
-
-        protected virtual void OnEnter() { }
-
-        protected virtual void OnExit() { }
-
-        protected abstract Action SubscribeToOnStarted(Action onStarted, Action value);
-        protected abstract Action SubscribeToOnCompleted(Action onCompleted, Action value);
-
-        protected State SwitchState<stateT>() where stateT : State
-        {
-            bool pastKeepWaiting = KeepWaiting;
-            State nextState = _stateSwitcher.Switch<stateT>();
-            bool nextKeepWaiting = nextState.KeepWaiting;
-            if (pastKeepWaiting != nextKeepWaiting) nextState.InvokeOnChanged();
-            return nextState;
-        }
-
-        private void InvokeOnChanged() => _stateContext.OnChanged?.Invoke();
     }
 }

@@ -31,9 +31,8 @@ namespace Desdiene.AnimatorExtension
         public void Trigger()
         {
             _animator.SetTrigger(_paramName);
+            //Судя по документации в unity, в некоторых случаях будут возникать конфликты, если не сбросить триггер
             //_animator.ResetTrigger(_paramName);
-            // Debug.LogWarning("NotImplementedException");
-            //todo проверить реализацию на практике.
 
             /* Это надо сделать так:
              * 

@@ -1,12 +1,11 @@
 ﻿using System;
-using Desdiene.StateMachines.StateSwitchers;
 
 public partial class HealthReincarnation
 {
     private class Alive : State
     {
-        public Alive(HealthReincarnation _it, IStateSwitcher<State> stateSwitcher)
-            : base(_it, stateSwitcher) { }
+        public Alive(HealthReincarnation _it)
+            : base(_it) { }
 
         public override Action SubscribeToWhenAlive(Action action, Action value)
         {

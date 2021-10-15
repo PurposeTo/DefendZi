@@ -6,6 +6,8 @@ namespace Desdiene.StateMachines.StateSwitchers
     public interface IStateSwitcher<AbstractStateT>
         where AbstractStateT : IStateEntryExitPoint
     {
+        AbstractStateT CurrentState { get; }
+
         /// <summary>
         /// Сменить текущее состояние.
         /// </summary>
@@ -19,6 +21,13 @@ namespace Desdiene.StateMachines.StateSwitchers
         /// <param name="predicate">Условие выбора нового состояния.</param>
         /// <returns>Новое состояние.</returns>
         AbstractStateT Switch(Predicate<AbstractStateT> predicate);
+
+        /// <summary>
+        /// Сменить текущее состояние.
+        /// </summary>
+        /// <param name="newState">Новое состояние.</param>
+        /// <returns>Новое состояние.</returns>
+        AbstractStateT Switch(AbstractStateT newState);
 
         /// <summary>
         /// Существует ли хотя бы одно состояние, удовлетворяющее условию?

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Desdiene.DataStorageFactories.Combiners;
-using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.DataStorageFactories.DataLoaders.Json;
-using Desdiene.DataStorageFactories.DataLoaders.Safe;
-using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Storages;
+using Desdiene.DataStorageFactories.Storages.Json;
+using Desdiene.DataStorageFactories.Storages.Safe;
+using Desdiene.DataStorageFactories.Datas;
+using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.DataStorageFactories
@@ -22,7 +22,7 @@ namespace Desdiene.DataStorageFactories
                 .Select(storage => new SafeDataLoader<TData>(storage))
                 .ToArray();
 
-            IStorageData<TData> loadersContainer = new LoadersContainer<TData>(safeReaderWriters);
+            IStorageData<TData> loadersContainer = new StoragesContainer<TData>(safeReaderWriters);
             return new DataContainer<TData>(loadersContainer);
         }
     }

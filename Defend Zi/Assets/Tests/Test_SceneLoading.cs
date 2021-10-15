@@ -13,7 +13,7 @@ public class Test_SceneLoading : MonoBehaviourExt
     private ISceneAsset _sceneType;
     private SceneLoader _sceneLoader;
 
-    private readonly IProcess _testWait = new LinearProcess("Тестовое ожидание");
+    private readonly IProcess _testWait = new OptionalLinearProcess("Тестовое ожидание");
 
     [Inject]
     private void Constructor(SceneLoader sceneLoader, ScenesInBuild scenesInBuild)

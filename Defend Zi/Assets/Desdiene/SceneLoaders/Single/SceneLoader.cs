@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.SceneLoaders.Single.States;
-using Desdiene.SceneLoaders.Single.States.Base;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Types;
@@ -16,9 +13,9 @@ namespace Desdiene.SceneLoaders.Single
     /// <summary>
     /// Need to be a global singleton!
     /// </summary>
-    public class SceneLoader : MonoBehaviourExt
+    public partial class SceneLoader : MonoBehaviourExt
     {
-        private readonly IRef<State> _refCurrentState = new Ref<State>();
+        private IStateSwitcher<State> _stateSwitcher;
         private ScenesInBuild _scenesInBuild;
 
         [Inject]
@@ -29,20 +26,20 @@ namespace Desdiene.SceneLoaders.Single
 
         protected override void AwakeExt()
         {
-            StateSwitcher<State> stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+            State initState = new SceneLoadedAndEnabled(this, this);
             List<State> allStates = new List<State>()
             {
-                new SceneLoadedAndEnabled(this, stateSwitcher),
-                new SceneTransition(this, stateSwitcher)
+                initState,
+                new SceneTransition(this, this)
             };
-            stateSwitcher.Add(allStates);
-            stateSwitcher.Switch<SceneLoadedAndEnabled>();
+            _stateSwitcher = new StateSwitcher<State>(initState, allStates);
+
         }
 
         public event Action<IProcessesMutator> BeforeUnloading;
         public event Action AfterEnabling;
 
-        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _stateSwitcher.CurrentState;
 
         public void Load(ISceneAsset scene) => Load(scene, BeforeUnloading, AfterEnabling);
 

@@ -4,7 +4,7 @@ using Desdiene.DataStorageFactories.Encryptions;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Json
+namespace Desdiene.DataStorageFactories.Storages.Json
 {
     public class DeviceJsonCryptedData<T> : DeviceJsonData<T>, IStorageData<T> where T : IData, new()
     {

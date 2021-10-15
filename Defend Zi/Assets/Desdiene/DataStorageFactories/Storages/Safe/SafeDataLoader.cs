@@ -5,11 +5,11 @@ using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe
+namespace Desdiene.DataStorageFactories.Storages.Safe
 {
     internal partial class SafeDataLoader<TData> : IStorageData<TData> where TData : IData, new()
     {
-        private readonly IRef<State> _refCurrentState = new Ref<State>();
+        private readonly IStateSwitcher<State> _stateSwitcher;
         private readonly IStorageData<TData> _dataStorage;
 
         private int _lastDataFromStorageHash;
@@ -18,14 +18,13 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
         {
             _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 
-            var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
+            State initState = new Initial(this);
             List<State> allStates = new List<State>()
             {
-                new Initial(stateSwitcher, this),
-                new DataWasReceived(stateSwitcher, this)
+                initState,
+                new DataWasReceived(this)
             };
-            stateSwitcher.Add(allStates);
-            stateSwitcher.Switch<Initial>();
+            _stateSwitcher = new StateSwitcher<State>(initState, allStates);
         }
 
         string IStorageData<TData>.StorageName => _dataStorage.StorageName;
@@ -56,6 +55,6 @@ namespace Desdiene.DataStorageFactories.DataLoaders.Safe
             });
         }
 
-        private State CurrentState => _refCurrentState.Value ?? throw new ArgumentNullException(nameof(CurrentState));
+        private State CurrentState => _stateSwitcher.CurrentState;
     }
 }

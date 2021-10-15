@@ -1,5 +1,4 @@
-﻿using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.Processes;
+﻿using Desdiene.Types.Processes;
 
 namespace Desdiene.UI.Elements
 {
@@ -7,11 +6,7 @@ namespace Desdiene.UI.Elements
     {
         private sealed class FromHiddenToDisplayed : State
         {
-            public FromHiddenToDisplayed(UiElement _it, IStateSwitcher<State> stateSwitcher)
-                : base(_it, stateSwitcher)
-            {
-
-            }
+            public FromHiddenToDisplayed(UiElement _it) : base(_it) { }
 
             protected override void OnEnter()
             {
@@ -33,7 +28,7 @@ namespace Desdiene.UI.Elements
 
             public override IProcessAccessorNotifier Hide()
             {
-                IProcess wait = new LinearProcess("Ожидание открытия и последующего закрытия окна");
+                IProcess wait = new OptionalLinearProcess("Ожидание открытия и последующего закрытия окна");
                 wait.Start();
 
                 void HideAfterDisplayed()

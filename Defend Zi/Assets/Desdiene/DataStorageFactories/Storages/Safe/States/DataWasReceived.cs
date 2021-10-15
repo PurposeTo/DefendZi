@@ -1,16 +1,13 @@
 ﻿using System;
-using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe
+namespace Desdiene.DataStorageFactories.Storages.Safe
 {
     internal partial class SafeDataLoader<TData>
     {
         private class DataWasReceived : State
         {
-            public DataWasReceived(IStateSwitcher<State> stateSwitcher,
-                                   SafeDataLoader<TData> it)
-                : base(stateSwitcher, it) { }
+            public DataWasReceived(SafeDataLoader<TData> it) : base(it) { }
 
             public override void Load(Action<TData> dataCallback)
             {

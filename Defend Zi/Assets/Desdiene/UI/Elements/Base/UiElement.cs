@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.Processes;
 using UnityEngine;
 
@@ -16,8 +15,7 @@ namespace Desdiene.UI.Elements
     [DisallowMultipleComponent]
     public abstract partial class UiElement : MonoBehaviourExt, IUiElement
     {
-        private readonly IRef<State> _refCurrentState = new Ref<State>();
-        private string _stateName; //for unity log
+        private IStateSwitcher<State> _stateSwitcher;
         private string _typeName;
         private string _gameObjectName;
 
@@ -25,22 +23,24 @@ namespace Desdiene.UI.Elements
         {
             _typeName = GetType().Name;
             _gameObjectName = gameObject.name;
-            _refCurrentState.OnChanged += () => _stateName = CurrentState.GetType().Name;
             RectTransform = GetComponent<RectTransform>();
             Canvas = GetComponent<Canvas>();
 
-            var stateSwitcher = new StateSwitcher<State>(_refCurrentState);
-            List<State> allStates = new List<State>()
-            {
-                new Displayed(this, stateSwitcher),
-                new FromDisplayedToHidden(this, stateSwitcher),
-                new Hidden(this, stateSwitcher),
-                new FromHiddenToDisplayed(this, stateSwitcher),
-            };
-            stateSwitcher.Add(allStates);
+            State displayed = new Displayed(this);
+            State hidden = new Hidden(this);
 
-            if (Canvas.enabled) stateSwitcher.Switch<Displayed>();
-            else stateSwitcher.Switch<Hidden>();
+            State initState = Canvas.enabled
+                ? displayed
+                : hidden;
+
+            List <State> allStates = new List<State>()
+            {
+                displayed,
+                new FromDisplayedToHidden(this),
+                hidden,
+                new FromHiddenToDisplayed(this),
+            };
+            _stateSwitcher = new StateSwitcher<State>(initState, allStates);
 
             AwakeElement();
         }
@@ -67,7 +67,7 @@ namespace Desdiene.UI.Elements
 
         protected Canvas Canvas { get; private set; }
         protected RectTransform RectTransform { get; private set; }
-        private State CurrentState => _refCurrentState.Value ?? throw new NullReferenceException(nameof(CurrentState));
+        private State CurrentState => _stateSwitcher.CurrentState;
 
         public IProcessAccessorNotifier Show() => CurrentState.Show();
 
