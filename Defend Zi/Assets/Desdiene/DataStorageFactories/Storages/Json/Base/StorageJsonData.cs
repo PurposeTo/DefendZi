@@ -6,7 +6,7 @@ using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Json
+namespace Desdiene.DataStorageFactories.Storages.Json
 {
     /// <summary>
     /// Данный класс занимается загрузкой, сохранением и валидацией json данных с хранилища.

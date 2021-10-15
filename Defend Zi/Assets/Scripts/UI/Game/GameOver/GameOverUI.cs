@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Storages;
+using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;

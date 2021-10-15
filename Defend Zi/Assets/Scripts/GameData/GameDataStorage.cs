@@ -1,8 +1,8 @@
 ﻿using System;
 using Desdiene.DataStorageFactories;
 using Desdiene.DataStorageFactories.ConcreteLoaders;
-using Desdiene.DataStorageFactories.DataLoaders.Json;
-using Desdiene.DataStorageFactories.Storages;
+using Desdiene.DataStorageFactories.Storages.Json;
+using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.GooglePlayApi;
 using Desdiene.JsonConvertorWrapper;
 using Desdiene.MonoBehaviourExtension;

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Desdiene.DataStorageFactories.Combiners;
-using Desdiene.DataStorageFactories.DataLoaders;
-using Desdiene.DataStorageFactories.DataLoaders.Json;
-using Desdiene.DataStorageFactories.DataLoaders.Safe;
-using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Storages;
+using Desdiene.DataStorageFactories.Storages.Json;
+using Desdiene.DataStorageFactories.Storages.Safe;
+using Desdiene.DataStorageFactories.Datas;
+using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.DataStorageFactories

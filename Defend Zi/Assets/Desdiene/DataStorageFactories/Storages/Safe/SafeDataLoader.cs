@@ -5,7 +5,7 @@ using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using UnityEngine;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe
+namespace Desdiene.DataStorageFactories.Storages.Safe
 {
     internal partial class SafeDataLoader<TData> : IStorageData<TData> where TData : IData, new()
     {

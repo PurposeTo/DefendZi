@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.StateMachines.States;
 
-namespace Desdiene.DataStorageFactories.DataLoaders.Safe
+namespace Desdiene.DataStorageFactories.Storages.Safe
 {
     internal partial class SafeDataLoader<TData>
     {

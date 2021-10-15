@@ -1,7 +1,7 @@
 ﻿using System;
 using Desdiene.DataStorageFactories.Datas;
 
-namespace Desdiene.DataStorageFactories.DataLoaders
+namespace Desdiene.DataStorageFactories.Storages
 {
     internal class LoadersContainer<T> : IStorageData<T> where T : IData
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.Storages;
+using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.Singletons.Unity;
