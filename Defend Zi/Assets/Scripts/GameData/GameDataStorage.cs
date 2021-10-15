@@ -29,7 +29,7 @@ public class GameDataStorage : MonoBehaviourExt, IDataContainer<IGameData>
         var serializeSettings = new JsonSerializerSettings(); // todo добавить safeint/float
         IJsonConvertor<GameData> jsonConvertor = new NewtonsoftJsonConvertor<GameData>(serializeSettings);
 
-        var deviceLoader = new DeviceJsonData<GameData>(this, fileName, jsonConvertor);
+        var deviceLoader = new DeviceJsonCryptedData<GameData>(this, fileName, jsonConvertor);
         var googlePlayLoader = new GooglePlayJsonData<GameData>(this, fileName, jsonConvertor, _platform);
         _storage = StorageFactory<GameData>.GetStorage(this, deviceLoader, googlePlayLoader);
         // Загрузка даты инициализируется сразу после создания данного класса.
