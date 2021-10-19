@@ -30,7 +30,7 @@ namespace Desdiene.DataSaving.Storages
         protected sealed override bool SaveJson(string jsonData)
         {
             PlayerPrefs.SetString(FileName, jsonData);
-            throw new NotImplementedException();
+            return PlayerPrefs.HasKey(FileName);
         }
 
         protected sealed override bool TryToClean()

@@ -8,9 +8,10 @@ using Desdiene.Tools;
 namespace Desdiene.DataSaving.Storages
 {
     /// <summary>
-    /// Данный класс занимается загрузкой, сохранением и валидацией json данных с устройства.
+    /// Сохранить файл в json формате на устройство.
+    /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Объект с данными, загружаемый/сохраняемый в хранилище.</typeparam>
     public class JsonDeviceAsync<T> : JsonStorageAsync<T> where T : IJsonSerializable, IValidData
     {
         protected readonly string _filePath;
