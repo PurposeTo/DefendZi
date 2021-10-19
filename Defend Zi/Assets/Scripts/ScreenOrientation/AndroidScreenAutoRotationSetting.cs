@@ -15,7 +15,7 @@ public static class AndroidScreenAutoRotationSetting
         }
         catch (Exception exception)
         {
-            Debug.LogError(exception.Message);
+            Debug.LogError(exception.ToString());
             return false;
         }
     }

@@ -46,7 +46,7 @@ namespace Desdiene.DataStorageFactories.Encryptions
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogError(exception.Message);
+                    Debug.LogError(exception.ToString());
                     return null;
                 }
 
