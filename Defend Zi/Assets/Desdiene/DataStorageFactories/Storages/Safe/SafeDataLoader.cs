@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.AtomicReferences;
 using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.Storages.Safe
 {
-    internal partial class SafeDataLoader<TData> : IStorageData<TData> where TData : IData, new()
+    internal partial class SafeStorageData<TData> : IStorageData<TData> where TData : IData, new()
     {
         private readonly IStateSwitcher<State> _stateSwitcher;
         private readonly IStorageData<TData> _dataStorage;
 
         private int _lastDataFromStorageHash;
 
-        public SafeDataLoader(IStorageData<TData> dataStorage)
+        public SafeStorageData(IStorageData<TData> dataStorage)
         {
             _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 

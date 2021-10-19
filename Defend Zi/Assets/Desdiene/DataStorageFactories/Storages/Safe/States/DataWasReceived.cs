@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.Storages.Safe
 {
-    internal partial class SafeDataLoader<TData>
+    internal partial class SafeStorageData<TData>
     {
         private class DataWasReceived : State
         {
-            public DataWasReceived(SafeDataLoader<TData> it) : base(it) { }
+            public DataWasReceived(SafeStorageData<TData> it) : base(it) { }
 
             public override void Load(Action<TData> dataCallback)
             {
