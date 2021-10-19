@@ -18,11 +18,11 @@ namespace Desdiene.DataStorageFactories
             if (mono == null) throw new ArgumentNullException(nameof(mono));
             if (storages is null) throw new ArgumentNullException(nameof(storages));
 
-            IStorageData<TData>[] safeReaderWriters = storages
+            IDataStorageOld<TData>[] safeReaderWriters = storages
                 .Select(storage => new SafeStorageData<TData>(storage))
                 .ToArray();
 
-            IStorageData<TData> loadersContainer = new StoragesContainer<TData>(safeReaderWriters);
+            IDataStorageOld<TData> loadersContainer = new StoragesContainer<TData>(safeReaderWriters);
             return new DataContainer<TData>(loadersContainer);
         }
     }

@@ -3,7 +3,7 @@ using Desdiene.DataStorageFactories.Datas;
 
 namespace Desdiene.DataStorageFactories.Storages
 {
-    public interface IStorageData<T> where T : IData
+    public interface IDataStorageOld<T> where T : IData
     {
         string StorageName { get; }
 

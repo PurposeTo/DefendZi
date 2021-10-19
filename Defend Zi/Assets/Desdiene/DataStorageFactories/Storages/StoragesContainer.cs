@@ -3,23 +3,23 @@ using Desdiene.DataStorageFactories.Datas;
 
 namespace Desdiene.DataStorageFactories.Storages
 {
-    internal class StoragesContainer<T> : IStorageData<T> where T : IData
+    internal class StoragesContainer<T> : IDataStorageOld<T> where T : IData
     {
-        private readonly IStorageData<T>[] storages;
+        private readonly IDataStorageOld<T>[] storages;
 
-        public StoragesContainer(params IStorageData<T>[] storages)
+        public StoragesContainer(params IDataStorageOld<T>[] storages)
         {
             this.storages = storages;
         }
 
-        string IStorageData<T>.StorageName => "Контейнер загрузчиков данных"; // todo перечислить имена всех загрузчиков
+        string IDataStorageOld<T>.StorageName => "Контейнер загрузчиков данных"; // todo перечислить имена всех загрузчиков
 
-        void IStorageData<T>.Load(Action<T> data)
+        void IDataStorageOld<T>.Load(Action<T> data)
         {
             Array.ForEach(storages, storage => storage.Load(data));
         }
 
-        void IStorageData<T>.Save(T data, Action<bool> successCallback)
+        void IDataStorageOld<T>.Save(T data, Action<bool> successCallback)
         {
             Array.ForEach(storages, storage => storage.Save(data, successCallback));
         }

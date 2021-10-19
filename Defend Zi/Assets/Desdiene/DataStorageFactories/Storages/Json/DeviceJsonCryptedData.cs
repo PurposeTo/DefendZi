@@ -1,12 +1,12 @@
 ﻿using System;
 using Desdiene.DataStorageFactories.Datas;
 using Desdiene.DataStorageFactories.Encryptions;
-using Desdiene.JsonConvertorWrapper;
+using Desdiene.Json;
 using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.DataStorageFactories.Storages.Json
 {
-    public class DeviceJsonCryptedData<T> : DeviceJsonData<T>, IStorageData<T> where T : IData, new()
+    public class DeviceJsonCryptedData<T> : DeviceJsonData<T>, IDataStorageOld<T> where T : IData, new()
     {
         private readonly JsonEncryption _jsonEncryption;
 
@@ -34,7 +34,7 @@ namespace Desdiene.DataStorageFactories.Storages.Json
 
         private void LoadAndDecryptData(Action<string> jsonDataCallback)
         {
-            _deviceDataLoader.ReadDataFromDevice(receivedData =>
+            _deviceDataLoader.Read(receivedData =>
             {
                 jsonDataCallback?.Invoke(_jsonEncryption.Decrypt(receivedData));
             });

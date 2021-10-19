@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.Storages.Safe
 {
-    internal partial class SafeStorageData<TData> : IStorageData<TData> where TData : IData, new()
+    internal partial class SafeStorageData<TData> : IDataStorageOld<TData> where TData : IData, new()
     {
         private readonly IStateSwitcher<State> _stateSwitcher;
-        private readonly IStorageData<TData> _dataStorage;
+        private readonly IDataStorageOld<TData> _dataStorage;
 
         private int _lastDataFromStorageHash;
 
-        public SafeStorageData(IStorageData<TData> dataStorage)
+        public SafeStorageData(IDataStorageOld<TData> dataStorage)
         {
             _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
 
@@ -26,9 +26,9 @@ namespace Desdiene.DataStorageFactories.Storages.Safe
             _stateSwitcher = new StateSwitcher<State>(initState, allStates);
         }
 
-        string IStorageData<TData>.StorageName => _dataStorage.StorageName;
+        string IDataStorageOld<TData>.StorageName => _dataStorage.StorageName;
 
-        void IStorageData<TData>.Load(Action<TData> dataCallback)
+        void IDataStorageOld<TData>.Load(Action<TData> dataCallback)
         {
             CurrentState.Load((data) =>
             {
@@ -37,7 +37,7 @@ namespace Desdiene.DataStorageFactories.Storages.Safe
             });
         }
 
-        void IStorageData<TData>.Save(TData data, Action<bool> successCallback)
+        void IDataStorageOld<TData>.Save(TData data, Action<bool> successCallback)
         {
             if (Equals(data.GetHashCode(), _lastDataFromStorageHash))
             {

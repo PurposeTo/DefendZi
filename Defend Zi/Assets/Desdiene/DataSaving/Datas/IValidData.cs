@@ -1,6 +1,6 @@
-﻿namespace Desdiene.DataStorageFactories.Validators
+﻿namespace Desdiene.DataSaving.Datas
 {
-    public interface IDataValidator
+    public interface IValidData
     {
         bool IsValid();
 

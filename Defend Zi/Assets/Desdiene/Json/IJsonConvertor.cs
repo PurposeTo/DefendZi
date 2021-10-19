@@ -1,4 +1,4 @@
-﻿namespace Desdiene.JsonConvertorWrapper
+﻿namespace Desdiene.Json
 {
     public interface IJsonConvertor<T>
     {

@@ -4,7 +4,7 @@ using Desdiene.DataStorageFactories.ConcreteLoaders;
 using Desdiene.DataStorageFactories.Storages.Json;
 using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.GooglePlayApi;
-using Desdiene.JsonConvertorWrapper;
+using Desdiene.Json;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
 using Newtonsoft.Json;

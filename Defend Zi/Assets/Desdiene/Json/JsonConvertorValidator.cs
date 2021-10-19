@@ -1,9 +1,8 @@
 ﻿using System;
 using Desdiene.DataStorageFactories.Datas;
-using Desdiene.JsonConvertorWrapper;
 using UnityEngine;
 
-namespace Desdiene.JsonConvertors
+namespace Desdiene.Json
 {
     public class JsonConvertorValidator<T> : IJsonConvertor<T> where T : IData, new()
     {

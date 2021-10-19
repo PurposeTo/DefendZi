@@ -5,7 +5,7 @@ using Desdiene.Coroutines;
 using Desdiene.DataStorageFactories.Storages;
 using Desdiene.DataStorageFactories.Storages.Json;
 using Desdiene.DataStorageFactories.Datas;
-using Desdiene.JsonConvertorWrapper;
+using Desdiene.Json;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Desdiene.DataStorageFactories.ConcreteLoaders
 {
-    public class GooglePlayJsonData<T> : StorageJsonData<T>, IStorageData<T> where T : IData, new()
+    public class GooglePlayJsonData<T> : StorageJsonData<T>, IDataStorageOld<T> where T : IData, new()
     {
         private readonly PlayGamesPlatform _platform;
         private readonly ICoroutine _loadingData;

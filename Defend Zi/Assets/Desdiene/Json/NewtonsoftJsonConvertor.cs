@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Desdiene.JsonConvertorWrapper
+namespace Desdiene.Json
 {
     /// <summary>
     /// Данный класс используется для хранения serializerSettings.

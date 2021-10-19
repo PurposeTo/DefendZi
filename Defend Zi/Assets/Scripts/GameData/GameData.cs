@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Desdiene.DataStorageFactories.Combiners;
 using Desdiene.DataStorageFactories.Datas;
-using Desdiene.DataStorageFactories.Validators;
 using UnityEngine;
 
 /* 
@@ -24,9 +23,9 @@ public class GameData : IGameData, IDataCombiner<GameData>
 
     public TimeSpan BestLifeTime { get; set; } = TimeSpan.Zero;
 
-    bool IDataValidator.IsValid() => IsValid();
+    bool IValidData.IsValid() => IsValid();
 
-    void IDataValidator.TryToRepair()
+    void IValidData.TryToRepair()
     {
         if (!IsValid()) Repair();
     }

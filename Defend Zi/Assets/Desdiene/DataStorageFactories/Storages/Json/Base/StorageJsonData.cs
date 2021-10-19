@@ -1,8 +1,7 @@
 ﻿using System;
 using Desdiene.Containers;
 using Desdiene.DataStorageFactories.Datas;
-using Desdiene.JsonConvertors;
-using Desdiene.JsonConvertorWrapper;
+using Desdiene.Json;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
@@ -13,14 +12,14 @@ namespace Desdiene.DataStorageFactories.Storages.Json
     /// Логика загрузки и сохранения данных на само хранилище определяется в дочернем классе.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class StorageJsonData<T> : MonoBehaviourExtContainer, IStorageData<T> where T : IData, new()
+    public abstract class StorageJsonData<T> : MonoBehaviourExtContainer, IDataStorageOld<T> where T : IData, new()
     {
         private readonly string _storageName;
         private readonly IJsonConvertor<T> _jsonConvertor;
 
         public StorageJsonData(MonoBehaviourExt mono,
             string storageName,
-            string fileName,
+            string fileNameWoExt,
             IJsonConvertor<T> jsonConvertor)
             : base(mono)
         {
@@ -29,9 +28,9 @@ namespace Desdiene.DataStorageFactories.Storages.Json
                 throw new ArgumentException($"{nameof(storageName)} can't be null or empty");
             }
 
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace(fileNameWoExt))
             {
-                throw new ArgumentException($"\"{nameof(fileName)}\" can't be null or empty");
+                throw new ArgumentException($"\"{nameof(fileNameWoExt)}\" can't be null or empty");
             }
 
             if (jsonConvertor is null)
@@ -39,12 +38,12 @@ namespace Desdiene.DataStorageFactories.Storages.Json
                 throw new ArgumentNullException(nameof(jsonConvertor));
             }
 
-            FileName = fileName;
+            FileName = fileNameWoExt;
             _storageName = storageName;
             _jsonConvertor = new JsonConvertorValidator<T>(jsonConvertor);
         }
 
-        string IStorageData<T>.StorageName => _storageName;
+        string IDataStorageOld<T>.StorageName => _storageName;
         protected string FileName { get; }
         protected string FileExtension => "json";
         protected string FileNameWithExtension => FileName + "." + FileExtension;
@@ -54,7 +53,7 @@ namespace Desdiene.DataStorageFactories.Storages.Json
         /// Не вызовется, если произошли проблемы при чтении.
         /// </summary>
         /// <param name="dataCallback"></param>
-        void IStorageData<T>.Load(Action<T> dataCallback)
+        void IDataStorageOld<T>.Load(Action<T> dataCallback)
         {
             Debug.Log($"Начата загрузка данных с [{_storageName}]");
             LoadJsonData(jsonData =>
@@ -74,7 +73,7 @@ namespace Desdiene.DataStorageFactories.Storages.Json
             });
         }
 
-        void IStorageData<T>.Save(T data, Action<bool> successCallback)
+        void IDataStorageOld<T>.Save(T data, Action<bool> successCallback)
         {
             Debug.Log($"Начато сохранение данных на [{_storageName}]");
             if (data.IsValid())
