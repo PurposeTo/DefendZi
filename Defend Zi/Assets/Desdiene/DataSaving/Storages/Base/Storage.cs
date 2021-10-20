@@ -24,9 +24,17 @@ namespace Desdiene.DataSaving.Storages
         {
             try
             {
-                data = Load();
-                data.TryToRepair();
-                return true;
+                if (TryLoad(out data))
+                {
+                    data.TryToRepair();
+                    return true;
+                }
+                else
+                {
+                    data = default;
+                    return false;
+                }
+
             }
             catch (Exception exception)
             {
@@ -55,10 +63,10 @@ namespace Desdiene.DataSaving.Storages
             }
         }
 
-        bool IStorage<T>.TryToClean() => TryToClean();
+        bool IStorage<T>.TryClean() => TryClean();
 
-        protected abstract T Load();
+        protected abstract bool TryLoad(out T data);
         protected abstract bool Save(T data);
-        protected abstract bool TryToClean();
+        protected abstract bool TryClean();
     }
 }

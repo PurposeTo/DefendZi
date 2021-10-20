@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Desdiene.Json
 {
+    [Obsolete]
     public class JsonConvertorValidator<T> : IJsonConvertor<T> where T : IData, new()
     {
         private readonly IJsonConvertor<T> _jsonConvertor;

@@ -25,10 +25,11 @@ namespace Desdiene.DataSaving.Storages
         protected string BaseFileName { get; }
         protected string FileName => BaseFileName + "." + FileExtension;
 
-        protected sealed override T Load()
+        protected sealed override bool TryLoad(out T data)
         {
             string jsonData = LoadJson();
-            return _jsonDeserializer.ToObject(jsonData);
+            data = _jsonDeserializer.ToObject(jsonData);
+            return true;
         }
 
         protected sealed override bool Save(T data)

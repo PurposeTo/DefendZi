@@ -1,4 +1,5 @@
-﻿using Desdiene.DataStorageFactories.Datas;
+﻿using System;
+using Desdiene.DataStorageFactories.Datas;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Desdiene.Json
     /// Обращаться через интерфейс.
     /// </summary>
     /// <typeparam name="T">Тип (де)сериализуемого объекта</typeparam>
+    [Obsolete]
     public class NewtonsoftJsonConvertor<T> : IJsonConvertor<T> where T : IData, new()
     {
         private readonly JsonSerializerSettings _serializerSettings;

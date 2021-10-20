@@ -12,6 +12,6 @@
         bool Save(T data);
 
         /// <returns>успешно?</returns>
-        bool TryToClean();
+        bool TryClean();
     }
 }

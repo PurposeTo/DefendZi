@@ -20,9 +20,11 @@ namespace Desdiene.DataSaving.Storages
                   jsonDeserializer)
         { }
 
+        private bool DataExists => PlayerPrefs.HasKey(FileName);
+
         protected sealed override string LoadJson()
         {
-            return PlayerPrefs.HasKey(FileName)
+            return DataExists
                 ? PlayerPrefs.GetString(FileName)
                 : EmptyJson;
         }
@@ -30,13 +32,13 @@ namespace Desdiene.DataSaving.Storages
         protected sealed override bool SaveJson(string jsonData)
         {
             PlayerPrefs.SetString(FileName, jsonData);
-            return PlayerPrefs.HasKey(FileName);
+            return DataExists;
         }
 
-        protected sealed override bool TryToClean()
+        protected sealed override bool TryClean()
         {
             PlayerPrefs.DeleteKey(FileName);
-            return !PlayerPrefs.HasKey(FileName);
+            return !DataExists;
         }
     }
 }
