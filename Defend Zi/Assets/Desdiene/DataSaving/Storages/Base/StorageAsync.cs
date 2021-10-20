@@ -56,7 +56,18 @@ namespace Desdiene.DataSaving.Storages
             }
         }
 
-        void IStorageAsync<T>.Clean(Action<bool> successResult) => Clean(successResult);
+        void IStorageAsync<T>.Clean(Action<bool> successResult)
+        {
+            try
+            {
+                Clean(successResult);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError(exception.ToString());
+                successResult?.Invoke(false);
+            }
+        }
 
         protected abstract void Load(Action<bool, T> result);
         protected abstract void Save(T data, Action<bool> successResult);

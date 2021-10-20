@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.DataSaving.Datas;
 using Desdiene.Json;
+using UnityEngine;
 
 namespace Desdiene.DataSaving.Storages
 {
@@ -25,12 +26,15 @@ namespace Desdiene.DataSaving.Storages
         protected string BaseFileName { get; }
         protected string FileName => BaseFileName + "." + FileExtension;
 
+        protected abstract void LoadJson(Action<bool, string> result);
+        protected abstract void SaveJson(string jsonData, Action<bool> successResult);
+
         protected sealed override void Load(Action<bool, T> result)
         {
             LoadJson((success, jsonData) =>
             {
                 T data = success
-                ? _jsonDeserializer.ToObject(jsonData)
+                ? Deserialize(jsonData)
                 : default;
 
                 result?.Invoke(success, data);
@@ -39,11 +43,31 @@ namespace Desdiene.DataSaving.Storages
 
         protected sealed override void Save(T data, Action<bool> successResult)
         {
-            string jsonData = data.ToJson();
+            string jsonData = Serialize(data);
             SaveJson(jsonData, successResult);
         }
 
-        protected abstract void LoadJson(Action<bool, string> result);
-        protected abstract void SaveJson(string jsonData, Action<bool> successResult);
+        /// <summary>
+        /// Cериализовать объект в json.
+        /// Исключение при сериализации данных считать как неудачная запись данных.
+        /// </summary>
+        private string Serialize(T data) => data.ToJson();
+
+        /// <summary>
+        /// Десериализовать json в объект.
+        /// исключение при десериализации НЕ считать как неудачное считывание данных
+        /// </summary>
+        private T Deserialize(string json)
+        {
+            try
+            {
+                return _jsonDeserializer.ToObject(json);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Deserialization exception! Json:\n{json}\n\n{exception}");
+                return _jsonDeserializer.ToObject(EmptyJson);
+            }
+        }
     }
 }

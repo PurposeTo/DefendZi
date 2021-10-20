@@ -22,11 +22,12 @@ namespace Desdiene.DataSaving.Storages
 
         private bool DataExists => PlayerPrefs.HasKey(FileName);
 
-        protected sealed override string LoadJson()
+        protected sealed override bool TryLoadJson(out string json)
         {
-            return DataExists
+            json = DataExists
                 ? PlayerPrefs.GetString(FileName)
                 : EmptyJson;
+            return true;
         }
 
         protected sealed override bool SaveJson(string jsonData)

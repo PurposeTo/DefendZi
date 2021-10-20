@@ -63,7 +63,18 @@ namespace Desdiene.DataSaving.Storages
             }
         }
 
-        bool IStorage<T>.TryClean() => TryClean();
+        bool IStorage<T>.TryClean()
+        {
+            try
+            {
+                return TryClean();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError(exception.ToString());
+                return false;
+            }
+        }
 
         protected abstract bool TryLoad(out T data);
         protected abstract bool Save(T data);

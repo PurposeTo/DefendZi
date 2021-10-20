@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.DataSaving.Datas;
 using Desdiene.Json;
+using UnityEngine;
 
 namespace Desdiene.DataSaving.Storages
 {
@@ -25,20 +26,50 @@ namespace Desdiene.DataSaving.Storages
         protected string BaseFileName { get; }
         protected string FileName => BaseFileName + "." + FileExtension;
 
+        protected abstract bool TryLoadJson(out string data);
+        protected abstract bool SaveJson(string jsonData);
+
         protected sealed override bool TryLoad(out T data)
         {
-            string jsonData = LoadJson();
-            data = _jsonDeserializer.ToObject(jsonData);
-            return true;
+            if (TryLoadJson(out string json))
+            {
+                data = Deserialize(json);
+                return true;
+            }
+            else
+            {
+                data = default;
+                return false;
+            }
         }
 
         protected sealed override bool Save(T data)
         {
-            string jsonData = data.ToJson();
+            string jsonData = Serialize(data);
             return SaveJson(jsonData);
         }
 
-        protected abstract string LoadJson();
-        protected abstract bool SaveJson(string jsonData);
+        /// <summary>
+        /// Cериализовать объект в json.
+        /// Исключение при сериализации данных считать как неудачная запись данных.
+        /// </summary>
+        private string Serialize(T data) => data.ToJson();
+
+        /// <summary>
+        /// Десериализовать json в объект.
+        /// Исключение при десериализации НЕ считать как неудачное считывание данных.
+        /// </summary>
+        private T Deserialize(string json)
+        {
+            try
+            {
+                return _jsonDeserializer.ToObject(json);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Deserialization exception! Json:\n{json}\n\n{exception}");
+                return _jsonDeserializer.ToObject(EmptyJson);
+            }
+        }
     }
 }
