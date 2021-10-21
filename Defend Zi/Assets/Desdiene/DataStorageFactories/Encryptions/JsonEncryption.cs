@@ -27,7 +27,7 @@ namespace Desdiene.DataStorageFactories.Encryptions
         public string Encrypt(string data)
         {
             string saltedData = AddSalt(data);
-            LocalFile.WriteAllText(hashDataFilePath, StringHash(saltedData));
+            DeviceFile.WriteAllText(hashDataFilePath, StringHash(saltedData));
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(saltedData));
         }
 

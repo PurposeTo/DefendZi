@@ -50,7 +50,7 @@ namespace Desdiene.DataStorageFactories.Storages.Json
             bool success = false;
             try
             {
-                LocalFile.WriteAllText(_filePath, jsonData);
+                DeviceFile.WriteAllText(_filePath, jsonData);
                 success = true;
             }
             catch (Exception exception)
