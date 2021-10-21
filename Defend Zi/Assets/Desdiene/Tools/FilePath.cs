@@ -29,8 +29,8 @@ namespace Desdiene.Tools
                 case RuntimePlatform.WindowsEditor:
                     return Path.Combine(Application.dataPath, fileNameWithExtension);
                 case RuntimePlatform.Android:
-                    string androidPathPrefix = "file://";
-                    return androidPathPrefix + Path.Combine(Application.persistentDataPath, fileNameWithExtension);
+                    string androidPathPrefix = "file:///";
+                    return androidPathPrefix + Application.persistentDataPath + "/" + fileNameWithExtension;
                 default:
                     Debug.LogError($"{runningPlatform} is unknown platform to PathToFile.Get()!");
                     return fileNameWithExtension;
