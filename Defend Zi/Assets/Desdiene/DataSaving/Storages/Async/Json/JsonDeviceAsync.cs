@@ -48,7 +48,7 @@ namespace Desdiene.DataSaving.Storages
             successResult?.Invoke(true);
         }
 
-        protected sealed override void Clean(Action<bool> successResult)
+        protected sealed override void CleanData(Action<bool> successResult)
         {
             throw new NotImplementedException();
         }

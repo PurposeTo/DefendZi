@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Desdiene.DataSaving.Datas;
+using Desdiene.StateMachines.StateSwitchers;
 using UnityEngine;
 
 namespace Desdiene.DataSaving.Storages
 {
-    public abstract class Storage<T> : IStorage<T> where T : IValidData
+    public abstract partial class Storage<T> : IStorage<T> where T : IValidData
     {
         private readonly string _storageName;
+        private readonly IStateSwitcher<State> _stateSwitcher;
 
         protected Storage(string storageName)
         {
@@ -16,45 +19,36 @@ namespace Desdiene.DataSaving.Storages
             }
 
             _storageName = storageName;
+
+            State initState = new Init(this);
+            List<State> allStates = new List<State>()
+            {
+                initState,
+                new DataWasReceived(this)
+            };
+            _stateSwitcher = new StateSwitcher<State>(initState, allStates);
         }
 
         string IStorage<T>.StorageName => _storageName;
 
-        bool IStorage<T>.TryLoad(out T data)
+        bool IStorage<T>.TryToLoad(out T data) => CurrentState.TryToLoad(out data);
+
+        bool IStorage<T>.Save(T data) => CurrentState.Save(data);
+
+        bool IStorage<T>.TryToClean() => TryToClean();
+
+        private State CurrentState => _stateSwitcher.CurrentState;
+
+        protected abstract bool TryToLoadData(out T data);
+        protected abstract bool SaveData(T data);
+        protected abstract bool TryToCleanData();
+
+
+        private bool TryToClean()
         {
             try
             {
-                if (TryLoad(out data))
-                {
-                    data.TryToRepair();
-                    return true;
-                }
-                else
-                {
-                    data = default;
-                    return false;
-                }
-
-            }
-            catch (Exception exception)
-            {
-                Debug.LogError(exception.ToString());
-                data = default;
-                return false;
-            }
-        }
-
-        bool IStorage<T>.Save(T data)
-        {
-            if (!data.IsValid())
-            {
-                Debug.LogError($"Data is not valid!\n{data}");
-                return false;
-            }
-
-            try
-            {
-                return Save(data);
+                return TryToCleanData();
             }
             catch (Exception exception)
             {
@@ -62,22 +56,5 @@ namespace Desdiene.DataSaving.Storages
                 return false;
             }
         }
-
-        bool IStorage<T>.TryClean()
-        {
-            try
-            {
-                return TryClean();
-            }
-            catch (Exception exception)
-            {
-                Debug.LogError(exception.ToString());
-                return false;
-            }
-        }
-
-        protected abstract bool TryLoad(out T data);
-        protected abstract bool Save(T data);
-        protected abstract bool TryClean();
     }
 }

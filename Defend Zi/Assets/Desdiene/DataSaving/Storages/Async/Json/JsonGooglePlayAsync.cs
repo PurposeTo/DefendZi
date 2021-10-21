@@ -55,7 +55,7 @@ namespace Desdiene.DataSaving.Storages
             else SaveData(Encoding.UTF8.GetBytes(jsonData), successResult);
         }
 
-        protected override void Clean(Action<bool> successResult)
+        protected override void CleanData(Action<bool> successResult)
         {
             throw new NotImplementedException();
         }

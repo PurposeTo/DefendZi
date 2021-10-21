@@ -36,7 +36,7 @@ namespace Desdiene.DataSaving.Storages
             return DataExists;
         }
 
-        protected sealed override bool TryClean()
+        protected sealed override bool TryToCleanData()
         {
             PlayerPrefs.DeleteKey(FileName);
             return !DataExists;

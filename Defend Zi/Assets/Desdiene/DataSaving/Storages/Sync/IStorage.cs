@@ -12,13 +12,13 @@
         string StorageName { get; }
 
         /// <returns>успешно?</returns>
-        bool TryLoad(out T data);
+        bool TryToLoad(out T data);
 
 
         /// <returns>успешно?</returns>
         bool Save(T data);
 
         /// <returns>успешно?</returns>
-        bool TryClean();
+        bool TryToClean();
     }
 }

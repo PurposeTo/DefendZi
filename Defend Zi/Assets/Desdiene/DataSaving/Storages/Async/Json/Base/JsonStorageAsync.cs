@@ -29,7 +29,7 @@ namespace Desdiene.DataSaving.Storages
         protected abstract void LoadJson(Action<bool, string> result);
         protected abstract void SaveJson(string jsonData, Action<bool> successResult);
 
-        protected sealed override void Load(Action<bool, T> result)
+        protected sealed override void LoadData(Action<bool, T> result)
         {
             LoadJson((success, jsonData) =>
             {
@@ -41,7 +41,7 @@ namespace Desdiene.DataSaving.Storages
             });
         }
 
-        protected sealed override void Save(T data, Action<bool> successResult)
+        protected sealed override void SaveData(T data, Action<bool> successResult)
         {
             string jsonData = Serialize(data);
             SaveJson(jsonData, successResult);

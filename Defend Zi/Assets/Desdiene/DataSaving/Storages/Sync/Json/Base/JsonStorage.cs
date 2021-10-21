@@ -29,7 +29,7 @@ namespace Desdiene.DataSaving.Storages
         protected abstract bool TryLoadJson(out string data);
         protected abstract bool SaveJson(string jsonData);
 
-        protected sealed override bool TryLoad(out T data)
+        protected sealed override bool TryToLoadData(out T data)
         {
             if (TryLoadJson(out string json))
             {
@@ -43,7 +43,7 @@ namespace Desdiene.DataSaving.Storages
             }
         }
 
-        protected sealed override bool Save(T data)
+        protected sealed override bool SaveData(T data)
         {
             string jsonData = Serialize(data);
             return SaveJson(jsonData);

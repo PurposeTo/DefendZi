@@ -7,7 +7,7 @@ namespace Desdiene.DataStorageFactories.Storages.Safe
     {
         private abstract class State : IStateEntryExitPoint
         {
-            private protected State(SafeStorageData<TData> it)
+            protected State(SafeStorageData<TData> it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
             }
