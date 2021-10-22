@@ -6,9 +6,9 @@
         {
             public DataWasReceived(Storage<T> it) : base(it) { }
 
-            public sealed override bool TryToLoad(out T data) => It.TryToLoadData(out data);
+            public sealed override bool TryToLoad(out T data) => base.TryToLoad(out data);
 
-            public sealed override bool Save(T data) => It.SaveData(data);
+            public sealed override bool Save(T data) => base.Save(data);
         }
     }
 }

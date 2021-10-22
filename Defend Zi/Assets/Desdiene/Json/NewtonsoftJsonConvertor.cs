@@ -1,6 +1,4 @@
-﻿using System;
-using Desdiene.DataStorageFactories.Datas;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Desdiene.Json
@@ -11,9 +9,9 @@ namespace Desdiene.Json
     /// Обращаться через интерфейс.
     /// </summary>
     /// <typeparam name="T">Тип (де)сериализуемого объекта</typeparam>
-    [Obsolete]
-    public class NewtonsoftJsonConvertor<T> : IJsonConvertor<T> where T : IData, new()
+    public class NewtonsoftJsonConvertor<T> : IJsonConvertor<T> where T : new()
     {
+        private const string EmptyJson = "{}";
         private readonly JsonSerializerSettings _serializerSettings;
 
         public NewtonsoftJsonConvertor() : this(new JsonSerializerSettings()) { }
@@ -23,18 +21,21 @@ namespace Desdiene.Json
             _serializerSettings = serializerSettings;
         }
 
-        T IJsonConvertor<T>.Deserialize(string jsonData)
+        string IJsonSerializer<T>.ToJson(T data)
         {
-            T data = JsonConvert.DeserializeObject<T>(jsonData, _serializerSettings);
-            Debug.Log("Десериализованные данные:\n" + data);
-            return data;
+            string json = JsonConvert.SerializeObject(data, _serializerSettings);
+            Debug.Log($"Cериализация json-а.\nОбъект:\n{data}\n\nJson:\n{json}");
+            return json;
         }
 
-        string IJsonConvertor<T>.Serialize(T data)
+        T IJsonDeserializer<T>.ToObject(string json)
         {
-            string jsonData = JsonConvert.SerializeObject(data, _serializerSettings);
-            Debug.Log("Сериализованные данные:\n" + jsonData);
-            return jsonData;
+            json = string.IsNullOrWhiteSpace(json)
+                ? EmptyJson
+                : json;
+            T data = JsonConvert.DeserializeObject<T>(json, _serializerSettings);
+            Debug.Log($"Десериализация json-а.\nJson:\n{json}\n\nОбъект:\n{data}");
+            return data;
         }
     }
 }

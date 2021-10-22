@@ -10,7 +10,7 @@ namespace Desdiene.DataSaving.Storages
 
             public sealed override bool TryToLoad(out T data)
             {
-                if (TryToLoadData(out data))
+                if (base.TryToLoad(out data))
                 {
                     SwitchState<DataWasReceived>();
                     return true;

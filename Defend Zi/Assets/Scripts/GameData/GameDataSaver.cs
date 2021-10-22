@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.DataContainers;
+using Desdiene.DataSaving.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
 
@@ -9,14 +9,14 @@ using Zenject;
 /// </summary>
 public class GameDataSaver : MonoBehaviourExt
 {
-    private IDataContainer<IGameData> _dataStorage;
+    private IStorageAsync<SavableDataAsync> _dataStorage;
 
     private IScoreAccessor _playerScore;
     private GameStatisticsCollector _statisticsCollector;
     private GameStatistics Statistics => _statisticsCollector.GetStatistics();
 
     [Inject]
-    private void Constructor(IDataContainer<IGameData> dataStorage,
+    private void Constructor(IStorageAsync<SavableDataAsync> dataStorage,
                              ComponentsProxy componentsProxy,
                              GameStatisticsCollector statisticsCollector)
     {
@@ -28,33 +28,22 @@ public class GameDataSaver : MonoBehaviourExt
         _statisticsCollector = statisticsCollector ?? throw new ArgumentNullException(nameof(statisticsCollector));
     }
 
-    private IGameData GameData => _dataStorage.GetData();
-
     public void CollectAndSaveGameData()
     {
-        CollectGameData();
-        InvokeSavingData();
+        var data = CollectGameData();
+        _dataStorage.Save(data, (_) => { });
     }
 
-    private void CollectGameData()
+    private SavableDataAsync CollectGameData()
     {
-        CollectGamesNumber();
-        CollectPlayerScore();
-        CollectPlayerLifeTime();
+        // todo нужно сохранить данные, основываясь на тех, которые уже были: лучший рекорд, кол-во игровых попыток и тп.
+        uint playerScore = _playerScore.Value;
+        TimeSpan playerLifeTime = Statistics.LifeTime;
+
+        return new SavableDataAsync()
+        {
+
+
+        };
     }
-
-    private void CollectGamesNumber() => GameData.IncreaseGamesNumber();
-
-    private void CollectPlayerScore()
-    {
-        GameData.SetBestScore((uint)_playerScore.Value);
-    }
-
-    private void CollectPlayerLifeTime()
-    {
-        GameData.SetBestLifeTime(Statistics.LifeTime);
-        GameData.AddPlayingTime(Statistics.LifeTime);
-    }
-
-    private void InvokeSavingData() => _dataStorage.InvokeSavingData();
 }

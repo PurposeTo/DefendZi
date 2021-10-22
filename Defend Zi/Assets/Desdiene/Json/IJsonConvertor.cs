@@ -1,12 +1,7 @@
-﻿using System;
-
-namespace Desdiene.Json
+﻿namespace Desdiene.Json
 {
-    [Obsolete]
-    public interface IJsonConvertor<T>
+    public interface IJsonConvertor<T> : IJsonDeserializer<T>, IJsonSerializer<T>
     {
-        T Deserialize(string jsonData);
 
-        string Serialize(T data);
     }
 }

@@ -18,10 +18,7 @@ namespace Desdiene.DataSaving.Storages
 
             protected StorageAsync<T> It { get; }
 
-            public abstract void Load(Action<bool, T> result);
-            public abstract void Save(T data, Action<bool> successResult);
-
-            protected void LoadData(Action<bool, T> result)
+            public virtual void Load(Action<bool, T> result)
             {
                 try
                 {
@@ -38,12 +35,13 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            protected void SaveData(T data, Action<bool> successResult)
+            public virtual void Save(T data, Action<bool> successResult)
             {
                 if (!data.IsValid())
                 {
                     Debug.LogError($"Data is not valid!\n{data}");
                     successResult?.Invoke(false);
+                    return;
                 }
 
                 try

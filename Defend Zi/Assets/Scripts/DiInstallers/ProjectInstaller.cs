@@ -1,4 +1,4 @@
-﻿using Desdiene.DataStorageFactories.DataContainers;
+﻿using Desdiene.DataSaving.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
@@ -15,16 +15,16 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        BindStorageAsync();
         BindRewardedAd();
         BindFullScreenWindowsContainer();
         BindScenesInBuild();
         BindLoadedScenes();
         BindGlobalTimeRef();
         BindGlobalTimeScaler();
-        BingSingleSceneLoader();
+        BindSingleSceneLoader();
         BindGPGSAuthentication();
         BindGPGSLeaderboard();
-        BindDataStorage();
         BindScreenOrientationAdapter();
         BindScreenOrientation();
         BindBackgroundMusic();
@@ -60,7 +60,7 @@ public class ProjectInstaller : MonoInstaller
             .Lazy();
     }
 
-    private void BingSingleSceneLoader()
+    private void BindSingleSceneLoader()
     {
         Container
             .Bind<SceneLoader>()
@@ -85,16 +85,6 @@ public class ProjectInstaller : MonoInstaller
         Container
             .Bind<LoadedScenes>()
             .ToSelf()
-            .FromNewComponentOnNewGameObject()
-            .AsSingle()
-            .Lazy();
-    }
-
-    private void BindDataStorage()
-    {
-        Container
-            .Bind<IDataContainer<IGameData>>()
-            .To<GameDataStorage>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
@@ -148,7 +138,7 @@ public class ProjectInstaller : MonoInstaller
             .FromComponentInNewPrefab(_transitionScreen)
             .AsSingle()
             .Lazy();
-	}
+    }
 
     private void BindScreenOrientationAdapter()
     {
@@ -165,6 +155,16 @@ public class ProjectInstaller : MonoInstaller
         Container
             .Bind<ScreenOrientationWrap>()
             .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
+    }
+
+    private void BindStorageAsync()
+    {
+        Container
+            .Bind<IStorageAsync<SavableDataAsync>>()
+            .To<StorageAsync>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();

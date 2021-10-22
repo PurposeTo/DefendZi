@@ -44,7 +44,7 @@ namespace Desdiene.DataSaving.Storages
         protected sealed override void SaveJson(string jsonData, Action<bool> successResult)
         {
             // try-catch исключений происходит в родительском классе.
-            LocalFile.WriteAllText(_filePath, jsonData);
+            DeviceFile.WriteAllText(_filePath, jsonData);
             successResult?.Invoke(true);
         }
 

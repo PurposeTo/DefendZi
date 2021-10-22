@@ -11,7 +11,7 @@ namespace Desdiene.DataSaving.Storages
 
             public override void Load(Action<bool, T> result)
             {
-                LoadData((success, data) =>
+                base.Load((success, data) =>
                 {
                     if(success) SwitchState<DataWasReceived>();
                     result?.Invoke(success, data);

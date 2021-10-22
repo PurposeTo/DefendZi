@@ -18,10 +18,7 @@ namespace Desdiene.DataSaving.Storages
 
             protected Storage<T> It { get; }
 
-            public abstract bool TryToLoad(out T data);
-            public abstract bool Save(T data);
-
-            protected bool TryToLoadData(out T data)
+            public virtual bool TryToLoad(out T data)
             {
                 try
                 {
@@ -35,7 +32,7 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            protected bool SaveData(T data)
+            public virtual bool Save(T data)
             {
                 if (!data.IsValid())
                 {
