@@ -5,6 +5,10 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Отвечает за сбор данных за игровую попытку.
+/// Существует только на игровой сцене.
+/// </summary>
 public class GameStatisticsCollector : MonoBehaviourExt
 {
     private IHealthNotification _playerDeath;
@@ -47,6 +51,10 @@ public class GameStatisticsCollector : MonoBehaviourExt
         _lifeTimeCounting.StartContinuously(LifeTimeCounting());
     }
 
+    /// <summary>
+    /// Cчитает время только тогда, когда игрок жив.
+    /// Так же, необходимо вновь запускать, если игрок вернулся к жизни после смерти.
+    /// </summary>
     private IEnumerator LifeTimeCounting()
     {
         while (true)

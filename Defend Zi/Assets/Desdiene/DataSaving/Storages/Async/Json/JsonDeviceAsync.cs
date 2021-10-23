@@ -28,7 +28,7 @@ namespace Desdiene.DataSaving.Storages
             _deviceDataReader = new DeviceDataReader(mono, _filePath);
         }
 
-        protected override void LoadJson(Action<bool, string> result)
+        protected override void ReadJson(Action<bool, string> result)
         {
             _deviceDataReader.Read((success, jsonData) =>
             {
@@ -41,14 +41,14 @@ namespace Desdiene.DataSaving.Storages
             });
         }
 
-        protected sealed override void SaveJson(string jsonData, Action<bool> successResult)
+        protected sealed override void UpdateJson(string jsonData, Action<bool> successResult)
         {
             // try-catch исключений происходит в родительском классе.
             DeviceFile.WriteAllText(_filePath, jsonData);
             successResult?.Invoke(true);
         }
 
-        protected sealed override void CleanData(Action<bool> successResult)
+        protected sealed override void DeleteData(Action<bool> successResult)
         {
             throw new NotImplementedException();
         }

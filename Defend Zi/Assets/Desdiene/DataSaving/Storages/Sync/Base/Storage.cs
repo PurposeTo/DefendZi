@@ -31,24 +31,24 @@ namespace Desdiene.DataSaving.Storages
 
         string IStorage<T>.StorageName => _storageName;
 
-        bool IStorage<T>.TryToLoad(out T data) => CurrentState.TryToLoad(out data);
+        bool IStorage<T>.TryToRead(out T data) => CurrentState.TryToRead(out data);
 
-        bool IStorage<T>.Save(T data) => CurrentState.Save(data);
+        bool IStorage<T>.Update(T data) => CurrentState.Update(data);
 
-        bool IStorage<T>.TryToClean() => TryToClean();
+        bool IStorage<T>.TryToDelete() => TryToDelete();
 
         private State CurrentState => _stateSwitcher.CurrentState;
 
-        protected abstract bool TryToLoadData(out T data);
-        protected abstract bool SaveData(T data);
-        protected abstract bool TryToCleanData();
+        protected abstract bool TryToReadData(out T data);
+        protected abstract bool UpdateData(T data);
+        protected abstract bool TryToDeleteData();
 
 
-        private bool TryToClean()
+        private bool TryToDelete()
         {
             try
             {
-                return TryToCleanData();
+                return TryToDeleteData();
             }
             catch (Exception exception)
             {

@@ -9,16 +9,16 @@ namespace Desdiene.DataSaving.Storages
         {
             public Init(StorageAsync<T> it) : base(it) { }
 
-            public override void Load(Action<bool, T> result)
+            public override void Read(Action<bool, T> result)
             {
-                base.Load((success, data) =>
+                base.Read((success, data) =>
                 {
                     if(success) SwitchState<DataWasReceived>();
                     result?.Invoke(success, data);
                 });
             }
 
-            public override void Save(T data, Action<bool> successResult)
+            public override void Update(T data, Action<bool> successResult)
             {
                 Debug.Log($"Данные с [{It._storageName}] еще не были получены. Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
                 successResult?.Invoke(false);

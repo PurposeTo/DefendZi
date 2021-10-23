@@ -27,9 +27,9 @@ public class StorageAsync : MonoBehaviourExt, IStorageAsync<SavableDataAsync>
 
     string IStorageAsync<SavableDataAsync>.StorageName => _storage.StorageName;
 
-    void IStorageAsync<SavableDataAsync>.Clean(Action<bool> successResult) => _storage.Clean(successResult);
+    void IStorageAsync<SavableDataAsync>.Delete(Action<bool> successResult) => _storage.Delete(successResult);
 
-    void IStorageAsync<SavableDataAsync>.Load(Action<bool, SavableDataAsync> result) => _storage.Load(result);
+    void IStorageAsync<SavableDataAsync>.Read(Action<bool, SavableDataAsync> result) => _storage.Read(result);
 
-    void IStorageAsync<SavableDataAsync>.Save(SavableDataAsync data, Action<bool> successResult) => _storage.Save(data, successResult);
+    void IStorageAsync<SavableDataAsync>.Update(SavableDataAsync data, Action<bool> successResult) => _storage.Update(data, successResult);
 }

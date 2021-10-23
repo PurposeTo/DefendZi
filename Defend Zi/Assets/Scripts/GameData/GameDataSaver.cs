@@ -31,7 +31,7 @@ public class GameDataSaver : MonoBehaviourExt
     public void CollectAndSaveGameData()
     {
         var data = CollectGameData();
-        _dataStorage.Save(data, (_) => { });
+        _dataStorage.Update(data, (_) => { });
     }
 
     private SavableDataAsync CollectGameData()

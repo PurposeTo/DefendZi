@@ -31,17 +31,17 @@ namespace Desdiene.DataSaving.Storages
 
         string IStorageAsync<T>.StorageName => _storageName;
 
-        void IStorageAsync<T>.Load(Action<bool, T> result) => CurrentState.Load(result);
+        void IStorageAsync<T>.Read(Action<bool, T> result) => CurrentState.Read(result);
 
-        void IStorageAsync<T>.Save(T data, Action<bool> successResult) => CurrentState.Save(data, successResult);
+        void IStorageAsync<T>.Update(T data, Action<bool> successResult) => CurrentState.Update(data, successResult);
 
-        void IStorageAsync<T>.Clean(Action<bool> successResult) => Clean(successResult);
+        void IStorageAsync<T>.Delete(Action<bool> successResult) => Delete(successResult);
 
-        private void Clean(Action<bool> successResult)
+        private void Delete(Action<bool> successResult)
         {
             try
             {
-                CleanData(successResult);
+                DeleteData(successResult);
             }
             catch (Exception exception)
             {
@@ -51,8 +51,8 @@ namespace Desdiene.DataSaving.Storages
         }
         private State CurrentState => _stateSwitcher.CurrentState;
 
-        protected abstract void LoadData(Action<bool, T> result);
-        protected abstract void SaveData(T data, Action<bool> successResult);
-        protected abstract void CleanData(Action<bool> successResult);
+        protected abstract void ReadData(Action<bool, T> result);
+        protected abstract void UpdateData(T data, Action<bool> successResult);
+        protected abstract void DeleteData(Action<bool> successResult);
     }
 }

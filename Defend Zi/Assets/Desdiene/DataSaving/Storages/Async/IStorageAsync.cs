@@ -13,8 +13,8 @@ namespace Desdiene.DataSaving.Storages
     {
         string StorageName { get; }
 
-        void Load(Action<bool, T> result);
-        void Save(T data, Action<bool> successResult);
-        void Clean(Action<bool> successResult);
+        void Read(Action<bool, T> result);
+        void Update(T data, Action<bool> successResult);
+        void Delete(Action<bool> successResult);
     }
 }

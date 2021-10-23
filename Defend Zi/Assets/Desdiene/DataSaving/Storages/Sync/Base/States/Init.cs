@@ -8,9 +8,9 @@ namespace Desdiene.DataSaving.Storages
         {
             public Init(Storage<T> it) : base(it) { }
 
-            public sealed override bool TryToLoad(out T data)
+            public sealed override bool TryToRead(out T data)
             {
-                if (base.TryToLoad(out data))
+                if (base.TryToRead(out data))
                 {
                     SwitchState<DataWasReceived>();
                     return true;
@@ -22,7 +22,7 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            public sealed override bool Save(T data)
+            public sealed override bool Update(T data)
             {
                 Debug.Log($"Данные с [{It._storageName}] еще не были получены. Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
                 return false;

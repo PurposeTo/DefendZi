@@ -22,7 +22,7 @@ namespace Desdiene.DataSaving.Storages
 
         private bool DataExists => PlayerPrefs.HasKey(FileName);
 
-        protected sealed override bool TryLoadJson(out string json)
+        protected sealed override bool TryToReadJson(out string json)
         {
             json = DataExists
                 ? PlayerPrefs.GetString(FileName)
@@ -30,13 +30,13 @@ namespace Desdiene.DataSaving.Storages
             return true;
         }
 
-        protected sealed override bool SaveJson(string jsonData)
+        protected sealed override bool UpdateJson(string jsonData)
         {
             PlayerPrefs.SetString(FileName, jsonData);
             return DataExists;
         }
 
-        protected sealed override bool TryToCleanData()
+        protected sealed override bool TryToDeleteData()
         {
             PlayerPrefs.DeleteKey(FileName);
             return !DataExists;

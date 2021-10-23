@@ -26,12 +26,12 @@ namespace Desdiene.DataSaving.Storages
         protected string BaseFileName { get; }
         protected string FileName => BaseFileName + "." + FileExtension;
 
-        protected abstract bool TryLoadJson(out string data);
-        protected abstract bool SaveJson(string jsonData);
+        protected abstract bool TryToReadJson(out string data);
+        protected abstract bool UpdateJson(string jsonData);
 
-        protected sealed override bool TryToLoadData(out T data)
+        protected sealed override bool TryToReadData(out T data)
         {
-            if (TryLoadJson(out string json))
+            if (TryToReadJson(out string json))
             {
                 data = Deserialize(json);
                 return true;
@@ -43,10 +43,10 @@ namespace Desdiene.DataSaving.Storages
             }
         }
 
-        protected sealed override bool SaveData(T data)
+        protected sealed override bool UpdateData(T data)
         {
             string jsonData = Serialize(data);
-            return SaveJson(jsonData);
+            return UpdateJson(jsonData);
         }
 
         /// <summary>

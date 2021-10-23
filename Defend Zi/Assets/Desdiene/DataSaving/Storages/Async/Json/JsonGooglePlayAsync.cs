@@ -43,17 +43,17 @@ namespace Desdiene.DataSaving.Storages
 
         private ISavedGameClient SavedGameClient => _platform.SavedGame;
 
-        protected override void LoadJson(Action<bool, string> result)
+        protected override void ReadJson(Action<bool, string> result)
         {
             _loadingData.StartContinuously(LoadingData(result));
         }
 
-        protected override void SaveJson(string jsonData, Action<bool> successResult)
+        protected override void UpdateJson(string jsonData, Action<bool> successResult)
         {
             _metaData.Get(Update(jsonData, successResult));
         }
 
-        protected override void CleanData(Action<bool> successResult)
+        protected override void DeleteData(Action<bool> successResult)
         {
             _metaData.Get(Delete(successResult));
         }

@@ -18,11 +18,11 @@ namespace Desdiene.DataSaving.Storages
 
             protected StorageAsync<T> It { get; }
 
-            public virtual void Load(Action<bool, T> result)
+            public virtual void Read(Action<bool, T> result)
             {
                 try
                 {
-                    It.LoadData((success, data) =>
+                    It.ReadData((success, data) =>
                     {
                         if (success) data.TryToRepair();
                         result?.Invoke(success, data);
@@ -35,7 +35,7 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            public virtual void Save(T data, Action<bool> successResult)
+            public virtual void Update(T data, Action<bool> successResult)
             {
                 if (!data.IsValid())
                 {
@@ -46,7 +46,7 @@ namespace Desdiene.DataSaving.Storages
 
                 try
                 {
-                    It.SaveData(data, successResult);
+                    It.UpdateData(data, successResult);
                 }
                 catch (Exception exception)
                 {

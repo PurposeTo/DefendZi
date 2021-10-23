@@ -18,11 +18,11 @@ namespace Desdiene.DataSaving.Storages
 
             protected Storage<T> It { get; }
 
-            public virtual bool TryToLoad(out T data)
+            public virtual bool TryToRead(out T data)
             {
                 try
                 {
-                    return TryToLoadAndRepair(out data);
+                    return TryToReadAndRepair(out data);
                 }
                 catch (Exception exception)
                 {
@@ -32,7 +32,7 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            public virtual bool Save(T data)
+            public virtual bool Update(T data)
             {
                 if (!data.IsValid())
                 {
@@ -42,7 +42,7 @@ namespace Desdiene.DataSaving.Storages
 
                 try
                 {
-                    return It.SaveData(data);
+                    return It.UpdateData(data);
                 }
                 catch (Exception exception)
                 {
@@ -53,9 +53,9 @@ namespace Desdiene.DataSaving.Storages
 
             protected void SwitchState<stateT>() where stateT : State => It._stateSwitcher.Switch<stateT>();
 
-            private bool TryToLoadAndRepair(out T data)
+            private bool TryToReadAndRepair(out T data)
             {
-                if (It.TryToLoadData(out data))
+                if (It.TryToReadData(out data))
                 {
                     data.TryToRepair();
                     return true;

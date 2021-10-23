@@ -8,9 +8,9 @@ namespace Desdiene.DataSaving.Storages
         {
             public DataWasReceived(StorageAsync<T> it) : base(it) { }
 
-            public override void Load(Action<bool, T> result) => base.Load(result);
+            public override void Read(Action<bool, T> result) => base.Read(result);
 
-            public override void Save(T data, Action<bool> successResult) => base.Save(data, successResult);
+            public override void Update(T data, Action<bool> successResult) => base.Update(data, successResult);
         }
     }
 }

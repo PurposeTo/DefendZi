@@ -31,7 +31,7 @@ namespace Desdiene.DataSaving.Storages
         /// Будут выбраны данные с наибольшем значением TimeSpan playingTime.
         /// </summary>
         /// <param name="result">bool: Успешно? T: данные</param>
-        void IStorageAsync<T>.Load(Action<bool, T> result)
+        void IStorageAsync<T>.Read(Action<bool, T> result)
         {
             Array.ForEach(_storages, storage => LoadWithConflictResolution(storage, result));
         }
@@ -42,9 +42,9 @@ namespace Desdiene.DataSaving.Storages
         /// </summary>
         /// <param name="data">Сохраняемые данные</param>
         /// <param name="successResult">Успешно?</param>
-        void IStorageAsync<T>.Save(T data, Action<bool> successResult)
+        void IStorageAsync<T>.Update(T data, Action<bool> successResult)
         {
-            Array.ForEach(_storages, storage => storage.Save(data, successResult));
+            Array.ForEach(_storages, storage => storage.Update(data, successResult));
         }
 
         /// <summary>
@@ -52,14 +52,14 @@ namespace Desdiene.DataSaving.Storages
         /// Коллбек будет вызван <= раз, относительно количества хранилищ.
         /// </summary>
         /// <param name="successResult">Успешно?</param>
-        void IStorageAsync<T>.Clean(Action<bool> successResult)
+        void IStorageAsync<T>.Delete(Action<bool> successResult)
         {
-            Array.ForEach(_storages, storage => storage.Clean(successResult));
+            Array.ForEach(_storages, storage => storage.Delete(successResult));
         }
 
         private void LoadWithConflictResolution(IStorageAsync<T> storage, Action<bool, T> result)
         {
-            storage.Load((success, data) =>
+            storage.Read((success, data) =>
             {
                 if (!success) result?.Invoke(success, data);
 
