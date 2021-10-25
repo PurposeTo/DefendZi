@@ -1,10 +1,15 @@
 ﻿using System;
 using Desdiene.DataSaving.Storages;
+using Desdiene.MonoBehaviourExtension;
 using Zenject;
 
-public class GameStatistics : IGameStatisticsAccessorNotifier
+/// <summary>
+/// Статистика игры.
+/// Класс сделан MonoBehaviour для возможности чтения полей через инспектор.
+/// </summary>
+public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
 {
-    private readonly IStorageAsync<GameStatisticsDto> _storage;
+    private IStorageAsync<GameStatisticsDto> _storage;
     // todo добавить события об изменении
     private TimeSpan _totalLifeTime = TimeSpan.Zero;
     private uint _gamesNumber = 0;
@@ -12,7 +17,7 @@ public class GameStatistics : IGameStatisticsAccessorNotifier
     private TimeSpan _bestLifeTime = TimeSpan.Zero;
 
     [Inject]
-    public GameStatistics(IStorageAsync<GameStatisticsDto> storage)
+    private void Constructor(IStorageAsync<GameStatisticsDto> storage)
     {
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         _storage.Read(UpdateDataFromDto);
@@ -63,7 +68,7 @@ public class GameStatistics : IGameStatisticsAccessorNotifier
 
         _bestScore = value;
     }
-    
+
     private void UpdateDataFromDto(bool success, GameStatisticsDto dto)
     {
         if (!success) return;

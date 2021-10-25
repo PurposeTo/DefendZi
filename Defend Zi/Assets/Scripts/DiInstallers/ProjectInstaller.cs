@@ -176,6 +176,7 @@ public class ProjectInstaller : MonoInstaller
         Container
             .Bind<GameStatistics>()
             .ToSelf()
+            .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
     }
