@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Desdiene.Tools;
 using Desdiene.DataSaving.Datas;
+using Desdiene.Encryptions;
 using Desdiene.Json;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Tools;
@@ -12,10 +13,11 @@ namespace Desdiene.DataSaving.Storages
     /// 
     /// </summary>
     /// <typeparam name="T">Объект с данными, загружаемый/сохраняемый в хранилище.</typeparam>
-    public class JsonCryptoDeviceAsync<T> : JsonStorageAsync<T> where T : IJsonSerializable, IValidData
+    public sealed class JsonCryptoDeviceAsync<T> : JsonStorageAsync<T> where T : IJsonSerializable, IValidData
     {
-        protected readonly string _filePath;
-        protected readonly DeviceDataReader _deviceDataReader;
+        private readonly string _filePath;
+        private readonly DeviceDataReader _deviceDataReader;
+        private readonly SavingStringEncryptor _encryptor;
 
         public JsonCryptoDeviceAsync(MonoBehaviourExt mono, string baseFileName, IJsonDeserializer<T> jsonDeserializer)
             : base("Асинхронное хранилище зашифрованных Json данных на устройстве",
@@ -26,25 +28,37 @@ namespace Desdiene.DataSaving.Storages
 
             _filePath = new FilePath(FileName).Value;
             _deviceDataReader = new DeviceDataReader(mono, _filePath);
+            _encryptor = new SavingStringEncryptor(mono, FileName);
         }
 
-        protected override void ReadJson(Action<bool, string> result)
+        protected sealed override void ReadJson(Action<bool, string> result)
         {
             _deviceDataReader.Read((success, jsonData) =>
             {
-                if(success && string.IsNullOrWhiteSpace(jsonData))
+                if (!success)
                 {
-                    jsonData = EmptyJson;
+                    result?.Invoke(false, jsonData);
+                    return;
                 }
 
-                result?.Invoke(success, jsonData);
+                if (string.IsNullOrWhiteSpace(jsonData))
+                {
+                    result?.Invoke(true, EmptyJson);
+                    return;
+                }
+
+                _encryptor.Decrypt(jsonData, decryptedData =>
+                {
+                    result?.Invoke(true, decryptedData);
+                });
             });
         }
 
         protected sealed override void UpdateJson(string jsonData, Action<bool> successResult)
         {
+            string modifiedData = _encryptor.Encrypt(jsonData);
             // try-catch исключений происходит в родительском классе.
-            DeviceFile.WriteAllText(_filePath, jsonData);
+            DeviceFile.WriteAllText(_filePath, modifiedData);
             successResult?.Invoke(true);
         }
 

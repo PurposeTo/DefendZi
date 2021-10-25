@@ -20,7 +20,7 @@ public class StorageAsync : MonoBehaviourExt, IStorageAsync<GameStatisticsDto>
     {
         var jsonDeserializer = new GameStatisticsDtoJsonConvertor();
 
-        var deviceStorage = new JsonDeviceAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer);
+        var deviceStorage = new JsonCryptoDeviceAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer);
         var googlePlayStorage = new JsonGooglePlayAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer, _gpgsAutentification.Get());
         _storage = new StoragesAsyncContainer<GameStatisticsDto>(deviceStorage, googlePlayStorage);
     }
