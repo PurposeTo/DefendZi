@@ -4,6 +4,6 @@ namespace Desdiene.DataSaving.Datas
 {
     public interface IDataWithPlayingTime
     {
-        TimeSpan PlayingTime { get; }
+        TimeSpan TotalLifeTime { get; }
     }
 }

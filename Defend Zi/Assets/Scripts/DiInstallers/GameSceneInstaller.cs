@@ -39,7 +39,7 @@ public class GameSceneInstaller : MonoInstaller
     private void BindGameDataSaver()
     {
         Container
-            .Bind<GameDataSaver>()
+            .Bind<GameOverDataSaver>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
@@ -68,7 +68,7 @@ public class GameSceneInstaller : MonoInstaller
     private void BindStatisticsCollector()
     {
         Container
-            .Bind<GameStatisticsCollector>()
+            .Bind<PlayerLifeTime>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

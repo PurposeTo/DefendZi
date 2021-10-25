@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
@@ -22,10 +21,10 @@ public class GameOverUI : MonoBehaviourExt
     private ISceneAsset _gameScene;
     private ISceneAsset _mainMenuScene;
 
-    private IScoreAccessor _playerScore;
-    private IDataContainer<IGameData> _storage;
+    private IGameStatisticsAccessorNotifier _gameStatistics;
+    private GameOverDataSaver _gameOverDataSaver;
 
-    private GameDataSaver _gameDataSaver;
+    private IScoreAccessor _playerScore;
 
     private IHealthNotification _playerDeath;
     private IReincarnation _playerReincarnation;
@@ -38,11 +37,11 @@ public class GameOverUI : MonoBehaviourExt
 
     [Inject]
     private void Constructor(ITime globalTime,
-                         IDataContainer<IGameData> storage,
+                         GameStatistics gameStatistics,
                          SceneLoader sceneLoader,
                          ScenesInBuild scenesInBuild,
                          IRewardedAd rewardedAd,
-                         GameDataSaver gameDataSaver,
+                         GameOverDataSaver gameOverDataSaver,
                          ComponentsProxy componentsProxy)
     {
         if (globalTime == null) throw new ArgumentNullException(nameof(globalTime));
@@ -50,8 +49,8 @@ public class GameOverUI : MonoBehaviourExt
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
         _sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
-        _gameDataSaver = gameDataSaver ?? throw new ArgumentNullException(nameof(gameDataSaver));
-        _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+        _gameOverDataSaver = gameOverDataSaver ?? throw new ArgumentNullException(nameof(gameOverDataSaver));
+        _gameStatistics = gameStatistics ?? throw new ArgumentNullException(nameof(gameStatistics));
         _playerDeathPause = globalTime.CreatePause(this, "Смерть игрока");
         _rewardedAd = rewardedAd ?? throw new ArgumentNullException(nameof(rewardedAd));
 
@@ -73,9 +72,8 @@ public class GameOverUI : MonoBehaviourExt
         UnsubscribeEvents();
     }
 
-    private IGameData GameData => _storage.GetData();
     private uint PlayerScore => _playerScore.Value;
-    private uint PlayerBestScore => GameData.BestScore;
+    private uint PlayerBestScore => _gameStatistics.BestScore;
 
     private void SubscribeEvents()
     {
@@ -163,7 +161,7 @@ public class GameOverUI : MonoBehaviourExt
     private void LoadGameScene() => _sceneLoader.Load(_gameScene);
     private void LoadMainMenuScene() => _sceneLoader.Load(_mainMenuScene);
 
-    private void CollectRewards() => _gameDataSaver.CollectAndSaveGameData();
+    private void CollectRewards() => _gameOverDataSaver.CollectAndSave();
 
     private void ShowAd()
     {

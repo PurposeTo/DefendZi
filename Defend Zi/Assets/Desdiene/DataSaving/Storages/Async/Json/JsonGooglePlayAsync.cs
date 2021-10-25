@@ -37,7 +37,7 @@ namespace Desdiene.DataSaving.Storages
             if (mono == null) throw new ArgumentNullException(nameof(mono));
 
             _platform = platform ?? throw new ArgumentNullException(nameof(platform));
-            _metaData = new SavedMetaData(_platform.SavedGame, FileName);
+            _metaData = new SavedMetaData(() => _platform.SavedGame, FileName);
             _loadingData = new CoroutineWrap(mono);
         }
 

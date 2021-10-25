@@ -19,14 +19,15 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         SceneLoader _4,
         ScenesInBuild _5,
         LoadedScenes _6,
-        IStorageAsync<SavableDataAsync> _7,
+        IStorageAsync<GameStatisticsDto> _7,
         GpgsAutentification _8,
         GpgsLeaderboard _9,
         GlobalTimeScaleAdapter _10,
         ITime _11,
         AndroidScreenAutoRotation _12,
         ScreenOrientationWrap _13,
-        TransitionScreen _14
+        TransitionScreen _14,
+        GameStatistics _15
         )
     {
         if (_1 == null) throw new ArgumentNullException(nameof(_1));
@@ -43,5 +44,6 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         if (_12 == null) throw new ArgumentNullException(nameof(_12));
         if (_13 == null) throw new ArgumentNullException(nameof(_13));
         if (_14 == null) throw new ArgumentNullException(nameof(_14));
+        if (_15 == null) throw new ArgumentNullException(nameof(_15));
     }
 }

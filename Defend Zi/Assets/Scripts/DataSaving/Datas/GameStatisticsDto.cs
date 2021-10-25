@@ -6,7 +6,7 @@ using Desdiene.Json;
  * Для (де)сериализации используется NewtonsoftJson, 
  * поэтому все данные должны лежать в свойствах и иметь public get и public set, а также быть проинициализированны.
  */
-public class SavableDataAsync : IValidData, IDataWithPlayingTime, IJsonSerializable
+public class GameStatisticsDto : IValidData, IDataWithPlayingTime, IJsonSerializable
 {
     bool IValidData.IsValid() => IsValid();
 
@@ -17,17 +17,14 @@ public class SavableDataAsync : IValidData, IDataWithPlayingTime, IJsonSerializa
 
     string IJsonSerializable.ToJson()
     {
-        IJsonSerializer<SavableDataAsync> jsonSerializer = new DataAsyncJsonConvertor();
+        IJsonSerializer<GameStatisticsDto> jsonSerializer = new GameStatisticsDtoJsonConvertor();
         return jsonSerializer.ToJson(this);
     }
 
-    public TimeSpan PlayingTime { get; set; } = TimeSpan.Zero;
-
+    public TimeSpan TotalLifeTime { get; set; } = TimeSpan.Zero;
     public uint GamesNumber { get; set; } = 0;
-
-    public uint BestScore { get; set; } = 0;
-
     public TimeSpan BestLifeTime { get; set; } = TimeSpan.Zero;
+    public uint BestScore { get; set; } = 0;
 
     public override string ToString()
     {
@@ -35,7 +32,7 @@ public class SavableDataAsync : IValidData, IDataWithPlayingTime, IJsonSerializa
              + $"\nGamesNumber={GamesNumber}"
              + $"\nBestScore={BestScore}"
              + $"\nBestLifeTimeSec={BestLifeTime}"
-             + $"\nPlayingTime={PlayingTime}";
+             + $"\nPlayingTime={TotalLifeTime}";
     }
 
     private bool IsValid()
@@ -51,8 +48,8 @@ public class SavableDataAsync : IValidData, IDataWithPlayingTime, IJsonSerializa
 
     public override bool Equals(object obj)
     {
-        return obj is SavableDataAsync data &&
-               PlayingTime.Equals(data.PlayingTime) &&
+        return obj is GameStatisticsDto data &&
+               TotalLifeTime.Equals(data.TotalLifeTime) &&
                GamesNumber == data.GamesNumber &&
                BestScore == data.BestScore &&
                BestLifeTime.Equals(data.BestLifeTime);
@@ -61,7 +58,7 @@ public class SavableDataAsync : IValidData, IDataWithPlayingTime, IJsonSerializa
     public override int GetHashCode()
     {
         int hashCode = -648678592;
-        hashCode = hashCode * -1521134295 + PlayingTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + TotalLifeTime.GetHashCode();
         hashCode = hashCode * -1521134295 + GamesNumber.GetHashCode();
         hashCode = hashCode * -1521134295 + BestScore.GetHashCode();
         hashCode = hashCode * -1521134295 + BestLifeTime.GetHashCode();

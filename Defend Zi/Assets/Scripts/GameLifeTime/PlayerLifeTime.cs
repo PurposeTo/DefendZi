@@ -8,11 +8,13 @@ using Zenject;
 /// <summary>
 /// Отвечает за сбор данных за игровую попытку.
 /// Существует только на игровой сцене.
+/// НЕ использовать вычисление времени по DateTime.now, 
+/// тк пользователь может сменить время на часах 
+/// И время должно считаться когда нет паузы.
 /// </summary>
-public class GameStatisticsCollector : MonoBehaviourExt
+public class PlayerLifeTime : MonoBehaviourExt
 {
     private IHealthNotification _playerDeath;
-    private GameStatistics _statistics = new GameStatistics();
     private ICoroutine _lifeTimeCounting;
 
     [Inject]
@@ -21,6 +23,8 @@ public class GameStatisticsCollector : MonoBehaviourExt
         _playerDeath = componentsProxy.PlayerDeath;
         _lifeTimeCounting = new CoroutineWrap(this);
     }
+
+    public TimeSpan Value { get; set; }
 
     protected override void AwakeExt()
     {
@@ -31,8 +35,6 @@ public class GameStatisticsCollector : MonoBehaviourExt
     {
         UnsubscribeEvents();
     }
-
-    public GameStatistics GetStatistics() => _statistics;
 
     private void SubscribeEvents()
     {
@@ -60,7 +62,7 @@ public class GameStatisticsCollector : MonoBehaviourExt
         while (true)
         {
             float deltaTime = Time.deltaTime;
-            _statistics.LifeTime += TimeSpan.FromSeconds(deltaTime);
+            Value += TimeSpan.FromSeconds(deltaTime);
             yield return null;
         }
     }

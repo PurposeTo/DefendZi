@@ -68,14 +68,14 @@ namespace Desdiene.DataSaving.Storages
                 // если первое предыдущее условие не выполнено, то и след. не должно выполняться.
                 if (isHashLoadedDataEmpty || (IsNewDataMoreRelevant(data) && IsNotDataEquals(data)))
                 {
-                    _hashLoadedData = new KeyValuePair<TimeSpan, int>(data.PlayingTime, data.GetHashCode());
+                    _hashLoadedData = new KeyValuePair<TimeSpan, int>(data.TotalLifeTime, data.GetHashCode());
                     result?.Invoke(success, data);
                 }
                 // else: ничего не делать.
             });
         }
 
-        private bool IsNewDataMoreRelevant(T newData) => newData.PlayingTime > _hashLoadedData.Key;
+        private bool IsNewDataMoreRelevant(T newData) => newData.TotalLifeTime > _hashLoadedData.Key;
         private bool IsNotDataEquals(T newData) => newData.GetHashCode() != _hashLoadedData.Value;
     }
 }
