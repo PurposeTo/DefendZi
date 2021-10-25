@@ -6,7 +6,7 @@ using Desdiene.Json;
  * Для (де)сериализации используется NewtonsoftJson, 
  * поэтому все данные должны лежать в свойствах и иметь public get и public set, а также быть проинициализированны.
  */
-public class GameStatisticsDto : IValidData, IDataWithPlayingTime, IJsonSerializable
+public class GameStatisticsDto : IValidData, IDataWithTotalInAppTime, IJsonSerializable
 {
     bool IValidData.IsValid() => IsValid();
 
@@ -21,6 +21,7 @@ public class GameStatisticsDto : IValidData, IDataWithPlayingTime, IJsonSerializ
         return jsonSerializer.ToJson(this);
     }
 
+    public TimeSpan TotalInAppTime { get; set; } = TimeSpan.Zero;
     public TimeSpan TotalLifeTime { get; set; } = TimeSpan.Zero;
     public uint GamesNumber { get; set; } = 0;
     public TimeSpan BestLifeTime { get; set; } = TimeSpan.Zero;
@@ -29,10 +30,11 @@ public class GameStatisticsDto : IValidData, IDataWithPlayingTime, IJsonSerializ
     public override string ToString()
     {
         return $"{GetType().Name}"
-             + $"\nGamesNumber={GamesNumber}"
-             + $"\nBestScore={BestScore}"
-             + $"\nBestLifeTimeSec={BestLifeTime}"
-             + $"\nPlayingTime={TotalLifeTime}";
+            + $"\nTotalInAppTime={TotalInAppTime}"
+            + $"\nTotalLifeTime={TotalLifeTime}"
+            + $"\nGamesNumber={GamesNumber}"
+            + $"\nBestLifeTimeSec={BestLifeTime}"
+            + $"\nBestScore={BestScore}";
     }
 
     private bool IsValid()
@@ -58,10 +60,11 @@ public class GameStatisticsDto : IValidData, IDataWithPlayingTime, IJsonSerializ
     public override int GetHashCode()
     {
         int hashCode = -648678592;
+        hashCode = hashCode * -1521134295 + TotalInAppTime.GetHashCode();
         hashCode = hashCode * -1521134295 + TotalLifeTime.GetHashCode();
         hashCode = hashCode * -1521134295 + GamesNumber.GetHashCode();
-        hashCode = hashCode * -1521134295 + BestScore.GetHashCode();
         hashCode = hashCode * -1521134295 + BestLifeTime.GetHashCode();
+        hashCode = hashCode * -1521134295 + BestScore.GetHashCode();
         return hashCode;
     }
 }

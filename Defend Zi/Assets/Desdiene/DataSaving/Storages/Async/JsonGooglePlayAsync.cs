@@ -14,17 +14,21 @@ namespace Desdiene.DataSaving.Storages
 {
     /// <summary>
     /// Сохранить файл в json формате на облако в google play-е.
-    /// 
+    /// Не используется JsonStorageAsync, тк надо иметь доступ к объекту с данными.
     /// Прежде чем работать с данными (чтение и запись) их надо открыть.
     /// </summary>
     /// <typeparam name="T">Объект с данными, загружаемый/сохраняемый в хранилище.</typeparam>
-    public class JsonGooglePlayAsync<T> : JsonStorageAsync<T> where T : IJsonSerializable, IValidData
+    public sealed class JsonGooglePlayAsync<T> : FileStorageAsync<T>
+        where T : IJsonSerializable, IValidData, IDataWithTotalInAppTime
     {
+        private const string JsonFileExtension = "json";
+        private const string EmptyJson = "{}";
+        private readonly IJsonDeserializer<T> _jsonDeserializer;
+
         private readonly SavedGameRequestStatus _successStatus = SavedGameRequestStatus.Success;
         private readonly PlayGamesPlatform _platform;
         private readonly SavedMetaData _metaData;
         private readonly ICoroutine _loadingData;
-        private DateTime _startPlayingTime;
 
         public JsonGooglePlayAsync(MonoBehaviourExt mono,
                                    string baseFileName,
@@ -32,9 +36,10 @@ namespace Desdiene.DataSaving.Storages
                                    PlayGamesPlatform platform)
             : base("Асинхронное облачное хранилище Json данных в google play-е",
                    baseFileName,
-                   jsonDeserializer)
+                   JsonFileExtension)
         {
             if (mono == null) throw new ArgumentNullException(nameof(mono));
+            _jsonDeserializer = jsonDeserializer ?? throw new ArgumentNullException(nameof(jsonDeserializer));
 
             _platform = platform ?? throw new ArgumentNullException(nameof(platform));
             _metaData = new SavedMetaData(() => _platform.SavedGame, FileName);
@@ -43,14 +48,14 @@ namespace Desdiene.DataSaving.Storages
 
         private ISavedGameClient SavedGameClient => _platform.SavedGame;
 
-        protected override void ReadJson(Action<bool, string> result)
+        protected override void ReadData(Action<bool, T> result)
         {
-            _loadingData.StartContinuously(LoadingData(result));
+            _loadingData.StartContinuously(ReadingData(result));
         }
 
-        protected override void UpdateJson(string jsonData, Action<bool> successResult)
+        protected override void UpdateData(T data, Action<bool> successResult)
         {
-            _metaData.Get(Update(jsonData, successResult));
+            _metaData.Get(Update(data, successResult));
         }
 
         protected override void DeleteData(Action<bool> successResult)
@@ -58,7 +63,7 @@ namespace Desdiene.DataSaving.Storages
             _metaData.Get(Delete(successResult));
         }
 
-        private IEnumerator LoadingData(Action<bool, string> result)
+        private IEnumerator ReadingData(Action<bool, T> result)
         {
             Debug.Log("Начало операции загрузки данных с облака. Ожидание аутентификации пользователя.");
             yield return _loadingData.StartNested(new WaitUntil(() => _platform.IsAuthenticated()));
@@ -67,38 +72,35 @@ namespace Desdiene.DataSaving.Storages
             _metaData.Get(Read(result));
         }
 
-        private Action<SavedGameRequestStatus, ISavedGameMetadata> Read(Action<bool, string> result)
+        private Action<SavedGameRequestStatus, ISavedGameMetadata> Read(Action<bool, T> result)
         {
             return (openingStatus, metaData) =>
             {
                 if (openingStatus != _successStatus)
                 {
-                    result?.Invoke(false, null);
+                    result?.Invoke(false, default);
                     return;
                 }
-
-                // Начать отсчет времени для текущей сессии игры
-                _startPlayingTime = DateTime.Now;
 
                 // Загрузка данных из облака
                 SavedGameClient.ReadBinaryData(metaData, OnReaded(result));
             };
         }
 
-        private Action<SavedGameRequestStatus, byte[]> OnReaded(Action<bool, string> result)
+        private Action<SavedGameRequestStatus, byte[]> OnReaded(Action<bool, T> result)
         {
-            return (readingStatus, data) =>
+            return (readingStatus, dataAsBytes) =>
             {
                 Debug.Log($"Данные с облака были извлечены со статусом " + readingStatus);
                 bool success = readingStatus == SavedGameRequestStatus.Success;
-                string dataAsStr = success
-                ? BytesToString(data)
-                : null;
-                result?.Invoke(success, dataAsStr);
+                T data = success
+                ? BytesToObject(dataAsBytes)
+                : default;
+                result?.Invoke(success, data);
             };
         }
 
-        private Action<SavedGameRequestStatus, ISavedGameMetadata> Update(string jsonData, Action<bool> successResult)
+        private Action<SavedGameRequestStatus, ISavedGameMetadata> Update(T data, Action<bool> successResult)
         {
             return (openingStatus, metaData) =>
             {
@@ -108,11 +110,10 @@ namespace Desdiene.DataSaving.Storages
                     return;
                 }
 
-                byte[] dataToSave = StringToBytes(jsonData);
-                TimeSpan allPlayingTime = DateTime.Now - _startPlayingTime;
+                byte[] dataToSave = ObjectToBytes(data);
                 SavedGameMetadataUpdate updatedMetadata = new SavedGameMetadataUpdate
                     .Builder()
-                    .WithUpdatedPlayedTime(metaData.TotalTimePlayed + allPlayingTime)
+                    .WithUpdatedPlayedTime(data.TotalInAppTime)
                     .Build();
 
                 _metaData.Update(updatedMetadata, dataToSave, OnUpdated(successResult));
@@ -124,9 +125,6 @@ namespace Desdiene.DataSaving.Storages
             return (updatedStatus) =>
             {
                 bool success = updatedStatus == SavedGameRequestStatus.Success;
-                // Заново считаем время игры с момента записи сохранения
-                if (success) _startPlayingTime = DateTime.Now;
-
                 successCallback?.Invoke(success);
             };
         }
@@ -146,13 +144,25 @@ namespace Desdiene.DataSaving.Storages
             };
         }
 
-        private string BytesToString(byte[] data)
+        private T BytesToObject(byte[] data)
         {
             string dataAsStr = Encoding.UTF8.GetString(data);
             Debug.Log($"Длина извлеченного массива байт = { data.Length }.\nДанные в виде строки: " + dataAsStr);
-            return dataAsStr;
+            try
+            {
+                return _jsonDeserializer.ToObject(dataAsStr);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Deserialization exception! Json:\n{dataAsStr}\n\n{exception}");
+                return _jsonDeserializer.ToObject(EmptyJson);
+            }
         }
 
-        private byte[] StringToBytes(string data) => Encoding.UTF8.GetBytes(data);
+        private byte[] ObjectToBytes(T data)
+        {
+            string dataAsStr = data.ToJson();
+            return Encoding.UTF8.GetBytes(dataAsStr);
+        }
     }
 }

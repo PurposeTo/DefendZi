@@ -10,14 +10,13 @@ namespace Desdiene.GooglePlayApi
         private readonly Func<ISavedGameClient> _savedGameClientGetter;
         private readonly string _fileName;
         private readonly DataSource _dataSource;
-        private readonly ConflictResolutionStrategy _conflictResolutionStrategy;
+        private readonly ConflictResolutionStrategy _conflictResolutionStrategy = ConflictResolutionStrategy.UseLongestPlaytime;
         private readonly SavedGameRequestStatus _successStatus = SavedGameRequestStatus.Success;
         private ISavedGameMetadata _metadata = null;
 
         public SavedMetaData(Func<ISavedGameClient> savedGameClientGetter,
                              string fileName,
-                             DataSource dataSource = DataSource.ReadCacheOrNetwork,
-                             ConflictResolutionStrategy conflictResolutionStrategy = ConflictResolutionStrategy.UseLongestPlaytime)
+                             DataSource dataSource = DataSource.ReadCacheOrNetwork)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -27,7 +26,6 @@ namespace Desdiene.GooglePlayApi
             _savedGameClientGetter = savedGameClientGetter ?? throw new ArgumentNullException(nameof(savedGameClientGetter));
             _fileName = fileName;
             _dataSource = dataSource;
-            _conflictResolutionStrategy = conflictResolutionStrategy;
         }
 
         public void Get(Action<SavedGameRequestStatus, ISavedGameMetadata> result)

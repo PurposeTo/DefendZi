@@ -58,6 +58,12 @@ namespace Desdiene.DataSaving.Storages
         void IStorageAsync<T>.Update(T data) => CurrentState.Update(data, InvokeOnUpdated);
 
         void IStorageAsync<T>.Delete() => Delete(InvokeOnDeleted);
+        
+        private State CurrentState => _stateSwitcher.CurrentState;
+
+        protected abstract void ReadData(Action<bool, T> result);
+        protected abstract void UpdateData(T data, Action<bool> successResult);
+        protected abstract void DeleteData(Action<bool> successResult);
 
         private void Delete(Action<bool> successResult)
         {
@@ -71,11 +77,6 @@ namespace Desdiene.DataSaving.Storages
                 successResult?.Invoke(false);
             }
         }
-        private State CurrentState => _stateSwitcher.CurrentState;
-
-        protected abstract void ReadData(Action<bool, T> result);
-        protected abstract void UpdateData(T data, Action<bool> successResult);
-        protected abstract void DeleteData(Action<bool> successResult);
 
         private void InvokeOnReaded(bool success, T data) => OnReaded?.Invoke(success, data); 
         private void InvokeOnUpdated(bool success) => OnUpdated?.Invoke(success); 

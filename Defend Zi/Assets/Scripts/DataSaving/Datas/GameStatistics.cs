@@ -11,6 +11,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
 {
     private IStorageAsync<GameStatisticsDto> _storage;
     // todo добавить события об изменении
+    private TimeSpan _totalInAppTime = TimeSpan.Zero;
     private TimeSpan _totalLifeTime = TimeSpan.Zero;
     private uint _gamesNumber = 0;
     private uint _bestScore = 0;
@@ -33,6 +34,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
         UnsubscribeEvents();
     }
 
+    TimeSpan IGameStatisticsAccessorNotifier.TotalInAppTime => _totalInAppTime;
     TimeSpan IGameStatisticsAccessorNotifier.TotalLifeTime => _totalLifeTime;
     uint IGameStatisticsAccessorNotifier.GamesNumber => _gamesNumber;
     uint IGameStatisticsAccessorNotifier.BestScore => _bestScore;
@@ -42,6 +44,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
     {
         var dto = new GameStatisticsDto()
         {
+            TotalInAppTime = _totalInAppTime,
             TotalLifeTime = _totalLifeTime,
             GamesNumber = _gamesNumber,
             BestLifeTime = _bestLifeTime,
@@ -49,6 +52,13 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
         };
 
         _storage.Update(dto);
+    }
+
+    public void AddTotalInAppTime(TimeSpan value) => SetTotalLifeTime(_totalInAppTime + value);
+
+    public void SetTotalInAppTime(TimeSpan value)
+    {
+        _totalInAppTime = value;
     }
 
     public void AddLifeTime(TimeSpan value) => SetTotalLifeTime(_totalLifeTime + value);
@@ -94,6 +104,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
         if (!success) return;
         if (dto == null) throw new ArgumentNullException(nameof(dto)); // dto не может быть null, если success == true
 
+        SetTotalInAppTime(dto.TotalInAppTime);
         SetTotalLifeTime(dto.TotalLifeTime);
         SetGamesNumber(dto.GamesNumber);
         SetBestLifeTime(dto.BestLifeTime);

@@ -5,26 +5,17 @@ using UnityEngine;
 
 namespace Desdiene.DataSaving.Storages
 {
-    public abstract class JsonStorageAsync<T> : StorageAsync<T> where T : IJsonSerializable, IValidData
+    public abstract class JsonStorageAsync<T> : FileStorageAsync<T> where T : IJsonSerializable, IValidData
     {
-        protected const string FileExtension = "json";
+        private const string JsonFileExtension = "json";
         protected const string EmptyJson = "{}";
         private readonly IJsonDeserializer<T> _jsonDeserializer;
 
         protected JsonStorageAsync(string storageName, string baseFileName, IJsonDeserializer<T> jsonDeserializer)
-            : base(storageName)
+            : base(storageName, baseFileName, JsonFileExtension)
         {
-            if (string.IsNullOrWhiteSpace(baseFileName))
-            {
-                throw new ArgumentException($"{nameof(baseFileName)} can't be null or empty");
-            }
-
             _jsonDeserializer = jsonDeserializer ?? throw new ArgumentNullException(nameof(jsonDeserializer));
-            BaseFileName = baseFileName;
         }
-
-        protected string BaseFileName { get; }
-        protected string FileName => BaseFileName + "." + FileExtension;
 
         protected abstract void ReadJson(Action<bool, string> result);
         protected abstract void UpdateJson(string jsonData, Action<bool> successResult);

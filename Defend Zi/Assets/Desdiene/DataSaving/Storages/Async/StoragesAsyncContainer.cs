@@ -5,7 +5,7 @@ using Desdiene.DataSaving.Datas;
 
 namespace Desdiene.DataSaving.Storages
 {
-    internal class StoragesAsyncContainer<T> : IStorageAsync<T> where T : IDataWithPlayingTime
+    internal class StoragesAsyncContainer<T> : IStorageAsync<T> where T : IDataWithTotalInAppTime
     {
         private readonly string _typeName;
         private readonly string _storageNames;
@@ -80,7 +80,7 @@ namespace Desdiene.DataSaving.Storages
             Array.ForEach(_storages, storage => storage.Delete());
         }
 
-        private bool IsNewDataMoreRelevant(T newData) => newData.TotalLifeTime > _hashLoadedData.Key;
+        private bool IsNewDataMoreRelevant(T newData) => newData.TotalInAppTime > _hashLoadedData.Key;
         private bool IsNotDataEquals(T newData) => newData.GetHashCode() != _hashLoadedData.Value;
 
         private void SubscribeEvents()
@@ -108,7 +108,7 @@ namespace Desdiene.DataSaving.Storages
             // если первое предыдущее условие не выполнено, то и след. не должно выполняться.
             if (isHashLoadedDataEmpty || (IsNewDataMoreRelevant(data) && IsNotDataEquals(data)))
             {
-                _hashLoadedData = new KeyValuePair<TimeSpan, int>(data.TotalLifeTime, data.GetHashCode());
+                _hashLoadedData = new KeyValuePair<TimeSpan, int>(data.TotalInAppTime, data.GetHashCode());
                 OnReaded?.Invoke(success, data);
             }
             // else: ничего не делать.
