@@ -64,7 +64,7 @@ namespace Desdiene.DataSaving.Storages
         /// Коллбек будет вызван <= раз, относительно количества хранилищ.
         /// </summary>
         /// <param name="data">Сохраняемые данные</param>
-        /// <param name="successResult">Успешно?</param>
+        /// <param name="result">Успешно?</param>
         void IStorageAsync<T>.Update(T data)
         {
             Array.ForEach(_storages, storage => storage.Update(data));
@@ -74,7 +74,7 @@ namespace Desdiene.DataSaving.Storages
         /// Перенаправить запрос на удаление данных в хранилища.
         /// Коллбек будет вызван <= раз, относительно количества хранилищ.
         /// </summary>
-        /// <param name="successResult">Успешно?</param>
+        /// <param name="result">Успешно?</param>
         void IStorageAsync<T>.Delete()
         {
             Array.ForEach(_storages, storage => storage.Delete());

@@ -18,7 +18,7 @@ namespace Desdiene.DataSaving.Storages
         }
 
         protected abstract void ReadJson(Action<bool, string> result);
-        protected abstract void UpdateJson(string jsonData, Action<bool> successResult);
+        protected abstract void UpdateJson(string jsonData, Action<bool> result);
 
         protected sealed override void ReadData(Action<bool, T> result)
         {
@@ -32,10 +32,10 @@ namespace Desdiene.DataSaving.Storages
             });
         }
 
-        protected sealed override void UpdateData(T data, Action<bool> successResult)
+        protected sealed override void UpdateData(T data, Action<bool> result)
         {
             string jsonData = Serialize(data);
-            UpdateJson(jsonData, successResult);
+            UpdateJson(jsonData, result);
         }
 
         /// <summary>

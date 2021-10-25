@@ -48,14 +48,14 @@ namespace Desdiene.DataSaving.Storages
             });
         }
 
-        protected sealed override void UpdateJson(string jsonData, Action<bool> successResult)
+        protected sealed override void UpdateJson(string jsonData, Action<bool> result)
         {
             // try-catch исключений происходит в родительском классе.
             DeviceFile.WriteAllText(_filePath, jsonData);
-            successResult?.Invoke(true);
+            result?.Invoke(true);
         }
 
-        protected sealed override void DeleteData(Action<bool> successResult)
+        protected sealed override void DeleteData(Action<bool> result)
         {
             throw new NotImplementedException();
         }

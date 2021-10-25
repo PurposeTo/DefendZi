@@ -35,23 +35,23 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            public virtual void Update(T data, Action<bool> successResult)
+            public virtual void Update(T data, Action<bool> result)
             {
                 if (!data.IsValid())
                 {
                     Debug.LogError($"Data is not valid!\n{data}");
-                    successResult?.Invoke(false);
+                    result?.Invoke(false);
                     return;
                 }
 
                 try
                 {
-                    It.UpdateData(data, successResult);
+                    It.UpdateData(data, result);
                 }
                 catch (Exception exception)
                 {
                     Debug.LogError(exception.ToString());
-                    successResult?.Invoke(false);
+                    result?.Invoke(false);
                 }
             }
 

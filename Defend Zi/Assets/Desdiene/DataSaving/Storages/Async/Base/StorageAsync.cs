@@ -20,7 +20,7 @@ namespace Desdiene.DataSaving.Storages
 
             _storageName = storageName;
 
-            State initState = new Init(this);
+            State initState = new Inited(this);
             List<State> allStates = new List<State>()
             {
                 initState,
@@ -62,19 +62,19 @@ namespace Desdiene.DataSaving.Storages
         private State CurrentState => _stateSwitcher.CurrentState;
 
         protected abstract void ReadData(Action<bool, T> result);
-        protected abstract void UpdateData(T data, Action<bool> successResult);
-        protected abstract void DeleteData(Action<bool> successResult);
+        protected abstract void UpdateData(T data, Action<bool> result);
+        protected abstract void DeleteData(Action<bool> result);
 
-        private void Delete(Action<bool> successResult)
+        private void Delete(Action<bool> result)
         {
             try
             {
-                DeleteData(successResult);
+                DeleteData(result);
             }
             catch (Exception exception)
             {
                 Debug.LogError(exception.ToString());
-                successResult?.Invoke(false);
+                result?.Invoke(false);
             }
         }
 

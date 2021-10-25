@@ -5,9 +5,9 @@ namespace Desdiene.DataSaving.Storages
 {
     public partial class StorageAsync<T>
     {
-        private sealed class Init : State
+        private sealed class Inited : State
         {
-            public Init(StorageAsync<T> it) : base(it) { }
+            public Inited(StorageAsync<T> it) : base(it) { }
 
             public override void Read(Action<bool, T> result)
             {
@@ -18,10 +18,10 @@ namespace Desdiene.DataSaving.Storages
                 });
             }
 
-            public override void Update(T data, Action<bool> successResult)
+            public override void Update(T data, Action<bool> result)
             {
                 Debug.Log($"Данные с [{It._storageName}] еще не были получены. Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
-                successResult?.Invoke(false);
+                result?.Invoke(false);
             }
         }
     }

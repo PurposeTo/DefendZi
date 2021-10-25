@@ -4,9 +4,9 @@ namespace Desdiene.DataSaving.Storages
 {
     public partial class Storage<T>
     {
-        private sealed class Init : State
+        private sealed class Inited : State
         {
-            public Init(Storage<T> it) : base(it) { }
+            public Inited(Storage<T> it) : base(it) { }
 
             public sealed override bool TryToRead(out T data)
             {

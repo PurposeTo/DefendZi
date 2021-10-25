@@ -53,14 +53,14 @@ namespace Desdiene.DataSaving.Storages
             _loadingData.StartContinuously(ReadingData(result));
         }
 
-        protected override void UpdateData(T data, Action<bool> successResult)
+        protected override void UpdateData(T data, Action<bool> result)
         {
-            _metaData.Get(Update(data, successResult));
+            _metaData.Get(Update(data, result));
         }
 
-        protected override void DeleteData(Action<bool> successResult)
+        protected override void DeleteData(Action<bool> result)
         {
-            _metaData.Get(Delete(successResult));
+            _metaData.Get(Delete(result));
         }
 
         private IEnumerator ReadingData(Action<bool, T> result)
@@ -100,13 +100,13 @@ namespace Desdiene.DataSaving.Storages
             };
         }
 
-        private Action<SavedGameRequestStatus, ISavedGameMetadata> Update(T data, Action<bool> successResult)
+        private Action<SavedGameRequestStatus, ISavedGameMetadata> Update(T data, Action<bool> result)
         {
             return (openingStatus, metaData) =>
             {
                 if (openingStatus != _successStatus)
                 {
-                    successResult?.Invoke(false);
+                    result?.Invoke(false);
                     return;
                 }
 
@@ -116,7 +116,7 @@ namespace Desdiene.DataSaving.Storages
                     .WithUpdatedPlayedTime(data.TotalInAppTime)
                     .Build();
 
-                _metaData.Update(updatedMetadata, dataToSave, OnUpdated(successResult));
+                _metaData.Update(updatedMetadata, dataToSave, OnUpdated(result));
             };
         }
 
@@ -129,18 +129,18 @@ namespace Desdiene.DataSaving.Storages
             };
         }
 
-        private Action<SavedGameRequestStatus, ISavedGameMetadata> Delete(Action<bool> successResult)
+        private Action<SavedGameRequestStatus, ISavedGameMetadata> Delete(Action<bool> result)
         {
             return (openingStatus, metaData) =>
             {
                 if (openingStatus != _successStatus)
                 {
-                    successResult?.Invoke(false);
+                    result?.Invoke(false);
                     return;
                 }
 
                 SavedGameClient.Delete(metaData);
-                successResult?.Invoke(true);
+                result?.Invoke(true);
             };
         }
 

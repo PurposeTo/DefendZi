@@ -20,7 +20,7 @@ namespace Desdiene.DataSaving.Storages
 
             _storageName = storageName;
 
-            State initState = new Init(this);
+            State initState = new Inited(this);
             List<State> allStates = new List<State>()
             {
                 initState,

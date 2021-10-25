@@ -10,7 +10,7 @@ namespace Desdiene.DataSaving.Storages
 
             public override void Read(Action<bool, T> result) => base.Read(result);
 
-            public override void Update(T data, Action<bool> successResult) => base.Update(data, successResult);
+            public override void Update(T data, Action<bool> result) => base.Update(data, result);
         }
     }
 }
