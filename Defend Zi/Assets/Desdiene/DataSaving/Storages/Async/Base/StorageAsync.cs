@@ -29,13 +29,35 @@ namespace Desdiene.DataSaving.Storages
             _stateSwitcher = new StateSwitcher<State>(initState, allStates);
         }
 
+        private event Action<bool, T> OnReaded;
+        private event Action<bool> OnUpdated;
+        private event Action<bool> OnDeleted;
+
+        event Action<bool, T> IStorageAsync<T>.OnReaded
+        {
+            add => OnReaded += value;
+            remove => OnReaded -= value;
+        }
+
+        event Action<bool> IStorageAsync<T>.OnUpdated
+        {
+            add => OnUpdated += value;
+            remove => OnUpdated -= value;
+        }
+
+        event Action<bool> IStorageAsync<T>.OnDeleted
+        {
+            add => OnDeleted += value;
+            remove => OnDeleted -= value;
+        }
+
         string IStorageAsync<T>.StorageName => _storageName;
 
-        void IStorageAsync<T>.Read(Action<bool, T> result) => CurrentState.Read(result);
+        void IStorageAsync<T>.Read() => CurrentState.Read(InvokeOnReaded);
 
-        void IStorageAsync<T>.Update(T data, Action<bool> successResult) => CurrentState.Update(data, successResult);
+        void IStorageAsync<T>.Update(T data) => CurrentState.Update(data, InvokeOnUpdated);
 
-        void IStorageAsync<T>.Delete(Action<bool> successResult) => Delete(successResult);
+        void IStorageAsync<T>.Delete() => Delete(InvokeOnDeleted);
 
         private void Delete(Action<bool> successResult)
         {
@@ -54,5 +76,9 @@ namespace Desdiene.DataSaving.Storages
         protected abstract void ReadData(Action<bool, T> result);
         protected abstract void UpdateData(T data, Action<bool> successResult);
         protected abstract void DeleteData(Action<bool> successResult);
+
+        private void InvokeOnReaded(bool success, T data) => OnReaded?.Invoke(success, data); 
+        private void InvokeOnUpdated(bool success) => OnUpdated?.Invoke(success); 
+        private void InvokeOnDeleted(bool success) => OnDeleted?.Invoke(success); 
     }
 }

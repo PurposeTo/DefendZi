@@ -20,7 +20,17 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
     private void Constructor(IStorageAsync<GameStatisticsDto> storage)
     {
         _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-        _storage.Read(UpdateDataFromDto);
+    }
+
+    protected override void AwakeExt()
+    {
+        SubscribeEvents();
+        _storage.Read();
+    }
+
+    protected override void OnDestroyExt()
+    {
+        UnsubscribeEvents();
     }
 
     TimeSpan IGameStatisticsAccessorNotifier.TotalLifeTime => _totalLifeTime;
@@ -38,7 +48,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
             BestScore = _bestScore,
         };
 
-        _storage.Update(dto, (_) => { });
+        _storage.Update(dto);
     }
 
     public void AddLifeTime(TimeSpan value) => SetTotalLifeTime(_totalLifeTime + value);
@@ -67,6 +77,16 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
         if (value <= _bestScore) return;
 
         _bestScore = value;
+    }
+
+    private void SubscribeEvents()
+    {
+        _storage.OnReaded += UpdateDataFromDto;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        _storage.OnReaded -= UpdateDataFromDto;
     }
 
     private void UpdateDataFromDto(bool success, GameStatisticsDto dto)

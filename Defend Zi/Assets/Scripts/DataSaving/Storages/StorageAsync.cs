@@ -19,17 +19,35 @@ public class StorageAsync : MonoBehaviourExt, IStorageAsync<GameStatisticsDto>
     protected override void AwakeExt()
     {
         var jsonDeserializer = new GameStatisticsDtoJsonConvertor();
-        
+
         var deviceStorage = new JsonDeviceAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer);
         var googlePlayStorage = new JsonGooglePlayAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer, _gpgsAutentification.Get());
         _storage = new StoragesAsyncContainer<GameStatisticsDto>(deviceStorage, googlePlayStorage);
     }
 
+    event Action<bool, GameStatisticsDto> IStorageAsync<GameStatisticsDto>.OnReaded
+    {
+        add => _storage.OnReaded += value;
+        remove => _storage.OnReaded -= value;
+    }
+
+    event Action<bool> IStorageAsync<GameStatisticsDto>.OnUpdated
+    {
+        add => _storage.OnUpdated += value;
+        remove => _storage.OnUpdated -= value;
+    }
+
+    event Action<bool> IStorageAsync<GameStatisticsDto>.OnDeleted
+    {
+        add => _storage.OnDeleted += value;
+        remove => _storage.OnDeleted -= value;
+    }
+
     string IStorageAsync<GameStatisticsDto>.StorageName => _storage.StorageName;
+    
+    void IStorageAsync<GameStatisticsDto>.Read() => _storage.Read();
 
-    void IStorageAsync<GameStatisticsDto>.Delete(Action<bool> successResult) => _storage.Delete(successResult);
+    void IStorageAsync<GameStatisticsDto>.Update(GameStatisticsDto dto) => _storage.Update(dto);
 
-    void IStorageAsync<GameStatisticsDto>.Read(Action<bool, GameStatisticsDto> result) => _storage.Read(result);
-
-    void IStorageAsync<GameStatisticsDto>.Update(GameStatisticsDto data, Action<bool> successResult) => _storage.Update(data, successResult);
+    void IStorageAsync<GameStatisticsDto>.Delete() => _storage.Delete();
 }
