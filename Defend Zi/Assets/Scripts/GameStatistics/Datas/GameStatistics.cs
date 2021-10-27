@@ -8,7 +8,7 @@ using Zenject;
 /// Статистика игры.
 /// Класс сделан MonoBehaviour для возможности чтения полей через инспектор.
 /// </summary>
-public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
+public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessor
 {
     private IStorageAsync<GameStatisticsDto> _storage;
     // todo добавить события об изменении
@@ -43,11 +43,11 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
         AddTotalInAppTime(time);
     }
 
-    TimeSpan IGameStatisticsAccessorNotifier.TotalInAppTime => _totalInAppTime;
-    TimeSpan IGameStatisticsAccessorNotifier.TotalLifeTime => _totalLifeTime;
-    uint IGameStatisticsAccessorNotifier.GamesNumber => _gamesNumber;
-    uint IGameStatisticsAccessorNotifier.BestScore => _bestScore;
-    TimeSpan IGameStatisticsAccessorNotifier.BestLifeTime => _bestLifeTime;
+    TimeSpan IGameStatisticsAccessor.TotalInAppTime => _totalInAppTime;
+    TimeSpan IGameStatisticsAccessor.TotalLifeTime => _totalLifeTime;
+    uint IGameStatisticsAccessor.GamesNumber => _gamesNumber;
+    uint IGameStatisticsAccessor.BestScore => _bestScore;
+    TimeSpan IGameStatisticsAccessor.BestLifeTime => _bestLifeTime;
 
     public void Save()
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-public interface IGameStatisticsAccessorNotifier
+public interface IGameStatisticsAccessor
 {
     TimeSpan TotalInAppTime { get; }
     TimeSpan TotalLifeTime { get; }

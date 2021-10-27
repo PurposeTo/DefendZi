@@ -1,19 +1,17 @@
 ﻿using System;
 using Desdiene.DataSaving.Storages;
 using Desdiene.MonoBehaviourExtension;
-using UnityEngine;
 using Zenject;
 
 /// <summary>
 /// Статистика игры.
 /// Класс сделан MonoBehaviour для возможности чтения полей через инспектор.
 /// </summary>
-public class GameSettings : MonoBehaviourExt, IGameSettingsAccessorNotifier
+public class GameSettings : MonoBehaviourExt, IGameSettings
 {
     private IStorage<GameSettingsDto> _storage;
     // todo добавить события об изменении
-    private bool _soundEnabled;
-
+    private bool _soundMuted;
 
     [Inject]
     private void Constructor(IStorage<GameSettingsDto> storage)
@@ -34,27 +32,41 @@ public class GameSettings : MonoBehaviourExt, IGameSettingsAccessorNotifier
         Save();
     }
 
-    bool IGameSettingsAccessorNotifier.SoundEnabled => _soundEnabled;
+    private event Action OnSoundEnabledChanged;
 
-    public void Save()
+    event Action IGameSettingsNotifier.OnSoundMutedChanged
+    {
+        add => OnSoundEnabledChanged += value;
+        remove => OnSoundEnabledChanged -= value;
+    }
+
+    bool IGameSettingsAccessor.SoundMuted => _soundMuted;
+    void IGameSettingsMutator.SetMuteState(bool mute) => SetMuteState(mute);
+    void IGameSettings.Save() => Save();
+
+    private void Save()
     {
         var dto = new GameSettingsDto()
         {
-            SoundEnabled = _soundEnabled
+            SoundMuted = _soundMuted
         };
 
         _storage.Update(dto);
     }
 
-    public void SetSoundEnabled(bool enabled)
+    private void SetMuteState(bool mute)
     {
-        _soundEnabled = enabled;
+        if (_soundMuted != mute)
+        {
+            _soundMuted = mute;
+            OnSoundEnabledChanged?.Invoke();
+        }
     }
 
     private void UpdateDataFromDto(GameSettingsDto dto)
     {
         if (dto == null) throw new ArgumentNullException(nameof(dto)); // dto не может быть null, если success == true
 
-        SetSoundEnabled(dto.SoundEnabled);
+        SetMuteState(dto.SoundMuted);
     }
 }

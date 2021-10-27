@@ -21,7 +21,7 @@ public class GameOverUI : MonoBehaviourExt
     private ISceneAsset _gameScene;
     private ISceneAsset _mainMenuScene;
 
-    private IGameStatisticsAccessorNotifier _gameStatistics;
+    private IGameStatisticsAccessor _gameStatistics;
     private GameOverDataSaver _gameOverDataSaver;
 
     private IScoreAccessor _playerScore;

@@ -1,5 +1,4 @@
-﻿using System;
-using Desdiene.DataSaving.Datas;
+﻿using Desdiene.DataSaving.Datas;
 using Desdiene.Json;
 
 /* 
@@ -21,12 +20,12 @@ public class GameSettingsDto : IValidData, IJsonSerializable
         return jsonSerializer.ToJson(this);
     }
 
-    public bool SoundEnabled { get; set; }
+    public bool SoundMuted { get; set; }
 
     public override string ToString()
     {
         return $"{GetType().Name}"
-            + $"\nSoundEnabled={SoundEnabled}";
+            + $"\nSoundMuted={SoundMuted}";
     }
 
     private bool IsValid()
@@ -38,5 +37,15 @@ public class GameSettingsDto : IValidData, IJsonSerializable
     private void Repair()
     {
         // сейчас нельзя сломать данные, т.к. нет nullable полей.
+    }
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

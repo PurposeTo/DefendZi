@@ -8,7 +8,7 @@ namespace Desdiene.GooglePlayApi
     public class GpgsLeaderboard : MonoBehaviourExt
     {
         private PlayGamesPlatform _platform;
-        private IGameStatisticsAccessorNotifier _gameStatistics;
+        private IGameStatisticsAccessor _gameStatistics;
 
         [Inject]
         private void Constructor(GpgsAutentification platformCreator, GameStatistics gameStatistics)

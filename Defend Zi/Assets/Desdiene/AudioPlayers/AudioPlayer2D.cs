@@ -10,10 +10,11 @@ namespace Desdiene.AudioPlayers
 
         public AudioPlayer2D(AudioSource audioSource)
         {
-            _audioSource = audioSource ?? throw new System.ArgumentNullException(nameof(audioSource));
+            _audioSource = audioSource ?? throw new ArgumentNullException(nameof(audioSource));
             _audioSource.spatialBlend = 0f;
         }
 
+        void IAudioPlayer.SetMute(bool mute) => _audioSource.mute = mute;
         void IAudioPlayer.Mute() => _audioSource.mute = true;
         void IAudioPlayer.UnMute() => _audioSource.mute = false;
 

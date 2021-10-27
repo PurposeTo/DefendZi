@@ -4,6 +4,7 @@ namespace Desdiene.AudioPlayers
 {
     public interface IAudioPlayer
     {
+        void SetMute(bool mute);
         void Mute();
         void UnMute();
         void SetVolume(float volume);

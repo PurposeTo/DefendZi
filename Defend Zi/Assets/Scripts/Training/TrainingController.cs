@@ -10,7 +10,7 @@ public class TrainingController : MonoBehaviourExt
     [SerializeField, NotNull] private TrainingAnimator _trainingAnimator;
     private readonly int _gamesNumberToEnableTraining = 10;
     private readonly int _trainingTime = 10;
-    private IGameStatisticsAccessorNotifier _gameStatistics;
+    private IGameStatisticsAccessor _gameStatistics;
     private ICoroutine _training;
 
     [Inject]

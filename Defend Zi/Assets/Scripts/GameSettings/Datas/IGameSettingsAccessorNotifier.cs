@@ -1,6 +1,4 @@
-﻿using System;
-
-public interface IGameSettingsAccessorNotifier
+﻿public interface IGameSettingsAccessorNotifier : IGameSettingsAccessor, IGameSettingsNotifier
 {
-    bool SoundEnabled { get; }
+
 }
