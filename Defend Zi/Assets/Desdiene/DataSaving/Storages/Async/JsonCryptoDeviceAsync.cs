@@ -28,7 +28,7 @@ namespace Desdiene.DataSaving.Storages
 
             _filePath = new FilePath(FileName).Value;
             _deviceDataReader = new DeviceDataReader(mono, _filePath);
-            _encryptor = new SavingStringEncryptor(mono, FileName);
+            _encryptor = new SavingStringEncryptor(mono, BaseFileName);
         }
 
         protected sealed override void ReadJson(Action<bool, string> result)
