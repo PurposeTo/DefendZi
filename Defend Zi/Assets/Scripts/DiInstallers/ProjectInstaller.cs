@@ -15,8 +15,10 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        BindStorageAsync();
+        BindGameStatisticsStorage();
         BindGameStatistics();
+        BindGameSettingsStorage();
+        BindGameSettings();
         BindRewardedAd();
         BindFullScreenWindowsContainer();
         BindScenesInBuild();
@@ -161,11 +163,11 @@ public class ProjectInstaller : MonoInstaller
             .Lazy();
     }
 
-    private void BindStorageAsync()
+    private void BindGameStatisticsStorage()
     {
         Container
             .Bind<IStorageAsync<GameStatisticsDto>>()
-            .To<StorageAsync>()
+            .To<GameStatisticsStorageAsync>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
@@ -175,6 +177,27 @@ public class ProjectInstaller : MonoInstaller
     {
         Container
             .Bind<GameStatistics>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
+    }
+
+
+    private void BindGameSettingsStorage()
+    {
+        Container
+            .Bind<IStorage<GameSettingsDto>>()
+            .To<GameSettingsStorage>()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
+    }
+
+    private void BindGameSettings()
+    {
+        Container
+            .Bind<GameSettings>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

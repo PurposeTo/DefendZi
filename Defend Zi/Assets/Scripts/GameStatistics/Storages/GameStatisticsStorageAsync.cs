@@ -4,7 +4,7 @@ using Desdiene.GooglePlayApi;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
 
-public class StorageAsync : MonoBehaviourExt, IStorageAsync<GameStatisticsDto>
+public class GameStatisticsStorageAsync : MonoBehaviourExt, IStorageAsync<GameStatisticsDto>
 {
     private const string BaseFileName = "GameData";
     private IStorageAsync<GameStatisticsDto> _storage;

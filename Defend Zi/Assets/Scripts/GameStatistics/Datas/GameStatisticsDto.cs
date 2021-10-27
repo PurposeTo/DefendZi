@@ -51,6 +51,7 @@ public class GameStatisticsDto : IValidData, IDataWithTotalInAppTime, IJsonSeria
     public override bool Equals(object obj)
     {
         return obj is GameStatisticsDto data &&
+               TotalInAppTime.Equals(data.TotalInAppTime) &&
                TotalLifeTime.Equals(data.TotalLifeTime) &&
                GamesNumber == data.GamesNumber &&
                BestScore == data.BestScore &&

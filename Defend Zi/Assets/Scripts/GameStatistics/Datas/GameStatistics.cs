@@ -1,6 +1,7 @@
 ﻿using System;
 using Desdiene.DataSaving.Storages;
 using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 using Zenject;
 
 /// <summary>
@@ -31,7 +32,15 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessorNotifier
 
     protected override void OnDestroyExt()
     {
+        Save();
         UnsubscribeEvents();
+    }
+
+    private void Update()
+    {
+        float unscaledDeltaTime = Time.unscaledDeltaTime;
+        TimeSpan time = TimeSpan.FromSeconds(unscaledDeltaTime);
+        AddTotalInAppTime(time);
     }
 
     TimeSpan IGameStatisticsAccessorNotifier.TotalInAppTime => _totalInAppTime;
