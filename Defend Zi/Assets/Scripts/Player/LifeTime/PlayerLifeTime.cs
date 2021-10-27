@@ -3,7 +3,6 @@ using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
-using Zenject;
 
 /// <summary>
 /// Отвечает за сбор данных за игровую попытку.
@@ -12,22 +11,16 @@ using Zenject;
 /// тк пользователь может сменить время на часах 
 /// И время должно считаться когда нет паузы.
 /// </summary>
+[RequireComponent(typeof(IHealthNotification))]
 public class PlayerLifeTime : MonoBehaviourExt
 {
     private IHealthNotification _playerDeath;
     private ICoroutine _lifeTimeCounting;
 
-    [Inject]
-    private void Constructor(ComponentsProxy componentsProxy)
-    {
-        _playerDeath = componentsProxy.PlayerDeath;
-        _lifeTimeCounting = new CoroutineWrap(this);
-    }
-
-    public TimeSpan Value { get; set; }
-
     protected override void AwakeExt()
     {
+        _playerDeath = GetInitedComponent<IHealthNotification>();
+        _lifeTimeCounting = new CoroutineWrap(this);
         SubscribeEvents();
     }
 
@@ -35,6 +28,8 @@ public class PlayerLifeTime : MonoBehaviourExt
     {
         UnsubscribeEvents();
     }
+
+    public TimeSpan Value { get; set; }
 
     private void SubscribeEvents()
     {

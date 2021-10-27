@@ -14,14 +14,13 @@ public class GameOverDataSaver : MonoBehaviourExt
 
     [Inject]
     private void Constructor(GameStatistics gameStatistics,
-                             ComponentsProxy componentsProxy,
-                             PlayerLifeTime playerLifeTime)
+                             ComponentsProxy componentsProxy)
     {
         _gameStatistics = gameStatistics ?? throw new ArgumentNullException(nameof(gameStatistics));
-        if (componentsProxy is null) throw new ArgumentNullException(nameof(componentsProxy));
+        if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
 
         _playerScore = componentsProxy.PlayerScore;
-        _playerLifeTime = playerLifeTime ?? throw new ArgumentNullException(nameof(playerLifeTime));
+        _playerLifeTime = componentsProxy.PlayerLifeTime;
     }
 
     public void CollectAndSave()

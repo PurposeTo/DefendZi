@@ -63,7 +63,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessor
         _storage.Update(dto);
     }
 
-    public void AddTotalInAppTime(TimeSpan value) => SetTotalLifeTime(_totalInAppTime + value);
+    public void AddTotalInAppTime(TimeSpan value) => SetTotalInAppTime(_totalInAppTime + value);
 
     public void SetTotalInAppTime(TimeSpan value)
     {
