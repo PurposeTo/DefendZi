@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.DataSaving.Datas;
 using Desdiene.DataSaving.Storages;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
@@ -42,7 +43,7 @@ public class GameSettings : MonoBehaviourExt, IGameSettings
 
     bool IGameSettingsAccessor.SoundMuted => _soundMuted;
     void IGameSettingsMutator.SetMuteState(bool mute) => SetMuteState(mute);
-    void IGameSettings.Save() => Save();
+    void ISavableData.Save() => Save();
 
     private void Save()
     {
