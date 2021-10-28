@@ -16,7 +16,7 @@
 
 
         /// <returns>успешно?</returns>
-        bool Update(T data);
+        bool TryToUpdate(T data);
 
         /// <returns>успешно?</returns>
         bool TryToDelete();

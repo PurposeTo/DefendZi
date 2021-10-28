@@ -52,7 +52,7 @@ public class GameSettings : MonoBehaviourExt, IGameSettings
             SoundMuted = _soundMuted
         };
 
-        _storage.Update(dto);
+        _storage.TryToUpdate(dto);
     }
 
     private void SetMuteState(bool mute)

@@ -8,7 +8,7 @@ using Desdiene.Tools;
 namespace Desdiene.DataSaving.Storages
 {
     /// <summary>
-    /// Сохранить файл в json формате на устройство.
+    /// Загрузить/Сохранить/Удалить файл в json формате на устройство.
     /// 
     /// </summary>
     /// <typeparam name="T">Объект с данными, загружаемый/сохраняемый в хранилище.</typeparam>
@@ -50,7 +50,6 @@ namespace Desdiene.DataSaving.Storages
 
         protected sealed override void UpdateJson(string jsonData, Action<bool> result)
         {
-            // try-catch исключений происходит в родительском классе.
             DeviceFile.WriteAllText(_filePath, jsonData);
             result?.Invoke(true);
         }

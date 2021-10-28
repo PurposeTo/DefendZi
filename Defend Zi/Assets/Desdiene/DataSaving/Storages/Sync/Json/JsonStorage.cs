@@ -34,7 +34,7 @@ namespace Desdiene.DataSaving.Storages
             }
         }
 
-        protected sealed override bool UpdateData(T data)
+        protected sealed override bool TryToUpdateData(T data)
         {
             string jsonData = Serialize(data);
             return UpdateJson(jsonData);

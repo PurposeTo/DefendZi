@@ -8,7 +8,7 @@ namespace Desdiene.DataSaving.Storages
     {
         private abstract class State : IStateEntryExitPoint
         {
-            private protected State(StorageAsync<T> it)
+            protected State(StorageAsync<T> it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
             }

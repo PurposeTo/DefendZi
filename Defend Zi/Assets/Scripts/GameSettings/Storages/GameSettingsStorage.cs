@@ -19,5 +19,5 @@ public class GameSettingsStorage : MonoBehaviourExt, IStorage<GameSettingsDto>
 
     bool IStorage<GameSettingsDto>.TryToRead(out GameSettingsDto data) => _storage.TryToRead(out data);
 
-    bool IStorage<GameSettingsDto>.Update(GameSettingsDto data) => _storage.Update(data);
+    bool IStorage<GameSettingsDto>.TryToUpdate(GameSettingsDto data) => _storage.TryToUpdate(data);
 }

@@ -22,7 +22,7 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            public sealed override bool Update(T data)
+            public sealed override bool TryToUpdate(T data)
             {
                 Debug.Log($"Данные с [{It._storageName}] еще не были получены. Запись невозможна! Иначе данное действие перезапишет еще не полученные данные.");
                 return false;

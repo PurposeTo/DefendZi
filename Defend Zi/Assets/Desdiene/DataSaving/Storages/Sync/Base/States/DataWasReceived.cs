@@ -8,7 +8,7 @@
 
             public sealed override bool TryToRead(out T data) => base.TryToRead(out data);
 
-            public sealed override bool Update(T data) => base.Update(data);
+            public sealed override bool TryToUpdate(T data) => base.TryToUpdate(data);
         }
     }
 }

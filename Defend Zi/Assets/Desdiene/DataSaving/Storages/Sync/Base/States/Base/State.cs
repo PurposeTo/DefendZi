@@ -32,7 +32,7 @@ namespace Desdiene.DataSaving.Storages
                 }
             }
 
-            public virtual bool Update(T data)
+            public virtual bool TryToUpdate(T data)
             {
                 if (!data.IsValid())
                 {
@@ -42,7 +42,7 @@ namespace Desdiene.DataSaving.Storages
 
                 try
                 {
-                    return It.UpdateData(data);
+                    return It.TryToUpdateData(data);
                 }
                 catch (Exception exception)
                 {

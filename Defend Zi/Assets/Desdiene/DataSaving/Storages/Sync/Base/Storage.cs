@@ -33,16 +33,15 @@ namespace Desdiene.DataSaving.Storages
 
         bool IStorage<T>.TryToRead(out T data) => CurrentState.TryToRead(out data);
 
-        bool IStorage<T>.Update(T data) => CurrentState.Update(data);
+        bool IStorage<T>.TryToUpdate(T data) => CurrentState.TryToUpdate(data);
 
         bool IStorage<T>.TryToDelete() => TryToDelete();
 
         private State CurrentState => _stateSwitcher.CurrentState;
 
         protected abstract bool TryToReadData(out T data);
-        protected abstract bool UpdateData(T data);
+        protected abstract bool TryToUpdateData(T data);
         protected abstract bool TryToDeleteData();
-
 
         private bool TryToDelete()
         {
