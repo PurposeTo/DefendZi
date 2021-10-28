@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
 using Zenject;
@@ -9,22 +8,20 @@ namespace Desdiene.GooglePlayApi
     public class GpgsLeaderboard : MonoBehaviourExt
     {
         private PlayGamesPlatform _platform;
-        private IDataContainer<IGameData> _storage;
+        private IGameStatisticsAccessor _gameStatistics;
 
         [Inject]
-        private void Constructor(GpgsAutentification platformCreator, IDataContainer<IGameData> storage)
+        private void Constructor(GpgsAutentification platformCreator, GameStatistics gameStatistics)
         {
             if (platformCreator == null) throw new ArgumentNullException(nameof(platformCreator));
 
             _platform = platformCreator.Get();
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            _gameStatistics = gameStatistics ?? throw new ArgumentNullException(nameof(gameStatistics));
         }
-
-        private IGameData GameData => _storage.GetData();
 
         public void Open()
         {
-            AddBestScore(GameData.BestScore, OpenLeaderboard);
+            AddBestScore(_gameStatistics.BestScore, OpenLeaderboard);
         }
 
         private void OpenLeaderboard()

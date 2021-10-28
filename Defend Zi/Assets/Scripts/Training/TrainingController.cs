@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using Desdiene.Coroutines;
-using Desdiene.DataStorageFactories.DataContainers;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using Zenject;
@@ -10,13 +10,13 @@ public class TrainingController : MonoBehaviourExt
     [SerializeField, NotNull] private TrainingAnimator _trainingAnimator;
     private readonly int _gamesNumberToEnableTraining = 10;
     private readonly int _trainingTime = 10;
-    private IDataContainer<IGameData> _storage;
+    private IGameStatisticsAccessor _gameStatistics;
     private ICoroutine _training;
 
     [Inject]
-    private void Constructor(IDataContainer<IGameData> storage)
+    private void Constructor(GameStatistics gameStatistics)
     {
-        _storage = storage ?? throw new System.ArgumentNullException(nameof(storage));
+        _gameStatistics = gameStatistics ?? throw new ArgumentNullException(nameof(gameStatistics));
         _training = new CoroutineWrap(this);
 
     }
@@ -31,8 +31,6 @@ public class TrainingController : MonoBehaviourExt
     {
         SetDefaultState();
     }
-
-    private IGameData Data => _storage.GetData();
 
     private IEnumerator Training()
     {
@@ -55,7 +53,7 @@ public class TrainingController : MonoBehaviourExt
 
     private void TryToEnable()
     {
-        if (Data.GamesNumber <= _gamesNumberToEnableTraining)
+        if (_gameStatistics.GamesNumber <= _gamesNumberToEnableTraining)
         {
             _training.StartContinuously(Training());
         }

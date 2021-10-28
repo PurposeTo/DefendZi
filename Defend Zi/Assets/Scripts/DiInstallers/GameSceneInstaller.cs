@@ -13,7 +13,6 @@ public class GameSceneInstaller : MonoInstaller
         BindGameDataSaver();
         BindUserInput();
         BindGameDifficulty();
-        BindStatisticsCollector();
     }
 
     private void BindPlayer()
@@ -39,7 +38,7 @@ public class GameSceneInstaller : MonoInstaller
     private void BindGameDataSaver()
     {
         Container
-            .Bind<GameDataSaver>()
+            .Bind<GameOverDataSaver>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
@@ -59,16 +58,6 @@ public class GameSceneInstaller : MonoInstaller
     {
         Container
             .Bind<GameDifficulty>()
-            .ToSelf()
-            .FromNewComponentOnNewGameObject()
-            .AsSingle()
-            .NonLazy();
-    }
-
-    private void BindStatisticsCollector()
-    {
-        Container
-            .Bind<GameStatisticsCollector>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

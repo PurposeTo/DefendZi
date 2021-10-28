@@ -10,12 +10,13 @@ namespace Desdiene.Tools
         {
             if (string.IsNullOrWhiteSpace(fileNameWithExtension))
             {
-                throw new ArgumentException($"\"{nameof(fileNameWithExtension)}\" не может быть пустым или содержать только пробел.", nameof(fileNameWithExtension));
+                throw new ArgumentException($"{nameof(fileNameWithExtension)} can't be null or empty");
             }
 
             // TODO: проверить параметр по regex: {символы, точка, символы}
 
             Value = Init(fileNameWithExtension);
+            Debug.Log($"Got filePath: {Value}");
         }
 
         public string Value { get; }

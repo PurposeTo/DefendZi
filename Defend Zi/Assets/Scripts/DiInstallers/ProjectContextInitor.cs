@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.DataStorageFactories.DataContainers;
+using Desdiene.DataSaving.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.Singletons.Unity;
@@ -19,14 +19,17 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         SceneLoader _4,
         ScenesInBuild _5,
         LoadedScenes _6,
-        IDataContainer<IGameData> _7,
+        IStorageAsync<GameStatisticsDto> _7,
         GpgsAutentification _8,
         GpgsLeaderboard _9,
         GlobalTimeScaleAdapter _10,
         ITime _11,
         AndroidScreenAutoRotation _12,
         ScreenOrientationWrap _13,
-        TransitionScreen _14
+        TransitionScreen _14,
+        GameStatistics _15,
+        IStorage<GameSettingsDto> _16,
+        GameSettings _17
         )
     {
         if (_1 == null) throw new ArgumentNullException(nameof(_1));
@@ -43,5 +46,8 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         if (_12 == null) throw new ArgumentNullException(nameof(_12));
         if (_13 == null) throw new ArgumentNullException(nameof(_13));
         if (_14 == null) throw new ArgumentNullException(nameof(_14));
+        if (_15 == null) throw new ArgumentNullException(nameof(_15));
+        if (_16 == null) throw new ArgumentNullException(nameof(_16));
+        if (_17 == null) throw new ArgumentNullException(nameof(_17));
     }
 }
