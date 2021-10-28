@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.DataSaving.Datas;
 using Desdiene.DataSaving.Storages;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
@@ -48,8 +49,13 @@ public class GameStatistics : MonoBehaviourExt, IGameStatistics
     uint IGameStatisticsAccessor.GamesNumber => _gamesNumber;
     uint IGameStatisticsAccessor.BestScore => _bestScore;
     TimeSpan IGameStatisticsAccessor.BestLifeTime => _bestLifeTime;
+    void ISavableData.Save() => Save();
+    void IGameStatisticsMutator.AddLifeTime(TimeSpan value) => AddLifeTime(value);
+    void IGameStatisticsMutator.IncrementGamesNumber() => IncrementGamesNumber();
+    void IGameStatisticsMutator.SetBestLifeTime(TimeSpan value) => SetBestLifeTime(value);
+    void IGameStatisticsMutator.SetBestScore(uint value) => SetBestScore(value);
 
-    public void Save()
+    private void Save()
     {
         var dto = new GameStatisticsDto()
         {
@@ -63,35 +69,35 @@ public class GameStatistics : MonoBehaviourExt, IGameStatistics
         _storage.Update(dto);
     }
 
-    public void AddTotalInAppTime(TimeSpan value) => SetTotalInAppTime(_totalInAppTime + value);
+    private void AddTotalInAppTime(TimeSpan value) => SetTotalInAppTime(_totalInAppTime + value);
 
-    public void SetTotalInAppTime(TimeSpan value)
+    private void SetTotalInAppTime(TimeSpan value)
     {
         _totalInAppTime = value;
     }
 
-    public void AddLifeTime(TimeSpan value) => SetTotalLifeTime(_totalLifeTime + value);
+    private void AddLifeTime(TimeSpan value) => SetTotalLifeTime(_totalLifeTime + value);
 
-    public void SetTotalLifeTime(TimeSpan value)
+    private void SetTotalLifeTime(TimeSpan value)
     {
         _totalLifeTime = value;
     }
 
-    public void IncrementGamesNumber() => SetGamesNumber(_gamesNumber + 1);
+    private void IncrementGamesNumber() => SetGamesNumber(_gamesNumber + 1);
 
-    public void SetGamesNumber(uint value)
+    private void SetGamesNumber(uint value)
     {
         _gamesNumber = value;
     }
 
-    public void SetBestLifeTime(TimeSpan value)
+    private void SetBestLifeTime(TimeSpan value)
     {
         if (value <= _bestLifeTime) return;
 
         _bestLifeTime = value;
     }
 
-    public void SetBestScore(uint value)
+    private void SetBestScore(uint value)
     {
         if (value <= _bestScore) return;
 

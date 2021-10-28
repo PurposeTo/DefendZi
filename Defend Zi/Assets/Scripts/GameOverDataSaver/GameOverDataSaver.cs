@@ -8,7 +8,7 @@ using Zenject;
 /// </summary>
 public class GameOverDataSaver : MonoBehaviourExt
 {
-    private GameStatistics _gameStatistics;
+    private IGameStatistics _gameStatistics;
     private IScoreAccessor _playerScore;
     private PlayerLifeTime _playerLifeTime;
 

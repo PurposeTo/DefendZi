@@ -1,4 +1,9 @@
-﻿public interface IGameStatisticsMutator
+﻿using System;
+
+public interface IGameStatisticsMutator
 {
-    // todo внести методы
+    void AddLifeTime(TimeSpan value);
+    void IncrementGamesNumber();
+    void SetBestLifeTime(TimeSpan value);
+    void SetBestScore(uint value);
 }
