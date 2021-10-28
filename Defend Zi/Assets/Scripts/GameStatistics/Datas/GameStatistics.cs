@@ -8,7 +8,7 @@ using Zenject;
 /// Статистика игры.
 /// Класс сделан MonoBehaviour для возможности чтения полей через инспектор.
 /// </summary>
-public class GameStatistics : MonoBehaviourExt, IGameStatisticsAccessor
+public class GameStatistics : MonoBehaviourExt, IGameStatistics
 {
     private IStorageAsync<GameStatisticsDto> _storage;
     // todo добавить события об изменении
