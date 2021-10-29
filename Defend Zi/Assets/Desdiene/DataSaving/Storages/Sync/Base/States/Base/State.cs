@@ -57,7 +57,7 @@ namespace Desdiene.DataSaving.Storages
             {
                 if (It.TryToReadData(out data))
                 {
-                    data.TryToRepair();
+                    data.Repair();
                     return true;
                 }
                 else

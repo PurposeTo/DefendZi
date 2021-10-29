@@ -24,7 +24,7 @@ namespace Desdiene.DataSaving.Storages
                 {
                     It.ReadData((success, data) =>
                     {
-                        if (success) data.TryToRepair();
+                        if (success) data.Repair();
                         result?.Invoke(success, data);
                     });
                 }
