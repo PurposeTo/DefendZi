@@ -36,7 +36,14 @@ namespace Desdiene.SceneLoaders.Single
 
         }
 
+        /// <summary>
+        /// Перед выгрузкой сцены
+        /// </summary>
         public event Action<IProcessesMutator> BeforeUnloading;
+
+        /// <summary>
+        /// После загрузки сцены
+        /// </summary>
         public event Action AfterEnabling;
 
         private State CurrentState => _stateSwitcher.CurrentState;
