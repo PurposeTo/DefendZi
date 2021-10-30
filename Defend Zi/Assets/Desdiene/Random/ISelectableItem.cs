@@ -1,4 +1,4 @@
-﻿namespace Desdiene.Random
+﻿namespace Desdiene.Randoms
 {
     public interface ISelectableItem<T>
     {

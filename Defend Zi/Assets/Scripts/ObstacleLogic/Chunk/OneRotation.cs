@@ -1,6 +1,6 @@
 using System.Linq;
 using Desdiene.Extensions.UnityEngine;
-using Desdiene.Random;
+using Desdiene.Randoms;
 using UnityEngine;
 
 public class OneRotation : Chunk

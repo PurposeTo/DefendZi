@@ -1,4 +1,4 @@
-using Desdiene.Random;
+using Desdiene.Randoms;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SelectableChunk", menuName = "ScriptableObjects/SelectableChunk")]

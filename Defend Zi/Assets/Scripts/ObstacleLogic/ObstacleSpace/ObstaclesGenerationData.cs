@@ -1,5 +1,5 @@
 ﻿using System;
-using Desdiene.Random;
+using Desdiene.Randoms;
 using Desdiene.Types.Ranges.Positive;
 
 public class ObstaclesGenerationData

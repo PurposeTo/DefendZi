@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Desdiene.Random
+namespace Desdiene.Randoms
 {
     public interface ISelectableItems<T> : IEnumerable<T>
     {

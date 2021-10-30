@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Random;
+using Desdiene.Randoms;
 using Desdiene.Types.Ranges.Positive;
 using Desdiene.Types.Rectangles;
 using UnityEngine;

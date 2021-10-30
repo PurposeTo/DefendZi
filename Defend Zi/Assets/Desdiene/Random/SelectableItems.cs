@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Desdiene.Random
+namespace Desdiene.Randoms
 {
     public class SelectableItems<T> : ISelectableItems<T>
     {

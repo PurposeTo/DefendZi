@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Random;
+using Desdiene.Randoms;
 using Desdiene.Types.Ranges.Positive;
 using Desdiene.Types.Rectangles;
 using UnityEngine;
