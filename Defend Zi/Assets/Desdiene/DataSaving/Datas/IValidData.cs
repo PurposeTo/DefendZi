@@ -7,6 +7,6 @@
         /// <summary>
         /// Если данные не прошли валидацию, починить их.
         /// </summary>
-        void TryToRepair();
+        void Repair();
     }
 }

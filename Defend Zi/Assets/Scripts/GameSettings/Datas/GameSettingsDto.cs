@@ -9,7 +9,7 @@ public class GameSettingsDto : IValidData, IJsonSerializable
 {
     bool IValidData.IsValid() => IsValid();
 
-    void IValidData.TryToRepair()
+    void IValidData.Repair()
     {
         if (!IsValid()) Repair();
     }
