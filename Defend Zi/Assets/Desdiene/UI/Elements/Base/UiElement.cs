@@ -33,7 +33,7 @@ namespace Desdiene.UI.Elements
                 ? displayed
                 : hidden;
 
-            List <State> allStates = new List<State>()
+            List<State> allStates = new List<State>()
             {
                 displayed,
                 new FromDisplayedToHidden(this),
@@ -65,18 +65,20 @@ namespace Desdiene.UI.Elements
         private Action whenDisplayed;
         private Action whenHidden;
 
+        protected virtual IUiElementAnimation Animation => new UiElementAnimationEmpty();
         protected Canvas Canvas { get; private set; }
         protected RectTransform RectTransform { get; private set; }
+
         private State CurrentState => _stateSwitcher.CurrentState;
 
-        public IProcessAccessorNotifier Show() => CurrentState.Show();
+        public void Show() => CurrentState.Show();
 
-        public IProcessAccessorNotifier Hide() => CurrentState.Hide();
+        public void Hide() => CurrentState.Hide();
 
         protected abstract void AwakeElement();
         protected abstract void OnDestroyElement();
-        protected abstract IProcessAccessorNotifier ShowElement();
-        protected abstract IProcessAccessorNotifier HideElement();
+        protected abstract void ShowElement();
+        protected abstract void HideElement();
 
         private void DisableCanvas() => Canvas.enabled = false;
         private void EnableCanvas() => Canvas.enabled = true;

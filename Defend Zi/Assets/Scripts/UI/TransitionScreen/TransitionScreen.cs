@@ -10,11 +10,12 @@ using Zenject;
 /// Экран перехода между сценами.
 /// need to be a global singleton.
 /// </summary>
-[RequireComponent(typeof(TransitionScreenAnimator))]
+[RequireComponent(typeof(TransitionScreenAnimation))]
 public class TransitionScreen : ModalWindow
 {
     private SceneLoader _sceneLoader;
-    private TransitionScreenAnimator _animator;
+    private TransitionScreenAnimation _animation;
+    private readonly IProcess _waitForShowed = new CyclicalProcess($"Wait for hidding {typeof(TransitionScreen).Name}");
 
     [Inject]
     public void Constructor(SceneLoader sceneLoader)
@@ -24,7 +25,7 @@ public class TransitionScreen : ModalWindow
 
     protected override void AwakeWindow()
     {
-        _animator = GetInitedComponent<TransitionScreenAnimator>();
+        _animation = GetInitedComponent<TransitionScreenAnimation>();
         SubscribeEvents();
         Hide();
     }
@@ -34,33 +35,30 @@ public class TransitionScreen : ModalWindow
         UnSubsctibeEvents();
     }
 
-    protected override IProcessAccessorNotifier ShowWindow()
-    {
-       return _animator.Show();
-    }
+    protected override IUiElementAnimation Animation => _animation;
 
-    protected override IProcessAccessorNotifier HideWindow()
+    protected override void ShowWindow()
     {
-        return _animator.Hide();
+        _waitForShowed.Start();
     }
 
     private void Show(IProcessesMutator processes)
     {
-        IProcessAccessorNotifier _wait = Show();
-        processes.Add(_wait);
+        Show();
+        processes.Add(_waitForShowed);
     }
 
     private void SubscribeEvents()
     {
-        _sceneLoader.AfterEnabling += HideThis;
+        WhenDisplayed += _waitForShowed.Stop;
+        _sceneLoader.AfterEnabling += Hide;
         _sceneLoader.BeforeUnloading += Show;
     }
 
     private void UnSubsctibeEvents()
     {
-        _sceneLoader.AfterEnabling -= HideThis;
+        WhenDisplayed -= _waitForShowed.Stop;
+        _sceneLoader.AfterEnabling -= Hide;
         _sceneLoader.BeforeUnloading -= Show;
     }
-
-    private void HideThis() => Hide();
 }

@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.Types.Processes;
+using Desdiene.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class TransitionScreenAnimator : MonoBehaviourExt
+public class TransitionScreenAnimation : MonoBehaviourExt, IUiElementAnimation
 {
     private readonly float animationTime = 0.15f;
     private Image _image;
@@ -20,26 +20,21 @@ public class TransitionScreenAnimator : MonoBehaviourExt
         _animation = new CoroutineWrap(this);
     }
 
-    public event Action OnDisplayed;
-    public event Action OnHidden;
-
     private Color Color { get => _image.color; set => _image.color = value; }
 
-    public IProcessAccessorNotifier Show()
+    void IUiElementAnimation.Show(Action OnEnded)
     {
         SetHidden();
-        _animation.ReStart(ToDisplayed());
-        return _animation;
+        _animation.ReStart(ToDisplayed(OnEnded));
     }
 
-    public IProcessAccessorNotifier Hide()
+    void IUiElementAnimation.Hide(Action OnEnded)
     {
         SetDisplayed();
-        _animation.ReStart(ToHidden());
-        return _animation;
+        _animation.ReStart(ToHidden(OnEnded));
     }
 
-    private IEnumerator ToHidden()
+    private IEnumerator ToHidden(Action OnEnded)
     {
         while (Color.a > 0)
         {
@@ -48,10 +43,10 @@ public class TransitionScreenAnimator : MonoBehaviourExt
             yield return null;
         }
         SetHidden();
-        OnHidden?.Invoke();
+        OnEnded?.Invoke();
     }
 
-    private IEnumerator ToDisplayed()
+    private IEnumerator ToDisplayed(Action OnEnded)
     {
         SetRaycastTarget(true);
         while (Color.a < 1)
@@ -61,7 +56,7 @@ public class TransitionScreenAnimator : MonoBehaviourExt
             yield return null;
         }
         SetDisplayed();
-        OnDisplayed?.Invoke();
+        OnEnded?.Invoke();
     }
 
     private void SetDisplayed()

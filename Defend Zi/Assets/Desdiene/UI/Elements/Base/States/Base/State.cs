@@ -6,7 +6,7 @@ namespace Desdiene.UI.Elements
 {
     public partial class UiElement
     {
-        private abstract class State : IStateEntryExitPoint, IProcessAccessorNotifier
+        private abstract class State : IStateEntryExitPoint
         {
             private readonly IProcess _stateExecuting;
 
@@ -15,29 +15,6 @@ namespace Desdiene.UI.Elements
                 It = it ?? throw new ArgumentNullException(nameof(it));
                 _stateExecuting = new CyclicalProcess($"Выполнение состояния {GetType()}");
             }
-
-            event Action IProcessNotifier.WhenRunning
-            {
-                add => _stateExecuting.WhenRunning += value;
-                remove => _stateExecuting.WhenRunning -= value;
-            }
-
-            event Action IProcessNotifier.WhenCompleted
-            {
-                add => _stateExecuting.WhenCompleted += value;
-                remove => _stateExecuting.WhenCompleted -= value;
-            }
-
-            event Action<IProcessAccessor> IProcessNotifier.OnChanged
-            {
-                add => _stateExecuting.OnChanged += value;
-                remove => _stateExecuting.OnChanged -= value;
-            }
-
-            string IProcessAccessor.Name => _stateExecuting.Name;
-
-            bool IProcessAccessor.KeepWaiting => _stateExecuting.KeepWaiting;
-
 
             void IStateEntryExitPoint.OnEnter()
             {
@@ -56,8 +33,8 @@ namespace Desdiene.UI.Elements
             public virtual Action SubscribeToWhenDisplayed(Action action, Action value) => action += value;
             public virtual Action SubscribeToWhenHidden(Action action, Action value) => action += value;
 
-            public abstract IProcessAccessorNotifier Show();
-            public abstract IProcessAccessorNotifier Hide();
+            public abstract void Show();
+            public abstract void Hide();
 
             protected abstract void OnEnter();
             protected abstract void OnExit();

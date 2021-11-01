@@ -1,6 +1,4 @@
-﻿using System;
-using Desdiene.Types.Processes;
-using Desdiene.UI.Components;
+﻿using Desdiene.UI.Components;
 using Zenject;
 
 namespace Desdiene.UI.Elements
@@ -33,18 +31,18 @@ namespace Desdiene.UI.Elements
             _fullScreenWindowsContainer.Remove(this);
         }
 
-        protected sealed override IProcessAccessorNotifier ShowElement()
+        protected sealed override void ShowElement()
         {
             _fullScreenWindowsContainer.HideOthers(this);
-           return ShowWindow();
+            ShowWindow();
         }
 
-        protected sealed override IProcessAccessorNotifier HideElement() => HideWindow();
+        protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
-        protected virtual IProcessAccessorNotifier ShowWindow() => new CompletedProcess();
-        protected virtual IProcessAccessorNotifier HideWindow() => new CompletedProcess();
+        protected virtual void ShowWindow() { }
+        protected virtual void HideWindow() { }
     }
 }

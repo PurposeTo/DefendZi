@@ -1,11 +1,13 @@
-﻿namespace Desdiene.UI.Elements
+﻿using System;
+
+namespace Desdiene.UI.Elements
 {
     /// <summary>
     /// интерфейс описывает UI элемент, находящийся на Canvas overlay
     /// </summary>
-    public interface IUiElement
+    public interface IUiElementAnimation
     {
-        void Show();
-        void Hide();
+        void Show(Action OnEnded);
+        void Hide(Action OnEnded);
     }
 }

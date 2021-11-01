@@ -1,7 +1,4 @@
-﻿using System;
-using Desdiene.Types.Processes;
-
-namespace Desdiene.UI.Elements
+﻿namespace Desdiene.UI.Elements
 {
     /// <summary>
     /// Описывает PopUp overlay окно.
@@ -17,13 +14,13 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDestroyElement() => OnDestroyWindow();
 
-        protected sealed override IProcessAccessorNotifier ShowElement() => ShowWindow();
-        protected sealed override IProcessAccessorNotifier HideElement() => HideWindow();
+        protected sealed override void ShowElement() => ShowWindow();
+        protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
-        protected virtual IProcessAccessorNotifier ShowWindow() => new CompletedProcess();
-        protected virtual IProcessAccessorNotifier HideWindow() => new CompletedProcess();
+        protected virtual void ShowWindow() { }
+        protected virtual void HideWindow() { }
     }
 }
