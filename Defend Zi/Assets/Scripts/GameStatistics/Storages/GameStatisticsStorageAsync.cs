@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Desdiene.DataSaving.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.MonoBehaviourExtension;
@@ -20,9 +21,14 @@ public class GameStatisticsStorageAsync : MonoBehaviourExt, IStorageAsync<GameSt
     {
         var jsonDeserializer = new GameStatisticsDtoJsonConvertor();
 
-        var deviceStorage = new JsonCryptoDeviceAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer);
-        var googlePlayStorage = new JsonGooglePlayAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer, _gpgsAutentification.Get());
-        _storage = new StoragesAsyncContainer<GameStatisticsDto>(deviceStorage, googlePlayStorage);
+        IStorageAsync<GameStatisticsDto>[] storages = new IStorageAsync<GameStatisticsDto>[]
+        {
+            new JsonCryptoDeviceAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer),
+            new JsonGooglePlayAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer, _gpgsAutentification.Get())
+        };
+        storages = storages.Select(it => new StorageAsyncLogger<GameStatisticsDto>(it)).ToArray();
+
+        _storage = new StoragesAsyncContainer<GameStatisticsDto>(storages);
     }
 
     event Action<bool, GameStatisticsDto> IStorageAsync<GameStatisticsDto>.OnReaded
@@ -44,7 +50,7 @@ public class GameStatisticsStorageAsync : MonoBehaviourExt, IStorageAsync<GameSt
     }
 
     string IStorageAsync<GameStatisticsDto>.StorageName => _storage.StorageName;
-    
+
     void IStorageAsync<GameStatisticsDto>.Read() => _storage.Read();
 
     void IStorageAsync<GameStatisticsDto>.Update(GameStatisticsDto dto) => _storage.Update(dto);
