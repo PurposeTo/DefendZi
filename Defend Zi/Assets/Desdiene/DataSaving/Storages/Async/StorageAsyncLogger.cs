@@ -50,7 +50,7 @@ namespace Desdiene.DataSaving.Storages
             Debug.Log($"Invoking data deleting from [{_storage.StorageName}]");
             _storage.Delete();
         }
-        
+
         private void SubscribeEvents()
         {
             _storage.OnReaded += LogDataReadedResult;

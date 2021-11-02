@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements

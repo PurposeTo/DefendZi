@@ -1,6 +1,4 @@
-﻿using System;
-using Desdiene.Types.Processes;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Desdiene.UI.Elements

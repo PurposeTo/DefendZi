@@ -38,7 +38,7 @@ namespace Desdiene.ObjectPoolers.Components
                 // И можно расширить пул
                 if (pool.ShouldExpand)
                 {
-                    //То сделать новый объект
+                    // То сделать новый объект
                     objectToSpawn = _objectCreator.CreateNewObjectToPool(prefabKey, pool.PoolParent);
                 }
             }

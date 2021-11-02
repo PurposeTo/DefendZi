@@ -1,6 +1,4 @@
-﻿using Desdiene.Types.Processes;
-
-namespace Desdiene.UI.Elements
+﻿namespace Desdiene.UI.Elements
 {
     public partial class UiElement
     {

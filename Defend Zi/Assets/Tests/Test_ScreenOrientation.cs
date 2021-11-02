@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Desdiene.MonoBehaviourExtension;
 using TMPro;
-using Desdiene.MonoBehaviourExtension;
+using UnityEngine;
 
 public class Test_ScreenOrientation : MonoBehaviourExt
 {

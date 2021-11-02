@@ -13,7 +13,7 @@ namespace Desdiene.DataSaving.Storages
             {
                 base.Read((success, data) =>
                 {
-                    if(success) SwitchState<DataWasReceived>();
+                    if (success) SwitchState<DataWasReceived>();
                     result?.Invoke(success, data);
                 });
             }

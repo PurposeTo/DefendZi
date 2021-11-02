@@ -55,7 +55,6 @@ namespace Desdiene.Coroutines.Components
 
             _allNestedCoroutines.Pop();
             return MoveNext();
-            //return _allNestedCoroutines.Count != 0;
         }
 
         public void Reset() => throw new System.NotImplementedException();

@@ -16,7 +16,7 @@ public class Transform2DPositionMono : MonoBehaviourExt, IPosition
 
     event Action IPositionNotifier.OnChanged
     {
-        add =>_position.OnChanged += value;
+        add => _position.OnChanged += value;
         remove => _position.OnChanged -= value;
     }
 

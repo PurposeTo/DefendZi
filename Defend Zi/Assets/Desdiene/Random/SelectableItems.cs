@@ -1,7 +1,7 @@
-﻿using Desdiene.Types.Percents;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Desdiene.Types.Percents;
 using UnityEngine;
 
 namespace Desdiene.Random
