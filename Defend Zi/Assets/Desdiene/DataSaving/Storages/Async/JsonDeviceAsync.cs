@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Assets.Desdiene.Tools;
 using Desdiene.DataSaving.Datas;
 using Desdiene.Json;
@@ -56,7 +57,8 @@ namespace Desdiene.DataSaving.Storages
 
         protected sealed override void DeleteData(Action<bool> result)
         {
-            throw new NotImplementedException();
+            File.Delete(_filePath);
+            result?.Invoke(true);
         }
     }
 }
