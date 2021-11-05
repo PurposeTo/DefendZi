@@ -15,7 +15,7 @@ public class ScoreCounterUIController : MonoBehaviourExt
         score = components.PlayerScore;
         scoreNotification = components.PlayerScoreNotification;
         scoreCounterView = GetInitedComponent<TextView>();
-        scoreCounterView.SetText($"{score.Value}");
+        UpdateScoreText(score.Value);
         SubcribeEvents();
     }
 
@@ -24,18 +24,18 @@ public class ScoreCounterUIController : MonoBehaviourExt
         UnsubcribeEvents();
     }
 
-    private void UpdateScore(uint scoreReceived)
+    private void UpdateScoreText(uint scoreReceived)
     {
-        scoreCounterView.SetText($"{score.Value}");
+        scoreCounterView.SetText($"Score: {score.Value}");
     }
 
     private void SubcribeEvents()
     {
-        scoreNotification.OnReceived += UpdateScore;
+        scoreNotification.OnReceived += UpdateScoreText;
     }
 
     private void UnsubcribeEvents()
     {
-        scoreNotification.OnReceived -= UpdateScore;
+        scoreNotification.OnReceived -= UpdateScoreText;
     }
 }
