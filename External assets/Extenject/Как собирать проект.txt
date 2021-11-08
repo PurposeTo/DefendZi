@@ -1,0 +1,34 @@
+Собирать с настройками:
+.Net 4
+il2cpp, stripping lvl low
+ARM v64
+
+При смене уровня stripping lvl выше, чем low, появляется ошибка Zenject:
+2021.10.29 01:16:58.497 5086 5157 Error Unity MissingMethodException: Constructor on type 'Zenject.ZenjectManagersInstaller' not found.
+2021.10.29 01:16:58.497 5086 5157 Error Unity   at System.RuntimeType.CreateInstanceImpl (System.Reflection.BindingFlags bindingAttr, System.Reflection.Binder binder, System.Object[] args, System.Globalization.CultureInfo culture, System.Object[] activationAttributes, System.Threading.StackCrawlMark& stackMark) [0x00000] in <00000000000000000000000000000000>:0 
+2021.10.29 01:16:58.497 5086 5157 Error Unity   at System.Activator.CreateInstance (System.Type type, System.Reflection.BindingFlags bindingAttr, System.Reflection.Binder binder, System.Object[] args, System.Globalization.CultureInfo culture, System.Object[] activationAttributes) [0x00000] in <00000000000000000000000000000000>:0 
+2021.10.29 01:16:58.497 5086 5157 Error Unity   at Zenject.ZenFactoryMethod.Invoke (System.Object[] args) [0x00000] in <00000000000000000000000000000000>:0 
+2021.10.29 01:16:58.497 5086 5157 Error Unity   at Zenject.DiContainer.InstantiateInternal (System.Type concreteType, System.Boolean autoInject, System.Collections.Generic.List`1[T] extraArgs, Zenject.InjectContext context, System.Object concreteIdentifier) [0x000
+
+Были проведены тесты сборок со следующими настройками:
+
+.Net 4
+il2cpp, stripping lvl low
+ARM v7
+Результат: Без ошибок
+
+
+.Net 4
+il2cpp, stripping lvl low
+ARM v7, ARM v64
+Результат: Не запускается
+
+.Net 4
+il2cpp, stripping lvl low
+ARM v64
+Результат: Без ошибок
+
+.Net 4
+il2cpp, stripping lvl medium
+ARM v64
+Результат: Ошибка Zenject
