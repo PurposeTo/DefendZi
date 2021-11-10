@@ -17,6 +17,7 @@ namespace Desdiene.UI.Elements
 
             protected override void OnEnter()
             {
+                It.DisableInteractible();
                 It.DisableCanvas();
                 It.whenHidden?.Invoke();
             }

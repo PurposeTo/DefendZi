@@ -10,6 +10,7 @@ namespace Desdiene.UI.Elements
     /// Класс описывает UI элемент, находящийся на Canvas
     /// </summary>
     [RequireComponent(typeof(Canvas))]
+    [RequireComponent(typeof(CanvasGroup))]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
     public abstract partial class UiElement : MonoBehaviourExt, IUiElement
@@ -22,8 +23,9 @@ namespace Desdiene.UI.Elements
         {
             _typeName = GetType().Name;
             _gameObjectName = gameObject.name;
-            RectTransform = GetComponent<RectTransform>();
             Canvas = GetComponent<Canvas>();
+            CanvasGroup = GetComponent<CanvasGroup>();
+            RectTransform = GetComponent<RectTransform>();
 
             State displayed = new Displayed(this);
             State hidden = new Hidden(this);
@@ -66,6 +68,7 @@ namespace Desdiene.UI.Elements
 
         protected virtual IUiElementAnimation Animation => new UiElementAnimationEmpty();
         protected Canvas Canvas { get; private set; }
+        protected CanvasGroup CanvasGroup { get; private set; }
         protected RectTransform RectTransform { get; private set; }
 
         private State CurrentState => _stateSwitcher.CurrentState;
@@ -81,5 +84,7 @@ namespace Desdiene.UI.Elements
 
         private void DisableCanvas() => Canvas.enabled = false;
         private void EnableCanvas() => Canvas.enabled = true;
+        private void DisableInteractible() => CanvasGroup.interactable = false;
+        private void EnableInteractible() => CanvasGroup.interactable = true;
     }
 }

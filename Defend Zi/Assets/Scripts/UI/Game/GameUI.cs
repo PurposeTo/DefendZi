@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
 using Desdiene.Types.Processes;
+using Desdiene.UI.Elements;
 using Desdiene.UnityScenes;
 using Desdiene.UnityScenes.Types;
 using UnityEngine;
@@ -12,6 +15,13 @@ public class GameUI : MonoBehaviourExt
 {
     [SerializeField, NotNull] private GameView _gameView;
     [SerializeField, NotNull] private GamePauseView _gamePauseView;
+
+    // Зависимость появления окна "adForRewardMessage" от события "возрождение за рекламу", описанное нажатием кнопки на "ReviveOfferView"
+    private const float _adForRewardMessageShowTime = 1.5f;
+    [SerializeField, NotNull] private ReviveOfferView _reviveOfferView;
+    [SerializeField, NotNull] private UiElement _adForRewardMessageView;
+    private ICoroutine _adForRewardMessageShowing;
+
     private IProcess _gamePause;
     private SceneLoader _sceneLoader;
     private ISceneAsset _mainMenuScene;
@@ -33,6 +43,7 @@ public class GameUI : MonoBehaviourExt
         _mainMenuScene = SceneTypes.MainMenu.Get(this, scenesInBuild);
 
         _playerReincarnation = componentsProxy.PlayerReincarnation;
+        _adForRewardMessageShowing = new CoroutineWrap(this);
     }
 
     protected override void AwakeExt()
@@ -52,6 +63,7 @@ public class GameUI : MonoBehaviourExt
         _gamePauseView.OnResumeClicked += HideGamePauseView;
         _gamePauseView.OnMainMenuClicked += LoadMainMenu;
         _playerReincarnation.OnReviving += ShowGameView;
+        _reviveOfferView.OnReviveForAdClicked += ShowAdForRewardMessageView;
     }
 
     private void UnsubscribeEvents()
@@ -60,6 +72,7 @@ public class GameUI : MonoBehaviourExt
         _gamePauseView.OnResumeClicked -= HideGamePauseView;
         _gamePauseView.OnMainMenuClicked -= LoadMainMenu;
         _playerReincarnation.OnReviving -= ShowGameView;
+        _reviveOfferView.OnReviveForAdClicked -= ShowAdForRewardMessageView;
     }
 
     private void ShowGameView() => _gameView.Show();
@@ -68,14 +81,26 @@ public class GameUI : MonoBehaviourExt
 
     private void ShowGamePauseView()
     {
-        ((Desdiene.Types.Processes.IProcessMutator)_gamePause).Start();
+        _gamePause.Start();
         _gamePauseView.Show();
     }
 
     private void HideGamePauseView()
     {
         _gamePauseView.Hide();
-        ((Desdiene.Types.Processes.IProcessMutator)_gamePause).Stop();
+        _gamePause.Stop();
+    }
+
+    private void ShowAdForRewardMessageView()
+    {
+        _adForRewardMessageShowing.StartContinuously(AdForRewardMessageShowing());
+    }
+
+    private IEnumerator AdForRewardMessageShowing()
+    {
+        _adForRewardMessageView.Show();
+        yield return new WaitForSecondsRealtime(_adForRewardMessageShowTime);
+        _adForRewardMessageView.Hide();
     }
 
     private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);

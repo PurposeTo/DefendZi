@@ -9,6 +9,7 @@
             protected override void OnEnter()
             {
                 It.EnableCanvas();
+                It.EnableInteractible();
                 It.ShowElement();
                 It.Animation.Show(() =>
                 {
