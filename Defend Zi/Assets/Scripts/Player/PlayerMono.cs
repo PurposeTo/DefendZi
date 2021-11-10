@@ -74,16 +74,16 @@ public class PlayerMono :
         remove => _position.OnChanged -= value;
     }
 
-    public event Action WhenImmortal
+    public event Action WhenInvulnerable
     {
-        add => _health.WhenImmortal += value;
-        remove => _health.WhenImmortal -= value;
+        add => _health.WhenInvulnerable += value;
+        remove => _health.WhenInvulnerable -= value;
     }
 
-    public event Action WhenMortal
+    public event Action WhenVulnerable
     {
-        add => _health.WhenMortal += value;
-        remove => _health.WhenMortal -= value;
+        add => _health.WhenVulnerable += value;
+        remove => _health.WhenVulnerable -= value;
     }
 
     Vector2 IPositionAccessor.Value => _position.Value;

@@ -5,7 +5,7 @@ public class PlayerAnimatorController : MonoBehaviourExt
 {
     [SerializeField, NotNull] InterfaceComponent<IScoreNotification> _scoreNotificationComponent;
     [SerializeField, NotNull] InterfaceComponent<IHealthNotification> _healthComponent;
-    [SerializeField, NotNull] InterfaceComponent<IImmortalNotification> _immortalComponent;
+    [SerializeField, NotNull] InterfaceComponent<IInvulnerableNotification> _InvulnerableComponent;
     [SerializeField, NotNull] InterfaceComponent<IReincarnationNotification> _reincarnationComponent;
     [SerializeField, NotNull] PlayerAnimator _playerAnimator;
 
@@ -22,15 +22,15 @@ public class PlayerAnimatorController : MonoBehaviourExt
     private IScoreNotification ScoreNotification => _scoreNotificationComponent.Implementation;
     private IHealthNotification Health => _healthComponent.Implementation;
     private IReincarnationNotification Reincarnation => _reincarnationComponent.Implementation;
-    private IImmortalNotification Immortal => _immortalComponent.Implementation;
+    private IInvulnerableNotification Invulnerable => _InvulnerableComponent.Implementation;
 
     private void SubscribeEvents()
     {
         ScoreNotification.OnReceived += ReinforceAure;
         Health.OnDeath += _playerAnimator.Die;
         Reincarnation.OnReviving += _playerAnimator.Revive;
-        Immortal.WhenImmortal += _playerAnimator.EnableImmortality;
-        Immortal.WhenMortal += _playerAnimator.DisableImmortality;
+        Invulnerable.WhenInvulnerable += _playerAnimator.EnableInvulnerability;
+        Invulnerable.WhenVulnerable += _playerAnimator.DisableInvulnerability;
     }
 
     private void UnsubscribeEvents()

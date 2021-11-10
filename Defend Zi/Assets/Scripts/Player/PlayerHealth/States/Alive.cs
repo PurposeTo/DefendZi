@@ -8,15 +8,15 @@ public partial class PlayerHealth
 {
     private class Alive : State
     {
-        private const float _immortalityTime = 3f;
-        private ICoroutine _immortality;
+        private const float _InvulnerabilityTime = 3f;
+        private ICoroutine _Invulnerability;
 
         public Alive(MonoBehaviourExt mono, PlayerHealth _it) : base(mono, _it)
         {
-            _immortality = new CoroutineWrap(mono);
-            It.OnReviving += EnableImmortality;
-            _immortality.OnStarted += () => It.WhenImmortal?.Invoke();
-            _immortality.OnStopped += () => It.WhenMortal?.Invoke();
+            _Invulnerability = new CoroutineWrap(mono);
+            It.OnReviving += EnableInvulnerableity;
+            _Invulnerability.OnStarted += () => It.WhenInvulnerable?.Invoke();
+            _Invulnerability.OnStopped += () => It.WhenMortal?.Invoke();
         }
 
         public override Action SubscribeToWhenAlive(Action action, Action value)
@@ -27,21 +27,21 @@ public partial class PlayerHealth
 
         public override Action SubscribeToWhenDead(Action action, Action value) => action += value;
 
-        public override Action SubscribeToWhenImmortal(Action action, Action value)
+        public override Action SubscribeToWhenInvulnerable(Action action, Action value)
         {
-            if (_immortality.IsExecuting) value?.Invoke();
+            if (_Invulnerability.IsExecuting) value?.Invoke();
             return action += value;
         }
 
         public override Action SubscribeToWhenMortal(Action action, Action value)
         {
-            if (!_immortality.IsExecuting) value?.Invoke();
+            if (!_Invulnerability.IsExecuting) value?.Invoke();
             return action += value;
         }
 
         public override void TakeDamage(IDamage damage)
         {
-            if (_immortality.IsExecuting) return;
+            if (_Invulnerability.IsExecuting) return;
 
             int pastHp = It._health.Value;
             int damagePoints = (int)damage.Value;
@@ -62,14 +62,14 @@ public partial class PlayerHealth
             SwitchState<Dead>();
         }
 
-        private void EnableImmortality()
+        private void EnableInvulnerableity()
         {
-            _immortality.StartContinuously(Immortality());
+            _Invulnerability.StartContinuously(Invulnerableity());
         }
 
-        private IEnumerator Immortality()
+        private IEnumerator Invulnerableity()
         {
-            yield return new WaitForSeconds(_immortalityTime);
+            yield return new WaitForSeconds(_InvulnerabilityTime);
         }
     }
 }

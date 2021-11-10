@@ -29,7 +29,7 @@ public partial class PlayerHealth
 
         public abstract Action SubscribeToWhenAlive(Action action, Action value);
         public abstract Action SubscribeToWhenDead(Action action, Action value);
-        public abstract Action SubscribeToWhenImmortal(Action action, Action value);
+        public abstract Action SubscribeToWhenInvulnerable(Action action, Action value);
         public abstract Action SubscribeToWhenMortal(Action action, Action value);
 
         protected virtual void OnEnter() { }

@@ -36,19 +36,19 @@ public partial class PlayerHealth : MonoBehaviourExtContainer, IPlayerHealth
     private event Action OnDeath;
     private event Action WhenDead;
     private event Action OnReviving;
-    private event Action WhenImmortal;
+    private event Action WhenInvulnerable;
     private event Action WhenMortal;
 
-    event Action IImmortalNotification.WhenImmortal
+    event Action IInvulnerableNotification.WhenInvulnerable
     {
         add
         {
-            WhenImmortal = CurrentState.SubscribeToWhenImmortal(WhenImmortal, value);
+            WhenInvulnerable = CurrentState.SubscribeToWhenInvulnerable(WhenInvulnerable, value);
         }
-        remove => WhenImmortal -= value;
+        remove => WhenInvulnerable -= value;
     }
 
-    event Action IImmortalNotification.WhenMortal
+    event Action IInvulnerableNotification.WhenVulnerable
     {
         add
         {

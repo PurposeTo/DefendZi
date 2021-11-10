@@ -1,4 +1,4 @@
-﻿public interface IPlayerHealth : IHealth, IReincarnation, IImmortalNotification
+﻿public interface IPlayerHealth : IHealth, IReincarnation, IInvulnerableNotification
 {
 
 }

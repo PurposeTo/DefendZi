@@ -15,7 +15,7 @@ public partial class PlayerHealth
             return action += value;
         }
 
-        public override Action SubscribeToWhenImmortal(Action action, Action value) => action += value;
+        public override Action SubscribeToWhenInvulnerable(Action action, Action value) => action += value;
         public override Action SubscribeToWhenMortal(Action action, Action value) => action += value;
 
         public override void TakeDamage(IDamage damage) { }

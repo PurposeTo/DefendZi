@@ -9,6 +9,6 @@ public class PlayerAnimator : MonoBehaviourExt
 
     public void Die() { }
     public void Revive() { }
-    public void EnableImmortality() { }
-    public void DisableImmortality() { }
+    public void EnableInvulnerability() { }
+    public void DisableInvulnerability() { }
 }

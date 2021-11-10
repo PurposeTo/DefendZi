@@ -1985,7 +1985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreNotificationComponent: {fileID: 607196010}
   _healthComponent: {fileID: 274676717}
-  _immortalComponent: {fileID: 274676718}
+  _InvulnerableComponent: {fileID: 274676718}
   _reincarnationComponent: {fileID: 274676716}
   _playerAnimator: {fileID: 871154219}
 --- !u!1 &912748134
