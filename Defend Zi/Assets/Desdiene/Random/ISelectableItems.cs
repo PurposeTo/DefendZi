@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Desdiene.Types.Percents;
 
-namespace Desdiene.Random
+namespace Desdiene.Randoms
 {
     public interface ISelectableItems<T> : IEnumerable<T>
     {

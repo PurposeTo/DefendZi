@@ -1,5 +1,5 @@
 using Desdiene.Extensions.UnityEngine;
-using Desdiene.Random;
+using Desdiene.Randoms;
 using UnityEngine;
 
 public class OnePointToPoint : Chunk, ITriggerable

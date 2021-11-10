@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Desdiene.Random
+namespace Desdiene.Randoms
 {
     public static class Randomizer
     {

@@ -1,35 +1,33 @@
-﻿namespace Desdiene.Encryptions
+﻿using System;
+
+namespace Desdiene.Encryptions
 {
     public struct SafeInt
     {
-        private readonly int value;
-        private readonly int salt;
+        private readonly int _saltedValue;
+        private readonly int _salt;
 
         public SafeInt(int value)
         {
-            salt = new System.Random().Next(int.MinValue / 4, int.MaxValue / 4);
-            this.value = value ^ salt;
+            _salt = GetSalt();
+            _saltedValue = value ^ _salt;
         }
-
 
         public SafeInt(SafeFloat safeIntValue)
         {
-            salt = new System.Random().Next(int.MinValue / 4, int.MaxValue / 4);
-            this.value = (int)((float)safeIntValue) ^ salt;
+            _salt = GetSalt();
+            _saltedValue = ((int)(float)safeIntValue) ^ _salt;
         }
-
 
         public override bool Equals(object obj)
         {
             return obj is SafeInt safeInt && this == safeInt;
         }
 
-
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
-
 
         public override string ToString()
         {
@@ -39,7 +37,7 @@
 
         public static implicit operator int(SafeInt safeInt)
         {
-            return safeInt.value ^ safeInt.salt;
+            return safeInt._saltedValue ^ safeInt._salt;
         }
 
 
@@ -47,5 +45,7 @@
         {
             return new SafeInt(normalInt);
         }
+
+        private static int GetSalt() => new Random().Next(int.MinValue / 4, int.MaxValue / 4);
     }
 }
