@@ -3,7 +3,7 @@ using Desdiene.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GamePauseView : ModalWindow
+public class GamePauseView : FullScreenWindow
 {
     [SerializeField, NotNull] private Button _resumeButton;
     [SerializeField, NotNull] private Button _mainMenuButton;

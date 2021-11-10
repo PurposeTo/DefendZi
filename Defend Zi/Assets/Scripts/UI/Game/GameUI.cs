@@ -89,6 +89,7 @@ public class GameUI : MonoBehaviourExt
     {
         _gamePauseView.Hide();
         _gamePause.Stop();
+        ShowGameView();
     }
 
     private void ShowAdForRewardMessageView()
