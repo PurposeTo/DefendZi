@@ -21,7 +21,7 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         LoadedScenes _6,
         IStorageAsync<GameStatisticsDto> _7,
         GpgsAutentification _8,
-        GpgsLeaderboard _9,
+        GpgsLeaderboardMono _9,
         GlobalTimeScaleAdapter _10,
         ITime _11,
         AndroidScreenAutoRotation _12,

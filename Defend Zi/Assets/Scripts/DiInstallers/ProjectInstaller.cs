@@ -106,7 +106,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindGPGSLeaderboard()
     {
         Container
-            .Bind<GpgsLeaderboard>()
+            .Bind<GpgsLeaderboardMono>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
