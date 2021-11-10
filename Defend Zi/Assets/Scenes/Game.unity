@@ -797,6 +797,7 @@ GameObject:
   - component: {fileID: 299936704}
   - component: {fileID: 299936703}
   - component: {fileID: 299936706}
+  - component: {fileID: 299936707}
   m_Layer: 5
   m_Name: Game view
   m_TagString: Untagged
@@ -901,6 +902,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseButton: {fileID: 1329912042}
+--- !u!225 &299936707
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299936701}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &423448270
 GameObject:
   m_ObjectHideFlags: 0
@@ -3146,6 +3159,7 @@ GameObject:
   - component: {fileID: 1136173430}
   - component: {fileID: 1136173429}
   - component: {fileID: 1136173428}
+  - component: {fileID: 1136173434}
   m_Layer: 5
   m_Name: Collect rewards offer view
   m_TagString: Untagged
@@ -3289,6 +3303,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &1136173434
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136173426}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1141616256
 GameObject:
   m_ObjectHideFlags: 0
@@ -3860,6 +3886,7 @@ GameObject:
   - component: {fileID: 1262466482}
   - component: {fileID: 1262466481}
   - component: {fileID: 1262466483}
+  - component: {fileID: 1262466485}
   m_Layer: 5
   m_Name: Ad for reward message view
   m_TagString: Untagged
@@ -3989,7 +4016,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01d90e033931504a88a20f24e26f23a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isHiddenOnInited: 1
+--- !u!225 &1262466485
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262466477}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1301557542
 GameObject:
   m_ObjectHideFlags: 0
@@ -4173,6 +4211,7 @@ GameObject:
   - component: {fileID: 1304134835}
   - component: {fileID: 1304134834}
   - component: {fileID: 1304134833}
+  - component: {fileID: 1304134839}
   m_Layer: 5
   m_Name: Revive offer view
   m_TagString: Untagged
@@ -4318,6 +4357,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &1304134839
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304134831}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1329912040
 GameObject:
   m_ObjectHideFlags: 0
@@ -5420,6 +5471,7 @@ GameObject:
   - component: {fileID: 1808156864}
   - component: {fileID: 1808156863}
   - component: {fileID: 1808156868}
+  - component: {fileID: 1808156869}
   m_Layer: 5
   m_Name: Game over view
   m_TagString: Untagged
@@ -5563,6 +5615,18 @@ MonoBehaviour:
   _bestScoreText: {fileID: 2139297536}
   _scoreText: {fileID: 1045095158}
   _reloadLvlButton: {fileID: 1168202634}
+--- !u!225 &1808156869
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808156861}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1860171333
 GameObject:
   m_ObjectHideFlags: 0
@@ -6644,6 +6708,7 @@ GameObject:
   - component: {fileID: 165146392399090045}
   - component: {fileID: 165146392399090043}
   - component: {fileID: 165146392399090044}
+  - component: {fileID: 165146392399090047}
   m_Layer: 5
   m_Name: Error window view
   m_TagString: Untagged
@@ -6746,6 +6811,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &165146392399090047
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165146392399090042}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &890129978627777020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7062,11 +7139,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2689005688396332551}
   - component: {fileID: 2689005688396332570}
+  - component: {fileID: 3043346643824289645}
+  - component: {fileID: 2689005688396332553}
   - component: {fileID: 2689005688396332549}
   - component: {fileID: 2689005688396332548}
   - component: {fileID: 2689005688396332568}
   - component: {fileID: 2689005688396332571}
-  - component: {fileID: 3043346643824289645}
+  - component: {fileID: 2689005688396332552}
   m_Layer: 5
   m_Name: Reward ad waiting view
   m_TagString: Untagged
@@ -7094,6 +7173,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2689005688396332552
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2689005688396332550}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2689005688396332553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2689005688396332550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23ab0abd73e72544a03d3e2bacf8407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &2689005688396332568
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7170,7 +7273,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2689005688396332550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d47d1539cf4e164f90c611d69944996, type: 3}
+  m_Script: {fileID: 11500000, guid: e4bb98e729952dd4b8ac6898a228549f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4080547362231743845
