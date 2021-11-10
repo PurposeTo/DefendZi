@@ -10,9 +10,6 @@
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
 
-# TextMeshPro meta files
-#*/[Aa]ssets/TextMesh Pro/**/*.meta
-
 # ExternalDependencyManager meta files
 */[Aa]ssets/ExternalDependencyManager/**/*.meta
 
@@ -38,31 +35,6 @@
 
 # Gradle cache directory
 .gradle/
-
-# Images
-#*.jpg
-#*.jpeg
-#*.png
-*.gif
-*.psd
-*.ai
-*.tif
-*.cubemap
- 
-# Audio
-#*.mp3
-#*.wav
-#*.ogg
- 
-# Video
-*.mp4
-*.mov
-
-# 3D Objects
-*.FBX
-*.fbx
-*.blend
-*.obj
  
 # Other
 *.a
@@ -446,6 +418,8 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Defend Zi
 Defend Zi/Assets/JsonDotNet/JsonDotNet201Source.zip.meta
 Defend Zi/Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
 Defend Zi/Assets/Plugins/Zenject/OptionalExtras/**/*.meta
