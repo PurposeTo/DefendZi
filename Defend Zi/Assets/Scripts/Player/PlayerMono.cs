@@ -8,12 +8,12 @@ using Zenject;
 public class PlayerMono :
     MonoBehaviourExt,
     IPositionAccessorNotifier,
-    IHealthReincarnation,
+    IPlayerHealth,
     IScore
 {
     [SerializeField] private PlayerMovementDataMono _movementData;
 
-    private IHealthReincarnation _health;
+    private IPlayerHealth _health;
     private IPositionAccessorNotifier _position;
     private IScore _score;
 
@@ -72,6 +72,18 @@ public class PlayerMono :
     {
         add => _position.OnChanged += value;
         remove => _position.OnChanged -= value;
+    }
+
+    public event Action WhenImmortal
+    {
+        add => _health.WhenImmortal += value;
+        remove => _health.WhenImmortal -= value;
+    }
+
+    public event Action WhenMortal
+    {
+        add => _health.WhenMortal += value;
+        remove => _health.WhenMortal -= value;
     }
 
     Vector2 IPositionAccessor.Value => _position.Value;

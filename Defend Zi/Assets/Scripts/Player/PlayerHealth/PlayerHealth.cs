@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Desdiene.Containers;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.Percentables;
@@ -7,24 +9,24 @@ using Desdiene.Types.Percentale;
 using Desdiene.Types.Percents;
 using Desdiene.Types.Ranges.Positive;
 
-public partial class HealthReincarnation : IHealthReincarnation
+public partial class PlayerHealth : MonoBehaviourExtContainer, IPlayerHealth
 {
     private readonly IStateSwitcher<State> _stateSwitcher;
     private readonly IRef<int> _health;
     private readonly IPercent _healthPercent;
 
-    public HealthReincarnation(uint maxHealth)
+    public PlayerHealth(MonoBehaviourExt mono, uint maxHealth) : base(mono)
     {
         int maxHealthInt = (int)maxHealth;
         IPercentable<int> health = new IntPercentable(maxHealthInt, new IntRange(0, maxHealthInt));
         _health = health;
         _healthPercent = health;
 
-        State initState = new Alive(this);
+        State initState = new Alive(mono, this);
         List<State> allStates = new List<State>()
             {
                 initState,
-                new Dead(this)
+                new Dead(mono, this)
             };
         _stateSwitcher = new StateSwitcher<State>(initState, allStates);
     }
@@ -34,6 +36,26 @@ public partial class HealthReincarnation : IHealthReincarnation
     private event Action OnDeath;
     private event Action WhenDead;
     private event Action OnReviving;
+    private event Action WhenImmortal;
+    private event Action WhenMortal;
+
+    event Action IImmortalNotification.WhenImmortal
+    {
+        add
+        {
+            WhenImmortal = CurrentState.SubscribeToWhenImmortal(WhenImmortal, value);
+        }
+        remove => WhenImmortal -= value;
+    }
+
+    event Action IImmortalNotification.WhenMortal
+    {
+        add
+        {
+            WhenMortal = CurrentState.SubscribeToWhenMortal(WhenMortal, value);
+        }
+        remove => WhenMortal -= value;
+    }
 
     event Action IHealthNotification.WhenAlive
     {

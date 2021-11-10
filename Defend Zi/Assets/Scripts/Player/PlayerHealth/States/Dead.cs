@@ -1,10 +1,11 @@
 ﻿using System;
+using Desdiene.MonoBehaviourExtension;
 
-public partial class HealthReincarnation
+public partial class PlayerHealth
 {
     private class Dead : State
     {
-        public Dead(HealthReincarnation _it) : base(_it) { }
+        public Dead(MonoBehaviourExt mono, PlayerHealth _it) : base(mono, _it) { }
 
         public override Action SubscribeToWhenAlive(Action action, Action value) => action += value;
 
@@ -13,6 +14,9 @@ public partial class HealthReincarnation
             value?.Invoke();
             return action += value;
         }
+
+        public override Action SubscribeToWhenImmortal(Action action, Action value) => action += value;
+        public override Action SubscribeToWhenMortal(Action action, Action value) => action += value;
 
         public override void TakeDamage(IDamage damage) { }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using Desdiene.StateMachines.States;
+using Desdiene.MonoBehaviourExtension;
+using Desdiene.Containers;
 
-public partial class HealthReincarnation
+public partial class PlayerHealth
 {
-    private abstract class State : IStateEntryExitPoint
+    private abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint
     {
-        protected State(HealthReincarnation it)
+        protected State(MonoBehaviourExt mono, PlayerHealth it) : base(mono)
         {
             It = it ?? throw new ArgumentNullException(nameof(it));
         }
@@ -20,13 +22,15 @@ public partial class HealthReincarnation
             OnExit();
         }
 
-        protected HealthReincarnation It { get; }
+        protected PlayerHealth It { get; }
 
         public abstract void TakeDamage(IDamage damage);
         public abstract void Revive();
 
         public abstract Action SubscribeToWhenAlive(Action action, Action value);
         public abstract Action SubscribeToWhenDead(Action action, Action value);
+        public abstract Action SubscribeToWhenImmortal(Action action, Action value);
+        public abstract Action SubscribeToWhenMortal(Action action, Action value);
 
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }

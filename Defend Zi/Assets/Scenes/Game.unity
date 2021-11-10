@@ -656,6 +656,9 @@ GameObject:
   - component: {fileID: 274676710}
   - component: {fileID: 274676713}
   - component: {fileID: 274676714}
+  - component: {fileID: 274676717}
+  - component: {fileID: 274676716}
+  - component: {fileID: 274676718}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -782,6 +785,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c153ec40c4c9fc4e9820e3f5525949a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &274676716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274676707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052d24ae9394264794447833bf36685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &274676717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274676707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7084064536e0ca41b43730d1c642591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &274676718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274676707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4edcf1856cf9cd45a2175e1ff3b2da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &299936701
@@ -1894,8 +1933,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871154218}
-  - component: {fileID: 871154219}
   - component: {fileID: 871154220}
+  - component: {fileID: 871154219}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -1945,6 +1984,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreNotificationComponent: {fileID: 607196010}
+  _healthComponent: {fileID: 274676717}
+  _immortalComponent: {fileID: 274676718}
+  _reincarnationComponent: {fileID: 274676716}
   _playerAnimator: {fileID: 871154219}
 --- !u!1 &912748134
 GameObject:
