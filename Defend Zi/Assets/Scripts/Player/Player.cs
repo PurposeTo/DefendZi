@@ -7,11 +7,11 @@ using UnityEngine;
 public class Player :
     MonoBehaviourExtContainer,
     IPositionAccessorNotifier,
-    IHealthReincarnation,
+    IPlayerHealth,
     IScore
 {
     private readonly PlayerControl _playerControl;
-    private readonly IHealthReincarnation _health;
+    private readonly IPlayerHealth _health;
     private readonly IPositionAccessorNotifier _position;
     private readonly IScore _score;
 
@@ -19,7 +19,7 @@ public class Player :
     {
         IPosition position = new Rigidbody2DPosition(rigidbody2D);
         _playerControl = new PlayerControl(MonoBehaviourExt, input, position, movementView);
-        _health = new HealthReincarnation(1);
+        _health = new PlayerHealth(mono, 1);
         _score = new PlayerScore();
         _position = position;
     }
@@ -64,6 +64,18 @@ public class Player :
     {
         add => _position.OnChanged += value;
         remove => _position.OnChanged -= value;
+    }
+
+    public event Action WhenInvulnerable
+    {
+        add => _health.WhenInvulnerable += value;
+        remove => _health.WhenInvulnerable -= value;
+    }
+
+    public event Action WhenVulnerable
+    {
+        add => _health.WhenVulnerable += value;
+        remove => _health.WhenVulnerable -= value;
     }
 
     Vector2 IPositionAccessor.Value => _position.Value;

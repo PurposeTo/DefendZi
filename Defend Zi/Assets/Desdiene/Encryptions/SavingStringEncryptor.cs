@@ -34,7 +34,6 @@ namespace Desdiene.Encryptions
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(saltedData));
         }
 
-
         public void Decrypt(string dataInBase64Encoding, Action<string> result)
         {
             if (string.IsNullOrEmpty(dataInBase64Encoding))
@@ -72,6 +71,11 @@ namespace Desdiene.Encryptions
                 Debug.LogError(exception.ToString());
                 result?.Invoke(null);
             }
+        }
+
+        public void Delete()
+        {
+            File.Delete(_hashDataFilePath);
         }
 
         private string StringHash(string data)

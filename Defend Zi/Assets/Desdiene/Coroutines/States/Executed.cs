@@ -23,6 +23,7 @@ namespace Desdiene.Coroutines
 
             protected override void OnEnter()
             {
+                It.OnStopped?.Invoke();
                 It.WhenCompleted?.Invoke();
             }
 

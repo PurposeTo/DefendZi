@@ -1,6 +1,6 @@
 ﻿namespace Desdiene.Json
 {
-   public interface IJsonDeserializer<T>
+    public interface IJsonDeserializer<T>
     {
         T ToObject(string json);
     }

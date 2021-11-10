@@ -10,7 +10,8 @@ public class GameSettingsStorage : MonoBehaviourExt, IStorage<GameSettingsDto>
     {
         var jsonDeserializer = new GameSettingsDtoJsonConvertor();
 
-        _storage = new PlayerPrefsJsonStorage<GameSettingsDto>(BaseFileName, jsonDeserializer);
+        var storage = new PlayerPrefsJsonStorage<GameSettingsDto>(BaseFileName, jsonDeserializer);
+        _storage = new StorageLogger<GameSettingsDto>(storage);
     }
 
     string IStorage<GameSettingsDto>.StorageName => _storage.StorageName;

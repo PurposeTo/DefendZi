@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Desdiene.Types.Processes;
 
 namespace Desdiene.Coroutines
 {
     public interface ICoroutine : INestedCoroutineRunner, IProcessAccessorNotifier
     {
+        public event Action OnStarted;
+        public event Action OnStopped;
+
         bool IsExecuting { get; }
 
         /// <summary>

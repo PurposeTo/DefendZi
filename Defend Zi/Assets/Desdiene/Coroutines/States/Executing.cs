@@ -24,6 +24,7 @@ namespace Desdiene.Coroutines
             protected override void OnEnter()
             {
                 It._isExecuting.Set(true);
+                It.OnStarted?.Invoke();
                 It.WhenRunning?.Invoke();
                 It._coroutine = MonoBehaviourExt.StartCoroutine(Run());
             }

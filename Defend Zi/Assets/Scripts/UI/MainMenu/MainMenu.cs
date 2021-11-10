@@ -10,7 +10,7 @@ using Zenject;
 public class MainMenu : MonoBehaviourExt
 {
     [SerializeField, NotNull] private MainMenuView _mainMenuView;
-    private GpgsLeaderboard _leaderboard;
+    private GpgsLeaderboardMono _leaderboard;
     private ISceneAsset _gameScene;
     private SceneLoader _sceneLoader;
     private IGameSettings _gameSettings;
@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviourExt
     [Inject]
     private void Constructor(SceneLoader sceneLoader,
                              ScenesInBuild scenesInBuild,
-                             GpgsLeaderboard leaderboard,
+                             GpgsLeaderboardMono leaderboard,
                              GameSettings gameSettings)
     {
         if (scenesInBuild == null) throw new ArgumentNullException(nameof(scenesInBuild));
@@ -55,11 +55,10 @@ public class MainMenu : MonoBehaviourExt
 
     private void LoadGame() => _sceneLoader.Load(_gameScene);
 
-    private void OpenLeaderboard() => _leaderboard.Open();
+    private void OpenLeaderboard() => _leaderboard.UpdateScoreAndOpen();
 
     private void SetSoundMuteState(bool mute)
     {
-        Debug.Log("ÊÐß Sound mute=" + mute);
         _gameSettings.SetMuteState(mute);
     }
 }

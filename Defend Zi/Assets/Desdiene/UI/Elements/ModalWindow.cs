@@ -1,6 +1,4 @@
-﻿using System;
-using Desdiene.Types.Processes;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Desdiene.UI.Elements
@@ -9,11 +7,9 @@ namespace Desdiene.UI.Elements
     /// Описывает модальное overlay окно.
     /// На том же объекте, что и данный скрипт, должен висеть полноэкранный Image, блокирующий raycast других окон.
     /// Само тело модального окна (т.к. вероятно оно будет меньше, чем во весь экран) должно быть дочерним элементом.
-    /// 
-    /// Скрипт может быть повешан на объект для логического обозначения.
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public class ModalWindow : UiElement
+    public abstract class ModalWindow : UiElement
     {
         private Image _image;
 
@@ -26,14 +22,14 @@ namespace Desdiene.UI.Elements
 
         protected sealed override void OnDestroyElement() => OnDestroyWindow();
 
-        protected sealed override IProcessAccessorNotifier ShowElement() => ShowWindow();
-        protected sealed override IProcessAccessorNotifier HideElement() => HideWindow();
+        protected sealed override void ShowElement() => ShowWindow();
+        protected sealed override void HideElement() => HideWindow();
 
         protected virtual void AwakeWindow() { }
         protected virtual void OnDestroyWindow() { }
 
-        protected virtual IProcessAccessorNotifier ShowWindow() => new CompletedProcess();
-        protected virtual IProcessAccessorNotifier HideWindow() => new CompletedProcess();
+        protected virtual void ShowWindow() { }
+        protected virtual void HideWindow() { }
 
         private void ValidateRaycastBlocker()
         {

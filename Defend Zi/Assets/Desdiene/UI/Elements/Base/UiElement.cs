@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
-using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -11,6 +10,7 @@ namespace Desdiene.UI.Elements
     /// Класс описывает UI элемент, находящийся на Canvas
     /// </summary>
     [RequireComponent(typeof(Canvas))]
+    [RequireComponent(typeof(CanvasGroup))]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
     public abstract partial class UiElement : MonoBehaviourExt, IUiElement
@@ -23,8 +23,9 @@ namespace Desdiene.UI.Elements
         {
             _typeName = GetType().Name;
             _gameObjectName = gameObject.name;
-            RectTransform = GetComponent<RectTransform>();
             Canvas = GetComponent<Canvas>();
+            CanvasGroup = GetComponent<CanvasGroup>();
+            RectTransform = GetComponent<RectTransform>();
 
             State displayed = new Displayed(this);
             State hidden = new Hidden(this);
@@ -33,7 +34,7 @@ namespace Desdiene.UI.Elements
                 ? displayed
                 : hidden;
 
-            List <State> allStates = new List<State>()
+            List<State> allStates = new List<State>()
             {
                 displayed,
                 new FromDisplayedToHidden(this),
@@ -65,20 +66,25 @@ namespace Desdiene.UI.Elements
         private Action whenDisplayed;
         private Action whenHidden;
 
+        protected virtual IUiElementAnimation Animation => new UiElementAnimationEmpty();
         protected Canvas Canvas { get; private set; }
+        protected CanvasGroup CanvasGroup { get; private set; }
         protected RectTransform RectTransform { get; private set; }
+
         private State CurrentState => _stateSwitcher.CurrentState;
 
-        public IProcessAccessorNotifier Show() => CurrentState.Show();
+        public void Show() => CurrentState.Show();
 
-        public IProcessAccessorNotifier Hide() => CurrentState.Hide();
+        public void Hide() => CurrentState.Hide();
 
         protected abstract void AwakeElement();
         protected abstract void OnDestroyElement();
-        protected abstract IProcessAccessorNotifier ShowElement();
-        protected abstract IProcessAccessorNotifier HideElement();
+        protected abstract void ShowElement();
+        protected abstract void HideElement();
 
         private void DisableCanvas() => Canvas.enabled = false;
         private void EnableCanvas() => Canvas.enabled = true;
+        private void DisableInteractible() => CanvasGroup.interactable = false;
+        private void EnableInteractible() => CanvasGroup.interactable = true;
     }
 }

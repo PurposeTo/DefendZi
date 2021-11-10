@@ -65,6 +65,9 @@ namespace Desdiene.Coroutines
             UnsubscribeEvents();
         }
 
+        private event Action OnStarted;
+        private event Action OnStopped;
+
         private event Action WhenRunning;
         private event Action WhenCompleted;
         private event Action<IProcessAccessor> OnChanged;
@@ -91,6 +94,18 @@ namespace Desdiene.Coroutines
         {
             add => OnChanged += value;
             remove => OnChanged -= value;
+        }
+
+        event Action ICoroutine.OnStarted
+        {
+            add => OnStarted += value;
+            remove => OnStarted -= value;
+        }
+
+        event Action ICoroutine.OnStopped
+        {
+            add => OnStopped += value;
+            remove => OnStopped -= value;
         }
 
         string IProcessAccessor.Name => "Выполнение сопрограммы";

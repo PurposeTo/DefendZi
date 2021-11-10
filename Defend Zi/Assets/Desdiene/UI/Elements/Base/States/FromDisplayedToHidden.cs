@@ -1,6 +1,4 @@
-﻿using Desdiene.Types.Processes;
-
-namespace Desdiene.UI.Elements
+﻿namespace Desdiene.UI.Elements
 {
     public partial class UiElement
     {
@@ -10,41 +8,26 @@ namespace Desdiene.UI.Elements
 
             protected override void OnEnter()
             {
-                IProcessAccessorNotifier wait = It.HideElement();
-
-                void SetHidden()
+                It.Animation.Hide(() =>
                 {
-                    wait.WhenCompleted -= SetHidden;
+                    It.HideElement();
                     SwitchState<Hidden>();
-                }
-
-                wait.WhenCompleted += SetHidden;
+                });
             }
 
             protected override void OnExit() { }
 
-            public override IProcessAccessorNotifier Show()
+            public override void Show()
             {
-                IProcess wait = new OptionalLinearProcess("Ожидание закрытия и последующего открытия окна");
-                wait.Start();
-
                 void ShowAfterHidden()
                 {
-                    IProcessAccessorNotifier waitForDisplayed = It.Show();
-
-                    void StopWaiting()
-                    {
-                        waitForDisplayed.WhenCompleted -= StopWaiting;
-                        wait.Stop();
-                    }
-                    waitForDisplayed.WhenCompleted += StopWaiting;
+                    It.Show();
                     It.WhenHidden -= ShowAfterHidden;
                 }
                 It.WhenHidden += ShowAfterHidden;
-                return wait;
             }
 
-            public override IProcessAccessorNotifier Hide() => this;
+            public override void Hide() { }
         }
     }
 }

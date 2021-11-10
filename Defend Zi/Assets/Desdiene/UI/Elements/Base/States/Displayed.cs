@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -22,12 +21,12 @@ namespace Desdiene.UI.Elements
             }
             protected override void OnExit() { }
 
-            public override IProcessAccessorNotifier Show() => new CompletedProcess();
+            public override void Show() { }
 
-            public override IProcessAccessorNotifier Hide()
+            public override void Hide()
             {
                 Debug.Log($"Hide {It._typeName} on \"{It._gameObjectName}\"");
-                return SwitchState<FromDisplayedToHidden>();
+                SwitchState<FromDisplayedToHidden>();
             }
         }
     }

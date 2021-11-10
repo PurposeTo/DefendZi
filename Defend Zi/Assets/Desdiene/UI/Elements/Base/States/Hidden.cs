@@ -1,5 +1,4 @@
 ﻿using System;
-using Desdiene.Types.Processes;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -18,19 +17,20 @@ namespace Desdiene.UI.Elements
 
             protected override void OnEnter()
             {
+                It.DisableInteractible();
                 It.DisableCanvas();
                 It.whenHidden?.Invoke();
             }
 
             protected override void OnExit() { }
 
-            public override IProcessAccessorNotifier Show()
+            public override void Show()
             {
                 Debug.Log($"Show {It._typeName} on \"{It._gameObjectName}\"");
-                return SwitchState<FromHiddenToDisplayed>();
+                SwitchState<FromHiddenToDisplayed>();
             }
 
-            public override IProcessAccessorNotifier Hide() => new CompletedProcess();
+            public override void Hide() { }
         }
     }
 }

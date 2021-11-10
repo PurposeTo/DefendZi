@@ -1,5 +1,4 @@
-﻿using System;
-using Desdiene.DataSaving.Datas;
+﻿using Desdiene.DataSaving.Datas;
 using Desdiene.Json;
 using UnityEngine;
 

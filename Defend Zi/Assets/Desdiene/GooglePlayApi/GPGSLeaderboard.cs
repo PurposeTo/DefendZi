@@ -1,42 +1,53 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
-using Zenject;
+using GooglePlayGames.BasicApi;
+using UnityEngine;
 
 namespace Desdiene.GooglePlayApi
 {
-    public class GpgsLeaderboard : MonoBehaviourExt
+    public class GpgsLeaderboard
     {
-        private PlayGamesPlatform _platform;
-        private IGameStatisticsAccessor _gameStatistics;
+        private readonly string _leaderboardId;
+        private readonly PlayGamesPlatform _platform;
+        private long _cashScore = -1; // По умолчанию -1, если счет не был успешно обновлен в таблице лидеров
+        private bool _isCashScoreInited = false;
 
-        [Inject]
-        private void Constructor(GpgsAutentification platformCreator, GameStatistics gameStatistics)
+        public GpgsLeaderboard(PlayGamesPlatform platform, string leaderboardId)
         {
-            if (platformCreator == null) throw new ArgumentNullException(nameof(platformCreator));
+            if (string.IsNullOrWhiteSpace(leaderboardId))
+            {
+                throw new ArgumentException($"\"{nameof(leaderboardId)}\" can't be null or white space");
+            }
 
-            _platform = platformCreator.Get();
-            _gameStatistics = gameStatistics ?? throw new ArgumentNullException(nameof(gameStatistics));
+            _platform = platform ?? throw new ArgumentNullException(nameof(platform));
+            _leaderboardId = leaderboardId;
         }
 
         public void Open()
         {
-            AddBestScore(_gameStatistics.BestScore, OpenLeaderboard);
+            _platform.ShowLeaderboardUI(_leaderboardId, (status) =>
+            {
+                Debug.Log($"{GetType().Name} opened with status {status}");
+            });
         }
 
-        private void OpenLeaderboard()
+        public void UpdateScore(long score, Action<bool> result)
         {
-            _platform.ShowLeaderboardUI();
-        }
+            if (_isCashScoreInited && _cashScore == score)
+            {
+                result?.Invoke(true);
+                return;
+            }
 
-        private void AddBestScore(uint bestScore, Action onAdded)
-        {
-            _platform.ReportScore(bestScore, GPGSIds.leaderboard_the_most_careful, (success) =>
+            _platform.ReportScore(score, _leaderboardId, (success) =>
             {
                 if (success)
                 {
-                    onAdded?.Invoke();
+                    _isCashScoreInited = true;
+                    _cashScore = score;
                 }
+
+                result?.Invoke(success);
             });
         }
     }

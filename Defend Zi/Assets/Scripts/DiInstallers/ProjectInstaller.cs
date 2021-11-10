@@ -48,7 +48,6 @@ public class ProjectInstaller : MonoInstaller
     {
         Container
             .Bind<IRewardedAd>()
-            //.To<FailRewardedAdStub>()
             .To<IronSourceAd>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
@@ -59,6 +58,7 @@ public class ProjectInstaller : MonoInstaller
     {
         Container
             .Bind<FullScreenWindowsContainer>()
+            .ToSelf()
             .AsSingle()
             .Lazy();
     }
@@ -106,7 +106,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindGPGSLeaderboard()
     {
         Container
-            .Bind<GpgsLeaderboard>()
+            .Bind<GpgsLeaderboardMono>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
