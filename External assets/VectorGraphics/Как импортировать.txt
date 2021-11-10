@@ -1,0 +1,2 @@
+Unity->Window->PackageManager->Add package from git URL
+URL: com.unity.vectorgraphics
