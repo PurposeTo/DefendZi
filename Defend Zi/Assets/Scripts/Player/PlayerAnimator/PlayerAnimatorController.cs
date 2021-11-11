@@ -38,5 +38,5 @@ public class PlayerAnimatorController : MonoBehaviourExt
         ScoreNotification.OnReceived -= ReinforceAure;
     }
 
-    private void ReinforceAure(uint scoreReceived) => _playerAnimator.ReinforceAure();
+    private void ReinforceAure(uint scoreReceived) => _playerAnimator.CollectScore();
 }
