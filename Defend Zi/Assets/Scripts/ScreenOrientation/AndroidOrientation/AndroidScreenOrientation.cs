@@ -1,25 +1,18 @@
 ﻿using System;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
-using UnityEditor;
 using UnityEngine;
 
-public class AndroidSreenOrientation : MonoBehaviourExtContainer, IScreenOrientation
+public class AndroidScreenOrientation : MonoBehaviourExtContainer, IScreenOrientation
 {
     private readonly bool _isAutoRotationSupported;
     private readonly Update _update;
     private ScreenOrientation _pastScreenOrientation;
     private DeviceOrientation _pastDeviceOrientation;
 
-    public AndroidSreenOrientation(MonoBehaviourExt mono, bool isAutoRotationSupported = false) : base(mono)
+    public AndroidScreenOrientation(MonoBehaviourExt mono, bool isAutoRotationSupported = false) : base(mono)
     {
         _isAutoRotationSupported = isAutoRotationSupported;
-
-        if (_isAutoRotationSupported && PlayerSettings.defaultInterfaceOrientation == UIOrientation.AutoRotation)
-        {
-            Debug.LogError("Невозможно контролировать поворот экрана вручную при включенном PlayerSettings.defaultInterfaceOrientation == UIOrientation.AutoRotation!");
-            _isAutoRotationSupported = false;
-        }
 
         _update = new Update(MonoBehaviourExt, () =>
         {
@@ -63,9 +56,9 @@ public class AndroidSreenOrientation : MonoBehaviourExtContainer, IScreenOrienta
 
     private void SetCorrectOrientation()
     {
-        DeviceOrientation nextDeviceOrientation = Input.deviceOrientation;
-
         if (!AndroidScreenAutoRotationSetting.IsRotationAllowed()) return;
+
+        DeviceOrientation nextDeviceOrientation = Input.deviceOrientation;
 
         if (nextDeviceOrientation != _pastDeviceOrientation)
         {
