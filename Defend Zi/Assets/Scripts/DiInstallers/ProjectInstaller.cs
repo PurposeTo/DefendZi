@@ -28,8 +28,8 @@ public class ProjectInstaller : MonoInstaller
         BindSingleSceneLoader();
         BindGPGSAuthentication();
         BindGPGSLeaderboard();
-        BindScreenOrientationAdapter();
         BindScreenOrientation();
+        BindScreenOrientationAdapter();
         BindBackgroundMusic();
         BindTransitionScreen();
     }
@@ -146,7 +146,7 @@ public class ProjectInstaller : MonoInstaller
     private void BindScreenOrientationAdapter()
     {
         Container
-            .Bind<AndroidScreenAutoRotation>()
+            .Bind<ScreenOrientationAdapterMono>()
             .ToSelf()
             .FromNewComponentOnNewGameObject()
             .AsSingle()

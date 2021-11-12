@@ -5,6 +5,9 @@
 /// </summary>
 public class OrthographicCameraOrientation : CameraOrientation
 {
+    public OrthographicCameraOrientation(ScreenOrientationWrap screenOrientationWrap, Camera camera)
+        : base(screenOrientationWrap, camera) { }
+
     private float LandscapeCameraSize => GameSpaceInSight.Height / 2;
     private float PortraitCameraSize => LandscapeCameraSize * AspectRatio;
 

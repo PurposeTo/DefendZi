@@ -5,6 +5,9 @@
 /// </summary>
 public class PerspectiveCameraOrientation : CameraOrientation
 {
+    public PerspectiveCameraOrientation(ScreenOrientationWrap screenOrientationWrap, Camera camera)
+    : base(screenOrientationWrap, camera) { }
+
     protected sealed override void ChangeVisionToLandscape()
     {
         var position = Camera.transform.position;

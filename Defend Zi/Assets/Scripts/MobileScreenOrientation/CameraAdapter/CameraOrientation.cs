@@ -1,31 +1,31 @@
-﻿using Desdiene;
-using Desdiene.MonoBehaviourExtension;
+﻿using System;
 using UnityEngine;
-using Zenject;
 
-public abstract class CameraOrientation : MonoBehaviourExt
+public abstract class CameraOrientation
 {
-    [SerializeField] private Camera _camera;
-    private ScreenOrientationWrap _screenOrientationWrap;
+    private readonly ScreenOrientationWrap _screenOrientationWrap;
+    private readonly Camera _camera;
     private float _aspectRatio;
 
-    [Inject]
-    private void Constructor(ScreenOrientationWrap screenOrientationWrap)
+    protected CameraOrientation(ScreenOrientationWrap screenOrientationWrap, Camera camera)
     {
-        _screenOrientationWrap = screenOrientationWrap ?? throw new System.ArgumentNullException(nameof(screenOrientationWrap));
-    }
+        _screenOrientationWrap = screenOrientationWrap ?? throw new ArgumentNullException(nameof(screenOrientationWrap));
+        _camera = camera != null
+            ? camera
+            : throw new ArgumentNullException(nameof(camera));
 
-    protected override void AwakeExt()
-    {
         _aspectRatio = GetAspectRatio();
         Change(_screenOrientationWrap.Get());
         SubscribeEvents();
     }
 
-    protected override void OnDestroyExt() => UnsubscribeEvents();
-
     protected Camera Camera => _camera;
     protected float AspectRatio => _aspectRatio;
+
+    public void Destroy()
+    {
+        UnsubscribeEvents();
+    }
 
     protected abstract void ChangeVisionToLandscape();
     protected abstract void ChangeVisionToPortrait();
@@ -35,7 +35,7 @@ public abstract class CameraOrientation : MonoBehaviourExt
         float width = _camera.pixelWidth;
         float hight = _camera.pixelHeight;
 
-        Math.Compare(ref hight, ref width);
+        Desdiene.Math.Compare(ref hight, ref width);
         return width / hight;
     }
 
@@ -51,14 +51,18 @@ public abstract class CameraOrientation : MonoBehaviourExt
         ChangeVisionToPortrait();
     }
 
-    private void SubscribeEvents() => _screenOrientationWrap.OnChange += Change;
+    private void SubscribeEvents()
+    {
+        _screenOrientationWrap.OnChange += Change;
+    }
 
-    private void UnsubscribeEvents() => _screenOrientationWrap.OnChange -= Change;
+    private void UnsubscribeEvents()
+    {
+        _screenOrientationWrap.OnChange -= Change;
+    }
 
     private void Change(ScreenOrientation screenOrientation)
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor) return;
-
         if (screenOrientation == ScreenOrientation.LandscapeLeft || screenOrientation == ScreenOrientation.LandscapeRight)
         {
             ChangeToLandscape();

@@ -1,42 +1,43 @@
 ﻿using System;
+using System.Collections;
+using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
-using Zenject;
 
 /// <summary>
 /// Занимается поворотом экрана и, в отличие от Unity.AutoRotation, учитывает настройки автопорота экрана на Android-устройстве пользователя.
 /// При использовании этого класса нельзя использовать значение AutoRotation для параметра Default Orientation в Unity Player settings
 /// </summary>
-public class AndroidScreenAutoRotation : MonoBehaviourExt
+public class AndroidScreenAutoRotation : ScreenOrientationAdapter
 {
-    private readonly DeviceOrientation _defaultDeviceOrientation = DeviceOrientation.LandscapeLeft;
+    private readonly ScreenOrientationWrap _screenOrientation;
+    private readonly ICoroutine _unityUpdate;
     private DeviceOrientation _pastDeviceOrientation;
-    private ScreenOrientationWrap _screenOrientation;
 
-    [Inject]
-    private void Constructor(ScreenOrientationWrap screenOrientationWrap)
+    public AndroidScreenAutoRotation(MonoBehaviourExt mono, ScreenOrientationWrap screenOrientationWrap) : base(mono)
     {
-        _screenOrientation = screenOrientationWrap ?? throw new ArgumentNullException(nameof(screenOrientationWrap));
+        _screenOrientation = screenOrientationWrap != null
+            ? screenOrientationWrap
+            : throw new ArgumentNullException(nameof(screenOrientationWrap));
+
+        _unityUpdate = new CoroutineWrap(MonoBehaviourExt);
+        _unityUpdate.StartContinuously(Update());
     }
 
-    protected override void AwakeExt()
+    private IEnumerator Update()
     {
-        _pastDeviceOrientation = _defaultDeviceOrientation;
-    }
-
-    private void Update()
-    {
-        SetOrientation();
+        while (true)
+        {
+            SetOrientation();
+            yield return null;
+        }
     }
 
     private void SetOrientation()
     {
         DeviceOrientation nextDeviceOrientation = Input.deviceOrientation;
 
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            if (!AndroidScreenAutoRotationSetting.IsRotationAllowed()) return;
-        }
+        if (!AndroidScreenAutoRotationSetting.IsRotationAllowed()) return;
 
         if (nextDeviceOrientation != _pastDeviceOrientation)
         {
