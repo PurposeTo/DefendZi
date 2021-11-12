@@ -24,12 +24,11 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         GpgsLeaderboardMono _9,
         GlobalTimeScaleAdapter _10,
         ITime _11,
-        ScreenOrientationAdapterMono _12,
-        ScreenOrientationWrap _13,
+        GameSettings _12,
+        IScreenOrientation _13,
         TransitionScreen _14,
         GameStatistics _15,
-        IStorage<GameSettingsDto> _16,
-        GameSettings _17
+        IStorage<GameSettingsDto> _16
         )
     {
         if (_1 == null) throw new ArgumentNullException(nameof(_1));
@@ -48,6 +47,5 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         if (_14 == null) throw new ArgumentNullException(nameof(_14));
         if (_15 == null) throw new ArgumentNullException(nameof(_15));
         if (_16 == null) throw new ArgumentNullException(nameof(_16));
-        if (_17 == null) throw new ArgumentNullException(nameof(_17));
     }
 }

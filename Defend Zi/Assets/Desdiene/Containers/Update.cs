@@ -14,6 +14,9 @@ namespace Desdiene.Containers
         private readonly ICoroutine _routine;
         private readonly Action<float> _updateAction;
 
+        public Update(MonoBehaviourExt mono, Action action) : this(mono, (deltaTime) => action?.Invoke())
+        { }
+
         public Update(MonoBehaviourExt mono, Action<float> action) : base(mono)
         {
             _routine = new CoroutineWrap(MonoBehaviourExt);

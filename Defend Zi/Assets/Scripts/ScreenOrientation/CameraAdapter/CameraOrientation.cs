@@ -3,19 +3,19 @@ using UnityEngine;
 
 public abstract class CameraOrientation
 {
-    private readonly ScreenOrientationWrap _screenOrientationWrap;
+    private readonly IScreenOrientation _screenOrientation;
     private readonly Camera _camera;
     private float _aspectRatio;
 
-    protected CameraOrientation(ScreenOrientationWrap screenOrientationWrap, Camera camera)
+    protected CameraOrientation(IScreenOrientation screenOrientation, Camera camera)
     {
-        _screenOrientationWrap = screenOrientationWrap ?? throw new ArgumentNullException(nameof(screenOrientationWrap));
+        _screenOrientation = screenOrientation ?? throw new ArgumentNullException(nameof(screenOrientation));
         _camera = camera != null
             ? camera
             : throw new ArgumentNullException(nameof(camera));
 
         _aspectRatio = GetAspectRatio();
-        Change(_screenOrientationWrap.Get());
+        Change(_screenOrientation.Get());
         SubscribeEvents();
     }
 
@@ -53,12 +53,12 @@ public abstract class CameraOrientation
 
     private void SubscribeEvents()
     {
-        _screenOrientationWrap.OnChange += Change;
+        ((IScreenOrientation)_screenOrientation).OnChange += Change;
     }
 
     private void UnsubscribeEvents()
     {
-        _screenOrientationWrap.OnChange -= Change;
+        ((IScreenOrientation)_screenOrientation).OnChange -= Change;
     }
 
     private void Change(ScreenOrientation screenOrientation)

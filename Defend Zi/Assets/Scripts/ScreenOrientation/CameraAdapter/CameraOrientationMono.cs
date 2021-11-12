@@ -6,15 +6,15 @@ using Zenject;
 public class CameraOrientationMono : MonoBehaviourExt
 {
     [SerializeField, NotNull] private Camera _camera;
-    private ScreenOrientationWrap _screenOrientationWrap;
+    private IScreenOrientation _screenOrientationWrap;
     private CameraOrientation _cameraOrientation;
 
     [Inject]
-    private void Constructor(ScreenOrientationWrap screenOrientationWrap)
+    private void Constructor(IScreenOrientation screenOrientation)
     {
-        _screenOrientationWrap = screenOrientationWrap != null
-            ? screenOrientationWrap
-            : throw new ArgumentNullException(nameof(screenOrientationWrap));
+        _screenOrientationWrap = screenOrientation != null
+            ? screenOrientation
+            : throw new ArgumentNullException(nameof(screenOrientation));
 
     }
 

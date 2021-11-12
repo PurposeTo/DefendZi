@@ -5,8 +5,8 @@
 /// </summary>
 public class PerspectiveCameraOrientation : CameraOrientation
 {
-    public PerspectiveCameraOrientation(ScreenOrientationWrap screenOrientationWrap, Camera camera)
-    : base(screenOrientationWrap, camera) { }
+    public PerspectiveCameraOrientation(IScreenOrientation screenOrientation, Camera camera)
+    : base(screenOrientation, camera) { }
 
     protected sealed override void ChangeVisionToLandscape()
     {

@@ -29,7 +29,6 @@ public class ProjectInstaller : MonoInstaller
         BindGPGSAuthentication();
         BindGPGSLeaderboard();
         BindScreenOrientation();
-        BindScreenOrientationAdapter();
         BindBackgroundMusic();
         BindTransitionScreen();
     }
@@ -143,21 +142,11 @@ public class ProjectInstaller : MonoInstaller
             .Lazy();
     }
 
-    private void BindScreenOrientationAdapter()
-    {
-        Container
-            .Bind<ScreenOrientationAdapterMono>()
-            .ToSelf()
-            .FromNewComponentOnNewGameObject()
-            .AsSingle()
-            .Lazy();
-    }
-
     private void BindScreenOrientation()
     {
         Container
-            .Bind<ScreenOrientationWrap>()
-            .ToSelf()
+            .Bind<IScreenOrientation>()
+            .To<ScreenOrientationMono>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
