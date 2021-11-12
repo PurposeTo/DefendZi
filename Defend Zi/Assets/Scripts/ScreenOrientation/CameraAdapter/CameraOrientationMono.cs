@@ -5,7 +5,7 @@ using Zenject;
 
 public class CameraOrientationMono : MonoBehaviourExt
 {
-    [SerializeField, NotNull] private Camera _camera;
+    [SerializeField, NotNull(IgnorePrefab = true)] private Camera _camera;
     private IScreenOrientation _screenOrientationWrap;
     private CameraOrientation _cameraOrientation;
 

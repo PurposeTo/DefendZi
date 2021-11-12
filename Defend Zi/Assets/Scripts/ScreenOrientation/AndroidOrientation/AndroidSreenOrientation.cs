@@ -1,22 +1,31 @@
-using System;
+п»їusing System;
 using Desdiene.Containers;
 using Desdiene.MonoBehaviourExtension;
+using UnityEditor;
 using UnityEngine;
 
 public class AndroidSreenOrientation : MonoBehaviourExtContainer, IScreenOrientation
 {
-    private readonly bool _isAutoRotationSupported = true;
+    private readonly bool _isAutoRotationSupported;
     private readonly Update _update;
     private ScreenOrientation _pastScreenOrientation;
     private DeviceOrientation _pastDeviceOrientation;
 
-    public AndroidSreenOrientation(MonoBehaviourExt mono) : base(mono)
+    public AndroidSreenOrientation(MonoBehaviourExt mono, bool isAutoRotationSupported = false) : base(mono)
     {
+        _isAutoRotationSupported = isAutoRotationSupported;
+
+        if (_isAutoRotationSupported && PlayerSettings.defaultInterfaceOrientation == UIOrientation.AutoRotation)
+        {
+            Debug.LogError("РќРµРІРѕР·РјРѕР¶РЅРѕ РєРѕРЅС‚СЂРѕР»РёСЂРѕРІР°С‚СЊ РїРѕРІРѕСЂРѕС‚ СЌРєСЂР°РЅР° РІСЂСѓС‡РЅСѓСЋ РїСЂРё РІРєР»СЋС‡РµРЅРЅРѕРј PlayerSettings.defaultInterfaceOrientation == UIOrientation.AutoRotation!");
+            _isAutoRotationSupported = false;
+        }
+
         _update = new Update(MonoBehaviourExt, () =>
         {
             if (_isAutoRotationSupported)
             {
-                AutoRotateOrientation();
+                SetCorrectOrientation();
             }
             Check(Get());
         });
@@ -39,7 +48,7 @@ public class AndroidSreenOrientation : MonoBehaviourExtContainer, IScreenOrienta
 
     private void Set(ScreenOrientation orientation)
     {
-        // При присвоении нового значения Screen.orientation не факт, что оно сразу же изменится - поэтому проверка об изменении производится в Update
+        // РџСЂРё РїСЂРёСЃРІРѕРµРЅРёРё РЅРѕРІРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ Screen.orientation РЅРµ С„Р°РєС‚, С‡С‚Рѕ РѕРЅРѕ СЃСЂР°Р·Сѓ Р¶Рµ РёР·РјРµРЅРёС‚СЃСЏ - РїРѕСЌС‚РѕРјСѓ РїСЂРѕРІРµСЂРєР° РѕР± РёР·РјРµРЅРµРЅРёРё РїСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РІ Update
         Screen.orientation = orientation;
     }
 
@@ -52,7 +61,7 @@ public class AndroidSreenOrientation : MonoBehaviourExtContainer, IScreenOrienta
         }
     }
 
-    private void AutoRotateOrientation()
+    private void SetCorrectOrientation()
     {
         DeviceOrientation nextDeviceOrientation = Input.deviceOrientation;
 

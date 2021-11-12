@@ -18,7 +18,7 @@ public class ScreenOrientationMono : MonoBehaviourExt, IScreenOrientation
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
-                    _screenOrientation = new AndroidSreenOrientation(this);
+                    _screenOrientation = new AndroidSreenOrientation(this, true);
                     break;
                 default:
                     _screenOrientation = new EditorScreenOrientation(this);
