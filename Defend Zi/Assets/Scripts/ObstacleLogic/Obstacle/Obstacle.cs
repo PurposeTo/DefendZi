@@ -16,7 +16,7 @@ public class Obstacle :
     {
         _score = new ScorePoints(scoreByAvoding);
         _position = new Rigidbody2DPosition(rigidbody2D);
-        _rotation = new Rotation(rigidbody2D);
+        _rotation = new Rigidbody2DRotation(rigidbody2D);
     }
 
     uint IDamage.Value => _damage.Value;

@@ -12,10 +12,8 @@ namespace Desdiene.TimeControls
         public LocalTime()
         {
             IPercent timeScaleRef = new Percent(1f); // По умолчанию время идет
-            _time = new Time(timeScaleRef);
+            _time = new TimeSpeed(timeScaleRef);
         }
-
-        float ITimeAccessor.Scale => _time.Scale;
 
         event Action ITimeNotificator.WhenStopped
         {
@@ -34,6 +32,9 @@ namespace Desdiene.TimeControls
             add => _time.OnChanged += value;
             remove => _time.OnChanged -= value;
         }
+
+        float ITimeAccessor.Scale => _time.Scale;
+        bool ITimeAccessor.IsPause => _time.IsPause;
 
         void ITimeMutator.Set(float timeScale) => _time.Set(timeScale);
 

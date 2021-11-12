@@ -10,6 +10,7 @@ public class Rigidbody2DPosition : IPosition
         _rigidbody2D = rigidbody2D != null
             ? rigidbody2D
             : throw new ArgumentNullException(nameof(rigidbody2D));
+        Validate();
     }
 
     Vector2 IPositionAccessor.Value => _rigidbody2D.position;
@@ -30,5 +31,14 @@ public class Rigidbody2DPosition : IPosition
     {
         _rigidbody2D.MovePosition(finalPosition);
         OnChanged?.Invoke();
+    }
+
+    private void Validate()
+    {
+        if (!_rigidbody2D.isKinematic)
+        {
+            Debug.LogWarning("Rigidbody2D must be kinematic");
+            _rigidbody2D.isKinematic = true;
+        }
     }
 }

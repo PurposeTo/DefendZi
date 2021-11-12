@@ -17,10 +17,8 @@ namespace Desdiene.TimeControls
         [Inject]
         private void Constructor(GlobalTimeScaleAdapter globalTimeScaleAdapter)
         {
-            _time = new Time(globalTimeScaleAdapter);
+            _time = new TimeSpeed(globalTimeScaleAdapter);
         }
-
-        float ITimeAccessor.Scale => _time.Scale;
 
         event Action ITimeNotificator.WhenStopped
         {
@@ -40,6 +38,8 @@ namespace Desdiene.TimeControls
             remove => _time.OnChanged -= value;
         }
 
+        float ITimeAccessor.Scale => _time.Scale;
+        bool ITimeAccessor.IsPause => _time.IsPause;
         void ITimeMutator.Set(float timeScale) => _time.Set(timeScale);
 
         IProcess ITimePauseFactory.CreatePause(MonoBehaviourExt mono, string name) => _time.CreatePause(mono, name);

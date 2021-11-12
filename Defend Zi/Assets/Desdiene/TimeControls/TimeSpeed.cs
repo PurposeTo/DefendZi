@@ -6,16 +6,14 @@ using Desdiene.Types.Processes;
 
 namespace Desdiene.TimeControls
 {
-    public sealed class Time : ITime
+    public sealed class TimeSpeed: ITime
     {
         private readonly IPercent _timeScaleRef;
         private readonly IPercent _requiredTimeScale;
         private readonly IProcesses _pauses;
         private readonly IProcess _scalePause;
 
-        float ITimeAccessor.Scale => _timeScaleRef.Value;
-
-        public Time(IPercent timeScaleRef)
+        public TimeSpeed(IPercent timeScaleRef)
         {
             _timeScaleRef = timeScaleRef ?? throw new ArgumentNullException(nameof(timeScaleRef));
             _requiredTimeScale = new Percent(_timeScaleRef.Value);
@@ -46,6 +44,14 @@ namespace Desdiene.TimeControls
             remove => _timeScaleRef.OnChanged -= value;
         }
 
+        public enum ScalingType
+        {
+            Scaled,
+            RealTime
+        }
+
+        float ITimeAccessor.Scale => _timeScaleRef.Value;
+        bool ITimeAccessor.IsPause => _timeScaleRef.IsMin;
         void ITimeMutator.Set(float timeScale) => _requiredTimeScale.Set(timeScale);
 
         private void SubscribeEvents()
