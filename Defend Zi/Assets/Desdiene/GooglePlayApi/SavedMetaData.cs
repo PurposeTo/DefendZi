@@ -39,8 +39,11 @@ namespace Desdiene.GooglePlayApi
 
             if (_metadata != null)
             {
-                result?.Invoke(_successStatus, _metadata);
-                return;
+                if (_metadata.IsOpen)
+                {
+                    result?.Invoke(_successStatus, _metadata);
+                    return;
+                }
             }
 
             Debug.Log("Начало открытия сохранения на облаке");
