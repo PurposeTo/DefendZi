@@ -1,4 +1,4 @@
-Shader "Custom/BLUR" {
+Shader "Custom/Blur" {
     Properties {
         _Color("Main Color", Color) = (1,1,1,1)
         _BumpAmt("Distortion", Range(0,128)) = 10
