@@ -1,7 +1,6 @@
 ﻿using System;
-using Desdiene.MonoBehaviourExtension;
 
-namespace Desdiene.Containers
+namespace Desdiene.MonoBehaviourExtension
 {
     /// <summary>
     /// Содержит поле MonoBehaviourExt, которое инициализируется конструктором

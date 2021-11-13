@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.Coroutines;
-using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-namespace Desdiene.Containers
+namespace Desdiene.MonoBehaviourExtension
 {
     /// <summary>
     /// Позволяет использовать FixedUpdate внутри не монобех классов
