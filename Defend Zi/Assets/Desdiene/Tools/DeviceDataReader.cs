@@ -80,10 +80,12 @@ namespace Desdiene.Tools
                     {
                         Debug.Log($"File {request.url} does not exists.");
                         result?.Invoke(true, null);
+                        yield break;
                     }
 
                     Debug.LogError($"Can't load data from android:\n{request.error}");
                     result?.Invoke(false, null);
+                    yield break;
                 }
 
                 result?.Invoke(true, request.downloadHandler.text);
