@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Desdiene.UI.Elements
+namespace Desdiene.UI.Animators
 {
     public class UiElementAnimationEmpty : IUiElementAnimation
     {

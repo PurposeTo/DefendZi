@@ -1,4 +1,5 @@
-﻿using Desdiene.UI.Components;
+﻿using Desdiene.UI.Animators;
+using Desdiene.UI.Components;
 using UnityEngine;
 using Zenject;
 

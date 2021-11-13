@@ -44,12 +44,6 @@ namespace Desdiene.TimeControls
             remove => _timeScaleRef.OnChanged -= value;
         }
 
-        public enum ScalingType
-        {
-            Scaled,
-            RealTime
-        }
-
         float ITimeAccessor.Scale => _timeScaleRef.Value;
         bool ITimeAccessor.IsPause => _timeScaleRef.IsMin;
         void ITimeMutator.Set(float timeScale) => _requiredTimeScale.Set(timeScale);

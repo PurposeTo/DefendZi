@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.UI.Animators;
 using Desdiene.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;

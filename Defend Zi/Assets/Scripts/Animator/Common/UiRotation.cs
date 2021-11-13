@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Desdiene;
 using Desdiene.MonoBehaviourExtension;
@@ -9,7 +9,7 @@ using Zenject;
 [RequireComponent(typeof(RectTransform))]
 public class UiRotation : MonoBehaviourExt
 {
-    [SerializeField] private TimeSpeed.ScalingType _scalingType;
+    [SerializeField] private UpdateActionType.Type _updateActionType;
     [SerializeField] private float _speed;
     private ITimeAccessorNotificator _time;
     private IRotation _rotation;
@@ -28,25 +28,26 @@ public class UiRotation : MonoBehaviourExt
 
     private void Update()
     {
-        bool isScaledTime = _scalingType == TimeSpeed.ScalingType.Scaled;
+        bool isScaledTime = _updateActionType == UpdateActionType.Type.Update;
 
         if (_time.IsPause && isScaledTime) return;
 
-        float deltaTime = GetDeltaTime(_scalingType);
+        float deltaTime = GetDeltaTime(_updateActionType);
         float speed = _speed * deltaTime;
         _rotation.RotateBy(Quaternion.AngleAxis(speed, Vector3.forward));
     }
 
-    private float GetDeltaTime(TimeSpeed.ScalingType type)
+    // todo заменить на правильное обращение к объектам Desdiene Update/FixedUpdate
+    private float GetDeltaTime(UpdateActionType.Type type)
     {
         switch (type)
         {
-            case TimeSpeed.ScalingType.Scaled:
+            case UpdateActionType.Type.Update:
                 return Time.deltaTime;
-            case TimeSpeed.ScalingType.RealTime:
+            case UpdateActionType.Type.UpdateRealTime:
                 return Time.unscaledDeltaTime;
             default:
-                return 0;
+                return Time.deltaTime;
         }
     }
 }

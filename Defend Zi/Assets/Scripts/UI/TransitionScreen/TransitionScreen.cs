@@ -2,6 +2,7 @@
 using Desdiene.SceneLoaders.Single;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
+using Desdiene.UI.Animators;
 using Desdiene.UI.Elements;
 using UnityEngine;
 using Zenject;

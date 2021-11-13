@@ -1,6 +1,5 @@
 using System;
 using Desdiene.AnimatorExtension;
-using Desdiene.UI.Elements;
 using UnityEngine;
 
 
