@@ -20,7 +20,7 @@ public class ScoreAdderByDistance : MonoBehaviourExt
     [Inject]
     private void Constructor(ComponentsProxy componentsProxy)
     {
-        _collector = GetInitedComponent<IScoreCollector>();
+        _collector = GetComponent<IScoreCollector>();
         _position = componentsProxy.PlayerPosition;
         _scoreAdding = new CoroutineWrap(this);
         _scoreAdding.StartContinuously(Adding());

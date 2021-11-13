@@ -9,7 +9,7 @@ public class B : MonoBehaviourExt
     protected override void AwakeExt()
     {
         LOGGER.Log("AwakeExt calling");
-        A a = GetInitedComponent<A>();
+        A a = GetComponent<A>();
         string name = a.Value.Name;
         Value = new NameHandler("into B. using " + name);
     }

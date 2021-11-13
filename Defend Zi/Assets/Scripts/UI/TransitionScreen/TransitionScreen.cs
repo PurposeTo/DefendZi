@@ -25,7 +25,7 @@ public class TransitionScreen : ModalWindow
 
     protected override void AwakeWindow()
     {
-        _animation = GetInitedComponent<TransitionScreenAnimation>();
+        _animation = GetComponent<TransitionScreenAnimation>();
         SubscribeEvents();
         Hide();
     }

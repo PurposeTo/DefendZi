@@ -22,7 +22,7 @@ namespace Desdiene.UI.Elements
 
         protected override void AwakeWindow()
         {
-            _animation = GetInitedComponent<IUiElementAnimation>();
+            _animation = GetComponent<IUiElementAnimation>();
         }
 
         protected override IUiElementAnimation Animation => _animation;

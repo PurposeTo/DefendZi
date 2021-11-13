@@ -18,7 +18,7 @@ public class Position2DTracker : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        _position = GetInitedComponent<IPosition>();
+        _position = GetComponent<IPosition>();
         _offset = _position.Value - Target.Value;
         SubscribeEvents();
     }

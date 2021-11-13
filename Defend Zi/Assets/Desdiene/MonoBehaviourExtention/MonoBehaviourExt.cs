@@ -30,29 +30,10 @@ namespace Desdiene.MonoBehaviourExtension
         private void AwakeWrap()
         {
             _isAwaking = true;
-            TryAwakeSerializeFields();
+            MonoBehaviourExt[] bindedFieldsComponents = GetSerializeMonoBehaviourExtFields().ToArray();
+            TryAwake(bindedFieldsComponents);
             AwakeExt();
             _isAwaking = false;
-        }
-
-        /// <summary>
-        /// Вызвать Awake у переданного компонента, если он еще не был вызван.
-        /// </summary>
-        /// <typeparam name="T">Тип компонента.</typeparam>
-        /// <param name="component">Компонент, у которого необходимо вызвать AwakeExt.</param>
-        /// <returns>Компонент, у которого был вызван AwakeExt.</returns>
-        private T TryAwake<T>(T component)
-        {
-            if (component is MonoBehaviourExt mono)
-            {
-                // Если компонент пытается проиниализаровать сам себя, например в случае вызова GetComponentsInParent
-                if (mono == this) return component;
-
-                mono.TryAwake();
-
-            }
-
-            return component;
         }
 
         /// <summary>
@@ -71,6 +52,30 @@ namespace Desdiene.MonoBehaviourExtension
                 AwakeWrap();
                 _isAwaked = true;
             }
+        }
+
+        /// <summary>
+        /// Вызвать Awake у переданного компонента, если он еще не был вызван.
+        /// </summary>
+        /// <typeparam name="T">Тип компонента.</typeparam>
+        /// <param name="component">Компонент, у которого необходимо вызвать AwakeExt.</param>
+        /// <returns>Компонент, у которого был вызван AwakeExt.</returns>
+        private T TryAwake<T>(T component)
+        {
+            if (component is MonoBehaviourExt mono)
+            {
+                // Если компонент пытается проиниализаровать сам себя, например в случае вызова GetComponentsInParent
+                if (mono == this) return component;
+
+                mono.TryAwake();
+            }
+
+            return component;
+        }
+
+        private T[] TryAwake<T>(T[] components)
+        {
+            return components.Select(component => TryAwake(component)).ToArray();
         }
 
         #endregion
@@ -161,85 +166,80 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region GetComponent
 
-        public T GetInitedComponent<T>()
+        public new T[] GetComponents<T>()
         {
-            T component = base.GetComponent<T>();
-            if (component == null)
-            {
-                throw new NullReferenceException($"Can't find component on this gameObject! Type: {typeof(T)}.");
-            }
-
-            return TryAwake(component);
+            T[] components = base.GetComponents<T>();
+            components = ExcludeCallingComponent(components);
+            components = TryAwake(components);
+            return components;
         }
 
-        public T GetInitedComponentInChildren<T>()
-        {
-            T component = base.GetComponentInChildren<T>();
-            if (component == null)
-            {
-                throw new NullReferenceException($"Can't find component on this gameObject or in children! Type: {typeof(T)}.");
-            }
-
-            return TryAwake(component);
-        }
-
-        public T GetInitedComponentInParent<T>()
-        {
-            T component = base.GetComponentInParent<T>();
-            if (component == null)
-            {
-                throw new NullReferenceException($"Can't find component on this gameObject or in parent! Type: {typeof(T)}.");
-            }
-
-            return TryAwake(component);
-        }
-
-        public T[] GetInitedComponentsInParent<T>()
+        public new T[] GetComponentsInParent<T>()
         {
             T[] components = base.GetComponentsInParent<T>();
-            Array.ForEach(components, (component) => TryAwake(component));
-
+            components = ExcludeCallingComponent(components);
+            components = TryAwake(components);
             return components;
         }
 
-        public T[] GetInitedComponentsInChildren<T>()
+        public new T[] GetComponentsInChildren<T>()
+        {
+            T[] components = base.GetComponentsInChildren<T>();
+            components = ExcludeCallingComponent(components);
+            components = TryAwake(components);
+            return components;
+        }
+
+        public new T GetComponent<T>()
+        {
+            T[] components = GetComponents<T>();
+            return FindSingleComponent(components, "this gameObject");
+        }
+
+        public new T GetComponentInChildren<T>()
         {
             T[] components = GetComponentsInChildren<T>();
-            Array.ForEach(components, (component) => TryAwake(component));
-
-            return components;
+            return FindSingleComponent(components, "this gameObject or it's children");
         }
 
-        public T GetInitedComponentOnlyInParent<T>()
+        public new T GetComponentInParent<T>()
         {
-            try
-            {
-                T componentOnThisGameObject = base.GetComponent<T>();
-                return GetInitedComponentsInParent<T>().Single(it =>
-                {
-                    return !it.Equals(componentOnThisGameObject);
-                });
-            }
-            catch (InvalidOperationException exception)
-            {
-                throw new NullReferenceException($"Can't find component in parent! Type: {typeof(T)}.", exception);
-            }
+            T[] components = GetComponentsInParent<T>();
+            return FindSingleComponent(components, "this gameObject or it's parents");
         }
 
-        public T[] GetComponentsOnlyInChildren<T>()
+        private T[] ExcludeCallingComponent<T>(T[] components)
         {
-            try
+            return components.Where(it => !ReferenceEquals(it, this)).ToArray();
+        }
+
+        private T FindSingleComponent<T>(T[] components, string spaceName)
+        {
+            if (components.Length == 0)
             {
-                T componentOnThisGameObject = base.GetComponent<T>();
-                return GetInitedComponentsInChildren<T>().Where(it =>
-                {
-                    return !it.Equals(componentOnThisGameObject);
-                }).ToArray();
+                throw new NullReferenceException($"Can't find component on {spaceName}!" +
+                    $" {GetTypeAndGameObjectNameLog(typeof(T))}");
             }
-            catch (InvalidOperationException exception)
+            if (components.Length > 1)
             {
-                throw new NullReferenceException($"Can't find component in childrens! Type: {typeof(T)}.", exception);
+                string componentsObjectsNames = string.Join("\n",
+                    components.Select(it =>
+                    {
+                        if (it is Component itAsComponent) return itAsComponent.gameObject.name;
+                        else return it.GetType().Name;
+                    })
+                    .ToArray());
+
+
+                throw new InvalidOperationException($"There is more than one component on {spaceName}!" +
+                    $" {GetTypeAndGameObjectNameLog(typeof(T))}.\n{componentsObjectsNames}");
             }
+            return components[0];
+        }
+
+        private string GetTypeAndGameObjectNameLog(Type type)
+        {
+            return $"GameObject: {gameObject.name}, Type: {type.Name}";
         }
 
         #endregion
@@ -282,16 +282,6 @@ namespace Desdiene.MonoBehaviourExtension
                 .Where(field => field.IsDefined(typeof(SerializeField), false))
                 .Select(field => field.GetValue(this))
                 .OfType<MonoBehaviourExt>();
-        }
-
-        private void TryAwakeSerializeFields()
-        {
-            IEnumerable<MonoBehaviourExt> serializeMonoBehaviourExtFields = GetSerializeMonoBehaviourExtFields();
-
-            foreach (MonoBehaviourExt component in serializeMonoBehaviourExtFields)
-            {
-                TryAwake(component);
-            }
         }
     }
 }

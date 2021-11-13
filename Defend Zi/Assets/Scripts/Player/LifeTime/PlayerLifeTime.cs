@@ -19,7 +19,7 @@ public class PlayerLifeTime : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        _playerDeath = GetInitedComponent<IHealthNotification>();
+        _playerDeath = GetComponent<IHealthNotification>();
         _lifeTimeCounting = new CoroutineWrap(this);
         SubscribeEvents();
     }

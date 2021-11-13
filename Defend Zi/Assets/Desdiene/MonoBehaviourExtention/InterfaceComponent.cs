@@ -14,6 +14,6 @@ namespace Desdiene.MonoBehaviourExtension
             GetOrInitImplementation();
         }
 
-        private T GetOrInitImplementation() => _implementation.GetOrInit(GetInitedComponent<T>);
+        private T GetOrInitImplementation() => _implementation.GetOrInit(GetComponent<T>);
     }
 }

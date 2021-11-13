@@ -23,7 +23,7 @@ public class PlayerMono :
         if (input == null) throw new ArgumentNullException(nameof(input));
         if (gameDifficulty == null) throw new ArgumentNullException(nameof(gameDifficulty));
 
-        Rigidbody2D rb2d = GetInitedComponent<Rigidbody2D>();
+        Rigidbody2D rb2d = GetComponent<Rigidbody2D>();
         PlayerMovementData movementView = new PlayerMovementData(gameDifficulty, _movementData);
         Player _player = new Player(this, input, rb2d, movementView);
 

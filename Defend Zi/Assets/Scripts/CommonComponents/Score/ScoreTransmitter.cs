@@ -9,7 +9,7 @@ public class ScoreTransmitter : MonoBehaviourExt, IScoreAccessor
     protected override void AwakeExt()
     {
         //todo: верное ли использование?
-        _score = GetInitedComponentOnlyInParent<IScoreAccessor>();
+        _score = GetComponentInParent<IScoreAccessor>();
     }
 
     uint IScoreAccessor.Value => _score.Value;

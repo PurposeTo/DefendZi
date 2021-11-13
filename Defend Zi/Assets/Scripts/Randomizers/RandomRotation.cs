@@ -10,7 +10,7 @@ public class RandomRotation : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        _rotation = GetInitedComponent<IRotation>();
+        _rotation = GetComponent<IRotation>();
         int randomEuler = Random.Range(_from, _to);
         _rotation.RotateTo(Quaternion.AngleAxis(randomEuler, Vector3.forward));
     }

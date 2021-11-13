@@ -77,7 +77,7 @@ namespace Desdiene.UI.Elements
 
         private void ValidateRaycastTarget()
         {
-            if (GetComponentInParent<GraphicRaycaster>() == null)
+            if (GetComponentsInParent<GraphicRaycaster>().Length == 0)
             {
                 Debug.LogWarning($"Added GraphicRaycaster on {name}");
                 gameObject.AddComponent<GraphicRaycaster>();
