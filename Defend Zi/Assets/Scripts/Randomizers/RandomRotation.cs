@@ -1,7 +1,7 @@
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-[RequireComponent((typeof(Transform2DRotationMono)))]
+[RequireComponent((typeof(IRotation)))]
 public class RandomRotation : MonoBehaviourExt
 {
     [SerializeField] private int _from;
@@ -10,7 +10,7 @@ public class RandomRotation : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        _rotation = GetComponent<Transform2DRotationMono>();
+        _rotation = GetInitedComponent<IRotation>();
         int randomEuler = Random.Range(_from, _to);
         _rotation.RotateTo(Quaternion.AngleAxis(randomEuler, Vector3.forward));
     }

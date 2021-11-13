@@ -4,24 +4,24 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Transform2DRotationMono : MonoBehaviourExt, IRotation
 {
-    private IRotation _transform2DRotation;
+    private IRotation _rotation;
 
     protected override void AwakeExt()
     {
-        _transform2DRotation = new Transform2DRotation(transform);
+        _rotation = new Transform2DRotation(transform);
     }
 
-    float IRotationAccessor.Angle => _transform2DRotation.Angle;
+    float IRotationAccessor.Angle => _rotation.Angle;
 
-    Quaternion IRotationAccessor.Quaternion => _transform2DRotation.Quaternion;
+    Quaternion IRotationAccessor.Quaternion => _rotation.Quaternion;
 
     void IMoveRotation.RotateBy(Quaternion deltaQuaternion)
     {
-        _transform2DRotation.RotateBy(deltaQuaternion);
+        _rotation.RotateBy(deltaQuaternion);
     }
 
     void IMoveRotation.RotateTo(Quaternion finalQuaternion)
     {
-        _transform2DRotation.RotateTo(finalQuaternion);
+        _rotation.RotateTo(finalQuaternion);
     }
 }
