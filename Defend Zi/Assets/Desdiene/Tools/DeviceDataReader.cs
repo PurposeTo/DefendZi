@@ -74,14 +74,14 @@ namespace Desdiene.Tools
             {
                 yield return request.SendWebRequest();
 
-                if (!File.Exists(request.url))
-                {
-                    Debug.Log($"File {request.url} does not exists.");
-                    result?.Invoke(true, null);
-                }
-
                 if (request.error != null)
                 {
+                    if (request.responseCode == 404)
+                    {
+                        Debug.Log($"File {request.url} does not exists.");
+                        result?.Invoke(true, null);
+                    }
+
                     Debug.LogError($"Can't load data from android:\n{request.error}");
                     result?.Invoke(false, null);
                 }
