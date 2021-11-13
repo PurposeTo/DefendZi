@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
-namespace Desdiene.TimeControls
+namespace Desdiene.MonoBehaviourExtension
 {
     public class UpdateActionType : MonoBehaviour
     {
