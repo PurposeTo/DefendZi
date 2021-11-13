@@ -9,7 +9,7 @@ using Zenject;
 [RequireComponent(typeof(RectTransform))]
 public class UiRotation : MonoBehaviourExt
 {
-    [SerializeField] private UpdateActionType.Type _updateActionType;
+    [SerializeField] private UpdateActionType.Mode _updateActionType;
     [SerializeField] private float _speed;
     private ITimeAccessorNotificator _time;
     private IRotation _rotation;
@@ -28,7 +28,7 @@ public class UiRotation : MonoBehaviourExt
 
     private void Update()
     {
-        bool isScaledTime = _updateActionType == UpdateActionType.Type.Update;
+        bool isScaledTime = _updateActionType == UpdateActionType.Mode.Update;
 
         if (_time.IsPause && isScaledTime) return;
 
@@ -38,13 +38,13 @@ public class UiRotation : MonoBehaviourExt
     }
 
     // todo заменить на правильное обращение к объектам Desdiene Update/FixedUpdate
-    private float GetDeltaTime(UpdateActionType.Type type)
+    private float GetDeltaTime(UpdateActionType.Mode type)
     {
         switch (type)
         {
-            case UpdateActionType.Type.Update:
+            case UpdateActionType.Mode.Update:
                 return Time.deltaTime;
-            case UpdateActionType.Type.UpdateRealTime:
+            case UpdateActionType.Mode.UpdateRealTime:
                 return Time.unscaledDeltaTime;
             default:
                 return Time.deltaTime;

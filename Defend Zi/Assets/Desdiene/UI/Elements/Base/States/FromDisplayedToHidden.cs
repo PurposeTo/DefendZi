@@ -4,7 +4,7 @@
     {
         private sealed class FromDisplayedToHidden : State
         {
-            public FromDisplayedToHidden(UiElement _it) : base(_it) { }
+            public FromDisplayedToHidden(UiElement it) : base(it) { }
 
             protected override void OnEnter()
             {

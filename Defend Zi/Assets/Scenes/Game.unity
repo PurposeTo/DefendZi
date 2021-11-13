@@ -837,6 +837,7 @@ GameObject:
   - component: {fileID: 299936703}
   - component: {fileID: 299936706}
   - component: {fileID: 299936707}
+  - component: {fileID: 299936708}
   m_Layer: 5
   m_Name: Game view
   m_TagString: Untagged
@@ -953,6 +954,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &299936708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299936701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!1 &423448270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,7 +1221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21239bd4284c2a44a2bbc38dd41b300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scalingType: 1
+  _updateActionType: 0
   _speed: -45
 --- !u!1 &510693536
 GameObject:
@@ -2256,12 +2271,13 @@ GameObject:
   m_Component:
   - component: {fileID: 926270125}
   - component: {fileID: 926270128}
-  - component: {fileID: 926270131}
   - component: {fileID: 926270127}
+  - component: {fileID: 926270131}
   - component: {fileID: 926270126}
   - component: {fileID: 926270130}
   - component: {fileID: 926270132}
   - component: {fileID: 926270129}
+  - component: {fileID: 926270133}
   m_Layer: 5
   m_Name: Game pause view
   m_TagString: Untagged
@@ -2416,6 +2432,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &926270133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926270124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!1 &931317593
 GameObject:
   m_ObjectHideFlags: 0
@@ -3367,6 +3397,7 @@ GameObject:
   - component: {fileID: 1136173429}
   - component: {fileID: 1136173428}
   - component: {fileID: 1136173434}
+  - component: {fileID: 1136173435}
   m_Layer: 5
   m_Name: Collect rewards offer view
   m_TagString: Untagged
@@ -3522,6 +3553,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1136173435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136173426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!1 &1141616256
 GameObject:
   m_ObjectHideFlags: 0
@@ -4130,7 +4175,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1262466477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89b6f3504afa72e459f209965cc46b94, type: 3}
+  m_Script: {fileID: 11500000, guid: f8715d35021a6e149b2c2af06c3d18e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!223 &1262466480
@@ -4419,6 +4464,7 @@ GameObject:
   - component: {fileID: 1304134834}
   - component: {fileID: 1304134833}
   - component: {fileID: 1304134839}
+  - component: {fileID: 1304134840}
   m_Layer: 5
   m_Name: Revive offer view
   m_TagString: Untagged
@@ -4576,6 +4622,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1304134840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304134831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!1 &1329912040
 GameObject:
   m_ObjectHideFlags: 0
@@ -5702,6 +5762,7 @@ GameObject:
   - component: {fileID: 1808156863}
   - component: {fileID: 1808156868}
   - component: {fileID: 1808156869}
+  - component: {fileID: 1808156870}
   m_Layer: 5
   m_Name: Game over view
   m_TagString: Untagged
@@ -5857,6 +5918,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1808156870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808156861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!1 &1860171333
 GameObject:
   m_ObjectHideFlags: 0
@@ -6895,6 +6970,7 @@ GameObject:
   - component: {fileID: 165146392399090043}
   - component: {fileID: 165146392399090044}
   - component: {fileID: 165146392399090047}
+  - component: {fileID: 165146392399090048}
   m_Layer: 5
   m_Name: Error window view
   m_TagString: Untagged
@@ -7009,6 +7085,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &165146392399090048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165146392399090042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!224 &890129978627777020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7192,12 +7282,12 @@ GameObject:
   - component: {fileID: 2689005688396332551}
   - component: {fileID: 2689005688396332570}
   - component: {fileID: 3043346643824289645}
-  - component: {fileID: 2689005688396332553}
   - component: {fileID: 2689005688396332549}
   - component: {fileID: 2689005688396332548}
   - component: {fileID: 2689005688396332568}
   - component: {fileID: 2689005688396332571}
   - component: {fileID: 2689005688396332552}
+  - component: {fileID: 2689005688396332554}
   m_Layer: 5
   m_Name: Reward ad waiting view
   m_TagString: Untagged
@@ -7237,7 +7327,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2689005688396332553
+--- !u!114 &2689005688396332554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7246,9 +7336,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2689005688396332550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a23ab0abd73e72544a03d3e2bacf8407, type: 3}
+  m_Script: {fileID: 11500000, guid: c30b1c0858c61804b9681d032df2e223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _updatingMode: 1
+  _animatingTime: 0.2
 --- !u!222 &2689005688396332568
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7325,7 +7417,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2689005688396332550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4bb98e729952dd4b8ac6898a228549f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d47d1539cf4e164f90c611d69944996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3563230092626305146
