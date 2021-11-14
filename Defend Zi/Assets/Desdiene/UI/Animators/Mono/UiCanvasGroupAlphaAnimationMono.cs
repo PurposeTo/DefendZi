@@ -10,11 +10,13 @@ namespace Desdiene.UI.Animators
         [SerializeField] private UpdateActionType.Mode _updatingMode;
         [SerializeField] private float _animatingTime = 0.15f;
         private IUiElementAnimation _uiElementAnimation;
+        private AnimationCurve _curve;
 
         protected override void AwakeExt()
         {
             CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-            _uiElementAnimation = new UiCanvasGroupAlpha(this, canvasGroup, _updatingMode, _animatingTime);
+            _curve = AnimationCurveFactory.Get(AnimationCurveFactory.CurveType.Linear);
+            _uiElementAnimation = new UiCanvasGroupAlpha(this, canvasGroup, _updatingMode, _curve, _animatingTime);
         }
 
         void IUiElementAnimation.Hide(Action OnEnded) => _uiElementAnimation.Hide(OnEnded);

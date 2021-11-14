@@ -12,12 +12,14 @@ namespace Desdiene.UI.Animators
         private const float _displayedAlpha = 1f;
         private readonly UpdateActionType.Mode _updatingMode;
         private readonly CanvasGroup _canvasGroup;
+        private readonly AnimationCurve _curve;
         private readonly float _animationTime;
         private ICoroutine _animation;
 
         public UiCanvasGroupAlpha(MonoBehaviourExt mono,
                                   CanvasGroup canvasGroup,
                                   UpdateActionType.Mode updatingMode,
+                                  AnimationCurve curve,
                                   float animationTime) : base(mono)
         {
             _canvasGroup = canvasGroup != null
@@ -25,9 +27,9 @@ namespace Desdiene.UI.Animators
                 : throw new ArgumentNullException(nameof(canvasGroup));
 
             _updatingMode = updatingMode;
-
-            _animation = new CoroutineWrap(mono);
             _animationTime = animationTime;
+            _curve = curve ?? throw new ArgumentNullException(nameof(curve));
+            _animation = new CoroutineWrap(mono);
         }
 
         void IUiElementAnimation.Show(Action OnEnded)
@@ -44,13 +46,17 @@ namespace Desdiene.UI.Animators
 
         private IEnumerator ToHidden(Action OnEnded)
         {
+            float counter = 0;
+
             IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => Alpha > _transparentAlpha, (deltaTime) =>
             {
                 float delta = 1f / _animationTime * deltaTime;
-                Alpha -= delta;
+                counter -= delta;
+                Alpha = _curve.Evaluate(counter);
             });
 
             SetDisplayed();
+            counter = Alpha;
             yield return _animation.StartNested(enumerator);
             SetHidden();
             OnEnded?.Invoke();
@@ -58,13 +64,18 @@ namespace Desdiene.UI.Animators
 
         private IEnumerator ToDisplayed(Action OnEnded)
         {
+            float counter = 0;
+
             IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => Alpha < _displayedAlpha, (deltaTime) =>
             {
+
                 float delta = 1f / _animationTime * deltaTime;
-                Alpha += delta;
+                counter += delta;
+                Alpha = _curve.Evaluate(counter);
             });
 
             SetHidden();
+            counter = Alpha;
             yield return _animation.StartNested(enumerator);
             SetDisplayed();
             OnEnded?.Invoke();

@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Desdiene;
-using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.MonoBehaviourExtension;
 using Desdiene.TimeControls;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(RectTransform))]
-public class UiRotation : MonoBehaviourExt
+public class RandomInitRotation2D : MonoBehaviourExt
 {
     [SerializeField] private UpdateActionType.Mode _updateActionType;
     [SerializeField] private float _speed;
@@ -22,8 +18,7 @@ public class UiRotation : MonoBehaviourExt
 
     protected override void AwakeExt()
     {
-        var rectTransform = GetComponent<RectTransform>();
-        _rotation = new RectTransform2DRotation(rectTransform);
+        _rotation = new Transform2DRotation(transform);
     }
 
     private void Update()
