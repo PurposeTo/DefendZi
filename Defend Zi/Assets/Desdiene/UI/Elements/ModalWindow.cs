@@ -7,9 +7,10 @@ namespace Desdiene.UI.Elements
     /// Описывает модальное overlay окно.
     /// На том же объекте, что и данный скрипт, должен висеть полноэкранный Image, блокирующий raycast других окон.
     /// Само тело модального окна (т.к. вероятно оно будет меньше, чем во весь экран) должно быть дочерним элементом.
+    /// Скрипт может быть повешен на gameObject для логического обозначения.
     /// </summary>
     [RequireComponent(typeof(Image))]
-    public abstract class ModalWindow : UiElement
+    public class ModalWindow : UiElement
     {
         private Image _image;
 

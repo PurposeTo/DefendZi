@@ -20,15 +20,45 @@ namespace Desdiene.MonoBehaviourExtension
         {
             _routine = new CoroutineWrap(MonoBehaviourExt);
             _updateAction = action ?? throw new ArgumentNullException(nameof(action));
-            _routine.StartContinuously(UpdateEnumerator());
+            _routine.StartContinuously(Routine(_updateAction));
         }
 
-        private IEnumerator UpdateEnumerator()
+        public static IEnumerator Routine(Action<float> action) => Routine(() => true, action);
+
+        /// <summary>
+        /// IEnumerator, который имитирует Update.
+        /// </summary>
+        public static IEnumerator Routine(Func<bool> predicate, Action<float> action)
         {
-            float deltaTime = Time.deltaTime;
-            while (true)
+            if (predicate is null)
             {
-                _updateAction.Invoke(deltaTime);
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            while (predicate.Invoke())
+            {
+                float deltaTime = Time.deltaTime;
+                action.Invoke(deltaTime);
+                yield return null;
+            }
+        }
+
+        public static IEnumerator RealTimeRoutine(Action<float> action) => RealTimeRoutine(() => true, action);
+
+        /// <summary>
+        /// IEnumerator, который имитирует Update в RealTime (Не зависит от Time.Scale).
+        /// </summary>
+        public static IEnumerator RealTimeRoutine(Func<bool> predicate, Action<float> action)
+        {
+            if (predicate is null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            while (predicate.Invoke())
+            {
+                float deltaTime = Time.unscaledDeltaTime;
+                action.Invoke(deltaTime);
                 yield return null;
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
+using Desdiene.UI.Animators;
 using UnityEngine;
 
 namespace Desdiene.UI.Elements
@@ -26,6 +27,7 @@ namespace Desdiene.UI.Elements
             Canvas = GetComponent<Canvas>();
             CanvasGroup = GetComponent<CanvasGroup>();
             RectTransform = GetComponent<RectTransform>();
+            Animation = GetOrDefaultUiAnimation();
 
             State displayed = new Displayed(this);
             State hidden = new Hidden(this);
@@ -66,7 +68,7 @@ namespace Desdiene.UI.Elements
         private Action whenDisplayed;
         private Action whenHidden;
 
-        protected virtual IUiElementAnimation Animation => new UiElementAnimationEmpty();
+        protected virtual IUiElementAnimation Animation { get; private set; }
         protected Canvas Canvas { get; private set; }
         protected CanvasGroup CanvasGroup { get; private set; }
         protected RectTransform RectTransform { get; private set; }
@@ -86,5 +88,20 @@ namespace Desdiene.UI.Elements
         private void EnableCanvas() => Canvas.enabled = true;
         private void DisableInteractible() => CanvasGroup.interactable = false;
         private void EnableInteractible() => CanvasGroup.interactable = true;
+
+        private IUiElementAnimation GetOrDefaultUiAnimation()
+        {
+            IUiElementAnimation animation;
+            try
+            {
+                animation = GetComponent<IUiElementAnimation>();
+            }
+            catch (Exception)
+            {
+                animation = new UiElementAnimationEmpty();
+            }
+
+            return animation;
+        }
     }
 }

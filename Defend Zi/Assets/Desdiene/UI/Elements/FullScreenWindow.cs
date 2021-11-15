@@ -6,7 +6,6 @@ namespace Desdiene.UI.Elements
     /// <summary>
     /// Описывает полноэкранное overlay окно.
     /// При открытии остальные полноэкранные окна сворачиваются.
-    /// 
     /// Скрипт может быть повешан на объект для логического обозначения.
     /// </summary>
     public class FullScreenWindow : UiElement, IFullScreenWindow

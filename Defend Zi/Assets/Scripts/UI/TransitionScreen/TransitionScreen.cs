@@ -3,18 +3,15 @@ using Desdiene.SceneLoaders.Single;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.Types.Processes;
 using Desdiene.UI.Elements;
-using UnityEngine;
 using Zenject;
 
 /// <summary>
 /// Экран перехода между сценами.
 /// need to be a global singleton.
 /// </summary>
-[RequireComponent(typeof(TransitionScreenAnimation))]
 public class TransitionScreen : ModalWindow
 {
     private SceneLoader _sceneLoader;
-    private TransitionScreenAnimation _animation;
     private readonly IProcess _waitForShowed = new CyclicalProcess($"Wait for hidding {typeof(TransitionScreen).Name}");
 
     [Inject]
@@ -25,7 +22,6 @@ public class TransitionScreen : ModalWindow
 
     protected override void AwakeWindow()
     {
-        _animation = GetComponent<TransitionScreenAnimation>();
         SubscribeEvents();
         Hide();
     }
@@ -34,8 +30,6 @@ public class TransitionScreen : ModalWindow
     {
         UnSubsctibeEvents();
     }
-
-    protected override IUiElementAnimation Animation => _animation;
 
     protected override void ShowWindow()
     {
