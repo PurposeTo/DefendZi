@@ -26,6 +26,9 @@ namespace Desdiene.UI.Animators
 
         void IUiElementAnimation.Hide(Action OnEnded) => _uiElementAnimation.Hide(OnEnded);
 
-        void IUiElementAnimation.Show(Action OnEnded) => _uiElementAnimation.Show(OnEnded);
+        void IUiElementAnimation.Show(Action OnEnded)
+        {
+            _uiElementAnimation.Show(OnEnded);
+        }
     }
 }

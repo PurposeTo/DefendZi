@@ -18,7 +18,7 @@ public class Blur : IPercent
         _shader = shader ?? throw new ArgumentNullException(nameof(shader));
         Material = new Material(_shader);
         _size = new FloatInRange(_minBlurSize, new FloatRange(_minBlurSize, _maxBlurSize));
-        ((IPercentMutator)this).Set(_size.Value);
+        Set(_size.Value);
     }
 
     event Action IPercentNotifier.OnChanged
@@ -35,26 +35,18 @@ public class Blur : IPercent
 
     void IPercentMutator.Set(float value) => Set(value);
 
-    float IPercentMutator.SetAndGet(float percent)
-    {
-        return _size.SetAndGet(percent);
-    }
+    float IPercentMutator.SetAndGet(float percent) => _size.SetAndGet(percent);
 
-    void IPercentMutator.SetMax()
-    {
-        _size.SetMax();
-    }
+    void IPercentMutator.SetMax() => _size.SetMax();
 
-    void IPercentMutator.SetMin()
-    {
-        _size.SetMin();
-    }
+    void IPercentMutator.SetMin() => _size.SetMin();
 
     public Material Material { get; }
 
     private void Set(float value)
     {
         _size.Set(value);
-        Material.SetFloat(_blurSizeField, _size.Value);
+        float bluring = Mathf.Lerp(_minBlurSize, _maxBlurSize, value);
+        Material.SetFloat(_blurSizeField, bluring);
     }
 }
