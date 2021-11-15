@@ -2,7 +2,7 @@ using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 [RequireComponent((typeof(IRotation)))]
-public class RandomRotation : MonoBehaviourExt
+public class RandomInitRotation2D : MonoBehaviourExt
 {
     [SerializeField] private int _from;
     [SerializeField] private int _to;

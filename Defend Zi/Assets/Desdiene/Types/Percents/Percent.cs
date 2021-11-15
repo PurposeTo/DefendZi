@@ -1,5 +1,5 @@
 using System;
-using Desdiene.Types.InPositiveRange;
+using Desdiene.Types.Percentables;
 using Desdiene.Types.Ranges.Positive;
 
 namespace Desdiene.Types.Percents

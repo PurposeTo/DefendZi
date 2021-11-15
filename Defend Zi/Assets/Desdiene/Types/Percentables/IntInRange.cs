@@ -1,5 +1,5 @@
 using System;
-using Desdiene.Types.InPositiveRange;
+using Desdiene.Types.Percentables.Base;
 using Desdiene.Types.Percentale;
 using Desdiene.Types.Percents;
 using Desdiene.Types.Ranges.Positive;
@@ -7,9 +7,10 @@ using UnityEngine;
 
 namespace Desdiene.Types.Percentables
 {
-    public class FloatPercentable : FloatInRange, IPercentable<float>
+    [Serializable]
+    public class IntInRange : ValueInRange<int>, IPercentable<int>
     {
-        public FloatPercentable(float value, FloatRange range) : base(value, range) { }
+        public IntInRange(int value, IntRange range) : base(value, range) { }
 
         event Action IPercentNotifier.OnChanged
         {
@@ -22,10 +23,6 @@ namespace Desdiene.Types.Percentables
         /// </summary>
         /// <returns></returns>
         float IPercentAccessor.Value => Percent;
-
-        bool IPercentAccessor.IsMin => IsMin;
-
-        bool IPercentAccessor.IsMax => IsMax;
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
@@ -40,32 +37,50 @@ namespace Desdiene.Types.Percentables
             return Percent;
         }
 
-        void IPercentMutator.SetMax() => SetByPercent(1f);
+        bool IPercentAccessor.IsMin => IsMin;
 
-        void IPercentMutator.SetMin() => SetByPercent(0f);
+        bool IPercentAccessor.IsMax => IsMax;
+
+        void IPercentMutator.SetMax() => SetByPercent(range.Max);
+
+        void IPercentMutator.SetMin() => SetByPercent(range.Min);
 
         private float Percent => Mathf.InverseLerp(range.Min, range.Max, Value);
+        protected override bool IsMin => Value == range.Min;
+        protected override bool IsMax => Value == range.Max;
 
         /// <summary>
         /// Установить значение опираясь на процент в диапазоне.
         /// Значение округляется до ближайшего целочисленноого.
         /// </summary>
         /// <param name="percent"></param>s
-        private void SetByPercent(float percent)
+        public void SetByPercent(float percent)
         {
-            float value = Mathf.Lerp(range.Min, range.Max, percent);
+            int value = Mathf.RoundToInt(Mathf.Lerp(range.Min, range.Max, percent));
             Set(value);
         }
 
-        public static FloatPercentable operator -(FloatPercentable value, float delta)
+        public static IntInRange operator -(IntInRange value, int delta)
         {
             value.Set(value.Value - delta);
             return value;
         }
 
-        public static FloatPercentable operator +(FloatPercentable value, float delta)
+        public static IntInRange operator -(IntInRange value, uint delta)
+        {
+            value.Set((int)(value.Value - delta));
+            return value;
+        }
+
+        public static IntInRange operator +(IntInRange value, int delta)
         {
             value.Set(value.Value + delta);
+            return value;
+        }
+
+        public static IntInRange operator +(IntInRange value, uint delta)
+        {
+            value.Set((int)(value.Value + delta));
             return value;
         }
     }

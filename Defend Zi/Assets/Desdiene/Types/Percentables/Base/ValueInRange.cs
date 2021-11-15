@@ -2,7 +2,7 @@
 using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.Ranges.Positive;
 
-namespace Desdiene.Types.InPositiveRange.Base
+namespace Desdiene.Types.Percentables.Base
 {
     public abstract class ValueInRange<T> : IRef<T> where T : struct, IComparable<T>
     {

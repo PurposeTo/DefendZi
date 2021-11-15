@@ -3,7 +3,8 @@ using Desdiene.TimeControls;
 using UnityEngine;
 using Zenject;
 
-public class RandomInitRotation2D : MonoBehaviourExt
+[RequireComponent((typeof(IRotation)))]
+public class LinearRotation : MonoBehaviourExt
 {
     [SerializeField] private UpdateActionType.Mode _updateActionType;
     [SerializeField] private float _speed;

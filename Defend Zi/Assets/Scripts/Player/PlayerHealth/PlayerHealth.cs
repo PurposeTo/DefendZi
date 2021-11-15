@@ -18,7 +18,7 @@ public partial class PlayerHealth : MonoBehaviourExtContainer, IPlayerHealth
     public PlayerHealth(MonoBehaviourExt mono, uint maxHealth) : base(mono)
     {
         int maxHealthInt = (int)maxHealth;
-        IPercentable<int> health = new IntPercentable(maxHealthInt, new IntRange(0, maxHealthInt));
+        IPercentable<int> health = new IntInRange(maxHealthInt, new IntRange(0, maxHealthInt));
         _health = health;
         _healthPercent = health;
 

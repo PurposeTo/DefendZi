@@ -2,34 +2,35 @@ using System;
 using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.Types.Percents;
 using UnityEngine;
 
 namespace Desdiene.UI.Animators
 {
-    public class UiCanvasGroupAlpha : MonoBehaviourExtContainer, IUiElementAnimation
+    /// <summary>
+    /// Анимирует показ/скрытие UI элемента путем изменения IPercent значения.
+    /// IPercent _animated.Min = hidden
+    /// IPercent _animated.Max = displayed
+    /// </summary>
+    public class UiAnimationFromValue : MonoBehaviourExtContainer, IUiElementAnimation
     {
-        private const float _transparentAlpha = 0f;
-        private const float _displayedAlpha = 1f;
         private readonly UpdateActionType.Mode _updatingMode;
-        private readonly CanvasGroup _canvasGroup;
         private readonly AnimationCurve _curve;
         private readonly float _animationTime;
         private ICoroutine _animation;
+        private IPercent _animated;
 
-        public UiCanvasGroupAlpha(MonoBehaviourExt mono,
-                                  CanvasGroup canvasGroup,
+        public UiAnimationFromValue(MonoBehaviourExt mono,
                                   UpdateActionType.Mode updatingMode,
                                   AnimationCurve curve,
-                                  float animationTime) : base(mono)
+                                  float animationTime,
+                                  IPercent blur) : base(mono)
         {
-            _canvasGroup = canvasGroup != null
-                ? canvasGroup
-                : throw new ArgumentNullException(nameof(canvasGroup));
-
             _updatingMode = updatingMode;
             _animationTime = animationTime;
             _curve = curve ?? throw new ArgumentNullException(nameof(curve));
             _animation = new CoroutineWrap(mono);
+            _animated = blur ?? throw new ArgumentNullException(nameof(blur));
         }
 
         void IUiElementAnimation.Show(Action OnEnded)
@@ -42,53 +43,39 @@ namespace Desdiene.UI.Animators
             _animation.ReStart(ToHidden(OnEnded));
         }
 
-        private float Alpha { get => _canvasGroup.alpha; set { _canvasGroup.alpha = value; } }
-
         private IEnumerator ToHidden(Action OnEnded)
         {
-            float counter = 0;
+            _animated.SetMax();
+            float counter = _animated.Value;
 
-            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => Alpha > _transparentAlpha, (deltaTime) =>
+            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => !_animated.IsMin, (deltaTime) =>
             {
                 float delta = 1f / _animationTime * deltaTime;
                 counter -= delta;
-                Alpha = _curve.Evaluate(counter);
+                _animated.Set(_curve.Evaluate(counter));
             });
 
-            SetDisplayed();
-            counter = Alpha;
             yield return _animation.StartNested(enumerator);
-            SetHidden();
+            _animated.SetMin();
             OnEnded?.Invoke();
         }
 
         private IEnumerator ToDisplayed(Action OnEnded)
         {
-            float counter = 0;
+            _animated.SetMin();
+            float counter = _animated.Value;
 
-            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => Alpha < _displayedAlpha, (deltaTime) =>
+            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => !_animated.IsMax, (deltaTime) =>
             {
 
                 float delta = 1f / _animationTime * deltaTime;
                 counter += delta;
-                Alpha = _curve.Evaluate(counter);
+                _animated.Set(_curve.Evaluate(counter));
             });
 
-            SetHidden();
-            counter = Alpha;
             yield return _animation.StartNested(enumerator);
-            SetDisplayed();
+            _animated.SetMax();
             OnEnded?.Invoke();
-        }
-
-        private void SetDisplayed()
-        {
-            Alpha = _displayedAlpha;
-        }
-
-        private void SetHidden()
-        {
-            Alpha = _transparentAlpha;
         }
     }
 }

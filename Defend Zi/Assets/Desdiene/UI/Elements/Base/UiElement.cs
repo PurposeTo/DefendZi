@@ -27,7 +27,7 @@ namespace Desdiene.UI.Elements
             Canvas = GetComponent<Canvas>();
             CanvasGroup = GetComponent<CanvasGroup>();
             RectTransform = GetComponent<RectTransform>();
-            Animation = GetOrEmptyUiAnimation();
+            Animation = GetOrDefaultUiAnimation();
 
             State displayed = new Displayed(this);
             State hidden = new Hidden(this);
@@ -89,7 +89,7 @@ namespace Desdiene.UI.Elements
         private void DisableInteractible() => CanvasGroup.interactable = false;
         private void EnableInteractible() => CanvasGroup.interactable = true;
 
-        private IUiElementAnimation GetOrEmptyUiAnimation()
+        private IUiElementAnimation GetOrDefaultUiAnimation()
         {
             IUiElementAnimation animation;
             try
