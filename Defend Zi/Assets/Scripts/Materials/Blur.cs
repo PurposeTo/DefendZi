@@ -33,11 +33,7 @@ public class Blur : IPercent
 
     float IPercentAccessor.Value => _size.Value;
 
-    void IPercentMutator.Set(float value)
-    {
-        _size.Set(value);
-        Material.SetFloat(_blurSizeField, _size.Value);
-    }
+    void IPercentMutator.Set(float value) => Set(value);
 
     float IPercentMutator.SetAndGet(float percent)
     {
@@ -55,4 +51,10 @@ public class Blur : IPercent
     }
 
     public Material Material { get; }
+
+    private void Set(float value)
+    {
+        _size.Set(value);
+        Material.SetFloat(_blurSizeField, _size.Value);
+    }
 }
