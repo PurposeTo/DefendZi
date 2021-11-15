@@ -21,16 +21,16 @@ namespace Desdiene.UI.Animators
         private IPercent _animated;
 
         public UiAnimationFromValue(MonoBehaviourExt mono,
-                                  UpdateActionType.Mode updatingMode,
-                                  AnimationCurve curve,
-                                  float animationTime,
-                                  IPercent blur) : base(mono)
+                                    UpdateActionType.Mode updatingMode,
+                                    AnimationCurve curve,
+                                    float animationTime,
+                                    IPercent animated) : base(mono)
         {
             _updatingMode = updatingMode;
             _animationTime = animationTime;
             _curve = curve ?? throw new ArgumentNullException(nameof(curve));
             _animation = new CoroutineWrap(mono);
-            _animated = blur ?? throw new ArgumentNullException(nameof(blur));
+            _animated = animated ?? throw new ArgumentNullException(nameof(animated));
         }
 
         void IUiElementAnimation.Show(Action OnEnded)
