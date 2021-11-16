@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections;
 using Desdiene.Coroutines;
 using Desdiene.MonoBehaviourExtension;
@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Desdiene.UI.Animators
 {
     /// <summary>
-    /// Анимирует показ/скрытие UI элемента путем изменения IPercent значения.
+    /// РђРЅРёРјРёСЂСѓРµС‚ РїРѕРєР°Р·/СЃРєСЂС‹С‚РёРµ UI СЌР»РµРјРµРЅС‚Р° РїСѓС‚РµРј РёР·РјРµРЅРµРЅРёСЏ IPercent Р·РЅР°С‡РµРЅРёСЏ.
     /// IPercent _animated.Min = hidden
     /// IPercent _animated.Max = displayed
     /// </summary>

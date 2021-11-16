@@ -1,5 +1,6 @@
 using System;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.Types.Percents;
 using UnityEngine;
 
 namespace Desdiene.UI.Animators
@@ -16,7 +17,8 @@ namespace Desdiene.UI.Animators
         {
             CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
             _curve = AnimationCurveFactory.Get(AnimationCurveFactory.CurveType.Linear);
-            _uiElementAnimation = new UiCanvasGroupAlphaAnimation(this, canvasGroup, _updatingMode, _curve, _animatingTime);
+            IPercent canvasGroupAlpha = new CanvasGroupAsPercentAlpha(canvasGroup);
+            _uiElementAnimation = new UiAnimationFromValue(this, _updatingMode, _curve, _animatingTime, canvasGroupAlpha);
         }
 
         void IUiElementAnimation.Hide(Action OnEnded) => _uiElementAnimation.Hide(OnEnded);

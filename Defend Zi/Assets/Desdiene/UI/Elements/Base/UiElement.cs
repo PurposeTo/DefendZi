@@ -91,17 +91,12 @@ namespace Desdiene.UI.Elements
 
         private IUiElementAnimation GetOrDefaultUiAnimation()
         {
-            IUiElementAnimation animation;
-            try
-            {
-                animation = GetComponent<IUiElementAnimation>();
-            }
-            catch (Exception)
-            {
-                animation = new UiElementAnimationEmpty();
-            }
+            IUiElementAnimation[] animations = GetComponents<IUiElementAnimation>();
 
-            return animation;
+            return animations.Length == 0
+#pragma warning disable IDE0004 // приведение к интерфейсу необходимо, чтобы избежать ошибки компиляции unity
+                ? new UiElementAnimationEmpty() as IUiElementAnimation
+                : new UiElementAnimations(animations) as IUiElementAnimation;
         }
     }
 }
