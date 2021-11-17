@@ -37,7 +37,7 @@ public class GameOverUI : MonoBehaviourExt
 
     [Inject]
     private void Constructor(ITime globalTime,
-                         GameStatistics gameStatistics,
+                         IGameStatistics gameStatistics,
                          SceneLoader sceneLoader,
                          ScenesInBuild scenesInBuild,
                          IRewardedAd rewardedAd,
@@ -88,12 +88,13 @@ public class GameOverUI : MonoBehaviourExt
 
         _reviveOfferView.OnReviveForAdClicked += RevivePlayer;
         _reviveOfferView.OnRefuseToRevivingClicked += ShowGameOverViewAndCollectRewards;
-        _reviveOfferView.OnMainMenuClicked += LoadMainMenuScene;
 
         _collectRewardsOfferView.OnCollectRewards += ShowAd;
-        _collectRewardsOfferView.OnMainMenuClicked += LoadMainMenuScene;
 
         _gameOverView.OnReloadLvlClicked += LoadGameScene;
+        _gameOverView.OnMainMenuClicked += LoadMainMenuScene;
+
+        _errorView.OnMainMenuClicked += LoadMainMenuScene;
     }
 
     private void UnsubscribeEvents()
@@ -109,12 +110,13 @@ public class GameOverUI : MonoBehaviourExt
 
         _reviveOfferView.OnReviveForAdClicked -= RevivePlayer;
         _reviveOfferView.OnRefuseToRevivingClicked -= ShowGameOverViewAndCollectRewards;
-        _reviveOfferView.OnMainMenuClicked -= LoadMainMenuScene;
 
         _collectRewardsOfferView.OnCollectRewards -= ShowAd;
-        _collectRewardsOfferView.OnMainMenuClicked -= LoadMainMenuScene;
 
         _gameOverView.OnReloadLvlClicked -= LoadGameScene;
+        _gameOverView.OnMainMenuClicked -= LoadMainMenuScene;
+
+        _errorView.OnMainMenuClicked -= LoadMainMenuScene;
     }
 
     private void ChooseAndShowGameOverView()

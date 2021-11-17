@@ -11,7 +11,7 @@ public class BackgroundMusic : MonoBehaviourExt
     private IGameSettingsAccessorNotifier _gameSettings;
 
     [Inject]
-    private void Constructor(GameSettings gameSettings)
+    private void Constructor(IGameSettings gameSettings)
     {
         _gameSettings = gameSettings ?? throw new System.ArgumentNullException(nameof(gameSettings));
     }

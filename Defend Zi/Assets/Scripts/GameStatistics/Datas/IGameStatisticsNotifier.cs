@@ -1,4 +1,11 @@
-﻿public interface IGameStatisticsNotifier
+﻿using System;
+
+public interface IGameStatisticsNotifier
 {
-    // todo внести события
+    public event Action OnTotalInAppTimeChanged;
+    public event Action OnTotalLifeTimeChanged;
+    public event Action OnAverageLifeTimeChanged;
+    public event Action OnGamesNumberChanged;
+    public event Action OnBestScoreChanged;
+    public event Action OnBestLifeTimeChanged;
 }

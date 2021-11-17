@@ -165,8 +165,8 @@ public class ProjectInstaller : MonoInstaller
     private void BindGameStatistics()
     {
         Container
-            .Bind<GameStatistics>()
-            .ToSelf()
+            .Bind<IGameStatistics>()
+            .To<GameStatistics>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();
@@ -186,8 +186,8 @@ public class ProjectInstaller : MonoInstaller
     private void BindGameSettings()
     {
         Container
-            .Bind<GameSettings>()
-            .ToSelf()
+            .Bind<IGameSettings>()
+            .To<GameSettings>()
             .FromNewComponentOnNewGameObject()
             .AsSingle()
             .Lazy();

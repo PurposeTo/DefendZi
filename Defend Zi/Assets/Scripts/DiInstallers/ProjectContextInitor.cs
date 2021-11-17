@@ -24,10 +24,10 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         GpgsLeaderboardMono _9,
         GlobalTimeScaleAdapter _10,
         ITime _11,
-        GameSettings _12,
+        IGameSettings _12,
         IScreenOrientation _13,
         TransitionScreen _14,
-        GameStatistics _15,
+        IGameStatistics _15,
         IStorage<GameSettingsDto> _16
         )
     {

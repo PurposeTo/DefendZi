@@ -14,7 +14,7 @@ public class TrainingController : MonoBehaviourExt
     private ICoroutine _training;
 
     [Inject]
-    private void Constructor(GameStatistics gameStatistics)
+    private void Constructor(IGameStatistics gameStatistics)
     {
         _gameStatistics = gameStatistics ?? throw new ArgumentNullException(nameof(gameStatistics));
         _training = new CoroutineWrap(this);
