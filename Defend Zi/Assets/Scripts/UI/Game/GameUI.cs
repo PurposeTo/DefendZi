@@ -28,11 +28,14 @@ public class GameUI : MonoBehaviourExt
 
     private IReincarnationNotification _playerReincarnation;
 
+    private IGameSettings _gameSettings;
+
     [Inject]
     private void Constructor(ITime globalTime,
                              SceneLoader sceneLoader,
                              ScenesInBuild scenesInBuild,
-                             ComponentsProxy componentsProxy)
+                             ComponentsProxy componentsProxy,
+                             IGameSettings gameSettings)
     {
         if (globalTime == null) throw new ArgumentNullException(nameof(globalTime));
         if (componentsProxy == null) throw new ArgumentNullException(nameof(componentsProxy));
@@ -44,12 +47,13 @@ public class GameUI : MonoBehaviourExt
 
         _playerReincarnation = componentsProxy.PlayerReincarnation;
         _adForRewardMessageShowing = new CoroutineWrap(this);
+        _gameSettings = gameSettings ?? throw new ArgumentNullException(nameof(gameSettings));
     }
 
     protected override void AwakeExt()
     {
+        ShowSoundMuteState();
         SubscribeEvents();
-        SetDefaultState();
     }
 
     protected override void OnDestroyExt()
@@ -64,6 +68,7 @@ public class GameUI : MonoBehaviourExt
         _gamePauseView.OnMainMenuClicked += LoadMainMenu;
         _playerReincarnation.OnReviving += ShowGameView;
         _reviveOfferView.OnReviveForAdClicked += ShowAdForRewardMessageView;
+        _gamePauseView.OnSoundMuteChanged += SaveSoundMuteState;
     }
 
     private void UnsubscribeEvents()
@@ -73,6 +78,7 @@ public class GameUI : MonoBehaviourExt
         _gamePauseView.OnMainMenuClicked -= LoadMainMenu;
         _playerReincarnation.OnReviving -= ShowGameView;
         _reviveOfferView.OnReviveForAdClicked -= ShowAdForRewardMessageView;
+        _gamePauseView.OnSoundMuteChanged -= SaveSoundMuteState;
     }
 
     private void ShowGameView() => _gameView.Show();
@@ -106,9 +112,13 @@ public class GameUI : MonoBehaviourExt
 
     private void LoadMainMenu() => _sceneLoader.Load(_mainMenuScene);
 
-    private void SetDefaultState()
+    private void SaveSoundMuteState(bool mute)
     {
-        ShowGameView();
-        HideGamePauseView();
+        _gameSettings.SetMuteState(mute);
+    }
+
+    private void ShowSoundMuteState()
+    {
+        _gamePauseView.SetSoundMutingToggleState(_gameSettings.SoundMuted);
     }
 }

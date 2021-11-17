@@ -9,7 +9,7 @@ public class GpgsLeaderboardMono : MonoBehaviourExt
     private IGameStatisticsAccessorNotifier _gameStatistics;
 
     [Inject]
-    private void Constructor(GpgsAutentification platformCreator, GameStatistics gameStatistics)
+    private void Constructor(GpgsAutentification platformCreator, IGameStatistics gameStatistics)
     {
         if (platformCreator == null) throw new ArgumentNullException(nameof(platformCreator));
 

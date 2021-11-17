@@ -22,5 +22,20 @@ public class MainMenuView : FullScreenWindow
 
     public bool SoundMutingToggleEnabled => _soundMutingToggle.IsOn;
 
-    public void SetSoundMutingToggleState(bool enabled) => _soundMutingToggle.SetState(enabled);
+    public void SetSoundMutingToggleState(bool mute) => _soundMutingToggle.SetState(mute);
+
+    public void SetBestScore(uint score)
+    {
+        //todo implement
+    }
+
+    public void SetBestLifeTime(TimeSpan timeSpan)
+    {
+        //todo implement
+    }
+
+    public void SetAverageLifeTime(TimeSpan timeSpan)
+    {
+        //todo implement
+    }
 }

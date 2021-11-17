@@ -45,6 +45,15 @@ public class GameSettings : MonoBehaviourExt, IGameSettings
     void IGameSettingsMutator.SetMuteState(bool mute) => SetMuteState(mute);
     void ISavableData.Save() => Save();
 
+    private void SetMuteState(bool mute)
+    {
+        if (_soundMuted != mute)
+        {
+            _soundMuted = mute;
+            OnSoundEnabledChanged?.Invoke();
+        }
+    }
+
     private void Save()
     {
         var dto = new GameSettingsDto()
@@ -53,15 +62,6 @@ public class GameSettings : MonoBehaviourExt, IGameSettings
         };
 
         _storage.TryToUpdate(dto);
-    }
-
-    private void SetMuteState(bool mute)
-    {
-        if (_soundMuted != mute)
-        {
-            _soundMuted = mute;
-            OnSoundEnabledChanged?.Invoke();
-        }
     }
 
     private void UpdateDataFromDto(GameSettingsDto dto)
