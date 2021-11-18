@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 120962187}
   - component: {fileID: 120962186}
   m_Layer: 5
-  m_Name: Name
+  m_Name: Best score name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 177764095}
   - component: {fileID: 177764094}
   m_Layer: 5
-  m_Name: Name
+  m_Name: Average life time name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1440,9 +1440,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 913133002}
+  - component: {fileID: 913133003}
   - component: {fileID: 913133004}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Average life time value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1468,6 +1469,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &913133003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913133001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7640e79d624eb4bbb13795dc2016cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 1667905104}
 --- !u!222 &913133004
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1839,6 +1853,9 @@ MonoBehaviour:
   _playButton: {fileID: 446576541}
   _leaderboardButton: {fileID: 1932756922}
   _soundMutingToggle: {fileID: 1952467450}
+  _bestScore: {fileID: 1551278851}
+  _bestLifeTime: {fileID: 1976056223}
+  _averageLifeTime: {fileID: 913133003}
 --- !u!225 &1138531291
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2141,10 +2158,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1551278848}
+  - component: {fileID: 1551278851}
   - component: {fileID: 1551278850}
   - component: {fileID: 1551278849}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Best score value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2266,6 +2284,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551278847}
   m_CullTransparentMesh: 1
+--- !u!114 &1551278851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551278847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7640e79d624eb4bbb13795dc2016cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 1551278849}
 --- !u!1 &1590113123
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,7 +2419,7 @@ GameObject:
   - component: {fileID: 1615319937}
   - component: {fileID: 1615319936}
   m_Layer: 5
-  m_Name: Name
+  m_Name: Best life time name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3158,9 +3189,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1976056222}
+  - component: {fileID: 1976056223}
   - component: {fileID: 1976056224}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Best life time value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3186,6 +3218,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1976056223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976056221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7640e79d624eb4bbb13795dc2016cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 552063532}
 --- !u!222 &1976056224
 CanvasRenderer:
   m_ObjectHideFlags: 0

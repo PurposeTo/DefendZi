@@ -8,6 +8,9 @@ public class MainMenuView : FullScreenWindow
     [SerializeField, NotNull] private Button _playButton;
     [SerializeField, NotNull] private Button _leaderboardButton;
     [SerializeField, NotNull] private UiToggle _soundMutingToggle;
+    [SerializeField, NotNull] private TextView _bestScore;
+    [SerializeField, NotNull] private TextView _bestLifeTime;
+    [SerializeField, NotNull] private TextView _averageLifeTime;
 
     protected override void AwakeWindow()
     {
@@ -24,18 +27,18 @@ public class MainMenuView : FullScreenWindow
 
     public void SetSoundMutingToggleState(bool mute) => _soundMutingToggle.SetState(mute);
 
-    public void SetBestScore(uint score)
+    public void SetBestScore(uint value)
     {
-        //todo implement
+        _bestScore.SetText($"{value}");
     }
 
-    public void SetBestLifeTime(TimeSpan timeSpan)
+    public void SetBestLifeTime(TimeSpan value)
     {
-        //todo implement
+        _bestLifeTime.SetText($"{Mathf.RoundToInt((float)value.TotalSeconds)}");
     }
 
-    public void SetAverageLifeTime(TimeSpan timeSpan)
+    public void SetAverageLifeTime(TimeSpan value)
     {
-        //todo implement
+        _averageLifeTime.SetText($"{Mathf.RoundToInt((float)value.TotalSeconds)}");
     }
 }
