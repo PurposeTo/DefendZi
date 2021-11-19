@@ -17,6 +17,7 @@ MonoBehaviour:
   _chunkSize: {fileID: 954736623226280546}
   _spawnPlaceSize: {fileID: 1089937912107331778}
   _obstacle: {fileID: 116210232491789236}
+  _target: {fileID: 2687021349125987089}
 --- !u!1001 &2563153017981826642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83,6 +84,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc41b3dec782df441ae991e01bc2d68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2687021349125987089 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 493163644646681923, guid: e9bf51dc66dfd0e4b96ab9145c417339, type: 3}
+  m_PrefabInstance: {fileID: 2563153017981826642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e3cc903639cf14f8cf1a4bab48f73f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5332438256794740248
