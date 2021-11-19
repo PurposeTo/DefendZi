@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Coroutines;
-using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 public class PointToPointMovement : MonoBehaviourExtContainer

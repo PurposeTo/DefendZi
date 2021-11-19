@@ -31,7 +31,7 @@ public class Transform2DPosition : IPosition
 
     private void MoveTo(Vector2 finalPosition)
     {
-        _transform.position = new Vector3(finalPosition.x, finalPosition.y, Position.z);
+        Position = new Vector3(finalPosition.x, finalPosition.y, Position.z);
         OnChanged?.Invoke();
     }
 }
