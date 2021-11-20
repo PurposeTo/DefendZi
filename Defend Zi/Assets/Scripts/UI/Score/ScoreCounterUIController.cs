@@ -26,7 +26,7 @@ public class ScoreCounterUIController : MonoBehaviourExt
 
     private void UpdateScoreText(uint scoreReceived)
     {
-        scoreCounterView.SetText($"score: {score.Value}");
+        scoreCounterView.SetText($"{score.Value}");
     }
 
     private void SubcribeEvents()

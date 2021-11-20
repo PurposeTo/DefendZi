@@ -25,6 +25,6 @@ public class ReviveOfferView : FullScreenWindow
 
     private void SetScore(uint score)
     {
-        _scoreText.SetText($"Score: {score}");
+        _scoreText.SetText($"{score}");
     }
 }

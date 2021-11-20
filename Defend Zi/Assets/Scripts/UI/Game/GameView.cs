@@ -13,5 +13,4 @@ public class GameView : FullScreenWindow
     }
 
     public event Action OnPauseClicked;
-
 }

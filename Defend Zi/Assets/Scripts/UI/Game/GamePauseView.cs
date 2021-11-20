@@ -9,8 +9,6 @@ public class GamePauseView : FullScreenWindow
     [SerializeField, NotNull] private Button _mainMenuButton;
     [SerializeField, NotNull] private UiToggle _soundMutingToggle;
 
-    //private bool _soundMuteState; // it's stub
-
     protected override void AwakeWindow()
     {
         _resumeButton.onClick.AddListener(() => OnResumeClicked?.Invoke());
@@ -22,10 +20,8 @@ public class GamePauseView : FullScreenWindow
     public event Action OnMainMenuClicked;
     public event Action<bool> OnSoundMuteChanged;
 
-    //public bool SoundMutingToggleEnabled => _soundMuteState;
     public bool SoundMutingToggleEnabled => _soundMutingToggle.IsOn;
 
-    //public void SetSoundMutingToggleState(bool mute) => _soundMuteState = mute;
     public void SetSoundMutingToggleState(bool mute) => _soundMutingToggle.SetState(mute);
 
 }

@@ -25,6 +25,6 @@ public class PlayerDeathView : FullScreenWindow
 
     private void SetScore(int score)
     {
-        _scoreText.SetText($"Score: {score}");
+        _scoreText.SetText($"{score}");
     }
 }

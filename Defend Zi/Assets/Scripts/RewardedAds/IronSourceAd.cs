@@ -113,7 +113,7 @@ public class IronSourceAd : MonoBehaviourExt, IRewardedAd
     //@param description - string - contains information about the failure.
     void RewardedVideoAdShowFailedEvent(IronSourceError error)
     {
-        Debug.Log($"Iron Source rewarded ad event:  ShowFailed.\n{error}");
+        Debug.Log($"Iron Source rewarded ad event: ShowFailed.\n{error}");
         OnFailedToShow?.Invoke(error.ToString());
     }
 

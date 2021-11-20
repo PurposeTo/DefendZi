@@ -125,7 +125,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatistics
         if (gamesNumber == 0) return;
         double milliseconds = totalLifeTime.TotalMilliseconds / gamesNumber;
         TimeSpan averageLifeTime = TimeSpan.FromMilliseconds(milliseconds);
-        if (averageLifeTime == totalLifeTime) return;
+        if (_averageLifeTime == averageLifeTime) return;
 
         _averageLifeTime = averageLifeTime;
         OnAverageLifeTimeChanged?.Invoke();
