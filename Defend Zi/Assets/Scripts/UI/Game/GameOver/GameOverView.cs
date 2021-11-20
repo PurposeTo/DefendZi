@@ -8,12 +8,12 @@ public class GameOverView : FullScreenWindow
     [SerializeField, NotNull] private TextView _bestScoreText;
     [SerializeField, NotNull] private TextView _scoreText;
     [SerializeField, NotNull] private Button _reloadLvlButton;
-    //    [SerializeField, NotNull] private Button _mainMenuButton;
+    [SerializeField, NotNull] private Button _mainMenuButton;
 
     protected override void AwakeWindow()
     {
         _reloadLvlButton.onClick.AddListener(() => OnReloadLvlClicked?.Invoke());
-        //       _mainMenuButton.onClick.AddListener(() => OnMainMenuClicked?.Invoke());
+        _mainMenuButton.onClick.AddListener(() => OnMainMenuClicked?.Invoke());
     }
 
     public event Action OnReloadLvlClicked;
