@@ -8,7 +8,7 @@ public class Blur : IPercent
 {
     private const string _blurSizeField = "_Size";
     private const float _minBlurSize = 0f;
-    private const float _maxBlurSize = 5f;
+    private const float _maxBlurSize = 4f;
 
     private readonly Shader _shader;
     private readonly IPercent _size;
