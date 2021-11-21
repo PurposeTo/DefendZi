@@ -173,7 +173,7 @@ public class GameOverUI : MonoBehaviourExt
 
     private void OnFailedToShowAd(string error)
     {
-        _errorView.Init($"Failed to show ad!\n{error}");
+        _errorView.Init($"Failed to show ad!\n<line-height=50%>\n<line-height=100 %>{error}");
         _errorView.Show();
     }
 
