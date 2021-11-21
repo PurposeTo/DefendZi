@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +19,17 @@ namespace Desdiene.UI.Animators
         {
             _image = GetComponent<Image>();
 
-            //todo вынести этот код. Он не относится к данному классу.
-            float colorInt = 200f / 255f;
-            Color color = new Color(colorInt, colorInt, colorInt, 1);
+            Color color = _image.color;
+            float alphaColor = color.a;
 
-            Blur _blur = new Blur(_blurShader, color);
+            // fixme РЅРµ СЂР°Р±РѕС‚Р°РµС‚!
+            color = new Color(color.r * alphaColor,
+                              color.g * alphaColor,
+                              color.b * alphaColor,
+                              1);
+            //Blur _blur = new Blur(_blurShader, color);
+
+            Blur _blur = new Blur(_blurShader);
             _image.material = _blur.Material;
             _curve = AnimationCurveFactory.Get(AnimationCurveFactory.CurveType.Linear);
             _uiElementAnimation = new UiAnimationFromValue(this, _updatingMode, _curve, _animatingTime, _blur);
