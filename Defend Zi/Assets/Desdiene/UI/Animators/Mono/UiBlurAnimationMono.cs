@@ -18,7 +18,12 @@ namespace Desdiene.UI.Animators
         protected override void AwakeExt()
         {
             _image = GetComponent<Image>();
-            Blur _blur = new Blur(_blurShader);
+
+            //todo вынести этот код. ќн не относитс€ к данному классу.
+            float colorInt = 200f / 255f;
+            Color color = new Color(colorInt, colorInt, colorInt, 1);
+
+            Blur _blur = new Blur(_blurShader, color);
             _image.material = _blur.Material;
             _curve = AnimationCurveFactory.Get(AnimationCurveFactory.CurveType.Linear);
             _uiElementAnimation = new UiAnimationFromValue(this, _updatingMode, _curve, _animatingTime, _blur);

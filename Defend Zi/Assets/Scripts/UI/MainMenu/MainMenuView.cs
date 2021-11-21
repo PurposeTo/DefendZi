@@ -34,11 +34,13 @@ public class MainMenuView : FullScreenWindow
 
     public void SetBestLifeTime(TimeSpan value)
     {
-        _bestLifeTime.SetText($"{Mathf.RoundToInt((float)value.TotalSeconds)}");
+        int valueSec = Mathf.RoundToInt((float)value.TotalSeconds);
+        _bestLifeTime.SetText($"{valueSec}");
     }
 
     public void SetAverageLifeTime(TimeSpan value)
     {
-        _averageLifeTime.SetText($"{Mathf.RoundToInt((float)value.TotalSeconds)}");
+        int valueSec = Mathf.RoundToInt((float)value.TotalSeconds);
+        _averageLifeTime.SetText($"{valueSec}");
     }
 }

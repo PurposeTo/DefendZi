@@ -13,10 +13,18 @@ public class Blur : IPercent
     private readonly Shader _shader;
     private readonly IPercent _size;
 
-    public Blur(Shader shader)
+    public Blur(Shader shader) : this(shader, new Color(1f, 1f, 1f, 1f)) { }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="shader"></param>
+    /// <param name="color">Можно параметризовать цвет и затемнение шейдера. Не поддерживает изменение альфа канала. Белый цвет - прозрачный шейдер.</param>
+    public Blur(Shader shader, Color color)
     {
         _shader = shader ?? throw new ArgumentNullException(nameof(shader));
         Material = new Material(_shader);
+        Material.color = color;
         _size = new FloatInRange(_minBlurSize, new FloatRange(_minBlurSize, _maxBlurSize));
         Set(_size.Value);
     }

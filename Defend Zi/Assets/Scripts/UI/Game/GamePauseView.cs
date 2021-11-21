@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GamePauseView : FullScreenWindow
 {
+    [SerializeField, NotNull] private TextView _scoreText;
     [SerializeField, NotNull] private Button _resumeButton;
     [SerializeField, NotNull] private Button _mainMenuButton;
     [SerializeField, NotNull] private UiToggle _soundMutingToggle;
@@ -24,4 +25,13 @@ public class GamePauseView : FullScreenWindow
 
     public void SetSoundMutingToggleState(bool mute) => _soundMutingToggle.SetState(mute);
 
+    public void Init(uint score)
+    {
+        SetScore(score);
+    }
+
+    private void SetScore(uint score)
+    {
+        _scoreText.SetText($"{score}");
+    }
 }

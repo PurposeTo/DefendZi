@@ -28,6 +28,7 @@ public class GameUI : MonoBehaviourExt
 
     private IReincarnationNotification _playerReincarnation;
 
+    private IScoreAccessor _playerScore;
     private IGameSettings _gameSettings;
 
     [Inject]
@@ -46,6 +47,7 @@ public class GameUI : MonoBehaviourExt
         _mainMenuScene = SceneTypes.MainMenu.Get(this, scenesInBuild);
 
         _playerReincarnation = componentsProxy.PlayerReincarnation;
+        _playerScore = componentsProxy.PlayerScore;
         _adForRewardMessageShowing = new CoroutineWrap(this);
         _gameSettings = gameSettings ?? throw new ArgumentNullException(nameof(gameSettings));
     }
@@ -60,6 +62,8 @@ public class GameUI : MonoBehaviourExt
     {
         UnsubscribeEvents();
     }
+
+    private uint PlayerScore => _playerScore.Value;
 
     private void SubscribeEvents()
     {
@@ -88,6 +92,7 @@ public class GameUI : MonoBehaviourExt
     private void ShowGamePauseView()
     {
         _gamePause.Start();
+        _gamePauseView.Init(PlayerScore);
         _gamePauseView.Show();
     }
 
