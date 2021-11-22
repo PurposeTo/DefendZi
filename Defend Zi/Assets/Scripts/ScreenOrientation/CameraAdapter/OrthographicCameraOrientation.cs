@@ -20,4 +20,6 @@ public class OrthographicCameraOrientation : CameraOrientation
     {
         Camera.orthographicSize = PortraitCameraSize;
     }
+
+    protected sealed override void Init() { }
 }
