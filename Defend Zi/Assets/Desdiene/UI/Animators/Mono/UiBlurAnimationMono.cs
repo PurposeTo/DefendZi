@@ -21,15 +21,12 @@ namespace Desdiene.UI.Animators
 
             Color color = _image.color;
             float alphaColor = color.a;
-
-            // fixme не работает!
-            color = new Color(color.r * alphaColor,
-                              color.g * alphaColor,
-                              color.b * alphaColor,
+            color = new Color(Mathf.Lerp(color.r, 1f, alphaColor),
+                              Mathf.Lerp(color.g, 1f, alphaColor),
+                              Mathf.Lerp(color.b, 1f, alphaColor),
                               1);
-            //Blur _blur = new Blur(_blurShader, color);
+            Blur _blur = new Blur(_blurShader, color);
 
-            Blur _blur = new Blur(_blurShader);
             _image.material = _blur.Material;
             _curve = AnimationCurveFactory.Get(AnimationCurveFactory.CurveType.Linear);
             _uiElementAnimation = new UiAnimationFromValue(this, _updatingMode, _curve, _animatingTime, _blur);
