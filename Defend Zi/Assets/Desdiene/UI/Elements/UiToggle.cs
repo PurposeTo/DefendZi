@@ -8,20 +8,20 @@ namespace Desdiene.UI.Elements
 {
     // назван с префиксом "UI" дабы избежать конфликта имен
     [RequireComponent(typeof(UnityToggle))]
-    [RequireComponent(typeof(Image))]
+    [RequireComponent(typeof(Image))] // component image, который определяет интерактивную область элемента
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class UiToggle : MonoBehaviourExt
     {
         [SerializeField, NotNull] private Sprite _enabledSprite;
         [SerializeField, NotNull] private Sprite _disabledSprite;
+        // component image, который определяет изменяемое изображение элемента. Может быть как интерактивной областью, так и нет.
+        [SerializeField, NotNull] private Image _image;
         private UnityToggle _unityToggle;
-        private Image _image;
 
         protected override void AwakeExt()
         {
             _unityToggle = GetComponent<UnityToggle>();
-            _image = GetComponent<Image>();
             SetDefaultSettings();
             ChangeImage(_unityToggle.isOn);
             _unityToggle.onValueChanged.AddListener((value) => OnChanged?.Invoke(value));

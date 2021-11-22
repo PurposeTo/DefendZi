@@ -3150,10 +3150,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1952467449}
+  - component: {fileID: 1952467450}
+  - component: {fileID: 1952467451}
   - component: {fileID: 1952467453}
   - component: {fileID: 1952467452}
-  - component: {fileID: 1952467451}
-  - component: {fileID: 1952467450}
   m_Layer: 5
   m_Name: Sound muting toggle
   m_TagString: Untagged
@@ -3194,6 +3194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enabledSprite: {fileID: 21300000, guid: d842ac2c4cf6cce4898020f90fea7909, type: 3}
   _disabledSprite: {fileID: 21300000, guid: 5212c8a06fa20c042a1e5865524d17b9, type: 3}
+  _image: {fileID: 1952467451}
 --- !u!114 &1952467451
 MonoBehaviour:
   m_ObjectHideFlags: 0
