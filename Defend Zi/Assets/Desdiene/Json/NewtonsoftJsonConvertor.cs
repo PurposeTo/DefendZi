@@ -42,10 +42,6 @@ namespace Desdiene.Json
             {
                 return EmptyJson;
             }
-
-            return json
-                .Replace('\uFEFF', ' ')
-                .Trim();
         }
     }
 }

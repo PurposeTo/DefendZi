@@ -30,17 +30,13 @@ namespace Desdiene.Tools
         /// </summary>
         public void Read(Action<bool, string> result)
         {
-            _dataReading.StartContinuously(ReadEnumerator(result));
-        }
+            IEnumerator enumerator = ReadEnumerator((success, str) =>
+            {
+                str = RepairString(success, str);
+                result?.Invoke(success, str);
+            });
 
-        /// <summary>
-        /// Загрузить данные с устройства.
-        /// Может быть null, если данные не были найдены.
-        /// </summary>
-        [Obsolete]
-        public void Read(Action<string> result)
-        {
-            _dataReading.StartContinuously(ReadEnumerator((_, data) => result?.Invoke(data)));
+            _dataReading.StartContinuously(enumerator);
         }
 
         private IEnumerator ReadEnumerator(Action<bool, string> result)
@@ -89,6 +85,15 @@ namespace Desdiene.Tools
 
                 result?.Invoke(true, request.downloadHandler.text);
             }
+        }
+
+        private string RepairString(bool success, string str)
+        {
+            if (!success) return str;
+
+            if (str == null) return str;
+
+            return StringHelper.RemoveBom(str);
         }
     }
 }
