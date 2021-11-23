@@ -37,6 +37,7 @@ namespace Desdiene.Encryptions
         {
             if (string.IsNullOrEmpty(dataInBase64Encoding))
             {
+                Debug.Log($"Data from [{_cryptoFileName}] was empty. There is nothing to decrypt.");
                 result?.Invoke(null);
                 return;
             }
@@ -57,11 +58,13 @@ namespace Desdiene.Encryptions
 
                     if (edited)
                     {
+                        Debug.Log($"Data from [{_cryptoFileName}] was illegal modified.");
                         result?.Invoke(null);
                         return;
                     }
 
                     string decryptedData = AddSalt(saltedData);
+                    Debug.Log($"Data from [{_cryptoFileName}] was decrypted successfully.");
                     result?.Invoke(decryptedData);
                 });
             }
