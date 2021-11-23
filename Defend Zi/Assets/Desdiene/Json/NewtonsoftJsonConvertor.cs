@@ -42,6 +42,8 @@ namespace Desdiene.Json
             {
                 return EmptyJson;
             }
+
+            return json;
         }
     }
 }
