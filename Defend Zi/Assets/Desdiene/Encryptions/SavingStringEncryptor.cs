@@ -45,7 +45,7 @@ namespace Desdiene.Encryptions
 
             try
             {
-                string saltedData = Encoding.UTF8.GetString(Convert.FromBase64String(dataInBase64Encoding));
+                string saltedData = DecryptFromBase64(dataInBase64Encoding);
 
                 IsDataWasNotEdited(saltedData, (notEdited) =>
                 {
@@ -117,6 +117,21 @@ namespace Desdiene.Encryptions
             }
 
             return saltedData.ToString();
+        }
+
+        private string DecryptFromBase64(string dataInBase64Encoding)
+        {
+            try
+            {
+                byte[] stringBytes = Convert.FromBase64String(dataInBase64Encoding);
+                string saltedData = Encoding.UTF8.GetString(stringBytes);
+                return saltedData;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Catch exception while decrypting\n{dataInBase64Encoding}\n{exception}");
+                return null;
+            }
         }
     }
 }
