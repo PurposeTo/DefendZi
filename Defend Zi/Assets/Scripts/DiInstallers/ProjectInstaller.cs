@@ -16,7 +16,6 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        BindPlayerPrefsSaver();
         BindGameStatisticsStorage();
         BindGameStatistics();
         BindGameSettingsStorage();
@@ -33,16 +32,6 @@ public class ProjectInstaller : MonoInstaller
         BindScreenOrientation();
         BindBackgroundMusic();
         BindTransitionScreen();
-    }
-
-    private void BindPlayerPrefsSaver()
-    {
-        Container
-            .Bind<PlayerPrefsSaver>()
-            .ToSelf()
-            .FromNewComponentOnNewGameObject()
-            .AsSingle()
-            .Lazy();
     }
 
     private void BindBackgroundMusic()
