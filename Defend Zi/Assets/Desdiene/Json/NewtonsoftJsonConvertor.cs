@@ -30,12 +30,21 @@ namespace Desdiene.Json
 
         T IJsonDeserializer<T>.ToObject(string json)
         {
+            json = RepairJson(json);
+
             json = string.IsNullOrWhiteSpace(json)
                 ? EmptyJson
                 : json;
             T data = JsonConvert.DeserializeObject<T>(json, _serializerSettings);
             Debug.Log($"Десериализация json-а.\nJson:\n{json}\n\nОбъект:\n{data}");
             return data;
+        }
+
+        private string RepairJson(string json)
+        {
+            return json
+                .Replace('\uFEFF', ' ')
+                .Trim();
         }
     }
 }
