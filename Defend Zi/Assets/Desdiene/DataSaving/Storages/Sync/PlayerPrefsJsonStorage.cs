@@ -32,6 +32,7 @@ namespace Desdiene.DataSaving.Storages
         protected sealed override bool UpdateJson(string jsonData)
         {
             PlayerPrefs.SetString(FileName, jsonData);
+            PlayerPrefs.Save(); // fixme Не должно быть тут. НО есть проблема при сохранении данных на андроид.
             return DataExists;
         }
 

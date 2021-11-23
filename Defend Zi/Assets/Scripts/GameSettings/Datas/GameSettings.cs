@@ -33,6 +33,14 @@ public class GameSettings : MonoBehaviourExt, IGameSettings
         Save();
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            Save();
+        }
+    }
+
     private event Action OnSoundEnabledChanged;
 
     event Action IGameSettingsNotifier.OnSoundMutedChanged
