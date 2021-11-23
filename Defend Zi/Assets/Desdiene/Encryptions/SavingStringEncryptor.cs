@@ -43,13 +43,6 @@ namespace Desdiene.Encryptions
                 return;
             }
 
-            if (!File.Exists(_hashDataFilePath))
-            {
-                Debug.Log($"Data from [{_cryptoFileName}] was't founded.");
-                result?.Invoke(null);
-                return;
-            }
-
             try
             {
                 string saltedData = Encoding.UTF8.GetString(Convert.FromBase64String(dataInBase64Encoding));
