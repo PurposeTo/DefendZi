@@ -16,18 +16,25 @@ public class PerspectiveCameraOrientation : CameraOrientation
 
     protected override void Init()
     {
-        float hFov = VerticalToHorizontalFov(Camera.fieldOfView);
+        _fieldOfViewLandcape = 60f;
+        _fieldOfViewPortrait = 91.49284f;
 
-        if (DefaultOrientation == ScreenOrientation.LandscapeLeft || DefaultOrientation == ScreenOrientation.LandscapeRight)
-        {
-            _fieldOfViewLandcape = Camera.fieldOfView;
-            _fieldOfViewPortrait = hFov;
-        }
-        else if (DefaultOrientation == ScreenOrientation.Portrait || DefaultOrientation == ScreenOrientation.PortraitUpsideDown)
-        {
-            _fieldOfViewPortrait = Camera.fieldOfView;
-            _fieldOfViewLandcape = hFov;
-        }
+
+
+        // fixme: Не работает в андроид-сборке.
+
+        //float hFov = VerticalToHorizontalFov(Camera.fieldOfView);
+
+        //if (DefaultOrientation == ScreenOrientation.LandscapeLeft || DefaultOrientation == ScreenOrientation.LandscapeRight)
+        //{
+        //    _fieldOfViewLandcape = Camera.fieldOfView;
+        //    _fieldOfViewPortrait = hFov;
+        //}
+        //else if (DefaultOrientation == ScreenOrientation.Portrait || DefaultOrientation == ScreenOrientation.PortraitUpsideDown)
+        //{
+        //    _fieldOfViewPortrait = Camera.fieldOfView;
+        //    _fieldOfViewLandcape = hFov;
+        //}
     }
 
     protected sealed override void ChangeVisionToLandscape()
