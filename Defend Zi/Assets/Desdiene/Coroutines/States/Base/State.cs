@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.States;
 
 namespace Desdiene.Coroutines

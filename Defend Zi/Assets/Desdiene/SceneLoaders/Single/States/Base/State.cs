@@ -1,6 +1,5 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.States;
 using Desdiene.Types.ProcessContainers;
 using Desdiene.UnityScenes.Types;

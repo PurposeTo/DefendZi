@@ -1,7 +1,6 @@
 ﻿using System;
 using Desdiene.MonoBehaviourExtension;
 using Desdiene.Extensions.UnityEngine;
-using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 namespace Desdiene.ObjectPoolers.Components

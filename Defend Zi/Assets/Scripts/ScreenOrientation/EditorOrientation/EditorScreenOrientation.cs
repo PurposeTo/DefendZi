@@ -1,6 +1,5 @@
 using System;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.MonoBehaviourExtension;
 using UnityEngine;
 
 /// <summary>

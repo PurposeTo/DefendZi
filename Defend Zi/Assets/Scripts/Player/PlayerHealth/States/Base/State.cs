@@ -1,7 +1,6 @@
 ﻿using System;
 using Desdiene.StateMachines.States;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.MonoBehaviourExtension;
 
 public partial class PlayerHealth
 {

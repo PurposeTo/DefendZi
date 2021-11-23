@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Desdiene.MonoBehaviourExtension;
-using Desdiene.MonoBehaviourExtension;
 using Desdiene.StateMachines.StateSwitchers;
 using Desdiene.Types.AtomicReferences;
 using Desdiene.Types.Percentables;
