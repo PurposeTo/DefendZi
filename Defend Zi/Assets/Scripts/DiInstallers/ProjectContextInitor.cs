@@ -1,4 +1,5 @@
 ﻿using System;
+using Desdiene.DataSaving;
 using Desdiene.DataSaving.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
@@ -28,7 +29,8 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         IScreenOrientation _13,
         TransitionScreen _14,
         IGameStatistics _15,
-        IStorage<GameSettingsDto> _16
+        IStorage<GameSettingsDto> _16,
+        PlayerPrefsSaver _17
         )
     {
         if (_1 == null) throw new ArgumentNullException(nameof(_1));
@@ -47,5 +49,6 @@ public class ProjectContextInitor : GlobalSingleton<ProjectContextInitor>
         if (_14 == null) throw new ArgumentNullException(nameof(_14));
         if (_15 == null) throw new ArgumentNullException(nameof(_15));
         if (_16 == null) throw new ArgumentNullException(nameof(_16));
+        if (_17 == null) throw new ArgumentNullException(nameof(_17));
     }
 }

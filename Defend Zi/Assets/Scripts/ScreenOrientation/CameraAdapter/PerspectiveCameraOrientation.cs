@@ -16,17 +16,17 @@ public class PerspectiveCameraOrientation : CameraOrientation
 
     protected override void Init()
     {
+        float hFov = VerticalToHorizontalFov(Camera.fieldOfView);
+
         if (DefaultOrientation == ScreenOrientation.LandscapeLeft || DefaultOrientation == ScreenOrientation.LandscapeRight)
         {
             _fieldOfViewLandcape = Camera.fieldOfView;
-            float fov = Camera.HorizontalToVerticalFieldOfView(_fieldOfViewLandcape, AspectRatio);
-            _fieldOfViewPortrait = fov;
+            _fieldOfViewPortrait = hFov;
         }
         else if (DefaultOrientation == ScreenOrientation.Portrait || DefaultOrientation == ScreenOrientation.PortraitUpsideDown)
         {
             _fieldOfViewPortrait = Camera.fieldOfView;
-            float fov = Camera.VerticalToHorizontalFieldOfView(_fieldOfViewLandcape, AspectRatio);
-            _fieldOfViewPortrait = fov;
+            _fieldOfViewLandcape = hFov;
         }
     }
 
@@ -49,7 +49,12 @@ public class PerspectiveCameraOrientation : CameraOrientation
         return -1f * adjacentSide;
     }
 
-    private float VerticalToHorizontal(float fov)
+    private float VerticalToHorizontalFov(float fov)
+    {
+        return 2 * Mathf.Atan(Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f) / AspectRatio) * Mathf.Rad2Deg;
+    }
+
+    private float HorizontalToVerticalFov(float fov)
     {
         return 2 * Mathf.Atan(Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f) / AspectRatio) * Mathf.Rad2Deg;
     }

@@ -1,4 +1,5 @@
-﻿using Desdiene.DataSaving.Storages;
+﻿using Desdiene.DataSaving;
+using Desdiene.DataSaving.Storages;
 using Desdiene.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
@@ -15,6 +16,7 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        BindPlayerPrefsSaver();
         BindGameStatisticsStorage();
         BindGameStatistics();
         BindGameSettingsStorage();
@@ -31,6 +33,16 @@ public class ProjectInstaller : MonoInstaller
         BindScreenOrientation();
         BindBackgroundMusic();
         BindTransitionScreen();
+    }
+
+    private void BindPlayerPrefsSaver()
+    {
+        Container
+            .Bind<PlayerPrefsSaver>()
+            .ToSelf()
+            .FromNewComponentOnNewGameObject()
+            .AsSingle()
+            .Lazy();
     }
 
     private void BindBackgroundMusic()
