@@ -30,6 +30,7 @@ namespace Desdiene.Encryptions
         {
             string saltedData = AddSalt(data);
             DeviceFile.WriteAllText(_hashDataFilePath, StringHash(saltedData));
+            Debug.Log($"Data [{_cryptoFileName}] was encrypted.");
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(saltedData));
         }
 
@@ -37,13 +38,14 @@ namespace Desdiene.Encryptions
         {
             if (string.IsNullOrEmpty(dataInBase64Encoding))
             {
-                Debug.Log($"Data from [{_cryptoFileName}] was empty. There is nothing to decrypt.");
+                Debug.Log($"Data for decrypt by [{_cryptoFileName}] was empty. There is nothing to decrypt.");
                 result?.Invoke(null);
                 return;
             }
 
             if (!File.Exists(_hashDataFilePath))
             {
+                Debug.Log($"Data from [{_cryptoFileName}] was't founded.");
                 result?.Invoke(null);
                 return;
             }
@@ -58,13 +60,13 @@ namespace Desdiene.Encryptions
 
                     if (edited)
                     {
-                        Debug.Log($"Data from [{_cryptoFileName}] was illegal modified.");
+                        Debug.Log($"Data for decrypt by [{_cryptoFileName}] was illegal modified.");
                         result?.Invoke(null);
                         return;
                     }
 
                     string decryptedData = AddSalt(saltedData);
-                    Debug.Log($"Data from [{_cryptoFileName}] was decrypted successfully.");
+                    Debug.Log($"Data for decrypt by [{_cryptoFileName}] was decrypted successfully.");
                     result?.Invoke(decryptedData);
                 });
             }
