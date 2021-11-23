@@ -129,7 +129,7 @@ namespace Desdiene.Encryptions
             }
             catch (Exception exception)
             {
-                Debug.LogError($"Catch exception while decrypting\n{dataInBase64Encoding}\n{exception}");
+                Debug.LogError($"Catch exception while decrypting\n{exception}");
                 return null;
             }
         }
