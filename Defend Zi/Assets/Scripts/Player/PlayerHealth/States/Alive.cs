@@ -8,7 +8,7 @@ public partial class PlayerHealth
 {
     private class Alive : State
     {
-        private const float _InvulnerabilityTime = 3.5f;
+        private const float _InvulnerabilityTime = 3f;
         private ICoroutine _Invulnerability;
 
         public Alive(MonoBehaviourExt mono, PlayerHealth _it) : base(mono, _it)
