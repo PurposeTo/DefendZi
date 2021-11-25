@@ -5,6 +5,9 @@ public static class AndroidScreenAutoRotationSetting
 {
     public static bool IsRotationAllowed()
     {
+#if UNITY_EDITOR
+        return true;
+#endif
         try
         {
             using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
