@@ -17,11 +17,10 @@ public class PerspectiveCameraOrientation : CameraOrientation
     protected override void Init()
     {
         _fieldOfViewLandcape = 60f;
-        _fieldOfViewPortrait = 91.49284f;
+        float hFov = VerticalToHorizontalFov(_fieldOfViewLandcape);
+        _fieldOfViewPortrait = hFov;
 
-
-
-        // fixme: Не работает в андроид-сборке.
+        // todo: Проверить в андроид-сборке.
 
         //float hFov = VerticalToHorizontalFov(Camera.fieldOfView);
 
@@ -58,11 +57,6 @@ public class PerspectiveCameraOrientation : CameraOrientation
 
     private float VerticalToHorizontalFov(float fov)
     {
-        return 2 * Mathf.Atan(Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f) / AspectRatio) * Mathf.Rad2Deg;
-    }
-
-    private float HorizontalToVerticalFov(float fov)
-    {
-        return 2 * Mathf.Atan(Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f) / AspectRatio) * Mathf.Rad2Deg;
+        return 2 * Mathf.Atan(Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f) / (1f / AspectRatio)) * Mathf.Rad2Deg;
     }
 }

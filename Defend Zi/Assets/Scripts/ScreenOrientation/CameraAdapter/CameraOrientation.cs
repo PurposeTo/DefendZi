@@ -17,7 +17,7 @@ public abstract class CameraOrientation
             ? camera
             : throw new ArgumentNullException(nameof(camera));
         DefaultOrientation = defaultOrientation;
-        _aspectRatio = Camera.aspect;
+        _aspectRatio = GetAspectRatio();
 
         Init();
         SubscribeEvents();
@@ -37,7 +37,17 @@ public abstract class CameraOrientation
     protected abstract void ChangeVisionToLandscape();
     protected abstract void ChangeVisionToPortrait();
 
+    private float GetAspectRatio()
+    {
+        float width = _camera.pixelWidth;
+        float hight = _camera.pixelHeight;
+
+        Desdiene.Math.Compare(ref hight, ref width);
+        return width / hight;
+    }
+
     private ScreenOrientation GetOrientation() => _screenOrientation.Get();
+
 
     private void ChangeToLandscape()
     {
