@@ -1,6 +1,5 @@
-﻿using Desdiene.DataSaving;
-using Desdiene.DataSaving.Storages;
-using Desdiene.GooglePlayApi;
+﻿using Desdiene.DataSaving.Storages;
+using Desdiene.Mobile.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.TimeControls;
 using Desdiene.TimeControls.Adapters;

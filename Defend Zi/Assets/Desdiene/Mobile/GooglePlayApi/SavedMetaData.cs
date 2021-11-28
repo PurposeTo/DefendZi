@@ -3,7 +3,7 @@ using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
 
-namespace Desdiene.GooglePlayApi
+namespace Desdiene.Mobile.GooglePlayApi
 {
     public class SavedMetaData
     {

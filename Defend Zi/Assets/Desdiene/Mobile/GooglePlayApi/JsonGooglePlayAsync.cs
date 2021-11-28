@@ -3,14 +3,14 @@ using System.Collections;
 using System.Text;
 using Desdiene.Coroutines;
 using Desdiene.DataSaving.Datas;
-using Desdiene.GooglePlayApi;
+using Desdiene.DataSaving.Storages;
 using Desdiene.Json;
 using Desdiene.MonoBehaviourExtension;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
 
-namespace Desdiene.DataSaving.Storages
+namespace Desdiene.Mobile.GooglePlayApi
 {
     /// <summary>
     /// Сохранить файл в json формате на облако в google play-е.

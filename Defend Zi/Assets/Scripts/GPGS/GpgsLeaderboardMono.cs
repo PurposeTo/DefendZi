@@ -1,11 +1,12 @@
 ﻿using System;
-using Desdiene.GooglePlayApi;
+using Desdiene.Mobile.GooglePlayApi;
 using Desdiene.MonoBehaviourExtension;
+using Desdiene.NetworkServices;
 using Zenject;
 
 public class GpgsLeaderboardMono : MonoBehaviourExt
 {
-    private GpgsLeaderboard _gpgsLeaderboard;
+    private ILeaderboard _gpgsLeaderboard;
     private IGameStatisticsAccessorNotifier _gameStatistics;
 
     [Inject]
@@ -22,9 +23,6 @@ public class GpgsLeaderboardMono : MonoBehaviourExt
 
     public void UpdateScoreAndOpen()
     {
-        _gpgsLeaderboard.UpdateScore(_gameStatistics.BestScore, (success) =>
-        {
-            if (success) _gpgsLeaderboard.Open();
-        });
+        _gpgsLeaderboard.UpdateAndOpen(_gameStatistics.BestScore, (_) => { });
     }
 }

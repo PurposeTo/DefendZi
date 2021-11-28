@@ -1,11 +1,11 @@
 ﻿using System;
+using Desdiene.NetworkServices;
 using GooglePlayGames;
-using GooglePlayGames.BasicApi;
 using UnityEngine;
 
-namespace Desdiene.GooglePlayApi
+namespace Desdiene.Mobile.GooglePlayApi
 {
-    public class GpgsLeaderboard
+    public class GpgsLeaderboard : ILeaderboard
     {
         private readonly string _leaderboardId;
         private readonly PlayGamesPlatform _platform;
@@ -23,15 +23,27 @@ namespace Desdiene.GooglePlayApi
             _leaderboardId = leaderboardId;
         }
 
-        public void Open()
+        void ILeaderboard.Open(Action<bool> result) => Open(result);
+
+        void ILeaderboard.Update(long score, Action<bool> result) => Update(score, result);
+
+        void ILeaderboard.UpdateAndOpen(long score, Action<bool> result) => UpdateAndOpen(score, result);
+
+        private void UpdateAndOpen(long score, Action<bool> result)
         {
-            _platform.ShowLeaderboardUI(_leaderboardId, (status) =>
+            Update(score, (sucessUpdated) =>
             {
-                Debug.Log($"{GetType().Name} opened with status {status}");
+                if (!sucessUpdated)
+                {
+                    result?.Invoke(false);
+                    return;
+                }
+
+                Open(result);
             });
         }
 
-        public void UpdateScore(long score, Action<bool> result)
+        private void Update(long score, Action<bool> result)
         {
             if (_isCashScoreInited && _cashScore == score)
             {
@@ -47,6 +59,19 @@ namespace Desdiene.GooglePlayApi
                     _cashScore = score;
                 }
 
+                result?.Invoke(success);
+            });
+        }
+
+        private void Open(Action<bool> result)
+        {
+            GooglePlayGames.BasicApi.UIStatus successStatus = GooglePlayGames.BasicApi.UIStatus.Valid;
+
+            _platform.ShowLeaderboardUI(_leaderboardId, (status) =>
+            {
+                Debug.Log($"{GetType().Name} opened with status {status}");
+
+                bool success = successStatus == status;
                 result?.Invoke(success);
             });
         }

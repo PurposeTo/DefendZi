@@ -4,7 +4,7 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 
-namespace Desdiene.GooglePlayApi
+namespace Desdiene.Mobile.GooglePlayApi
 {
     public class GpgsAutentification : MonoBehaviourExt
     {

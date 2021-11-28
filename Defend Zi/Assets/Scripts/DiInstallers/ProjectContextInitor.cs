@@ -1,7 +1,6 @@
 ﻿using System;
-using Desdiene.DataSaving;
 using Desdiene.DataSaving.Storages;
-using Desdiene.GooglePlayApi;
+using Desdiene.Mobile.GooglePlayApi;
 using Desdiene.SceneLoaders.Single;
 using Desdiene.Singletons.Unity;
 using Desdiene.TimeControls;

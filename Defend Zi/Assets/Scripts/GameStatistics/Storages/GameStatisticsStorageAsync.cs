@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Desdiene.DataSaving.Storages;
-using Desdiene.GooglePlayApi;
+using Desdiene.Mobile.GooglePlayApi;
 using Desdiene.MonoBehaviourExtension;
 using Zenject;
 
