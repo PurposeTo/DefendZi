@@ -5,19 +5,19 @@ namespace Desdiene.Types.Processes
 {
     public partial class CyclicalProcess
     {
-        private abstract class State : IStateEntryExitPoint
+        private abstract class State : IState
         {
             protected State(CyclicalProcess it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
             }
 
-            void IStateEntryExitPoint.OnEnter()
+            void IState.OnEnter()
             {
                 OnEnter();
             }
 
-            void IStateEntryExitPoint.OnExit()
+            void IState.OnExit()
             {
                 OnExit();
             }

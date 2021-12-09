@@ -8,24 +8,30 @@ namespace Desdiene.SceneLoaders.Single
 {
     public partial class SceneLoader
     {
-        private abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint
+        private abstract class State : MonoBehaviourExtContainer, IState
         {
+           private readonly string _name;
+
             protected State(MonoBehaviourExt mono, SceneLoader it) : base(mono)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
+                _name = GetType().Name;
             }
 
-            void IStateEntryExitPoint.OnEnter()
+            string IState.Name => _name;
+
+            void IState.OnEnter()
             {
                 OnEnter();
             }
 
-            void IStateEntryExitPoint.OnExit()
+            void IState.OnExit()
             {
                 OnExit();
             }
 
             protected SceneLoader It { get; }
+
 
             public abstract void Load(ISceneAsset scene, Action<IProcessesMutator> beforeUnloading, Action afterEnabling);
 

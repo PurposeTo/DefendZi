@@ -6,15 +6,20 @@ namespace Desdiene.DataSaving.Storages
 {
     public partial class StorageAsync<T>
     {
-        private abstract class State : IStateEntryExitPoint
+        private abstract class State : IState
         {
+           private readonly string _name;
+          
             protected State(StorageAsync<T> it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
+                _name = GetType().Name;
             }
 
-            void IStateEntryExitPoint.OnEnter() { }
-            void IStateEntryExitPoint.OnExit() { }
+            string IState.Name => _name;
+
+            void IState.OnEnter() { }
+            void IState.OnExit() { }
 
             protected StorageAsync<T> It { get; }
 

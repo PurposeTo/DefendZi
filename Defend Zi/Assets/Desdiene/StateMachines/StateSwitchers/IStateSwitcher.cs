@@ -1,10 +1,11 @@
 ﻿using System;
+using Desdiene.EditorTools;
 using Desdiene.StateMachines.States;
 
 namespace Desdiene.StateMachines.StateSwitchers
 {
-    public interface IStateSwitcher<AbstractStateT>
-        where AbstractStateT : IStateEntryExitPoint
+    public interface IStateSwitcher<AbstractStateT> : IDebugState
+        where AbstractStateT : IState
     {
         AbstractStateT CurrentState { get; }
 

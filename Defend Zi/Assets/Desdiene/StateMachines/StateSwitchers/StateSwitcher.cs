@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Desdiene.EditorTools;
 using Desdiene.StateMachines.States;
 
 namespace Desdiene.StateMachines.StateSwitchers
 {
     public class StateSwitcher<AbstractStateT> :
-        IStateSwitcher<AbstractStateT>
-        where AbstractStateT : class, IStateEntryExitPoint
+        IStateSwitcher<AbstractStateT>,
+        IDebugState
+        where AbstractStateT : class, IState
     {
         private readonly List<AbstractStateT> _allStates;
         private AbstractStateT _currentState;
@@ -18,6 +20,18 @@ namespace Desdiene.StateMachines.StateSwitchers
             _allStates = allStates ?? throw new ArgumentNullException(nameof(allStates));
             _currentState.OnEnter();
         }
+
+        event Action<string> IDebugState.WhenChangedName
+        {
+            add
+            {
+                value?.Invoke(_currentState.Name);
+                OnChangedStateName += value;
+            }
+            remove => OnChangedStateName -= value;
+        }
+
+        private event Action<string> OnChangedStateName;
 
         AbstractStateT IStateSwitcher<AbstractStateT>.CurrentState => _currentState;
 
@@ -59,6 +73,7 @@ namespace Desdiene.StateMachines.StateSwitchers
 
             _currentState.OnExit();
             _currentState = newState;
+            OnChangedStateName?.Invoke(_currentState.Name);
             _currentState.OnEnter();
             return _currentState;
         }

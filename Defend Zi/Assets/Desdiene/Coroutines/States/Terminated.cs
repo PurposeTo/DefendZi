@@ -27,7 +27,10 @@ namespace Desdiene.Coroutines
                 {
                     MonoBehaviourExt.StopCoroutine(It._coroutine);
                     It._coroutine = null;
+                    It._coroutinesStack.Clear();
                 }
+
+                It._isExecuting.Set(false);
                 It.OnStopped?.Invoke();
                 It.WhenCompleted?.Invoke();
             }

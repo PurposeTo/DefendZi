@@ -14,9 +14,13 @@ namespace Desdiene.Coroutines
                        it)
             { }
 
+            protected override void OnEnter()
+            {
+                It._isExecuting.Set(false);
+            }
+
             public override void StartContinuously(IEnumerator enumerator)
             {
-                It._coroutinesStack.Clear();
                 It._coroutinesStack.Add(enumerator);
                 SwitchState<Executing>();
             }

@@ -16,6 +16,8 @@ namespace Desdiene.UI.Elements
     [DisallowMultipleComponent]
     public abstract partial class UiElement : MonoBehaviourExt, IUiElement
     {
+        private string _debugStateName = string.Empty;
+
         private IStateSwitcher<State> _stateSwitcher;
         private string _typeName;
         private string _gameObjectName;
@@ -44,6 +46,7 @@ namespace Desdiene.UI.Elements
                 new FromHiddenToDisplayed(this),
             };
             _stateSwitcher = new StateSwitcher<State>(initState, allStates);
+            _stateSwitcher.WhenChangedName += (name) => _debugStateName = name;
 
             AwakeElement();
         }

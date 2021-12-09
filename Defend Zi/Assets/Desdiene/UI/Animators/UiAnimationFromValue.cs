@@ -17,8 +17,8 @@ namespace Desdiene.UI.Animators
         private readonly UpdateActionType.Mode _updatingMode;
         private readonly AnimationCurve _curve;
         private readonly float _animationTime;
-        private ICoroutine _animation;
-        private IPercent _animated;
+        private readonly ICoroutine _animation;
+        private readonly IPercent _animatedValue;
 
         public UiAnimationFromValue(MonoBehaviourExt mono,
                                     UpdateActionType.Mode updatingMode,
@@ -30,7 +30,7 @@ namespace Desdiene.UI.Animators
             _animationTime = animationTime;
             _curve = curve ?? throw new ArgumentNullException(nameof(curve));
             _animation = new CoroutineWrap(mono);
-            _animated = animated ?? throw new ArgumentNullException(nameof(animated));
+            _animatedValue = animated ?? throw new ArgumentNullException(nameof(animated));
         }
 
         void IUiElementAnimation.Show(Action OnEnded)
@@ -45,36 +45,35 @@ namespace Desdiene.UI.Animators
 
         private IEnumerator ToHidden(Action OnEnded)
         {
-            _animated.SetMax();
-            float counter = _animated.Value;
+            _animatedValue.SetMax();
+            float counter = _animatedValue.Value;
 
-            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => !_animated.IsMin, (deltaTime) =>
+            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => !_animatedValue.IsMin, (deltaTime) =>
             {
                 float delta = 1f / _animationTime * deltaTime;
                 counter -= delta;
-                _animated.Set(_curve.Evaluate(counter));
+                _animatedValue.Set(_curve.Evaluate(counter));
             });
 
             yield return _animation.StartNested(enumerator);
-            _animated.SetMin();
+            _animatedValue.SetMin();
             OnEnded?.Invoke();
         }
 
         private IEnumerator ToDisplayed(Action OnEnded)
         {
-            _animated.SetMin();
-            float counter = _animated.Value;
+            _animatedValue.SetMin();
+            float counter = _animatedValue.Value;
 
-            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => !_animated.IsMax, (deltaTime) =>
+            IEnumerator enumerator = UpdateActionType.GetIEnumerator(_updatingMode, () => !_animatedValue.IsMax, (deltaTime) =>
             {
-
                 float delta = 1f / _animationTime * deltaTime;
                 counter += delta;
-                _animated.Set(_curve.Evaluate(counter));
+                _animatedValue.Set(_curve.Evaluate(counter));
             });
 
             yield return _animation.StartNested(enumerator);
-            _animated.SetMax();
+            _animatedValue.SetMax();
             OnEnded?.Invoke();
         }
     }

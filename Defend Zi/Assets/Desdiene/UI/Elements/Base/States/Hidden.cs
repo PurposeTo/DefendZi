@@ -19,6 +19,7 @@ namespace Desdiene.UI.Elements
             {
                 It.DisableInteractible();
                 It.DisableCanvas();
+                Debug.Log($"{It._typeName} on \"{It._gameObjectName}\" is hidden");
                 It.whenHidden?.Invoke();
             }
 
@@ -26,7 +27,7 @@ namespace Desdiene.UI.Elements
 
             public override void Show()
             {
-                Debug.Log($"Show {It._typeName} on \"{It._gameObjectName}\"");
+                Debug.Log($"Start to show {It._typeName} on \"{It._gameObjectName}\"");
                 SwitchState<FromHiddenToDisplayed>();
             }
 

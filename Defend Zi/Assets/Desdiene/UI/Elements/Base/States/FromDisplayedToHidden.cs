@@ -1,4 +1,6 @@
-﻿namespace Desdiene.UI.Elements
+﻿using UnityEngine;
+
+namespace Desdiene.UI.Elements
 {
     public partial class UiElement
     {

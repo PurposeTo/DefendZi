@@ -6,23 +6,28 @@ namespace Desdiene.UI.Elements
 {
     public partial class UiElement
     {
-        private abstract class State : IStateEntryExitPoint
+        private abstract class State : IState
         {
+           private readonly string _name;
+
             private readonly IProcess _stateExecuting;
 
             protected State(UiElement it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
+                _name = GetType().Name;
                 _stateExecuting = new CyclicalProcess($"Выполнение состояния {GetType()}");
             }
 
-            void IStateEntryExitPoint.OnEnter()
+            string IState.Name => _name;
+
+            void IState.OnEnter()
             {
                 _stateExecuting.Start();
                 OnEnter();
             }
 
-            void IStateEntryExitPoint.OnExit()
+            void IState.OnExit()
             {
                 OnExit();
                 _stateExecuting.Stop();

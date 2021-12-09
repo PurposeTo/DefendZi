@@ -37,13 +37,13 @@ namespace Desdiene.Coroutines
     public sealed partial class CoroutineWrap : MonoBehaviourExtContainer, ICoroutine
     {
         private readonly IStateSwitcher<State> _stateSwitcher;
-        private readonly CoroutinesStack _coroutinesStack = new CoroutinesStack();
+        private readonly CoroutinesStack _coroutinesStack;
         private readonly IRef<bool> _isExecuting = new Ref<bool>(false);
         private Coroutine _coroutine;
 
         public CoroutineWrap(MonoBehaviourExt mono) : base(mono)
         {
-            if (mono == null) throw new ArgumentNullException(nameof(mono));
+            _coroutinesStack = new CoroutinesStack(mono);
 
             State initState = new Created(mono, this);
             List<State> allStates = new List<State>()
@@ -107,7 +107,7 @@ namespace Desdiene.Coroutines
             remove => OnStopped -= value;
         }
 
-        string IProcessAccessor.Name => "Выполнение сопрограммы";
+        string IProcessAccessor.Name => $"Выполнение сопрограммы на {MonoBehaviourExt.gameObject.name}";
 
         bool IProcessAccessor.KeepWaiting => IsExecuting;
 

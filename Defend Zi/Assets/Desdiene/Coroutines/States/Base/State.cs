@@ -7,20 +7,25 @@ namespace Desdiene.Coroutines
 {
     public partial class CoroutineWrap
     {
-        private abstract class State : MonoBehaviourExtContainer, IStateEntryExitPoint
+        private abstract class State : MonoBehaviourExtContainer, IState
         {
+           private readonly string _name;
+
             protected State(MonoBehaviourExt mono,
                             CoroutineWrap it) : base(mono)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
+                _name = GetType().Name;
             }
 
-            void IStateEntryExitPoint.OnEnter()
+            string IState.Name => _name;
+
+            void IState.OnEnter()
             {
                 OnEnter();
             }
 
-            void IStateEntryExitPoint.OnExit()
+            void IState.OnExit()
             {
                 OnExit();
             }

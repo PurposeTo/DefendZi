@@ -17,15 +17,17 @@ namespace Desdiene.UI.Elements
 
             protected override void OnEnter()
             {
+                Debug.Log($"{It._typeName} on \"{It._gameObjectName}\" is displayed");
                 It.whenDisplayed?.Invoke();
             }
+
             protected override void OnExit() { }
 
             public override void Show() { }
 
             public override void Hide()
             {
-                Debug.Log($"Hide {It._typeName} on \"{It._gameObjectName}\"");
+                Debug.Log($"Start to hide {It._typeName} on \"{It._gameObjectName}\"");
                 SwitchState<FromDisplayedToHidden>();
             }
         }

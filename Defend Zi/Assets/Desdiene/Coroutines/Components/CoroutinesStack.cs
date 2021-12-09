@@ -1,26 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Desdiene.MonoBehaviourExtension;
 
 namespace Desdiene.Coroutines.Components
 {
     /// <summary>
     /// Класс позволяет добавлять хранить корутины и выполнять их в порядке, обратном добавлению - т.е. всегда сначала выполнится последняя добавленная.
     /// </summary>
-    public class CoroutinesStack : IEnumerator
+    public class CoroutinesStack : MonoBehaviourExtContainer, IEnumerator
     {
         private readonly Stack<IEnumerator> _allNestedCoroutines = new Stack<IEnumerator>();
-        private IEnumerator LatestCoroutine
+
+        // need to use mono for debug
+        public CoroutinesStack(MonoBehaviourExt mono) : base(mono) { }
+
+        public object Current
         {
             get
             {
-                if (_allNestedCoroutines.Count == 0)
+                if (TryGetLatestCoroutine(out IEnumerator latest))
                 {
-                    return null;
+                    return latest.Current;
                 }
-                else
-                {
-                    return _allNestedCoroutines.Peek();
-                }
+                else return null;
             }
         }
 
@@ -31,32 +33,44 @@ namespace Desdiene.Coroutines.Components
             _allNestedCoroutines.Push(enumerator);
         }
 
-        public object Current
-        {
-            get
-            {
-                if (LatestCoroutine == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return LatestCoroutine.Current;
-                }
-            }
-        }
-
         public bool MoveNext()
         {
-            if (LatestCoroutine == null) return false;
+            if (!HasLatestCoroutine()) return false;
 
-            bool canMoveNext = LatestCoroutine.MoveNext();
-            if (canMoveNext) return true;
+            int pastStackCount = _allNestedCoroutines.Count;
+            if (GetLatestCoroutine().MoveNext()) return true;
+            int nextStackCount = _allNestedCoroutines.Count;
+
+            // кол-во корутин в стеке может измениться во время вызова LatestCoroutine.MoveNext()
+            if (pastStackCount != nextStackCount) return MoveNext();
 
             _allNestedCoroutines.Pop();
             return MoveNext();
+
         }
 
         public void Reset() => throw new System.NotImplementedException();
+
+        private bool TryGetLatestCoroutine(out IEnumerator latest)
+        {
+            if (HasLatestCoroutine())
+            {
+                latest = GetLatestCoroutine();
+                return true;
+            }
+            else
+            {
+                latest = null;
+                return false;
+            }
+        }
+
+        private bool HasLatestCoroutine() => _allNestedCoroutines.Count != 0;
+
+        private IEnumerator GetLatestCoroutine()
+        {
+            if (_allNestedCoroutines.Count == 0) throw new System.InvalidOperationException();
+            return _allNestedCoroutines.Peek();
+        }
     }
 }

@@ -5,19 +5,24 @@ namespace Desdiene.Types.Processes
 {
     public partial class OptionalLinearProcess
     {
-        private abstract class State : IStateEntryExitPoint
+        private abstract class State : IState
         {
+           private readonly string _name;
+
             protected State(OptionalLinearProcess it)
             {
                 It = it ?? throw new ArgumentNullException(nameof(it));
+                _name = GetType().Name;
             }
 
-            void IStateEntryExitPoint.OnEnter()
+            string IState.Name => _name;
+
+            void IState.OnEnter()
             {
                 OnEnter();
             }
 
-            void IStateEntryExitPoint.OnExit()
+            void IState.OnExit()
             {
                 OnExit();
             }

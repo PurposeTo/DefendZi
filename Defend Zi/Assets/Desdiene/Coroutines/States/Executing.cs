@@ -29,11 +29,6 @@ namespace Desdiene.Coroutines
                 It._coroutine = MonoBehaviourExt.StartCoroutine(Run());
             }
 
-            protected override void OnExit()
-            {
-                It._isExecuting.Set(false);
-            }
-
             public override void StartContinuously(IEnumerator enumerator)
             {
                 Debug.LogWarning("You can't start coroutine, because it is executing now");

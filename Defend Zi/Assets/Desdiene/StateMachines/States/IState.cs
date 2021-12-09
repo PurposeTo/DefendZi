@@ -1,7 +1,9 @@
 ﻿namespace Desdiene.StateMachines.States
 {
-    public interface IStateEntryExitPoint
+    public interface IState
     {
+        string Name { get; }
+
         /// <summary>
         /// Метод, выполняющийся по входу в состояние.
         /// </summary>
