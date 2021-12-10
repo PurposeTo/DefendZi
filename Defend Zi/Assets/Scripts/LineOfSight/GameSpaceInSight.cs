@@ -1,4 +1,5 @@
-﻿using Desdiene.MonoBehaviourExtension;
+﻿using Desdiene.Extensions.UnityEngine;
+using Desdiene.MonoBehaviourExtension;
 using Desdiene.Types.Rectangles;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DAccessor
 
     protected override void AwakeExt()
     {
-        _colliderArea = GetBoxTrigger2D();
+        _colliderArea = GetComponent<BoxCollider2D>().As2dTrigger();
         _area = GetVisibleArea();
     }
 
@@ -50,13 +51,6 @@ public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DAccessor
         float width = GetWidth(distanceToPlane);
 
         return new RectangleIn2D(new Rectangle(height, width), transform.position, transform.rotation);
-    }
-
-    private BoxCollider2D GetBoxTrigger2D()
-    {
-        BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
-        boxCollider2D.isTrigger = true;
-        return boxCollider2D;
     }
 
     private Vector3 GetPosition()
