@@ -12,7 +12,6 @@ using Zenject;
 public class GameStatistics : MonoBehaviourExt, IGameStatistics
 {
     private IStorageAsync<GameStatisticsDto> _storage;
-    // todo добавить события об изменении
     private TimeSpan _totalInAppTime = TimeSpan.Zero;
     private TimeSpan _totalLifeTime = TimeSpan.Zero;
     private TimeSpan _averageLifeTime = TimeSpan.Zero;

@@ -1,11 +1,12 @@
-﻿using Desdiene.DataSaving.Datas;
+﻿using System;
+using Desdiene.DataSaving.Datas;
 using Desdiene.Json;
 
 /* 
  * Для (де)сериализации используется NewtonsoftJson, 
  * поэтому все данные должны лежать в свойствах и иметь public get и public set, а также быть проинициализированны.
  */
-public class GameSettingsDto : IValidData, IJsonSerializable
+public class GameSettingsDto : IValidData, IJsonSerializable, ICloneable
 {
     bool IValidData.IsValid() => IsValid();
 
@@ -18,6 +19,11 @@ public class GameSettingsDto : IValidData, IJsonSerializable
     {
         IJsonSerializer<GameSettingsDto> jsonSerializer = new GameSettingsDtoJsonConvertor();
         return jsonSerializer.ToJson(this);
+    }
+
+    object ICloneable.Clone()
+    {
+        return MemberwiseClone();
     }
 
     public bool SoundMuted { get; set; }

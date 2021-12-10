@@ -6,7 +6,7 @@ using Desdiene.Json;
  * Для (де)сериализации используется NewtonsoftJson, 
  * поэтому все данные должны лежать в свойствах и иметь public get и public set, а также быть проинициализированны.
  */
-public class GameStatisticsDto : IValidData, IDataWithTotalInAppTime, IJsonSerializable
+public class GameStatisticsDto : IValidData, IDataWithTotalInAppTime, IJsonSerializable, ICloneable
 {
     bool IValidData.IsValid() => IsValid();
 
@@ -19,6 +19,11 @@ public class GameStatisticsDto : IValidData, IDataWithTotalInAppTime, IJsonSeria
     {
         IJsonSerializer<GameStatisticsDto> jsonSerializer = new GameStatisticsDtoJsonConvertor();
         return jsonSerializer.ToJson(this);
+    }
+
+    object ICloneable.Clone()
+    {
+        return MemberwiseClone();
     }
 
     public TimeSpan TotalInAppTime { get; set; } = TimeSpan.Zero;

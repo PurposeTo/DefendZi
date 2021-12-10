@@ -73,4 +73,12 @@ namespace Desdiene.DataSaving.Storages
             Debug.Log($"Data was deleted from [{_storage.StorageName}] with success status: {success}");
         }
     }
+
+    public static class StorageAsyncLoggerExt
+    {
+        public static IStorageAsync<T> AddLogging<T>(this IStorageAsync<T> storage) where T : class
+        {
+            return new StorageAsyncLogger<T>(storage);
+        }
+    }
 }

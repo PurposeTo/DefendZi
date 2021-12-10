@@ -35,4 +35,12 @@ namespace Desdiene.DataSaving.Storages
             return success;
         }
     }
+
+    public static class StorageLoggerExt
+    {
+        public static IStorage<T> AddLogging<T>(this IStorage<T> storage) where T : class
+        {
+            return new StorageLogger<T>(storage);
+        }
+    }
 }

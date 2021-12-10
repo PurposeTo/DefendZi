@@ -26,7 +26,7 @@ public class GameStatisticsStorageAsync : MonoBehaviourExt, IStorageAsync<GameSt
             new JsonCryptoDeviceAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer),
             new JsonGooglePlayAsync<GameStatisticsDto>(this, BaseFileName, jsonDeserializer, _gpgsAutentification.Get())
         };
-        storages = storages.Select(it => new StorageAsyncLogger<GameStatisticsDto>(it)).ToArray();
+        storages = storages.Select(it => it.Optimize().AddLogging()).ToArray();
 
         _storage = new StoragesAsyncContainer<GameStatisticsDto>(storages);
     }
