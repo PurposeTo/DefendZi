@@ -37,12 +37,13 @@ namespace Desdiene.Coroutines.Components
         {
             if (!HasLatestCoroutine()) return false;
 
-            int pastStackCount = _allNestedCoroutines.Count;
-            if (GetLatestCoroutine().MoveNext()) return true;
-            int nextStackCount = _allNestedCoroutines.Count;
+            IEnumerator latest = GetLatestCoroutine();
+            bool moveNextLatest = latest.MoveNext();
 
             // кол-во корутин в стеке может измениться во время вызова LatestCoroutine.MoveNext()
-            if (pastStackCount != nextStackCount) return MoveNext();
+            if (latest != GetLatestCoroutine()) return MoveNext();
+
+            if (moveNextLatest) return true;
 
             _allNestedCoroutines.Pop();
             return MoveNext();
