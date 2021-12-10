@@ -8,6 +8,7 @@ public static class AndroidScreenAutoRotationSetting
 #if UNITY_EDITOR
         return true;
 #endif
+#pragma warning disable CS0162
         try
         {
             using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
