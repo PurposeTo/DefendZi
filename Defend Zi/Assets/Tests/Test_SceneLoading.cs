@@ -28,7 +28,7 @@ public class Test_SceneLoading : MonoBehaviourExt
         _sceneLoader.AfterEnabling += AfterEnabling;
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {

@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// Область, заполненная препятствиями.
 /// </summary>
-public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
+public class ObstacleSpace : MonoBehaviourExtContainer
 {
     private IRectangleIn2DAccessor _visibleGameSpace;
     private IPositionAccessor _visibleGameSpacePosition;
@@ -33,7 +33,7 @@ public class ObstacleSpace : MonoBehaviourExtContainer, IUpdate
     public float Width { get; private set; }
     private bool IsNeedToGenerate => Width <= _visibleGameSpacePosition.Value.x + _offsetGeneration;
 
-    void IUpdate.Invoke(float deltaTime)
+    protected override void UpdateExt()
     {
         while (IsNeedToGenerate)
         {

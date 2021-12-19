@@ -12,7 +12,7 @@ public class Test_ScreenOrientation : MonoBehaviourExt
         _camera = Camera.main;
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         string orientationType = Screen.orientation.ToString();
         string width = _camera.pixelWidth.ToString();

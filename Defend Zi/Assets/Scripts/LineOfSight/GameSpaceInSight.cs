@@ -30,7 +30,7 @@ public class GameSpaceInSight : MonoBehaviourExt, IRectangleIn2DAccessor
         _area = GetVisibleArea();
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         UpdateArea();
     }

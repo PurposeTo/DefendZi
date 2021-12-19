@@ -5,22 +5,21 @@ using UnityEngine;
 public class AndroidScreenOrientation : MonoBehaviourExtContainer, IScreenOrientation
 {
     private readonly bool _isAutoRotationSupported;
-    private readonly Update _update;
     private ScreenOrientation _pastScreenOrientation;
     private DeviceOrientation _pastDeviceOrientation;
 
     public AndroidScreenOrientation(MonoBehaviourExt mono, bool isAutoRotationSupported = false) : base(mono)
     {
         _isAutoRotationSupported = isAutoRotationSupported;
+    }
 
-        _update = new Update(MonoBehaviourExt, () =>
+    protected override void UpdateExt()
+    {
+        if (_isAutoRotationSupported)
         {
-            if (_isAutoRotationSupported)
-            {
-                SetCorrectOrientation();
-            }
-            Check(Get());
-        });
+            SetCorrectOrientation();
+        }
+        Check(Get());
     }
 
     event Action<ScreenOrientation> IScreenOrientation.OnChange

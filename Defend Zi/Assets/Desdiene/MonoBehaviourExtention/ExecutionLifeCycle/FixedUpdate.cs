@@ -8,6 +8,7 @@ namespace Desdiene.MonoBehaviourExtension
     /// <summary>
     /// Позволяет использовать FixedUpdate внутри не монобех классов
     /// </summary>
+    [Obsolete]
     public class FixedUpdate : MonoBehaviourExtContainer
     {
         private readonly ICoroutine _routine;

@@ -37,7 +37,7 @@ public class GameStatistics : MonoBehaviourExt, IGameStatistics
         UnsubscribeEvents();
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         float unscaledDeltaTime = Time.unscaledDeltaTime;
         TimeSpan time = TimeSpan.FromSeconds(unscaledDeltaTime);

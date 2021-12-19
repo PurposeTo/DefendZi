@@ -13,7 +13,7 @@ public class Test_CoroutineWrap : MonoBehaviourExt
         stoppableCoroutine = new CoroutineWrap(this);
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         if (Input.GetKeyDown(KeyCode.S))
         {

@@ -18,7 +18,6 @@ public class ObstacleSpaceMono : MonoBehaviourExt
     [SerializeField] private float _offsetGeneration = 30f; // Сейчас не учитывает размеры препятствий, поэтому поставить число побольше
     [SerializeField] private FloatRange _safeSpaceBetweenChunks = new FloatRange(5f, 10f);
 
-    private IUpdate _update;
     private ObstacleSpace _obstacleSpace; // пока оставить, может пригодиться
     private IRectangleIn2DAccessor _visibleGameSpace;
 
@@ -40,12 +39,5 @@ public class ObstacleSpaceMono : MonoBehaviourExt
                                                         _visibleGameSpace);
 
         _obstacleSpace = obstacleSpace;
-        _update = obstacleSpace;
     }
-
-    private void Update()
-    {
-        _update.Invoke(Time.deltaTime);
-    }
-
 }

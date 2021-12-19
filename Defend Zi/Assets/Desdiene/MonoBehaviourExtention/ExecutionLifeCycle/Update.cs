@@ -8,6 +8,7 @@ namespace Desdiene.MonoBehaviourExtension
     /// <summary>
     /// Позволяет использовать Update внутри не монобех классов
     /// </summary>
+    [Obsolete]
     public class Update : MonoBehaviourExtContainer
     {
         private readonly ICoroutine _routine;

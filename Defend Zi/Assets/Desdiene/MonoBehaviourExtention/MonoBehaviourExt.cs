@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using Zenject;
 
 namespace Desdiene.MonoBehaviourExtension
 {
-    public class MonoBehaviourExt : MonoBehaviour
+    public class MonoBehaviourExt : MonoBehaviour, IUpdateRunner
     {
+
         #region Awake realization
 
         private bool _isAwaked;
@@ -90,15 +92,11 @@ namespace Desdiene.MonoBehaviourExtension
         /// </summary>
         protected virtual void OnEnableExt() { }
 
-        private void EndOnEnableExecution()
-        {
-            OnEnabled?.Invoke();
-        }
-
         private void OnEnable()
         {
             OnEnableExt();
-            EndOnEnableExecution();
+            AddUpdates();
+            OnEnabled?.Invoke();
         }
 
         #endregion
@@ -128,15 +126,11 @@ namespace Desdiene.MonoBehaviourExtension
         /// </summary>
         protected virtual void OnDisableExt() { }
 
-        private void EndOnDisableExecution()
-        {
-            OnDisabled?.Invoke();
-        }
-
         private void OnDisable()
         {
             OnDisableExt();
-            EndOnDisableExecution();
+            RemoveUpdates();
+            OnDisabled?.Invoke();
         }
 
         #endregion
@@ -151,18 +145,93 @@ namespace Desdiene.MonoBehaviourExtension
         /// </summary>
         protected virtual void OnDestroyExt() { }
 
-        private void EndOnDestroyExecution()
-        {
-            OnDestroyed?.Invoke();
-        }
-
         private void OnDestroy()
         {
             OnDestroyExt();
-            EndOnDestroyExecution();
+            OnDestroyed?.Invoke();
         }
 
         #endregion
+
+
+        #region Update, LateUpdate, FixedUpdate
+
+        void IUpdateRunner.AddUpdate(Action action) => AddUpdate(action);
+
+        void IUpdateRunner.RemoveUpdate(Action action) => RemoveUpdate(action);
+
+        void IUpdateRunner.AddLateUpdate(Action action) => AddLateUpdate(action);
+
+        void IUpdateRunner.RemoveLateUpdate(Action action) => RemoveLateUpdate(action);
+
+        void IUpdateRunner.AddFixedUpdate(Action action) => AddFixedUpdate(action);
+
+        void IUpdateRunner.RemoveFixedUpdate(Action action) => RemoveFixedUpdate(action);
+
+        private List<Action> _updates = new List<Action>();
+        private List<Action> _lateUpdates = new List<Action>();
+        private List<Action> _fixedUpdates = new List<Action>();
+
+        private void Update()
+        {
+            for (int i = 0; i < _updates.Count; i++)
+            {
+                _updates[i]?.Invoke();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            for (int i = 0; i < _lateUpdates.Count; i++)
+            {
+                _lateUpdates[i]?.Invoke();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            for (int i = 0; i < _fixedUpdates.Count; i++)
+            {
+                _fixedUpdates[i]?.Invoke();
+            }
+        }
+
+        public void AddUpdate(Action action) => _updates.Add(action);
+        public void RemoveUpdate(Action action) => _updates.Remove(action);
+
+        public void AddLateUpdate(Action action) => _lateUpdates.Add(action);
+        public void RemoveLateUpdate(Action action) => _lateUpdates.Remove(action);
+
+        public void AddFixedUpdate(Action action) => _fixedUpdates.Add(action);
+        public void RemoveFixedUpdate(Action action) => _fixedUpdates.Remove(action);
+
+        protected virtual void UpdateExt() { }
+
+        protected virtual void LateUpdateExt() { }
+
+        protected virtual void FixedUpdateExt() { }
+
+
+        private void AddUpdates()
+        {
+            if (UpdateRunner == null) { throw new ArgumentNullException($"_updateRunner"); }
+
+            UpdateRunner.AddUpdate(UpdateExt);
+            UpdateRunner.AddLateUpdate(LateUpdateExt);
+            UpdateRunner.AddFixedUpdate(FixedUpdateExt);
+        }
+
+        private void RemoveUpdates()
+        {
+            if (UpdateRunner == null) { throw new ArgumentNullException($"_updateRunner"); }
+
+            UpdateRunner.RemoveUpdate(UpdateExt);
+            UpdateRunner.RemoveLateUpdate(LateUpdateExt);
+            UpdateRunner.RemoveFixedUpdate(FixedUpdateExt);
+        }
+
+        #endregion
+
 
         #region GetComponent
 
@@ -247,6 +316,8 @@ namespace Desdiene.MonoBehaviourExtension
         private const BindingFlags allObjectBinding = BindingFlags.Instance |
                                               BindingFlags.NonPublic |
                                               BindingFlags.Public;
+
+        public IUpdateRunner UpdateRunner => this;
 
         /// <summary>
         /// Получить поля с атрибутом SerializeField у текущего объекта.

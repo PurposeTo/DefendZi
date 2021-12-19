@@ -22,7 +22,7 @@ public class LinearRotation : MonoBehaviourExt
         _rotation = new Transform2DRotation(transform);
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         bool isScaledTime = _updateActionType == UpdateActionType.Mode.Update;
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviourExtContainer
 {
-    private readonly FixedUpdate _fixedUpdate;
     private readonly IUserInput _userInput;
     private readonly IPosition _position;
     private readonly PlayerMovementData _movementData;
@@ -15,15 +14,16 @@ public class PlayerControl : MonoBehaviourExtContainer
         _position = position ?? throw new ArgumentNullException(nameof(position));
         _movementData = movementData ?? throw new ArgumentNullException(nameof(movementData));
         _frequency = movementData.DefaultFrequency;
-        _fixedUpdate = new FixedUpdate(MonoBehaviourExt, FixedUpdate);
     }
 
     private bool IsControlled => _userInput.IsActive;
     private float _frequency;
     private float _phase;
 
-    private void FixedUpdate(float deltaTime)
+    protected override void FixedUpdateExt()
     {
+        float deltaTime = Time.fixedDeltaTime;
+
         float targetFrequency = IsControlled
             ? _movementData.ControlledFrequency
             : _movementData.DefaultFrequency;

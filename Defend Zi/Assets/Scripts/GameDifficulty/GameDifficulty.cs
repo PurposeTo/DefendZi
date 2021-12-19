@@ -19,7 +19,7 @@ public class GameDifficulty : MonoBehaviourExt, IPercentAccessorNotifier
         UnsubscribeEvents();
     }
 
-    private void Update()
+    protected override void UpdateExt()
     {
         float deltaTime = Time.deltaTime;
         float pastValue = _difficulty.Value;
