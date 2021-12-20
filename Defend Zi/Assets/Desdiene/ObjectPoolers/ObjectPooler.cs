@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Desdiene.ObjectPoolers
 {
-    public class ObjectPooler : SceneSingleton<ObjectPooler>
+    public class ObjectPooler : GlobalSingleton<ObjectPooler>
     {
         public List<PoolData> PoolDatas; // Сетим через инспектор
 

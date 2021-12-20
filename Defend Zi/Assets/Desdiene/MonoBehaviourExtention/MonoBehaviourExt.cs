@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using Zenject;
 
 namespace Desdiene.MonoBehaviourExtension
 {
@@ -41,7 +40,7 @@ namespace Desdiene.MonoBehaviourExtension
         /// <summary>
         /// Вызвать Awake у данного компонента, если он еще не был вызван.
         /// </summary>
-        private void TryAwake()
+        private protected void TryAwake()
         {
             if (_isAwaking)
             {
@@ -156,54 +155,30 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region Update, LateUpdate, FixedUpdate
 
-        void IUpdateRunner.AddUpdate(Action action) => AddUpdate(action);
+        void IUpdateRunner.AddUpdate(Action action) => Runner.AddUpdate(action);
 
-        void IUpdateRunner.RemoveUpdate(Action action) => RemoveUpdate(action);
+        void IUpdateRunner.RemoveUpdate(Action action) => Runner.RemoveUpdate(action);
 
-        void IUpdateRunner.AddLateUpdate(Action action) => AddLateUpdate(action);
+        void IUpdateRunner.AddLateUpdate(Action action) => Runner.AddLateUpdate(action);
 
-        void IUpdateRunner.RemoveLateUpdate(Action action) => RemoveLateUpdate(action);
+        void IUpdateRunner.RemoveLateUpdate(Action action) => Runner.RemoveLateUpdate(action);
 
-        void IUpdateRunner.AddFixedUpdate(Action action) => AddFixedUpdate(action);
+        void IUpdateRunner.AddFixedUpdate(Action action) => Runner.AddFixedUpdate(action);
 
-        void IUpdateRunner.RemoveFixedUpdate(Action action) => RemoveFixedUpdate(action);
+        void IUpdateRunner.RemoveFixedUpdate(Action action) => Runner.RemoveFixedUpdate(action);
 
-        private List<Action> _updates = new List<Action>();
-        private List<Action> _lateUpdates = new List<Action>();
-        private List<Action> _fixedUpdates = new List<Action>();
-
-        private void Update()
+        protected IUpdateRunner _updateRunner;
+        protected IUpdateRunner Runner
         {
-            for (int i = 0; i < _updates.Count; i++)
+            get
             {
-                _updates[i]?.Invoke();
+                if (_updateRunner == null)
+                {
+                    _updateRunner = UpdateRunner.Instance;
+                }
+                return _updateRunner;
             }
         }
-
-        private void LateUpdate()
-        {
-            for (int i = 0; i < _lateUpdates.Count; i++)
-            {
-                _lateUpdates[i]?.Invoke();
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            for (int i = 0; i < _fixedUpdates.Count; i++)
-            {
-                _fixedUpdates[i]?.Invoke();
-            }
-        }
-
-        public void AddUpdate(Action action) => _updates.Add(action);
-        public void RemoveUpdate(Action action) => _updates.Remove(action);
-
-        public void AddLateUpdate(Action action) => _lateUpdates.Add(action);
-        public void RemoveLateUpdate(Action action) => _lateUpdates.Remove(action);
-
-        public void AddFixedUpdate(Action action) => _fixedUpdates.Add(action);
-        public void RemoveFixedUpdate(Action action) => _fixedUpdates.Remove(action);
 
         protected virtual void UpdateExt() { }
 
@@ -211,23 +186,22 @@ namespace Desdiene.MonoBehaviourExtension
 
         protected virtual void FixedUpdateExt() { }
 
-
         private void AddUpdates()
         {
-            if (UpdateRunner == null) { throw new ArgumentNullException($"_updateRunner"); }
+            if (Runner == null) { throw new ArgumentNullException($"UpdateRunner on {gameObject.name}."); }
 
-            UpdateRunner.AddUpdate(UpdateExt);
-            UpdateRunner.AddLateUpdate(LateUpdateExt);
-            UpdateRunner.AddFixedUpdate(FixedUpdateExt);
+            Runner.AddUpdate(UpdateExt);
+            Runner.AddLateUpdate(LateUpdateExt);
+            Runner.AddFixedUpdate(FixedUpdateExt);
         }
 
         private void RemoveUpdates()
         {
-            if (UpdateRunner == null) { throw new ArgumentNullException($"_updateRunner"); }
+            if (Runner == null) { throw new ArgumentNullException($"UpdateRunner on {gameObject.name}."); }
 
-            UpdateRunner.RemoveUpdate(UpdateExt);
-            UpdateRunner.RemoveLateUpdate(LateUpdateExt);
-            UpdateRunner.RemoveFixedUpdate(FixedUpdateExt);
+            Runner.RemoveUpdate(UpdateExt);
+            Runner.RemoveLateUpdate(LateUpdateExt);
+            Runner.RemoveFixedUpdate(FixedUpdateExt);
         }
 
         #endregion
@@ -277,6 +251,20 @@ namespace Desdiene.MonoBehaviourExtension
             return FindSingleComponent(components, "this gameObject or it's parents");
         }
 
+        public new T[] FindObjectsOfType<T>() where T : UnityEngine.Object
+        {
+            T[] components = UnityEngine.Object.FindObjectsOfType<T>();
+            components = ExcludeCallingComponent(components);
+            components = TryAwake(components);
+            return components;
+        }
+
+        public new T FindObjectOfType<T>() where T : UnityEngine.Object
+        {
+            T[] components = FindObjectsOfType<T>();
+            return FindSingleComponent(components, "gameObjects on scenes");
+        }
+
         private T[] ExcludeCallingComponent<T>(T[] components)
         {
             return components.Where(it => !ReferenceEquals(it, this)).ToArray();
@@ -316,8 +304,6 @@ namespace Desdiene.MonoBehaviourExtension
         private const BindingFlags allObjectBinding = BindingFlags.Instance |
                                               BindingFlags.NonPublic |
                                               BindingFlags.Public;
-
-        public IUpdateRunner UpdateRunner => this;
 
         /// <summary>
         /// Получить поля с атрибутом SerializeField у текущего объекта.
