@@ -155,18 +155,6 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region Update, LateUpdate, FixedUpdate
 
-        void IUpdateRunner.AddUpdate(Action action) => Runner.AddUpdate(action);
-
-        void IUpdateRunner.RemoveUpdate(Action action) => Runner.RemoveUpdate(action);
-
-        void IUpdateRunner.AddLateUpdate(Action action) => Runner.AddLateUpdate(action);
-
-        void IUpdateRunner.RemoveLateUpdate(Action action) => Runner.RemoveLateUpdate(action);
-
-        void IUpdateRunner.AddFixedUpdate(Action action) => Runner.AddFixedUpdate(action);
-
-        void IUpdateRunner.RemoveFixedUpdate(Action action) => Runner.RemoveFixedUpdate(action);
-
         protected IUpdateRunner _updateRunner;
         protected IUpdateRunner Runner
         {
@@ -179,6 +167,18 @@ namespace Desdiene.MonoBehaviourExtension
                 return _updateRunner;
             }
         }
+
+        void IUpdateRunner.AddUpdate(Action action) => Runner.AddUpdate(action);
+
+        void IUpdateRunner.RemoveUpdate(Action action) => Runner.RemoveUpdate(action);
+
+        void IUpdateRunner.AddLateUpdate(Action action) => Runner.AddLateUpdate(action);
+
+        void IUpdateRunner.RemoveLateUpdate(Action action) => Runner.RemoveLateUpdate(action);
+
+        void IUpdateRunner.AddFixedUpdate(Action action) => Runner.AddFixedUpdate(action);
+
+        void IUpdateRunner.RemoveFixedUpdate(Action action) => Runner.RemoveFixedUpdate(action);
 
         protected virtual void UpdateExt() { }
 
@@ -251,6 +251,7 @@ namespace Desdiene.MonoBehaviourExtension
             return FindSingleComponent(components, "this gameObject or it's parents");
         }
 
+        // todo make static
         public new T[] FindObjectsOfType<T>() where T : UnityEngine.Object
         {
             T[] components = UnityEngine.Object.FindObjectsOfType<T>();
@@ -259,6 +260,7 @@ namespace Desdiene.MonoBehaviourExtension
             return components;
         }
 
+        // todo make static
         public new T FindObjectOfType<T>() where T : UnityEngine.Object
         {
             T[] components = FindObjectsOfType<T>();
@@ -301,6 +303,9 @@ namespace Desdiene.MonoBehaviourExtension
 
         #endregion
 
+
+        #region Get SerializeMonoBehaviourExtFields with reflection
+
         private const BindingFlags allObjectBinding = BindingFlags.Instance |
                                               BindingFlags.NonPublic |
                                               BindingFlags.Public;
@@ -340,5 +345,7 @@ namespace Desdiene.MonoBehaviourExtension
                 .Select(field => field.GetValue(this))
                 .OfType<MonoBehaviourExt>();
         }
+
+        #endregion
     }
 }
