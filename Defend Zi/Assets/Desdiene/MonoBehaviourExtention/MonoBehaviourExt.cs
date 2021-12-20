@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Desdiene.MonoBehaviourExtension
 {
-    public class MonoBehaviourExt : MonoBehaviour, IUpdateRunner
+    public class MonoBehaviourExt : MonoBehaviour, IUpdateManager
     {
 
         #region Awake realization
@@ -155,30 +155,30 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region Update, LateUpdate, FixedUpdate
 
-        protected IUpdateRunner _updateRunner;
-        protected IUpdateRunner Runner
+        protected IUpdateManager _updates;
+        protected IUpdateManager Updates
         {
             get
             {
-                if (_updateRunner == null)
+                if (_updates == null)
                 {
-                    _updateRunner = UpdateRunner.Instance;
+                    _updates = UpdateManager.Instance;
                 }
-                return _updateRunner;
+                return _updates;
             }
         }
 
-        void IUpdateRunner.AddUpdate(Action action) => Runner.AddUpdate(action);
+        void IUpdateManager.AddUpdate(Action action) => Updates.AddUpdate(action);
 
-        void IUpdateRunner.RemoveUpdate(Action action) => Runner.RemoveUpdate(action);
+        void IUpdateManager.RemoveUpdate(Action action) => Updates.RemoveUpdate(action);
 
-        void IUpdateRunner.AddLateUpdate(Action action) => Runner.AddLateUpdate(action);
+        void IUpdateManager.AddLateUpdate(Action action) => Updates.AddLateUpdate(action);
 
-        void IUpdateRunner.RemoveLateUpdate(Action action) => Runner.RemoveLateUpdate(action);
+        void IUpdateManager.RemoveLateUpdate(Action action) => Updates.RemoveLateUpdate(action);
 
-        void IUpdateRunner.AddFixedUpdate(Action action) => Runner.AddFixedUpdate(action);
+        void IUpdateManager.AddFixedUpdate(Action action) => Updates.AddFixedUpdate(action);
 
-        void IUpdateRunner.RemoveFixedUpdate(Action action) => Runner.RemoveFixedUpdate(action);
+        void IUpdateManager.RemoveFixedUpdate(Action action) => Updates.RemoveFixedUpdate(action);
 
         protected virtual void UpdateExt() { }
 
@@ -188,20 +188,20 @@ namespace Desdiene.MonoBehaviourExtension
 
         private void AddUpdates()
         {
-            if (Runner == null) { throw new ArgumentNullException($"UpdateRunner on {gameObject.name}."); }
+            if (Updates == null) { throw new ArgumentNullException($"UpdateManager on {gameObject.name}."); }
 
-            Runner.AddUpdate(UpdateExt);
-            Runner.AddLateUpdate(LateUpdateExt);
-            Runner.AddFixedUpdate(FixedUpdateExt);
+            Updates.AddUpdate(UpdateExt);
+            Updates.AddLateUpdate(LateUpdateExt);
+            Updates.AddFixedUpdate(FixedUpdateExt);
         }
 
         private void RemoveUpdates()
         {
-            if (Runner == null) { throw new ArgumentNullException($"UpdateRunner on {gameObject.name}."); }
+            if (Updates == null) { throw new ArgumentNullException($"UpdateManager on {gameObject.name}."); }
 
-            Runner.RemoveUpdate(UpdateExt);
-            Runner.RemoveLateUpdate(LateUpdateExt);
-            Runner.RemoveFixedUpdate(FixedUpdateExt);
+            Updates.RemoveUpdate(UpdateExt);
+            Updates.RemoveLateUpdate(LateUpdateExt);
+            Updates.RemoveFixedUpdate(FixedUpdateExt);
         }
 
         #endregion

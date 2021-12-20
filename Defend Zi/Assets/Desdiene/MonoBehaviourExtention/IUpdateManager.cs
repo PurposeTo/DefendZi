@@ -2,7 +2,7 @@ using System;
 
 namespace Desdiene.MonoBehaviourExtension
 {
-    public interface IUpdateRunner
+    public interface IUpdateManager
     {
         void AddUpdate(Action action);
         void RemoveUpdate(Action action);

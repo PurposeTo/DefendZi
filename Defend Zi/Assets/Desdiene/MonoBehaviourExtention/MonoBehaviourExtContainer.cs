@@ -9,7 +9,7 @@ namespace Desdiene.MonoBehaviourExtension
     {
         private bool _isDestroyed = false;
         private readonly MonoBehaviourExt _monoBehaviourExt;
-        private readonly IUpdateRunner _updateRunner;
+        private readonly IUpdateManager _updateRunner;
 
         public MonoBehaviourExtContainer(MonoBehaviourExt monoBehaviourExt)
         {

@@ -5,11 +5,7 @@ using UnityEngine;
 
 namespace Desdiene.MonoBehaviourExtension
 {
-    /// <summary>
-    /// Need to init before all classes!
-    /// </summary>
-    public class UpdateRunner : GlobalSingleton<UpdateRunner>, IUpdateRunner
-    //public class UpdateRunner : MonoBehaviour, IUpdateRunner
+    public class UpdateManager : GlobalSingleton<UpdateManager>, IUpdateManager
     {
         private List<Action> _updates = new List<Action>();
         private List<Action> _lateUpdates = new List<Action>();
