@@ -155,8 +155,8 @@ namespace Desdiene.MonoBehaviourExtension
 
         #region Update, LateUpdate, FixedUpdate
 
-        protected IUpdateManager _updates;
-        protected IUpdateManager Updates
+        private IUpdateManager _updates;
+        private IUpdateManager Updates
         {
             get
             {
